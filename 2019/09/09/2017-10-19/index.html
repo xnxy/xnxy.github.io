@@ -40,7 +40,7 @@
 
   
   
-  <link href="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -92,9 +92,9 @@
 
 
 
-<link href="/xnxy.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/xnxy.github.io/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
   <meta name="keywords" content="iOS,架构,">
@@ -103,12 +103,12 @@
 
 
 
-  <link rel="alternate" href="/xnxy.github.io/atom.xml" title="拿根针尖对麦芒" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="拿根针尖对麦芒" type="application/atom+xml">
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/xnxy.github.io/favicon.ico?v=5.1.2">
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
 
 
 
@@ -123,23 +123,23 @@
 <meta property="og:site_name" content="拿根针尖对麦芒">
 <meta property="og:description" content="概述 &amp;emsp;&amp;emsp;这篇博客主要是介绍公司的iOS项目MVVM架构模式的设计及分析MVVM+RAC的优缺点。  MVC  Model   : 实体模型 View    : UI控件，负责View的绘制及用户的交互。 Controller : 业务逻辑、数据处理和UI处理  MVC, Model - View - Controller,一个很古老很经典的设计模式，拥有大概50年的历史。而">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/2017-10-19/MVC.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/2017-10-19/MVP.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/2017-10-19/MVVM.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/2017-10-19/%E5%85%AC%E5%8F%B8%E6%9F%90%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/2017-10-19/MCVMVMV.gif">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/2017-10-19/MVC.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/2017-10-19/MVP.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/2017-10-19/MVVM.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/2017-10-19/%E5%85%AC%E5%8F%B8%E6%9F%90%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/2017-10-19/MCVMVMV.gif">
 <meta property="og:updated_time" content="2019-09-09T11:26:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="公司iOS项目MVVM架构模式设计及分析MVVM+RAC的优缺点">
 <meta name="twitter:description" content="概述 &amp;emsp;&amp;emsp;这篇博客主要是介绍公司的iOS项目MVVM架构模式的设计及分析MVVM+RAC的优缺点。  MVC  Model   : 实体模型 View    : UI控件，负责View的绘制及用户的交互。 Controller : 业务逻辑、数据处理和UI处理  MVC, Model - View - Controller,一个很古老很经典的设计模式，拥有大概50年的历史。而">
-<meta name="twitter:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/2017-10-19/MVC.png">
+<meta name="twitter:image" content="https://xnxy.github.io/2019/09/09/2017-10-19/MVC.png">
 
 
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/xnxy.github.io/',
+    root: '/',
     scheme: 'Mist',
     version: '5.1.2',
     sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
@@ -198,7 +198,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/xnxy.github.io/" class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">拿根针尖对麦芒</span>
         <span class="logo-line-after"><i></i></span>
@@ -226,7 +226,7 @@
       
         
         <li class="menu-item menu-item-home">
-          <a href="/xnxy.github.io/" rel="section">
+          <a href="/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
@@ -236,7 +236,7 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/xnxy.github.io/tags/" rel="section">
+          <a href="/tags/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
@@ -246,7 +246,7 @@
       
         
         <li class="menu-item menu-item-categories">
-          <a href="/xnxy.github.io/categories/" rel="section">
+          <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
@@ -256,7 +256,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/xnxy.github.io/archives/" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
@@ -266,7 +266,7 @@
       
         
         <li class="menu-item menu-item-about">
-          <a href="/xnxy.github.io/about/" rel="section">
+          <a href="/about/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
             
@@ -339,12 +339,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/xnxy.github.io/2019/09/09/2017-10-19/">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2019/09/09/2017-10-19/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="拿根针尖对麦芒">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/xnxy.github.io/images/head.jpeg">
+      <meta itemprop="image" content="/images/head.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -403,7 +403,7 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/xnxy.github.io/categories/随笔/" itemprop="url" rel="index">
+                  <a href="/categories/随笔/" itemprop="url" rel="index">
                     <span itemprop="name">随笔</span>
                   </a>
                 </span>
@@ -463,7 +463,7 @@
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><hr>
 <p>&emsp;&emsp;这篇博客主要是介绍公司的iOS项目MVVM架构模式的设计及分析MVVM+RAC的优缺点。</p>
 <hr>
-<h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><p><img src="/xnxy.github.io/2019/09/09/2017-10-19/MVC.png" alt="MVC"></p>
+<h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><p><img src="/2019/09/09/2017-10-19/MVC.png" alt="MVC"></p>
 <blockquote>
 <p>Model   : 实体模型</p>
 <p>View    : UI控件，负责View的绘制及用户的交互。</p>
@@ -471,7 +471,7 @@
 </blockquote>
 <p>MVC, Model - View - Controller,一个很古老很经典的设计模式，拥有大概50年的历史。而MVC这个架构模式的最大优点就是其概念简单，易于理解，任何一个软件工程毕业的学生都应该在大学课程中学习过。但如果开发过程中使用不当，很可能使大量的代码集中在Controller之中，使Controller变得十分臃肿。</p>
 <hr>
-<h4 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h4><p><img src="/xnxy.github.io/2019/09/09/2017-10-19/MVP.png" alt="MVP"></p>
+<h4 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h4><p><img src="/2019/09/09/2017-10-19/MVP.png" alt="MVP"></p>
 <blockquote>
 <p>Model   :  实体模型</p>
 <p>View    ：UI控件，负责View的绘制及用户的交互。</p>
@@ -479,7 +479,7 @@
 </blockquote>
 <p>MVP, Model - View - Presenter,其实就是将MVC中Controller换成Presenter，是MVC的一个变种。其目的是完全切断View和Model之间的联系，由Presenter充当桥梁对视图和模型进行解耦。</p>
 <hr>
-<h4 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h4><p><img src="/xnxy.github.io/2019/09/09/2017-10-19/MVVM.png" alt="MVVM"></p>
+<h4 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h4><p><img src="/2019/09/09/2017-10-19/MVVM.png" alt="MVVM"></p>
 <blockquote>
 <p>Model   : 实体模型。</p>
 <p>View    : UI控件，负责View的绘制及用户的交互。</p>
@@ -491,7 +491,7 @@
 <p>&emsp;&emsp;因为MVVM架构模式的方便测试、维护，复用性高和低耦合等特性，所以公司的项目采用MVVM的架构模式。同时在iOS客户端的开发过程中，我们使用了ReactiveCocoa来实现其绑定机制。</p>
 <h4 id="关于ReactiveCocoa"><a href="#关于ReactiveCocoa" class="headerlink" title="关于ReactiveCocoa"></a>关于ReactiveCocoa</h4><p>&emsp;&emsp; ReactiveCocoa 简称RAC，是由GitHub开源的一个应用于iOS和OS X开发的新框架。集合了函数式编程和响应式编程，所以RAC也被称为函数响应式编程框架（FRP）。</p>
 <p>&emsp;&emsp; 在开发过程中RAC解决了传统开发中状态之间依赖过多、Controller过于臃肿等问题。提供了统一的消息传递机制，降低了类与类之间的耦合度，提高了开发效率。具体使用方法可以参看GitHub中<a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" rel="noopener">ReactiveCocoa的详细文档</a>。</p>
-<h4 id="公司某项目目录结构"><a href="#公司某项目目录结构" class="headerlink" title="公司某项目目录结构"></a>公司某项目目录结构</h4><p><img src="/xnxy.github.io/2019/09/09/2017-10-19/%E5%85%AC%E5%8F%B8%E6%9F%90%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt="公司某项目目录结构"></p>
+<h4 id="公司某项目目录结构"><a href="#公司某项目目录结构" class="headerlink" title="公司某项目目录结构"></a>公司某项目目录结构</h4><p><img src="/2019/09/09/2017-10-19/%E5%85%AC%E5%8F%B8%E6%9F%90%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt="公司某项目目录结构"></p>
 <p>项目中的目录结构：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- 第三方sdk(应该用Frameworks)：主要存放一些暂不支持CocoaPods的第三方库。</span><br><span class="line">- Application: 程序的入口文件和配置文件</span><br><span class="line">- BaseClass： 基类、公共扩展类、公共View</span><br><span class="line">- NetWork：网络请求类（对AFNetworking的二次封装）</span><br><span class="line">- Utils: 工具类</span><br><span class="line">- ViewModels：相应模块对应的ViewModel</span><br><span class="line">- Model：实体模型(公司数据结构使用Protobuf，所以Model使用脚本直接生成)</span><br><span class="line">- Views: 相应模块的界面相关（每一个模块对应一个ViewModel）</span><br></pre></td></tr></table></figure>
 
@@ -500,7 +500,7 @@
 <p>&emsp;&emsp;使用时需要先配置开发环境，具体可以查看之前写的一篇博客<a href="http://www.jianshu.com/p/213178307bcf" target="_blank" rel="noopener">《Mac 下配置protobuf（3.2.0）开发环境》</a>。如果使用的是Proto2可以查看另篇博客<a href="http://www.jianshu.com/p/8c6c009bc500" target="_blank" rel="noopener">《ProtocolBuffer for Objective-C 运行环境配置及使用》</a>。</p>
 <hr>
 <h2 id="MVVM-RAC的优缺点"><a href="#MVVM-RAC的优缺点" class="headerlink" title="MVVM + RAC的优缺点"></a>MVVM + RAC的优缺点</h2><hr>
-<p><img src="/xnxy.github.io/2019/09/09/2017-10-19/MCVMVMV.gif" alt="MCVMVMV.gif"></p>
+<p><img src="/2019/09/09/2017-10-19/MCVMVMV.gif" alt="MCVMVMV.gif"></p>
 <p>&emsp;&emsp; RAC和MVVM上面已经介绍过。现在越来越多的项目已经开始使用MVVM的架构模式，同时RAC已经成为MVVM的标配。由上图动画可以看出，对于一个简单的MVC架构的iOS应用，很容易调整到MVVM的。</p>
 <p>&emsp;&emsp;当然在我们享受函数响应式编程框架带来的便捷的同时，也需要承受其带来缺点。但随着自己能力的提高，这些所谓的缺点也会渐渐消失。如果有兴趣也可以查看<a href="https://tech.meituan.com/tag/ReactiveCocoa" target="_blank" rel="noopener">美团点评技术团队关于RAC的研究</a>，相信你定会有所收获。</p>
 <blockquote>
@@ -564,9 +564,9 @@
       
         <div class="post-tags">
           
-            <a href="/xnxy.github.io/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+            <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
           
-            <a href="/xnxy.github.io/tags/架构/" rel="tag"><i class="fa fa-tag"></i> 架构</a>
+            <a href="/tags/架构/" rel="tag"><i class="fa fa-tag"></i> 架构</a>
           
         </div>
       
@@ -579,7 +579,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/xnxy.github.io/2019/09/09/GPUImage相应类库所实现的功能/" rel="next" title="GPUImage相应类库所实现的功能">
+              <a href="/2019/09/09/GPUImage相应类库所实现的功能/" rel="next" title="GPUImage相应类库所实现的功能">
                 <i class="fa fa-chevron-left"></i> GPUImage相应类库所实现的功能
               </a>
             
@@ -589,7 +589,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/xnxy.github.io/2019/09/09/2017-10-23/" rel="prev" title="iOS客户端公共WIFI解决方案探究">
+              <a href="/2019/09/09/2017-10-23/" rel="prev" title="iOS客户端公共WIFI解决方案探究">
                 iOS客户端公共WIFI解决方案探究 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -674,7 +674,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
-            <img class="site-author-image" itemprop="image" src="/xnxy.github.io/images/head.jpeg" alt="拿根针尖对麦芒">
+            <img class="site-author-image" itemprop="image" src="/images/head.jpeg" alt="拿根针尖对麦芒">
           
             <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
             <p class="site-description motion-element" itemprop="description"></p>
@@ -685,7 +685,7 @@
           
             <div class="site-state-item site-state-posts">
             
-              <a href="/xnxy.github.io/archives/">
+              <a href="/archives/">
             
                 <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
@@ -697,7 +697,7 @@
             
             
             <div class="site-state-item site-state-categories">
-              <a href="/xnxy.github.io/categories/index.html">
+              <a href="/categories/index.html">
                 <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
@@ -708,7 +708,7 @@
             
             
             <div class="site-state-item site-state-tags">
-              <a href="/xnxy.github.io/tags/index.html">
+              <a href="/tags/index.html">
                 <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
@@ -719,7 +719,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/xnxy.github.io/atom.xml" rel="alternate">
+            <a href="/atom.xml" rel="alternate">
               <i class="fa fa-rss"></i>
               RSS
             </a>
@@ -917,50 +917,50 @@
 
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/xnxy.github.io/js/src/utils.js?v=5.1.2"></script>
-
-  <script type="text/javascript" src="/xnxy.github.io/js/src/motion.js?v=5.1.2"></script>
-
-
-
-  
-  
-
-  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
-<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
-
-
-  
-  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
-<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
-
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/xnxy.github.io/js/src/bootstrap.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
 
 
 
@@ -1006,7 +1006,7 @@
     } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
-    var path = "/xnxy.github.io/" + search_path;
+    var path = "/" + search_path;
     // monitor main search box;
 
     var onPopupClose = function (e) {

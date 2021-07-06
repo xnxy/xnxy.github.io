@@ -40,7 +40,7 @@
 
   
   
-  <link href="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -92,9 +92,9 @@
 
 
 
-<link href="/xnxy.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/xnxy.github.io/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
   <meta name="keywords" content="iOS,知识总结,">
@@ -103,12 +103,12 @@
 
 
 
-  <link rel="alternate" href="/xnxy.github.io/atom.xml" title="拿根针尖对麦芒" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="拿根针尖对麦芒" type="application/atom+xml">
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/xnxy.github.io/favicon.ico?v=5.1.2">
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
 
 
 
@@ -123,34 +123,34 @@
 <meta property="og:site_name" content="拿根针尖对麦芒">
 <meta property="og:description" content="Overview我们都知道开发一款应用需要配置苹果常用证书、AppId,Provisioning Profiles，如果有推送还需要配置推送证书等，所以索性将所有的证书的配置流程都记录下来，方便以后查阅。 App IDApp ID 是每个应用的独立标识，在设置中可以配置该应用的权限，比如：Push Notifications、Network Extensions等。 开发者证书开发证书类型分为两">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%B4%A6%E5%8F%B7.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%90%8D%E6%96%87%E4%BB%B6%E8%AF%B7%E6%B1%82.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E4%BF%9D%E5%AD%98CSR%E6%96%87%E4%BB%B6.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9Identifiers%E4%B8%AD%E7%9A%84AppIDs.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E6%B7%BB%E5%8A%A0AppID.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9Certificates%E4%B8%AD%E7%9A%84All,%E7%84%B6%E5%90%8E%E9%80%89%E6%8B%A9%E4%B8%8A%E6%96%B9%E7%9A%84%E5%8A%A0%E5%8F%B7.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9%E7%9B%B8%E5%BA%94%E8%AF%81%E4%B9%A6.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E4%B8%8A%E4%BC%A0CSR%E6%96%87%E4%BB%B6.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E4%BB%8E%E9%92%A5%E5%8C%99%E4%B8%B2%E4%B8%AD%E6%9F%A5%E7%9C%8B%E8%AF%81%E4%B9%A6.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E5%AF%BC%E5%87%BAP12%E6%96%87%E4%BB%B6.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%BE%93%E5%85%A5%E8%AF%81%E4%B9%A6%E5%AF%86%E7%A0%81.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/Ad-Hoc%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png">
-<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%B4%A6%E5%8F%B7.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%90%8D%E6%96%87%E4%BB%B6%E8%AF%B7%E6%B1%82.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E4%BF%9D%E5%AD%98CSR%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9Identifiers%E4%B8%AD%E7%9A%84AppIDs.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E6%B7%BB%E5%8A%A0AppID.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9Certificates%E4%B8%AD%E7%9A%84All,%E7%84%B6%E5%90%8E%E9%80%89%E6%8B%A9%E4%B8%8A%E6%96%B9%E7%9A%84%E5%8A%A0%E5%8F%B7.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9%E7%9B%B8%E5%BA%94%E8%AF%81%E4%B9%A6.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E4%B8%8A%E4%BC%A0CSR%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E4%BB%8E%E9%92%A5%E5%8C%99%E4%B8%B2%E4%B8%AD%E6%9F%A5%E7%9C%8B%E8%AF%81%E4%B9%A6.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E5%AF%BC%E5%87%BAP12%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%BE%93%E5%85%A5%E8%AF%81%E4%B9%A6%E5%AF%86%E7%A0%81.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/Ad-Hoc%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png">
 <meta property="og:updated_time" content="2019-09-09T10:01:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS证书配置指北">
 <meta name="twitter:description" content="Overview我们都知道开发一款应用需要配置苹果常用证书、AppId,Provisioning Profiles，如果有推送还需要配置推送证书等，所以索性将所有的证书的配置流程都记录下来，方便以后查阅。 App IDApp ID 是每个应用的独立标识，在设置中可以配置该应用的权限，比如：Push Notifications、Network Extensions等。 开发者证书开发证书类型分为两">
-<meta name="twitter:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97.png">
+<meta name="twitter:image" content="https://xnxy.github.io/2019/09/09/iOS证书配置指北/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97.png">
 
 
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/xnxy.github.io/',
+    root: '/',
     scheme: 'Mist',
     version: '5.1.2',
     sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
@@ -209,7 +209,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/xnxy.github.io/" class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">拿根针尖对麦芒</span>
         <span class="logo-line-after"><i></i></span>
@@ -237,7 +237,7 @@
       
         
         <li class="menu-item menu-item-home">
-          <a href="/xnxy.github.io/" rel="section">
+          <a href="/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
@@ -247,7 +247,7 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/xnxy.github.io/tags/" rel="section">
+          <a href="/tags/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
@@ -257,7 +257,7 @@
       
         
         <li class="menu-item menu-item-categories">
-          <a href="/xnxy.github.io/categories/" rel="section">
+          <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
@@ -267,7 +267,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/xnxy.github.io/archives/" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
@@ -277,7 +277,7 @@
       
         
         <li class="menu-item menu-item-about">
-          <a href="/xnxy.github.io/about/" rel="section">
+          <a href="/about/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
             
@@ -350,12 +350,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/xnxy.github.io/2019/09/09/iOS证书配置指北/">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2019/09/09/iOS证书配置指北/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="拿根针尖对麦芒">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/xnxy.github.io/images/head.jpeg">
+      <meta itemprop="image" content="/images/head.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -414,7 +414,7 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/xnxy.github.io/categories/iOS/" itemprop="url" rel="index">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
                     <span itemprop="name">iOS</span>
                   </a>
                 </span>
@@ -470,7 +470,7 @@
       
 
       
-        <p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97.png" alt="iOS证书配置指北.png"></p>
+        <p><img src="/2019/09/09/iOS证书配置指北/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97.png" alt="iOS证书配置指北.png"></p>
 <h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>我们都知道开发一款应用需要配置苹果常用证书、AppId,Provisioning Profiles，如果有推送还需要配置推送证书等，所以索性将所有的证书的配置流程都记录下来，方便以后查阅。</p>
 <h6 id="App-ID"><a href="#App-ID" class="headerlink" title="App ID"></a>App ID</h6><p>App ID 是每个应用的独立标识，在设置中可以配置该应用的权限，比如：Push Notifications、Network Extensions等。</p>
 <h6 id="开发者证书"><a href="#开发者证书" class="headerlink" title="开发者证书"></a>开发者证书</h6><p>开发证书类型分为两种，一种开发证书（iOS Development）一种发布证书(iOS Distribution)。开发证书（iOS Development）用于真机调试；生产证书用于打包上传App Store，用于验证开发者身份。</p>
@@ -478,42 +478,42 @@
 <h6 id="配置文件（Provisioning-Profiles）"><a href="#配置文件（Provisioning-Profiles）" class="headerlink" title="配置文件（Provisioning Profiles）"></a>配置文件（Provisioning Profiles）</h6><p>配置文件同样也分两种，分为开发（Development）和发布（Distribution），配置文件（Provisioning Profiles）中包含了证书、App ID、设备（Devices）。它在开发者账号体系中扮演着配置和验证的角色，是真机调试和打包上架必须的文件。</p>
 <p>ps:打Ad-hoc包的时候，如果遇到刚添加的设备UDID没添加进去，可以将开发模式的配置文件下载下来，打包后直接选中即可。</p>
 <hr>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%B4%A6%E5%8F%B7.png" alt="苹果开发账号"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%B4%A6%E5%8F%B7.png" alt="苹果开发账号"></p>
 <p>在配置证书之前我们需要有一个开发账号。个人账号和公司账号类似，每年都需要支付99刀，其中公司账号需要邓白氏编码而个人账号并不需要。</p>
 <p>如果项目需要不通过App Store进行安装，可以申请企业账号。当然了，也可以找一些第三方直接打企业包，比如蒲公英之类的。</p>
 <h3 id="创建CSR文件"><a href="#创建CSR文件" class="headerlink" title="创建CSR文件"></a>创建CSR文件</h3><p><a href="https://en.wikipedia.org/wiki/Certificate_signing_request" target="_blank" rel="noopener">CSR（Certificate signing request）</a>即证书请求文件。证书申请者在申请数字证书时由CSP(加密服务提供者)在生成私钥的同时也生成证书请求文件（CSR文件），证书申请者只要把CSR文件提交给证书颁发机构后（创建App ID时上传到苹果后台），证书颁发机构使用其根证书私钥签名生成证书公钥文件（开发者证书）。</p>
 <p>关于CSR文件的创建，我们可以直接使用Mac上的钥匙串访问直接请求。</p>
 <p>具体步骤为： 钥匙串访问 -&gt; 钥匙串访问 -&gt; 证书助理 -&gt; 从证书颁发机构请求证书……</p>
 <p>1、打开电脑上的钥匙串访问，选中证书助理；</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%90%8D%E6%96%87%E4%BB%B6%E8%AF%B7%E6%B1%82.png" alt="证书签名文件请求"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%90%8D%E6%96%87%E4%BB%B6%E8%AF%B7%E6%B1%82.png" alt="证书签名文件请求"></p>
 <p>2、用户电子邮件地址填开发者账号的邮箱，名称可以随意填，然后保存到磁盘上。</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E4%BF%9D%E5%AD%98CSR%E6%96%87%E4%BB%B6.png" alt="保存CSR文件"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E4%BF%9D%E5%AD%98CSR%E6%96%87%E4%BB%B6.png" alt="保存CSR文件"></p>
 <h3 id="创建App-ID"><a href="#创建App-ID" class="headerlink" title="创建App ID"></a>创建App ID</h3><p>1、登录<a href="https://developer.apple.com" target="_blank" rel="noopener">苹果开发者中心</a>,或者直接登录<a href="https://developer.apple.com/membercenter" target="_blank" rel="noopener">Apple Member Center</a>选择<code>Certificates,Identifiers &amp; Profiles</code>；</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83.png" alt="苹果开发者中心"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83.png" alt="苹果开发者中心"></p>
 <p>2、选择Identifiers 中的 App IDs，然后点上方的加号；</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9Identifiers%E4%B8%AD%E7%9A%84AppIDs.png" alt="选择Identifiers 中的 App IDs"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9Identifiers%E4%B8%AD%E7%9A%84AppIDs.png" alt="选择Identifiers 中的 App IDs"></p>
 <p>3、添加App ID Description和Bundle ID,如果项目中有推送，将Push Notifications勾选。</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E6%B7%BB%E5%8A%A0AppID.png" alt="添加App ID"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E6%B7%BB%E5%8A%A0AppID.png" alt="添加App ID"></p>
 <h3 id="创建开发者证书-和-推送证书"><a href="#创建开发者证书-和-推送证书" class="headerlink" title="创建开发者证书 和 推送证书"></a>创建开发者证书 和 推送证书</h3><p>1、选择Certificates,然后选择上方的加号；</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9Certificates%E4%B8%AD%E7%9A%84All,%E7%84%B6%E5%90%8E%E9%80%89%E6%8B%A9%E4%B8%8A%E6%96%B9%E7%9A%84%E5%8A%A0%E5%8F%B7.png" alt="选择Certificates中的All,然后选择上方的加号"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9Certificates%E4%B8%AD%E7%9A%84All,%E7%84%B6%E5%90%8E%E9%80%89%E6%8B%A9%E4%B8%8A%E6%96%B9%E7%9A%84%E5%8A%A0%E5%8F%B7.png" alt="选择Certificates中的All,然后选择上方的加号"></p>
 <p>2、选择相应的证书，因为开发调试证书、生产发布证书、开发环境推送证书、生产环境推送证书基本都类似，所以这里只选择开发调试证书为例。</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9%E7%9B%B8%E5%BA%94%E8%AF%81%E4%B9%A6.png" alt="选择相应证书"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E9%80%89%E6%8B%A9%E7%9B%B8%E5%BA%94%E8%AF%81%E4%B9%A6.png" alt="选择相应证书"></p>
 <p>3、一路点击Continue, 到Generate后选择一开始生成的CSR文件上传，然后再继续点击Continue。</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E4%B8%8A%E4%BC%A0CSR%E6%96%87%E4%BB%B6.png" alt="上传CSR文件"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E4%B8%8A%E4%BC%A0CSR%E6%96%87%E4%BB%B6.png" alt="上传CSR文件"></p>
 <p>4、生成完开发调试、生成调试证书 和 开发环境推送证书、生成环境推送证书后，先下载到桌面上。然后双击添加到钥匙串中。</p>
 <p>由于我们使用友盟，生成的推送证书（开发环境和生产环境）需要从钥匙串访问中导出p12文件，添加到友盟后台。</p>
 <h3 id="推送证书-导出p12文件上传到友盟（极光）后台"><a href="#推送证书-导出p12文件上传到友盟（极光）后台" class="headerlink" title="推送证书 导出p12文件上传到友盟（极光）后台"></a>推送证书 导出p12文件上传到友盟（极光）后台</h3><p>1、由上一步创建了开发环境的推送证书和生成环境的推送证书，下载到电脑上后，直接双击即可安装到钥匙串中。</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E4%BB%8E%E9%92%A5%E5%8C%99%E4%B8%B2%E4%B8%AD%E6%9F%A5%E7%9C%8B%E8%AF%81%E4%B9%A6.png" alt="从钥匙串中查看证书"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E4%BB%8E%E9%92%A5%E5%8C%99%E4%B8%B2%E4%B8%AD%E6%9F%A5%E7%9C%8B%E8%AF%81%E4%B9%A6.png" alt="从钥匙串中查看证书"></p>
 <p>2、选中相应证书（开发环境推送证书或生成环境推送证书）右键 导出；</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E5%AF%BC%E5%87%BAP12%E6%96%87%E4%BB%B6.png" alt="导出P12文件"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E5%AF%BC%E5%87%BAP12%E6%96%87%E4%BB%B6.png" alt="导出P12文件"></p>
 <p>3、点击存储后需要输入密码，密码要记住，上传到友盟（极光）后台时，需要用到。</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E8%BE%93%E5%85%A5%E8%AF%81%E4%B9%A6%E5%AF%86%E7%A0%81.png" alt="输入证书密码"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E8%BE%93%E5%85%A5%E8%AF%81%E4%B9%A6%E5%AF%86%E7%A0%81.png" alt="输入证书密码"></p>
 <h3 id="创建配置文件（Provisioning-Profiles）"><a href="#创建配置文件（Provisioning-Profiles）" class="headerlink" title="创建配置文件（Provisioning Profiles）"></a>创建配置文件（Provisioning Profiles）</h3><p>1、选中Provisioning Profiles 然后选中上方的加号。</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png" alt="创建配置文件"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png" alt="创建配置文件"></p>
 <p>2、配置文件也分为开发和发布，我们这里以Ad Hoc为例，因为我们打测试包的时候，如果有些设备的UDID未添加进配置文件中，我们需要下载配置文件手动选择。而其他的的配置文件目前的Xcode会自动请求，所以一般不需要我们自己手动创建。</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/Ad-Hoc%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png" alt="Ad-Hoc配置文件"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/Ad-Hoc%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png" alt="Ad-Hoc配置文件"></p>
 <p>3、选择刚创建的App ID,选择相应证书、选择测试的设备，然后创建名称一直点击Continue即可，最后下载下来。</p>
-<p><img src="/xnxy.github.io/2019/09/09/iOS证书配置指北/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png" alt="创建配置文件"></p>
+<p><img src="/2019/09/09/iOS证书配置指北/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png" alt="创建配置文件"></p>
 <p>到此为止证书和配置文件之类的都创建完了~~</p>
 <p>总结：</p>
 <ul>
@@ -556,9 +556,9 @@
       
         <div class="post-tags">
           
-            <a href="/xnxy.github.io/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+            <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
           
-            <a href="/xnxy.github.io/tags/知识总结/" rel="tag"><i class="fa fa-tag"></i> 知识总结</a>
+            <a href="/tags/知识总结/" rel="tag"><i class="fa fa-tag"></i> 知识总结</a>
           
         </div>
       
@@ -571,7 +571,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/" rel="next" title="lottie介绍及使用相关（翻译）">
+              <a href="/2019/09/09/lottie介绍及使用相关/" rel="next" title="lottie介绍及使用相关（翻译）">
                 <i class="fa fa-chevron-left"></i> lottie介绍及使用相关（翻译）
               </a>
             
@@ -581,7 +581,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/xnxy.github.io/2019/09/09/2018-02-28/" rel="prev" title="关于Block中的weakSelf和strongSelf">
+              <a href="/2019/09/09/2018-02-28/" rel="prev" title="关于Block中的weakSelf和strongSelf">
                 关于Block中的weakSelf和strongSelf <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -666,7 +666,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
-            <img class="site-author-image" itemprop="image" src="/xnxy.github.io/images/head.jpeg" alt="拿根针尖对麦芒">
+            <img class="site-author-image" itemprop="image" src="/images/head.jpeg" alt="拿根针尖对麦芒">
           
             <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
             <p class="site-description motion-element" itemprop="description"></p>
@@ -677,7 +677,7 @@
           
             <div class="site-state-item site-state-posts">
             
-              <a href="/xnxy.github.io/archives/">
+              <a href="/archives/">
             
                 <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
@@ -689,7 +689,7 @@
             
             
             <div class="site-state-item site-state-categories">
-              <a href="/xnxy.github.io/categories/index.html">
+              <a href="/categories/index.html">
                 <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
@@ -700,7 +700,7 @@
             
             
             <div class="site-state-item site-state-tags">
-              <a href="/xnxy.github.io/tags/index.html">
+              <a href="/tags/index.html">
                 <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
@@ -711,7 +711,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/xnxy.github.io/atom.xml" rel="alternate">
+            <a href="/atom.xml" rel="alternate">
               <i class="fa fa-rss"></i>
               RSS
             </a>
@@ -909,50 +909,50 @@
 
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
   
-  <script type="text/javascript" src="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/xnxy.github.io/js/src/utils.js?v=5.1.2"></script>
-
-  <script type="text/javascript" src="/xnxy.github.io/js/src/motion.js?v=5.1.2"></script>
-
-
-
-  
-  
-
-  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
-<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
-
-
-  
-  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
-<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
-
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/xnxy.github.io/js/src/bootstrap.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
 
 
 
@@ -998,7 +998,7 @@
     } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
-    var path = "/xnxy.github.io/" + search_path;
+    var path = "/" + search_path;
     // monitor main search box;
 
     var onPopupClose = function (e) {
