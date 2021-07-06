@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/xnxy.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/xnxy.github.io/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,翻译,">
+
+
+
+
+
+  <link rel="alternate" href="/xnxy.github.io/atom.xml" title="拿根针尖对麦芒" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/xnxy.github.io/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="Overview因为应用的下个版本的很多交互是参考Airbnb来的，而Airbnb开源了一个叫做Lottie动画库，而该库可以完成很多复杂炫酷的动画。所以在此翻译了Lottie的相应文档，熟悉其API。 通过阅读代码和Demo可以看出，Lottie是及其优秀的。它通过AE做成的动画导出JSON文件，然后前端使用Lottie直接加载JSON文件生成动画，不需要前端进行复杂的绘制等操作。同时Lott">
+<meta name="keywords" content="iOS,翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lottie介绍及使用相关（翻译）">
+<meta property="og:url" content="https://xnxy.github.io/2019/09/09/lottie介绍及使用相关/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="Overview因为应用的下个版本的很多交互是参考Airbnb来的，而Airbnb开源了一个叫做Lottie动画库，而该库可以完成很多复杂炫酷的动画。所以在此翻译了Lottie的相应文档，熟悉其API。 通过阅读代码和Demo可以看出，Lottie是及其优秀的。它通过AE做成的动画导出JSON文件，然后前端使用Lottie直接加载JSON文件生成动画，不需要前端进行复杂的绘制等操作。同时Lott">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Lottie.jpg">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example1.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example2.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example3.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Abcs.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example11.png">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example12.png">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example13.png">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/LottieViewer.png">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Transition1.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Transition2.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Spinner.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Spinner_Alt.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Spinner_Dark.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Toggle.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/RecoloredToggle.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/KeyPath.png">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/MultipleColors.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/AnimatedButtons.gif">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Regular.png">
+<meta property="og:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Disabled.png">
+<meta property="og:updated_time" content="2019-09-09T07:21:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lottie介绍及使用相关（翻译）">
+<meta name="twitter:description" content="Overview因为应用的下个版本的很多交互是参考Airbnb来的，而Airbnb开源了一个叫做Lottie动画库，而该库可以完成很多复杂炫酷的动画。所以在此翻译了Lottie的相应文档，熟悉其API。 通过阅读代码和Demo可以看出，Lottie是及其优秀的。它通过AE做成的动画导出JSON文件，然后前端使用Lottie直接加载JSON文件生成动画，不需要前端进行复杂的绘制等操作。同时Lott">
+<meta name="twitter:image" content="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Lottie.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/xnxy.github.io/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xnxy.github.io/2019/09/09/lottie介绍及使用相关/">
+
+
+
+
+
+  <title>lottie介绍及使用相关（翻译） | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+      <a href="https://github.com/xnxy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/xnxy.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">拿根针尖对麦芒</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">拿根针尖对麦芒</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/xnxy.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/xnxy.github.io/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/xnxy.github.io/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/xnxy.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/xnxy.github.io/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/xnxy.github.io/2019/09/09/lottie介绍及使用相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/xnxy.github.io/images/head.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">lottie介绍及使用相关（翻译）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-09T15:21:24+08:00">
+                2019-09-09
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-09T15:21:24+08:00">
+                2019-09-09
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/xnxy.github.io/categories/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,721
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Lottie.jpg" alt="Lottie.jpg"></p>
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>因为应用的下个版本的很多交互是参考<a href="https://github.com/airbnb" target="_blank" rel="noopener">Airbnb</a>来的，而<a href="https://github.com/airbnb" target="_blank" rel="noopener">Airbnb</a>开源了一个叫做<a href="https://github.com/airbnb/lottie-ios" target="_blank" rel="noopener">Lottie</a>动画库，而该库可以完成很多复杂炫酷的动画。所以在此翻译了Lottie的相应文档，熟悉其API。</p>
+<p>通过阅读代码和Demo可以看出，Lottie是及其优秀的。它通过AE做成的动画导出JSON文件，然后前端使用Lottie直接加载JSON文件生成动画，不需要前端进行复杂的绘制等操作。同时Lottie 不仅支持iOS，还支持Mac、Android、web、React Native。而且它还具有占用内存少，加载流畅等特点，是个极其不错的第三方库。</p>
+<h3 id="相应文档"><a href="#相应文档" class="headerlink" title="相应文档"></a>相应文档</h3><h1 id="Lottie-for-iOS-macOS-and-Android-and-React-Native"><a href="#Lottie-for-iOS-macOS-and-Android-and-React-Native" class="headerlink" title="Lottie for iOS, macOS (and Android and React Native)"></a>Lottie for iOS, macOS (and <a href="https://github.com/airbnb/lottie-android" target="_blank" rel="noopener">Android</a> and <a href="https://github.com/airbnb/lottie-react-native" target="_blank" rel="noopener">React Native</a>)</h1><h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#installing-lottie">Installing Lottie</a></li>
+<li><a href="#ios-sample-app">iOS Sample App</a></li>
+<li><a href="#macos-sample-app">macOS Sample App</a></li>
+<li><a href="#objective-c-examples">Objective C Examples</a></li>
+<li><a href="#swift-examples">Swift Examples</a></li>
+<li><a href="#debugging">Debugging Lottie</a></li>
+<li><a href="#ios-view-controller-transitioning">iOS View Controller Transitioning</a></li>
+<li><a href="#changing-animations-at-runtime">Changing Animations At Runtime</a></li>
+<li><a href="#animated-controls-and-switches">Animated Controls and Switches</a></li>
+<li><a href="#adding-views-to-an-animation-at-runtime">Adding Subviews to Animation</a></li>
+<li><a href="#supported-after-effects-features">Supported After Effects Features</a></li>
+<li><a href="#currently-unsupported-after-effects-features">Currently Unsupported After Effects Features</a></li>
+<li><a href="#community-contributions">Community Contributions</a></li>
+<li><a href="#alternatives">Alternatives</a></li>
+<li><a href="#why-is-it-called-lottie">Why is it called Lottie?</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#issues-or-feature-requests">Issues or feature requests?</a></li>
+</ul>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Lottie是Android和iOS的移动库，用<a href="https://github.com/" target="_blank" rel="noopener">bodymovin</a>解析<a href="http://www.adobe.com/products/aftereffects.html" target="_blank" rel="noopener">Adobe After Effects</a>导出为json的动画并在移动设备上生成矢量动画，适用于React Native！</p>
+<p>这是第一次，设计师可以创建和<strong><em>发送</em></strong>漂亮的动画，无需程序员辛苦地手动去创建它.<br>由于动画由JSON驱动，因此它们的体积非常小，但复杂程度可能很高！<br>可以播放动画，调整大小，循环，加快速度，减慢速度，颠倒速度，甚至交互式地清理动画。<br>Lottie也可以播放或循环动画的一部分，可能性是无限的！<br>动画甚至可以 <strong><em>在运行时以各种方式更改</em></strong> 改变颜色，位置或任何关键的可变值。<br>Lottie也支持原生的UIViewController Transitions！</p>
+<p>这只是Lottie能力的一小部分</p>
+<p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example1.gif" alt="Example1"><br><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example2.gif" alt="Example2"><br><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example3.gif" alt="Example3"></p>
+<p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Abcs.gif" alt="Abcs"></p>
+<h2 id="Installing-Lottie"><a href="#Installing-Lottie" class="headerlink" title="Installing Lottie"></a>Installing Lottie</h2><h3 id="Github-Repo"><a href="#Github-Repo" class="headerlink" title="Github Repo"></a>Github Repo</h3><p>您可以下载<a href="https://github.com/airbnb/lottie-ios/" target="_blank" rel="noopener">Lottie Github Repo</a>和其中的Lottie.xcodeproj以构建动态或静态库。</p>
+<h3 id="Cocoapods"><a href="#Cocoapods" class="headerlink" title="Cocoapods"></a>Cocoapods</h3><p>Get <a href="https://cocoapods.org/" target="_blank" rel="noopener">Cocoapods</a><br>Add the pod to your podfile</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod &apos;lottie-ios&apos;</span><br></pre></td></tr></table></figure>
+
+<p>run</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod install</span><br></pre></td></tr></table></figure>
+
+<p>通过CocoaPods安装到你的项目中后，将Lottie头文件导入工程中<br>Objective C<br><code>#import &lt;Lottie/Lottie.h&gt;</code><br>Swift<br><code>import Lottie</code></p>
+<h3 id="Carthage"><a href="#Carthage" class="headerlink" title="Carthage"></a>Carthage</h3><p>Get <a href="https://github.com/Carthage/Carthage" target="_blank" rel="noopener">Carthage</a></p>
+<p>将 Lottie 添加到 Cartfile 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">github &quot;airbnb/lottie-ios&quot; &quot;master&quot;</span><br></pre></td></tr></table></figure>
+
+<p>run</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">carthage update</span><br></pre></td></tr></table></figure>
+
+<p>在你的应用程序的“常规”选项卡中“链接的框架和库”，需要从Carthage / Build / iOS目录中拖放“carthage update”生成的lottie-ios.framework。</p>
+<h2 id="iOS-Sample-App"><a href="#iOS-Sample-App" class="headerlink" title="iOS Sample App"></a>iOS Sample App</h2><p>克隆这个repo，并尝试<a href="https://github.com/airbnb/lottie-ios/tree/master/Example" target="_blank" rel="noopener">示例应用程序</a>,<br>repo中包含了一个macOS示例和一个iOS示例</p>
+<p>iOS示例应用程序演示了Lottie的几项功能</p>
+<p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example11.png" alt="Example 1"><br><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example12.png" alt="Example 2"><br><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Example13.png" alt="Example 3"></p>
+<p>动画资源管理器允许您移除，播放，循环和调整动画大小。<br>可以使用内置的扫描功能从应用程序包或从<a href="http://www.lottiefiles.com" target="_blank" rel="noopener">Lottie文件</a>中加载动画。</p>
+<h2 id="macOS-Sample-App"><a href="#macOS-Sample-App" class="headerlink" title="macOS Sample App"></a>macOS Sample App</h2><p>下载这个 repo 并尝试运行 <a href="https://github.com/airbnb/lottie-ios/tree/master/Example" target="_blank" rel="noopener">the Sample App</a>,<br>这个repo可以构建一个macOS示例和一个iOS示例</p>
+<p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/LottieViewer.png" alt="Lottie Viewer"></p>
+<p>用于macOS的Lottie Viewer允许您拖放JSON文件用于播放，移除和循环动画。 Mac程序和iOS程序的动画代码是一样的，因此您将获得精确的Mac和iOS动画。</p>
+<h2 id="Objective-C-Examples"><a href="#Objective-C-Examples" class="headerlink" title="Objective C Examples"></a>Objective C Examples</h2><p>Lottie可以从Build中的JSON文件或URL中加载动画</p>
+<p>如何使用JSON文件加载动画，只需将生成的JSON文件添加到xcode的工程目录下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LOTAnimationView *animation = [LOTAnimationView animationNamed:@&quot;Lottie&quot;];</span><br><span class="line">[self.view addSubview:animation];</span><br><span class="line">[animation playWithCompletion:^(BOOL animationFinished) &#123;</span><br><span class="line">  // Do Something</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>如果你需要使用bundles中的JSON文件，加载动画</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LOTAnimationView *animation = [LOTAnimationView animationNamed:@&quot;Lottie&quot; inBundle:[NSBundle YOUR_BUNDLE]];</span><br><span class="line">[self.view addSubview:animation];</span><br><span class="line">[animation playWithCompletion:^(BOOL animationFinished) &#123;</span><br><span class="line">  // Do Something</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>或者你可以通过NSURL以编码的方式加载动画</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LOTAnimationView *animation = [[LOTAnimationView alloc] initWithContentsOfURL:[NSURL URLWithString:URL]];</span><br><span class="line">[self.view addSubview:animation];</span><br></pre></td></tr></table></figure>
+
+<p>Lottie支持iOS<code>UIViewContentModes</code>的aspectFit，aspectFill和scaleFill</p>
+<p>你也可以设置动画的进度.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CGPoint translation = [gesture getTranslationInView:self.view];</span><br><span class="line">CGFloat progress = translation.y / self.view.bounds.size.height;</span><br><span class="line">animationView.animationProgress = progress;</span><br></pre></td></tr></table></figure>
+
+<p>或者你可以只播放动画的一部分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[lottieAnimation playFromProgress:0.25 toProgress:0.5 withCompletion:^(BOOL animationFinished) &#123;</span><br><span class="line">  // Do Something</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h2 id="Swift-Examples"><a href="#Swift-Examples" class="headerlink" title="Swift Examples"></a>Swift Examples</h2><p>Lottie可以从Bundle中的JSON文件或URL中加载动画</p>
+<p>如何使用JSON文件加载动画，只需将生成的JSON文件添加到xcode的工程目录中。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> animationView = <span class="type">LOTAnimationView</span>(name: <span class="string">"LottieLogo"</span>)</span><br><span class="line"><span class="keyword">self</span>.view.addSubview(animationView)</span><br><span class="line">animationView.play&#123; (finished) <span class="keyword">in</span></span><br><span class="line">  <span class="comment">// Do Something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果你需要使用bundles中的JSON文件，加载动画</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> animationView = <span class="type">LOTAnimationView</span>(name: <span class="string">"LottieLogo"</span> bundle:yourBundle)</span><br><span class="line"><span class="keyword">self</span>.view.addSubview(animationView)</span><br><span class="line">animationView.play()</span><br></pre></td></tr></table></figure>
+
+<p>或者你可以通过NSURL以编码的方式加载动画</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> animationView = <span class="type">LOTAnimationView</span>(contentsOf: <span class="type">WebURL</span>)</span><br><span class="line"><span class="keyword">self</span>.view.addSubview(animationView)</span><br><span class="line">animationView.play()</span><br></pre></td></tr></table></figure>
+
+<p>你也可以设置动画的进度.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> translation = gesture.getTranslationInView(<span class="keyword">self</span>.view)</span><br><span class="line"><span class="keyword">let</span> progress = translation.y / <span class="keyword">self</span>.view.bounds.size.height;</span><br><span class="line">animationView.animationProgress = progress</span><br></pre></td></tr></table></figure>
+
+<p>或者你可以只播放动画的一部分：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">animationView.play(fromProgress: <span class="number">0.25</span>, toProgress: <span class="number">0.5</span>, withCompletion: <span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="iOS-View-Controller-Transitioning"><a href="#iOS-View-Controller-Transitioning" class="headerlink" title="iOS View Controller Transitioning"></a>iOS View Controller Transitioning</h2><p>Lottie带有一个<code>UIViewController</code>动画控制器，用于制作自定义viewController转换！</p>
+<p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Transition1.gif" alt="Transition1"><br><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Transition2.gif" alt="Transition2"></p>
+<p>只是成为过渡的delegate</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (void)_showTransitionA &#123;</span><br><span class="line">  ToAnimationViewController *vc = [[ToAnimationViewController alloc] init];</span><br><span class="line">  vc.transitioningDelegate = self;</span><br><span class="line">  [self presentViewController:vc animated:YES completion:NULL];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>并用<code>LOTAnimationTransitionController</code>实现委托方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark -- View Controller Transitioning</span><br><span class="line"></span><br><span class="line">- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source &#123;</span><br><span class="line">  LOTAnimationTransitionController *animationController = [[LOTAnimationTransitionController alloc] initWithAnimationNamed:@&quot;vcTransition1&quot; fromLayerNamed:@&quot;outLayer&quot; toLayerNamed:@&quot;inLayer&quot; applyAnimationTransform:NO];</span><br><span class="line">  return animationController;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForDismissedController:(UIViewController *)dismissed &#123;</span><br><span class="line">  LOTAnimationTransitionController *animationController = [[LOTAnimationTransitionController alloc] initWithAnimationNamed:@&quot;vcTransition2&quot; fromLayerNamed:@&quot;outLayer&quot; toLayerNamed:@&quot;inLayer&quot; applyAnimationTransform:NO];</span><br><span class="line">  return animationController;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过将applyAnimationTransform设置为YES，您可以使Lottie动画从一个视图控制器移动到另一个视图控制器。 它们将定位在图层的起源处。 设置为NO时，Lottie只是在指定z层时遮蔽具有指定层的视图控制器。</p>
+<h2 id="Debugging"><a href="#Debugging" class="headerlink" title="Debugging"></a>Debugging</h2><p>Lottie有几个要了解的调试功能。<br>当加载动画时，不支持的功能,其工程名将打印在控制台中。</p>
+<p>如果您查看LOTHelpers.h这个类，您将看到两个调试标志。 <code>ENABLE_DEBUG_LOGGING</code>和<code>ENABLE_DEBUG_SHAPES</code>。<br><code>ENABLE_DEBUG_LOGGING</code>增加了Lottie Logging的详细程度。 它在动画期间随时记录一个动画节点。 如果您的动画不起作用，请将其打开并播放您的动画。 控制台日志可能会给你一些关于问题什么的线索。</p>
+<p><code>ENABLE_DEBUG_SHAPES</code>为每个图层和形状的锚点画一个彩色正方形。 这对查看屏幕上是否有任何内容很有帮助。</p>
+<h3 id="Keypaths"><a href="#Keypaths" class="headerlink" title="Keypaths"></a>Keypaths</h3><p>LOTAnimationView提供<code>- （void）logHierarchyKeypaths</code>，它将递归记录动画的所有可设置关键路径。 这有助于在运行时更改动画。</p>
+<h2 id="Adding-Views-to-an-Animation-at-Runtime"><a href="#Adding-Views-to-an-Animation-at-Runtime" class="headerlink" title="Adding Views to an Animation at Runtime"></a>Adding Views to an Animation at Runtime</h2><p>您不仅可以（在运行时更改动画），还可以在运行时将自定义UI添加到LOTAnimation中。<br>下面的例子是一些进度用途的动态图像加载器。</p>
+<h2 id="A-Dynamic-Image-Loading-Spinner"><a href="#A-Dynamic-Image-Loading-Spinner" class="headerlink" title="A Dynamic Image Loading Spinner"></a>A Dynamic Image Loading Spinner</h2><p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Spinner.gif" alt="Spinner"></p>
+<p>上面的例子显示了一个单独的LOTAnimationView，它使用加载微调器动画进行设置。 加载微调器会循环一部分动画，而图像则是异步下载的。 下载完成后，图像将添加到动画中，其余动画将无缝播放。 图像完美地执行动画并被调用。</p>
+<p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Spinner_Alt.gif" alt="Spinner_Alt"></p>
+<p>现在，动画已由设计师更改并需要更新。 所需的只是更新包中的JSON文件。 无需更改代码！</p>
+<p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Spinner_Dark.gif" alt="Spinner_Dark"></p>
+<p>现在，动画已由设计师更改并需要更新。 所需的只是更新包中的JSON文件。 无需更改代码！</p>
+<p>很强大吧 嗯?</p>
+<p>查看下面的代码以获取示例！</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"><span class="keyword">import</span> Lottie</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">var</span> animationView: <span class="type">LOTAnimationView</span> = <span class="type">LOTAnimationView</span>(name: <span class="string">"SpinnerSpin"</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Setup our animaiton view</span></span><br><span class="line">    animationView.contentMode = .scaleAspectFill</span><br><span class="line">    animationView.frame = <span class="type">CGRect</span>(x: <span class="number">20</span>, y: <span class="number">20</span>, width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span>.view.addSubview(animationView)</span><br><span class="line">    <span class="comment">// Lets change some of the properties of the animation</span></span><br><span class="line">    <span class="comment">// We arent going to use the MaskLayer, so lets just hide it</span></span><br><span class="line">    animationView.setValue(<span class="number">0</span>, forKeypath: <span class="string">"MaskLayer.Ellipse 1.Transform.Opacity"</span>, atFrame: <span class="number">0</span>)</span><br><span class="line">    <span class="comment">// All of the strokes and fills are white, lets make them DarkGrey</span></span><br><span class="line">    animationView.setValue(<span class="type">UIColor</span>.darkGray, forKeypath: <span class="string">"OuterRing.Stroke.Color"</span>, atFrame: <span class="number">0</span>)</span><br><span class="line">    animationView.setValue(<span class="type">UIColor</span>.darkGray, forKeypath: <span class="string">"InnerRing.Stroke.Color"</span>, atFrame: <span class="number">0</span>)</span><br><span class="line">    animationView.setValue(<span class="type">UIColor</span>.darkGray, forKeypath: <span class="string">"InnerRing.Fill.Color"</span>, atFrame: <span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Lets turn looping on, since we want it to repeat while the image is 'Downloading'</span></span><br><span class="line">    animationView.loopAnimation = <span class="literal">true</span></span><br><span class="line">    <span class="comment">// Now play from 0 to 0.5 progress and loop indefinitely.</span></span><br><span class="line">    animationView.play(fromProgress: <span class="number">0</span>, toProgress: <span class="number">0.5</span>, withCompletion: <span class="literal">nil</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Lets simulate a download that finishes in 4 seconds.</span></span><br><span class="line">    <span class="keyword">let</span> dispatchTime = <span class="type">DispatchTime</span>.now() + <span class="number">4.0</span></span><br><span class="line">    <span class="type">DispatchQueue</span>.main.asyncAfter(deadline: dispatchTime) &#123;</span><br><span class="line">      <span class="keyword">self</span>.simulateImageDownloaded()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">simulateImageDownloaded</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// Our downloaded image</span></span><br><span class="line">    <span class="keyword">let</span> image = <span class="type">UIImage</span>(named: <span class="string">"avatar.jpg"</span>)</span><br><span class="line">    <span class="keyword">let</span> imageView = <span class="type">UIImageView</span>(image: image)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// We want the image to show up centered in the animation view at 150Px150P</span></span><br><span class="line">    <span class="comment">// Convert that rect to the animations coordinate space</span></span><br><span class="line">    <span class="comment">// The origin is set to -75, -75 because the origin is centered in the animation view</span></span><br><span class="line">    <span class="keyword">let</span> imageRect = animationView.convert(<span class="type">CGRect</span>(x: -<span class="number">75</span>, y: -<span class="number">75</span>, width: <span class="number">150</span>, height: <span class="number">150</span>), toLayerNamed: <span class="literal">nil</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Setup our image view with the rect and add rounded corners</span></span><br><span class="line">    imageView.frame = imageRect</span><br><span class="line">    imageView.layer.masksToBounds = <span class="literal">true</span></span><br><span class="line">    imageView.layer.cornerRadius = imageRect.width / <span class="number">2</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Now we set the completion block on the currently running animation</span></span><br><span class="line">    animationView.completionBlock = &#123; (result: <span class="type">Bool</span>) <span class="keyword">in</span> ()</span><br><span class="line">      <span class="comment">// Add the image view to the layer named "TransformLayer"</span></span><br><span class="line">      <span class="keyword">self</span>.animationView.addSubview(imageView, toLayerNamed: <span class="string">"TransformLayer"</span>, applyTransform: <span class="literal">true</span>)</span><br><span class="line">      <span class="comment">// Now play the last half of the animation</span></span><br><span class="line">      <span class="keyword">self</span>.animationView.play(fromProgress: <span class="number">0.5</span>, toProgress: <span class="number">1</span>, withCompletion: &#123; (complete: <span class="type">Bool</span>) <span class="keyword">in</span></span><br><span class="line">        <span class="comment">// Now the animation has finished and our image is displayed on screen</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"Image Downloaded and Displayed"</span>)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Turn looping off. Once the current loop finishes the animation will stop </span></span><br><span class="line">    <span class="comment">// and the completion block will be called.</span></span><br><span class="line">    animationView.loopAnimation = <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Changing-Animations-At-Runtime"><a href="#Changing-Animations-At-Runtime" class="headerlink" title="Changing Animations At Runtime"></a>Changing Animations At Runtime</h2><p>Lottie可以做的不仅仅是美丽的动画。 Lottie允许您在运行时更改<strong>动画</strong>。</p>
+<h3 id="Say-we-want-to-create-4-toggle-switches"><a href="#Say-we-want-to-create-4-toggle-switches" class="headerlink" title="Say we want to create 4 toggle switches."></a>Say we want to create 4 toggle switches.</h3><p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Toggle.gif" alt="Toggle"></p>
+<p>它很容易创建四个开关并播放它们：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> animationView = <span class="type">LOTAnimationView</span>(name: <span class="string">"toggle"</span>);</span><br><span class="line"><span class="keyword">self</span>.view.addSubview(animationView)</span><br><span class="line">animationView.frame.origin.x = <span class="number">40</span></span><br><span class="line">animationView.frame.origin.y = <span class="number">20</span></span><br><span class="line">animationView.autoReverseAnimation = <span class="literal">true</span></span><br><span class="line">animationView.loopAnimation = <span class="literal">true</span></span><br><span class="line">animationView.play()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> animationView2 = <span class="type">LOTAnimationView</span>(name: <span class="string">"toggle"</span>);</span><br><span class="line"><span class="keyword">self</span>.view.addSubview(animationView2)</span><br><span class="line">animationView2.frame.origin.x = <span class="number">40</span></span><br><span class="line">animationView2.frame.origin.y = animationView.frame.maxY + <span class="number">4</span></span><br><span class="line">animationView2.autoReverseAnimation = <span class="literal">true</span></span><br><span class="line">animationView2.loopAnimation = <span class="literal">true</span></span><br><span class="line">animationView2.play()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> animationView3 = <span class="type">LOTAnimationView</span>(name: <span class="string">"toggle"</span>);</span><br><span class="line"><span class="keyword">self</span>.view.addSubview(animationView3)</span><br><span class="line">animationView3.frame.origin.x = <span class="number">40</span></span><br><span class="line">animationView3.frame.origin.y = animationView2.frame.maxY + <span class="number">4</span></span><br><span class="line">animationView3.autoReverseAnimation = <span class="literal">true</span></span><br><span class="line">animationView3.loopAnimation = <span class="literal">true</span></span><br><span class="line">animationView3.play()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> animationView4 = <span class="type">LOTAnimationView</span>(name: <span class="string">"toggle"</span>);</span><br><span class="line"><span class="keyword">self</span>.view.addSubview(animationView4)</span><br><span class="line">animationView4.frame.origin.x = <span class="number">40</span></span><br><span class="line">animationView4.frame.origin.y = animationView3.frame.maxY + <span class="number">4</span></span><br><span class="line">animationView4.autoReverseAnimation = <span class="literal">true</span></span><br><span class="line">animationView4.loopAnimation = <span class="literal">true</span></span><br><span class="line">animationView4.play()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Now-lets-change-their-colors"><a href="#Now-lets-change-their-colors" class="headerlink" title="Now lets change their colors"></a>Now lets change their colors</h3><p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/RecoloredToggle.gif" alt="Recolored Toggle"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">animationView2.setValue(<span class="type">UIColor</span>.green, forKeypath: <span class="string">"BG-On.Group 1.Fill 1.Color"</span>, atFrame: <span class="number">0</span>)</span><br><span class="line">animationView3.setValue(<span class="type">UIColor</span>.red, forKeypath: <span class="string">"BG-On.Group 1.Fill 1.Color"</span>, atFrame: <span class="number">0</span>)</span><br><span class="line">animationView4.setValue(<span class="type">UIColor</span>.orange, forKeypath: <span class="string">"BG-On.Group 1.Fill 1.Color"</span>, atFrame: <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[animationView2 setValue:[UIColor greenColor] forKeypath:@&quot;BG-On.Group 1.Fill 1.Color&quot; atFrame:@0];</span><br></pre></td></tr></table></figure>
+
+<p>keyPath是来自After Effects的图层和属性名称的点分离路径。</p>
+<p>LOTAnimationView提供<code>- （void）logHierarchyKeypaths</code>，它将递归记录动画的所有可设置关键路径。</p>
+<p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/KeyPath.png" alt="Key Path"><br>“BG-On.Group 1.Fill 1.Color”</p>
+<h3 id="Now-lets-change-a-couple-of-properties"><a href="#Now-lets-change-a-couple-of-properties" class="headerlink" title="Now lets change a couple of properties"></a>Now lets change a couple of properties</h3><p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/MultipleColors.gif" alt="Multiple Colors"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">animationView2.setValue(<span class="type">UIColor</span>.green, forKeypath: <span class="string">"BG-On.Group 1.Fill 1.Color"</span>, atFrame: <span class="number">0</span>)</span><br><span class="line">animationView2.setValue(<span class="type">UIColor</span>.red, forKeypath: <span class="string">"BG-Off.Group 1.Fill 1.Color"</span>, atFrame: <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Lottie允许您更改After Effects动画制作过程中的<strong>任何</strong>属性。 如果关键帧不存在，则为您创建一个线性关键帧。 如果关键帧确实存在，那么它仅替换其数据。</p>
+<h2 id="Animated-Controls-and-Switches"><a href="#Animated-Controls-and-Switches" class="headerlink" title="Animated Controls and Switches"></a>Animated Controls and Switches</h2><p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/AnimatedButtons.gif" alt="Animated Buttons"></p>
+<p>Lottie还拥有UIControl的自定义子类，用于创建自定义动画式交互式控件。<br>目前Lottie有<code>LOTAnimatedSwitch</code>这是一种切换式开关控制。 点击开关将播放On-Off或Off-On动画，并向所有目标发送UIControlStateValueChanged广播。 它跟UISwitch使用方式相同，同时使用Lottie设置了一些动画。</p>
+<p>您可以使用conveneince方法或直接提供动画来初始化开关。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// Convenience</span><br><span class="line">LOTAnimatedSwitch *toggle1 = [LOTAnimatedSwitch switchNamed:@&quot;Switch&quot;];</span><br><span class="line"> </span><br><span class="line">// Manually </span><br><span class="line">LOTComposition *comp = [LOTComposition animationNamed:@&quot;Switch&quot;];</span><br><span class="line">LOTAnimatedSwitch *toggle1 = [[LOTAnimatedSwitch alloc] initWithFrame:CGRectZero];</span><br><span class="line">[toggle1 setAnimationComp:comp];</span><br></pre></td></tr></table></figure>
+
+<p>您还可以为动画的开启和关闭指定动画时间轴的特定部分。<br>默认情况下<code>LOTAnimatedSwitch</code>将向前播放动画，向后播放动画以关闭。</p>
+<p>可以说提供的动画从0.5-1进度开始动画，从0-0.5开始动画：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/// On animation is 0.5 to 1 progress.</span><br><span class="line">[toggle1 setProgressRangeForOnState:0.5 toProgress:1];</span><br><span class="line"></span><br><span class="line">/// Off animation is 0 to 0.5 progress.</span><br><span class="line">[toggle1 setProgressRangeForOffState:0 toProgress:0.5];</span><br></pre></td></tr></table></figure>
+
+<p>此外，所有LOTAnimatedControls都支持更改状态更改的外观。 这需要After Effects中的一些设置。 Lottie会根据控件状态切换可见的动画图层。 这可以用于具有禁用，选定或突出显示的状态。 这些状态与After Effects中的图层名称关联，并在控件更改状态时动态显示。</p>
+<p>可以说我们有一个正常和禁用状态的切换开关。 在效果中，我们有一个包含常规“按钮”和禁用“禁用”状态的Precomps的组合。 他们有不同的视觉风格。</p>
+<p><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Regular.png" alt="Regular"><br><img src="/xnxy.github.io/2019/09/09/lottie介绍及使用相关/Disabled.png" alt="Disabled"></p>
+<p>现在在代码中，我们可以将<code>UIControlState</code>与这些图层相关联</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// Specify the layer names for different states</span><br><span class="line">[statefulSwitch setLayerName:@&quot;Button&quot; forState:UIControlStateNormal];</span><br><span class="line">[statefulSwitch setLayerName:@&quot;Disabled&quot; forState:UIControlStateDisabled];</span><br><span class="line"></span><br><span class="line">// Changes visual appearance by switching animation layer to &quot;Disabled&quot;</span><br><span class="line">statefulSwitch.enabled = NO;</span><br><span class="line"></span><br><span class="line">// Changes visual appearance by switching animation layer to &quot;Button&quot;</span><br><span class="line">statefulSwitch.enabled = YES;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Supported-After-Effects-Features"><a href="#Supported-After-Effects-Features" class="headerlink" title="Supported After Effects Features"></a>Supported After Effects Features</h2><h3 id="Keyframe-Interpolation"><a href="#Keyframe-Interpolation" class="headerlink" title="Keyframe Interpolation"></a>Keyframe Interpolation</h3><hr>
+<ul>
+<li>Linear Interpolation</li>
+<li>Bezier Interpolation</li>
+<li>Hold Interpolation</li>
+<li>Rove Across Time</li>
+<li>Spatial Bezier</li>
+</ul>
+<h3 id="Solids"><a href="#Solids" class="headerlink" title="Solids"></a>Solids</h3><hr>
+<ul>
+<li>Transform Anchor Point</li>
+<li>Transform Position</li>
+<li>Transform Scale</li>
+<li>Transform Rotation</li>
+<li>Transform Opacity</li>
+</ul>
+<h3 id="Masks"><a href="#Masks" class="headerlink" title="Masks"></a>Masks</h3><hr>
+<ul>
+<li>Path</li>
+<li>Opacity</li>
+<li>Multiple Masks (additive, subtractive and intersection)</li>
+</ul>
+<h3 id="Track-Mattes"><a href="#Track-Mattes" class="headerlink" title="Track Mattes"></a>Track Mattes</h3><hr>
+<ul>
+<li>Alpha Matte</li>
+</ul>
+<h3 id="Parenting"><a href="#Parenting" class="headerlink" title="Parenting"></a>Parenting</h3><hr>
+<ul>
+<li>Multiple Parenting</li>
+<li>Nulls</li>
+</ul>
+<h3 id="Shape-Layers"><a href="#Shape-Layers" class="headerlink" title="Shape Layers"></a>Shape Layers</h3><hr>
+<ul>
+<li>Anchor Point</li>
+<li>Position</li>
+<li>Scale</li>
+<li>Rotation</li>
+<li>Opacity</li>
+<li>Path</li>
+<li>Group Transforms (Anchor point, position, scale etc)</li>
+<li>Rectangle (All properties)</li>
+<li>Eclipse (All properties)(Eclipse</li>
+<li>Multiple paths in one group</li>
+<li>Even-Odd winding paths</li>
+<li>Reverse Fill Rule</li>
+</ul>
+<h4 id="Stroke-shape-layer"><a href="#Stroke-shape-layer" class="headerlink" title="Stroke (shape layer)"></a>Stroke (shape layer)</h4><hr>
+<ul>
+<li>Stroke Color</li>
+<li>Stroke Opacity</li>
+<li>Stroke Width</li>
+<li>Line Cap</li>
+<li>Dashes (Now Animated!)</li>
+</ul>
+<h4 id="Fill-shape-layer"><a href="#Fill-shape-layer" class="headerlink" title="Fill (shape layer)"></a>Fill (shape layer)</h4><hr>
+<ul>
+<li>Fill Color</li>
+<li>Fill Opacity</li>
+</ul>
+<h4 id="Trim-Paths-shape-layer"><a href="#Trim-Paths-shape-layer" class="headerlink" title="Trim Paths (shape layer)"></a>Trim Paths (shape layer)</h4><hr>
+<ul>
+<li>Trim Paths Start</li>
+<li>Trim Paths End</li>
+<li>Trim Paths Offset</li>
+</ul>
+<h3 id="Repeaters"><a href="#Repeaters" class="headerlink" title="Repeaters"></a>Repeaters</h3><hr>
+<ul>
+<li>Supports repeater transforms</li>
+<li>Offset currently not supported.</li>
+</ul>
+<h3 id="Gradients"><a href="#Gradients" class="headerlink" title="Gradients"></a>Gradients</h3><hr>
+<ul>
+<li>Support for Linear Gradients</li>
+<li>Support for Radial Gradients</li>
+</ul>
+<h3 id="Polystar-and-Polygon"><a href="#Polystar-and-Polygon" class="headerlink" title="Polystar and Polygon"></a>Polystar and Polygon</h3><hr>
+<ul>
+<li>Supported! Theres a known bug if the roundness is greater than 100 percent.</li>
+</ul>
+<h4 id="Layer-Features"><a href="#Layer-Features" class="headerlink" title="Layer Features"></a>Layer Features</h4><hr>
+<ul>
+<li>Precomps</li>
+<li>Image Layers</li>
+<li>Shape Layers</li>
+<li>Null Layers</li>
+<li>Solid Layers</li>
+<li>Parenting Layers</li>
+<li>Alpha Matte Layers</li>
+</ul>
+<h2 id="Currently-Unsupported-After-Effects-Features"><a href="#Currently-Unsupported-After-Effects-Features" class="headerlink" title="Currently Unsupported After Effects Features"></a>Currently Unsupported After Effects Features</h2><ul>
+<li>Merge Shapes</li>
+<li>Alpha Inverted Masks</li>
+<li>Trim Shapes Individually feature of Trim Paths</li>
+<li>Expressions</li>
+<li>3d Layer support</li>
+<li>Time remapping / Layer Reverse</li>
+<li>Layer Blend Modes</li>
+<li>Layer Effects</li>
+</ul>
+<h2 id="Community-Contributions"><a href="#Community-Contributions" class="headerlink" title="Community Contributions"></a>Community Contributions</h2><ul>
+<li><a href="https://github.com/martijn00/LottieXamarin" target="_blank" rel="noopener">Xamarin bindings</a></li>
+<li><a href="https://github.com/bradmartin/nativescript-lottie" target="_blank" rel="noopener">NativeScript bindings</a></li>
+<li><a href="https://github.com/m1ga/ti.animation" target="_blank" rel="noopener">Appcelerator Titanium bindings</a></li>
+<li>macOS Support added by <a href="https://github.com/pawlowskialex" target="_blank" rel="noopener">Alex Pawlowski</a></li>
+</ul>
+<h2 id="Alternatives"><a href="#Alternatives" class="headerlink" title="Alternatives"></a>Alternatives</h2><ol>
+<li>手动构建动画。 手动构建动画是跨Android和iOS设计和工程的时间承诺。 通常很难甚至不可能证明花费这么多时间来获得动画是正确的。</li>
+<li>[Facebook关键帧]（<a href="https://github.com/facebookincubator/Keyframes）。" target="_blank" rel="noopener">https://github.com/facebookincubator/Keyframes）。</a> 关键帧是来自Facebook的精彩新图书馆，它们为反应而构建。 但是，关键帧不支持Lottie的一些功能，如遮罩，遮罩，修剪路径，破折号图案等。</li>
+<li>Gifs。 GIF的尺寸是bodymovin JSON尺寸的两倍多，并且以固定的尺寸渲染，无法放大以匹配大屏幕和高密度屏幕。</li>
+<li>Png序列。 Png序列比gifs更糟，因为它们的文件大小通常是bodymovin json大小的30-50倍，也不能放大。</li>
+</ol>
+<h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be" target="_blank" rel="noopener">The art of Lotte Reineger</a></p>
+<h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
+<p>如果你想添加更多的JSON文件，请随时这样做！</p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:brandon.withrow@airbnb.com" target="_blank" rel="noopener">brandon.withrow@airbnb.com</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra）" target="_blank" rel="noopener">https://twitter.com/theWithra）</a></p>
+<h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
+<li>添加对交互式动画过渡的支持</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    拿根针尖对麦芒
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xnxy.github.io/2019/09/09/lottie介绍及使用相关/" title="lottie介绍及使用相关（翻译）">https://xnxy.github.io/2019/09/09/lottie介绍及使用相关/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/xnxy.github.io/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+          
+            <a href="/xnxy.github.io/tags/翻译/" rel="tag"><i class="fa fa-tag"></i> 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/xnxy.github.io/2019/09/09/2018-04-12/" rel="next" title="Objective-C Runtime的介绍及在工程中的使用">
+                <i class="fa fa-chevron-left"></i> Objective-C Runtime的介绍及在工程中的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/xnxy.github.io/2019/09/09/iOS证书配置指北/" rel="prev" title="iOS证书配置指北">
+                iOS证书配置指北 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMDkzNi83NDg1">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image" src="/xnxy.github.io/images/head.jpeg" alt="拿根针尖对麦芒">
+          
+            <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/xnxy.github.io/archives/">
+            
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/xnxy.github.io/categories/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/xnxy.github.io/tags/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/xnxy.github.io/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xnxy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="2303400083@.qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/022a5e92c62c" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>简书</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/xnxyonly1" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://jewsaten.github.io/" title="「蒋·先生」" target="_blank">「蒋·先生」</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.wangquanwei.com/" title="王权伟の博客" target="_blank">王权伟の博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://guyueyang.github.io/" title="晓平の博客" target="_blank">晓平の博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://venpled.top" title="venpled" target="_blank">venpled</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://zxzybin.github.io/" title="笑嘞同学" target="_blank">笑嘞同学</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://nicebeach.github.io/" title="共由石石石" target="_blank">共由石石石</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相应文档"><span class="nav-number">2.</span> <span class="nav-text">相应文档</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Lottie-for-iOS-macOS-and-Android-and-React-Native"><span class="nav-number"></span> <span class="nav-text">Lottie for iOS, macOS (and Android and React Native)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number"></span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Installing-Lottie"><span class="nav-number"></span> <span class="nav-text">Installing Lottie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Github-Repo"><span class="nav-number">1.</span> <span class="nav-text">Github Repo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cocoapods"><span class="nav-number">2.</span> <span class="nav-text">Cocoapods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Carthage"><span class="nav-number">3.</span> <span class="nav-text">Carthage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS-Sample-App"><span class="nav-number"></span> <span class="nav-text">iOS Sample App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#macOS-Sample-App"><span class="nav-number"></span> <span class="nav-text">macOS Sample App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Objective-C-Examples"><span class="nav-number"></span> <span class="nav-text">Objective C Examples</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-Examples"><span class="nav-number"></span> <span class="nav-text">Swift Examples</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS-View-Controller-Transitioning"><span class="nav-number"></span> <span class="nav-text">iOS View Controller Transitioning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debugging"><span class="nav-number"></span> <span class="nav-text">Debugging</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Keypaths"><span class="nav-number">1.</span> <span class="nav-text">Keypaths</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adding-Views-to-an-Animation-at-Runtime"><span class="nav-number"></span> <span class="nav-text">Adding Views to an Animation at Runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A-Dynamic-Image-Loading-Spinner"><span class="nav-number"></span> <span class="nav-text">A Dynamic Image Loading Spinner</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Changing-Animations-At-Runtime"><span class="nav-number"></span> <span class="nav-text">Changing Animations At Runtime</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Say-we-want-to-create-4-toggle-switches"><span class="nav-number">1.</span> <span class="nav-text">Say we want to create 4 toggle switches.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Now-lets-change-their-colors"><span class="nav-number">2.</span> <span class="nav-text">Now lets change their colors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Now-lets-change-a-couple-of-properties"><span class="nav-number">3.</span> <span class="nav-text">Now lets change a couple of properties</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Animated-Controls-and-Switches"><span class="nav-number"></span> <span class="nav-text">Animated Controls and Switches</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Supported-After-Effects-Features"><span class="nav-number"></span> <span class="nav-text">Supported After Effects Features</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Keyframe-Interpolation"><span class="nav-number">1.</span> <span class="nav-text">Keyframe Interpolation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solids"><span class="nav-number">2.</span> <span class="nav-text">Solids</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Masks"><span class="nav-number">3.</span> <span class="nav-text">Masks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Track-Mattes"><span class="nav-number">4.</span> <span class="nav-text">Track Mattes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parenting"><span class="nav-number">5.</span> <span class="nav-text">Parenting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shape-Layers"><span class="nav-number">6.</span> <span class="nav-text">Shape Layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Stroke-shape-layer"><span class="nav-number">6.1.</span> <span class="nav-text">Stroke (shape layer)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fill-shape-layer"><span class="nav-number">6.2.</span> <span class="nav-text">Fill (shape layer)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Trim-Paths-shape-layer"><span class="nav-number">6.3.</span> <span class="nav-text">Trim Paths (shape layer)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Repeaters"><span class="nav-number">7.</span> <span class="nav-text">Repeaters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradients"><span class="nav-number">8.</span> <span class="nav-text">Gradients</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Polystar-and-Polygon"><span class="nav-number">9.</span> <span class="nav-text">Polystar and Polygon</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Layer-Features"><span class="nav-number">9.1.</span> <span class="nav-text">Layer Features</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Currently-Unsupported-After-Effects-Features"><span class="nav-number"></span> <span class="nav-text">Currently Unsupported After Effects Features</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Community-Contributions"><span class="nav-number"></span> <span class="nav-text">Community Contributions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Alternatives"><span class="nav-number"></span> <span class="nav-text">Alternatives</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-is-it-called-Lottie"><span class="nav-number"></span> <span class="nav-text">Why is it called Lottie?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Contributing"><span class="nav-number"></span> <span class="nav-text">Contributing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Issues-or-feature-requests"><span class="nav-number"></span> <span class="nav-text">Issues or feature requests?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Roadmap-In-no-particular-order"><span class="nav-number"></span> <span class="nav-text">Roadmap (In no particular order)</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2017 &mdash; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">
+      56.7k
+    </span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共56.7k字</span>
+</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/xnxy.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

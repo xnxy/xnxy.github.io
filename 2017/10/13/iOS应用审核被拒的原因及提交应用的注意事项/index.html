@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/xnxy.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/xnxy.github.io/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+  <link rel="alternate" href="/xnxy.github.io/atom.xml" title="拿根针尖对麦芒" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/xnxy.github.io/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;前段时候准备整理‘提交应用审核的一些注意事项’，但因为iPhone X、iPhone8等的发布搁浅了。因为新产品的发布，所以我们开始着手公司应用适配iOS11、iPhone X的工作。遇到了些坑，但总体的工作量并不是很大。如果想了解如何适配iOS11、iPhone X，可以查看我的上篇博客iOS开发适配iOS11&amp;amp;iPhone X 、Xcode9遇到的坑 。 &amp;em">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS应用审核被拒的原因及提交应用的注意事项。">
+<meta property="og:url" content="https://xnxy.github.io/2017/10/13/iOS应用审核被拒的原因及提交应用的注意事项/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;前段时候准备整理‘提交应用审核的一些注意事项’，但因为iPhone X、iPhone8等的发布搁浅了。因为新产品的发布，所以我们开始着手公司应用适配iOS11、iPhone X的工作。遇到了些坑，但总体的工作量并不是很大。如果想了解如何适配iOS11、iPhone X，可以查看我的上篇博客iOS开发适配iOS11&amp;amp;iPhone X 、Xcode9遇到的坑 。 &amp;em">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-13T10:12:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS应用审核被拒的原因及提交应用的注意事项。">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;前段时候准备整理‘提交应用审核的一些注意事项’，但因为iPhone X、iPhone8等的发布搁浅了。因为新产品的发布，所以我们开始着手公司应用适配iOS11、iPhone X的工作。遇到了些坑，但总体的工作量并不是很大。如果想了解如何适配iOS11、iPhone X，可以查看我的上篇博客iOS开发适配iOS11&amp;amp;iPhone X 、Xcode9遇到的坑 。 &amp;em">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/xnxy.github.io/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xnxy.github.io/2017/10/13/iOS应用审核被拒的原因及提交应用的注意事项/">
+
+
+
+
+
+  <title>iOS应用审核被拒的原因及提交应用的注意事项。 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+      <a href="https://github.com/xnxy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/xnxy.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">拿根针尖对麦芒</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">拿根针尖对麦芒</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/xnxy.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/xnxy.github.io/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/xnxy.github.io/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/xnxy.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/xnxy.github.io/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/xnxy.github.io/2017/10/13/iOS应用审核被拒的原因及提交应用的注意事项/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/xnxy.github.io/images/head.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">iOS应用审核被拒的原因及提交应用的注意事项。</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T18:12:25+08:00">
+                2017-10-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-10-13T18:12:25+08:00">
+                2017-10-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/xnxy.github.io/categories/随笔/" itemprop="url" rel="index">
+                    <span itemprop="name">随笔</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,034
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;前段时候准备整理‘提交应用审核的一些注意事项’，但因为iPhone X、iPhone8等的发布搁浅了。因为新产品的发布，所以我们开始着手公司应用适配iOS11、iPhone X的工作。遇到了些坑，但总体的工作量并不是很大。如果想了解如何适配iOS11、iPhone X，可以查看我的上篇博客<a href="https://xnxy.github.io/xnxy.github.io/2017/09/28/iOS开发适配iOS11&iPhone%20X%20、Xcode9遇到的坑/">iOS开发适配iOS11&amp;iPhone X 、Xcode9遇到的坑</a> 。</p>
+<p>&emsp;&emsp;如果你是首次提交iOS应用，个人还是很建议你先阅读<a href="https://developer.apple.com/app-store/review/guidelines/cn/" target="_blank" rel="noopener">App Store审核指南</a>的，这样可以有效地避免因很浅显问题被拒的情况。当然苹果的审核指南过于官方化，而且有时会出现应用莫名其妙被拒的情况……。那么让我们一起整理审核被拒的原因，以此为戒，尽量提高审核通过率。</p>
+<p>&emsp;&emsp;审核被拒的原因一共分为两大类：</p>
+<p>&emsp;&emsp;&emsp;&emsp; - Metadata Rejected (元数据被拒)</p>
+<p>&emsp;&emsp;&emsp;&emsp; - Binary Rejected (二进制被拒)</p>
+<h3 id="一：Metadata-Rejected-（元数据被拒）"><a href="#一：Metadata-Rejected-（元数据被拒）" class="headerlink" title="一：Metadata Rejected （元数据被拒）"></a>一：Metadata Rejected （元数据被拒）</h3><p>&emsp;&emsp;元数据被拒其实就是iTunes Connect 中的解释说明类的内容有问题，比如App信息中的应用的副标题有明显的品牌名，应用的分级不合适…… 都会被拒的。</p>
+<p>&emsp;&emsp;而这种情况下并不需重新提交IPA包，根据邮件的提醒直接在iTunes Connect 进行修改就行，然后点击发布，重新排队审核就可以了。</p>
+<p>&emsp;&emsp; 那么接下来我们详细地说说每个点的注意事项：</p>
+<p>&emsp;&emsp; 1. 应用名称：</p>
+<p>&emsp;&emsp;&emsp;&emsp; 应用名称最多为6个汉字，超过手机端将会显示不全。</p>
+<p>&emsp;&emsp; 2. 副标题</p>
+<p>&emsp;&emsp;&emsp;&emsp;标题中不要出现关键词或相似词语堆砌的现象，不然也会被拒的。</p>
+<p>&emsp;&emsp; 3. 隐私政策网站（URL）</p>
+<p>&emsp;&emsp;&emsp;&emsp;所有面向儿童的App，或者提供自动续费或免费订阅的App，都必须提供隐私政策。此外，如果App包含账户注册或需要访问用户的现有账户，或法律另行规定，也必须提供隐私政策。对于收集用户或设备相关数据的App，也建议提供隐私政策。</p>
+<p>&emsp;&emsp;&emsp;&emsp;当然也可不填，但如果应用是音乐类、视频类、游戏等，涉及到版权的尽量加上。如果不加，很大可能会被拒。</p>
+<p>&emsp;&emsp; 4. 类别</p>
+<p>&emsp;&emsp;&emsp;&emsp;应用是什么类型选择什么类别就好，貌似在网上也没看到因类别被拒的。</p>
+<p>&emsp;&emsp; 5. 分级</p>
+<p>&emsp;&emsp;&emsp;&emsp;分级要跟你的应用相符。一般都是4+岁 或 17+岁吧，在网上也有看到因级别太低或太高被拒的。</p>
+<p>&emsp;&emsp; 6. 版本</p>
+<p>&emsp;&emsp;&emsp;&emsp;版本号应遵循<a href="https://zh.wikipedia.org/wiki/軟件版本號" target="_blank" rel="noopener">软件版本规范</a>。</p>
+<p>&emsp;&emsp; 7. 版本信息</p>
+<p>&emsp;&emsp;&emsp;&emsp;描述此版本的新增内容，例如增添了何种新功能，有何改进之处以及修正了哪些错误。</p>
+<p>&emsp;&emsp;&emsp;&emsp;版本信息中不要出现其他终端设备的提示语如Android、WindowsPhone等。当然应用里面的任何地方也不要出现，也会被拒的。使用iOS、iPhone X等词语的时候，需要注意大小写，写错也会被拒的。</p>
+<p>&emsp;&emsp; 8. App预览和屏幕快照</p>
+<p>&emsp;&emsp;&emsp;&emsp;屏幕快照必须为 JPG 或 PNG 格式，且必须采用 RGB 颜色空间。App 预览必须为 M4V、MP4 或 MOV 格式，且不能超过 500 MB。</p>
+<p>&emsp;&emsp;&emsp;&emsp;屏幕快照上不要出现其他系统的名称和图标,而且也不要出现测试、不文明等词语。RGB色彩空间、无透明度。</p>
+<p>&emsp;&emsp;&emsp;&emsp;录制的视频中尽量避免加入广告、特效等过多的宣传成分。同时视频必须在苹果真机上录制，画面中不要出现人机交互界面（如手指，不过现在iOS11在控制中心有屏幕录制，可以使用）。</p>
+<p>&emsp;&emsp;&emsp;&emsp; 录制的视频必须在真机上录制，不能采用拉伸、裁剪、填充方式处理生成。</p>
+<p>&emsp;&emsp; 9. 宣传文本</p>
+<p>&emsp;&emsp;&emsp;&emsp;苹果最近刚加的，iOS11或更高版本会显示  170字以内  可不填</p>
+<p>&emsp;&emsp; 10. 描述</p>
+<p>&emsp;&emsp;&emsp;&emsp;注意用词，不要出现不文明或引起误会的词语。同时也不要出现其他系统的名称如：Android等。使用iOS、iPhone X等词语时，不要写错，不然也会被拒的。</p>
+<p>&emsp;&emsp; 11. 关键词</p>
+<p>&emsp;&emsp;&emsp;&emsp;一个或多个关键词，用以描述您的 App。关键词将使 App Store 搜索结果更加准确。关键词之间用英文逗点分隔。</p>
+<p>&emsp;&emsp;&emsp;&emsp;注意是英文逗号分隔，关键词不要使用不文明词语，不然会因为关键词不符合要求被拒。</p>
+<p>&emsp;&emsp; 12. 技术支持网址（URL）</p>
+<p>&emsp;&emsp;&emsp;&emsp;您的 App 技术支持信息网址(URL)。直接可以浏览的网页，如果进去提醒登录会被拒的。</p>
+<p>&emsp;&emsp; 13. 营销网址（URL）</p>
+<p>&emsp;&emsp;&emsp;&emsp;您的 App 营销信息网址(URL)。该网址(URL)会在 App Store 中显示。 （可不填）</p>
+<p>&emsp;&emsp; 14. App Store 图标</p>
+<p>&emsp;&emsp;&emsp;&emsp; 1024 * 1024 分辨率至少72DPI，并采用RGB色彩空间，格式可以为JPG和PNG，无透明度。</p>
+<p>&emsp;&emsp;&emsp;&emsp;应用图标不要跟Apple的logo风格相似，或一些出名的应用或iOS系统应用图标相似，有很大可能会被拒的。</p>
+<p>&emsp;&emsp; 15. 版权</p>
+<p>&emsp;&emsp;&emsp;&emsp;拥有您的 App 专有权的人员或实体的名称，前面是获得权利的年份（例如“2008 Acme Inc”）。请勿提供网址(URL)。</p>
+<p>&emsp;&emsp;&emsp;&emsp;公司版权信息。</p>
+<p>&emsp;&emsp; 16. 商务代表联系信息</p>
+<p>&emsp;&emsp;&emsp;&emsp;公司的一些信息，地址、联系电话、邮箱等。</p>
+<p>&emsp;&emsp; 17. 路由App覆盖地区文件</p>
+<p>&emsp;&emsp;&emsp;&emsp;指定您的 App 所支持的区域。文件格式必须为 .geojson 并且只能包含一个 MultiPolygon 元素。</p>
+<p>&emsp;&emsp;&emsp;&emsp; 可不填。</p>
+<p>&emsp;&emsp; 18. 登录信息</p>
+<p>&emsp;&emsp;&emsp;&emsp;审核人员测试需要的登录账户，在提交应用后一定要保证该账号等够登录。尽量和服务端协商，别在审核期间删除掉，同时在审核过程中也不要登录该账号。</p>
+<p>&emsp;&emsp;&emsp;&emsp;如果App是手机验证码登录的，尽量也让服务端配置一个手机号和固定的验证码，同时在备注中说明。</p>
+<p>&emsp;&emsp; 19. 联系信息</p>
+<p>&emsp;&emsp;&emsp;&emsp;填写自己的姓名、电话和邮箱即可，或者填项目经理的。</p>
+<p>&emsp;&emsp; 20. 备注</p>
+<p>&emsp;&emsp;&emsp;&emsp;对审核过程会有所帮助的、有关您 App 的额外信息, 包括在测试中需要的 App 特别设置等。</p>
+<p>&emsp;&emsp;&emsp;&emsp;应用中需要说明的尽量在备注中说明，比如定位服务、手机验证码登录。同时也尽量用一句话描述自己的应用方便审核人员进行审核。</p>
+<p>&emsp;&emsp; 21. 附件</p>
+<p>&emsp;&emsp;&emsp;&emsp; 您可以附加特定的 App 文稿、演示视频和 其他内容，以防止 App 审核延期。请确保 您的文件使用下列扩展名：.pdf、.doc、 .docx、.rtf、.pages、.xls、.xlsx、 .numbers、.zip、.rar、.plist、.crash、 .jpg、.png、.mp4 或 .avi。</p>
+<p>&emsp;&emsp;&emsp;&emsp; 添加附件尽量在备注中说明。</p>
+<h4 id="二：Binary-Rejected-二进制被拒"><a href="#二：Binary-Rejected-二进制被拒" class="headerlink" title="二：Binary Rejected (二进制被拒)"></a>二：Binary Rejected (二进制被拒)</h4><p>&emsp;&emsp; 二进制被拒，也就是你提交的包有问题了，这种情况需要你根据邮件提醒，然后对比<a href="https://developer.apple.com/app-store/review/guidelines/cn/" target="_blank" rel="noopener">App Store审核指南</a>，然后修改相应代码，再次打包提交。提交时Build也要相应地加1，不然Application Loader会默认为同一个包，无法提交上去。</p>
+<p>&emsp;&emsp; 那么接下来我们详细地说说每个点的注意事项：</p>
+<p>&emsp;&emsp; 1. 启动页</p>
+<p>&emsp;&emsp;&emsp;&emsp;提交前检查启动页，如果黑屏，有一定可能会被拒。</p>
+<p>&emsp;&emsp; 2. 应用版权信息</p>
+<p>&emsp;&emsp;&emsp;&emsp;一般启动页会放一些版权和版本信息，注意不要带beta、测试等字样，同样不要出现其他系统名称和图标（例如：Android的状态栏），应用里面也不要带，不然也会被拒。</p>
+<p>&emsp;&emsp; 3. iOS大小写规范</p>
+<p>&emsp;&emsp;&emsp;&emsp; 特别是iOS、iPhone X等。还有一些英语词汇，注意大小写。</p>
+<p>&emsp;&emsp; 4. UI风格</p>
+<p>&emsp;&emsp;&emsp;&emsp; 如果不符合苹果系统的UI风格也会被拒。具体请参考苹果<a href="https://developer.apple.com/design/tips/cn/" target="_blank" rel="noopener">UI注意事项</a></p>
+<p>&emsp;&emsp; 5. 检查更新</p>
+<p>&emsp;&emsp;&emsp;&emsp;检查更新已经被苹果限制了，如果是在审核期间弹出更新提醒是很严重的。</p>
+<p>&emsp;&emsp; 6. 第三方登录</p>
+<p>&emsp;&emsp;&emsp;&emsp; 如果手机没有安装某应用时应该将相应第三方登录图标隐藏，当然微博不用隐藏。分享也是，手机中没安装的也需要隐藏的。</p>
+<p>&emsp;&emsp; 7. 登录</p>
+<p>&emsp;&emsp;&emsp;&emsp;如果是账号、密码登录需要给审核人员提供一个账号和密码。如果你的应用是手机验证码登录，让服务端配置个手机号和固定的验证码，同时需要在备注中说明。</p>
+<p>&emsp;&emsp; 8. 注册协议</p>
+<p>&emsp;&emsp;&emsp;&emsp;注册时需要添加用户注册协议，如果不添加的话，审核人员看到也是会被拒的。</p>
+<p>&emsp;&emsp; 9. 应用太过简单被拒。</p>
+<p>&emsp;&emsp;&emsp;&emsp;这个应该是看你是什么类型的应用，如果再App Store中有很多类似的应用也是有可能被拒的。只要不是什么马甲包，基本登录、注册什么的都有，一般也是不会被拒的。被拒了可以申诉的。</p>
+<p>&emsp;&emsp; 10. 网络检测</p>
+<p>&emsp;&emsp;&emsp;&emsp;应用应该监听网络状态，断网的时候要进行提醒，而不是一直卡在某个界面。在提交之前手机打开美国VPN每个界面都要跑一遍，检查接口是否存在问题，有问题及时协同服务端进行修复。</p>
+<p>&emsp;&emsp; 11. IPV6 被拒</p>
+<p>&emsp;&emsp;&emsp;&emsp;更新到最新的网络库。监听网络状态，加断网提醒。美国VPN跑一圈。搭建ipv6环境，判断是服务端还是客户端未支持IPV6，然后再进行解决。</p>
+<p>&emsp;&emsp;&emsp;&emsp;或者全局搜索下方IPV4代码，如果应用中没有，基本就是服务器的问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">inet_addr()</span><br><span class="line">inet_aton()</span><br><span class="line">inet_lnaof()</span><br><span class="line">inet_makeaddr()</span><br><span class="line">inet_netof()</span><br><span class="line">inet_network()</span><br><span class="line">inet_ntoa()</span><br><span class="line">inet_ntoa_r()</span><br><span class="line">bindresvport()</span><br><span class="line">getipv4sourcefilter()</span><br><span class="line">setipv4sourcefilter()</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp; 12. 按钮或某个功能无法使用</p>
+<p>&emsp;&emsp;&emsp;&emsp;如果按钮点击无效时，需要将其置灰或隐藏。某个功能无法使用时将其隐藏。</p>
+<p>&emsp;&emsp; 13. 访问权限未设置</p>
+<p>&emsp;&emsp;&emsp;&emsp;如果应用中有访问相机、麦克风等功能，都需要在info.plist中添加相应权限，同时应用中需要使用代码进行判断是否有权限。如果没有权限弹出弹窗提醒用户跳转。</p>
+<p>&emsp;&emsp; 14. 没按照要求使用了应用内购买</p>
+<p>&emsp;&emsp;&emsp;&emsp; 苹果规定：如果系统通过付费才可以解锁某款应用中的一些功能（例如，订阅内容、游戏货币、游戏关卡、获取优质内容或解锁完整版本等），必须使用应用内付费（IAP）。应用不允许包括按钮、外部链接或者其他调用方式和行为指导用户采用非IAP的方式付费……如果你的应用内付费的付费类型不正确，你的应用会被拒绝。此外，应用不可以直接或间接使用应用内付费的内容和功能向其他用户赠送礼品。</p>
+<p>&emsp;&emsp; 15. 私有API的调用</p>
+<p>&emsp;&emsp;&emsp;&emsp;去除私有API的调用。（”prefs:root=” 已经被列为私有API了，如果跳转到设置界面调用此API也会被拒的）</p>
+<h4 id="三：写在最后"><a href="#三：写在最后" class="headerlink" title="三：写在最后"></a>三：写在最后</h4><p>&emsp;&emsp; 1. 认真阅读 <a href="https://developer.apple.com/app-store/review/guidelines/cn/" target="_blank" rel="noopener">App Store审核指南</a>，遵循苹果的相应规则。</p>
+<p>&emsp;&emsp; 2.在iTunes Connect 中的<code>户和职能</code>中添加自己的邮箱，被拒后会有邮件通知你。根据邮件的提醒判断是因元数据被拒还是二进制文件被拒。然后根据提示进行修改。</p>
+<p>&emsp;&emsp; 3. 到App Store 下载客户端 iTunes Connect，然后登录<code>2.</code>中添加的邮箱，审核的状态会实时推送给你，可以实时跟踪审核的状态。</p>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://developer.apple.com/app-store/review/guidelines/cn/" target="_blank" rel="noopener">App Store审核指南</a></li>
+<li><a href="https://developer.apple.com/app-store/review/rejections/cn/" target="_blank" rel="noopener">常见App拒绝情况</a></li>
+<li><a href="https://developer.apple.com/cn/app-store/" target="_blank" rel="noopener">App Store - Apple Developer</a></li>
+<li><a href="https://www.zhihu.com/question/28849113?sort=created" target="_blank" rel="noopener">iOS APP怎样轻松通过appstore审核？</a></li>
+<li><a href="https://www.zhihu.com/question/20216099" target="_blank" rel="noopener">应用提交App Store上架被拒的原因都有哪些</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/22572268" target="_blank" rel="noopener">iOS审核总被拒？腾讯教你提升iOS审核通过率！</a></li>
+<li><a href="https://github.com/jcccn/Why-Reject" target="_blank" rel="noopener">苹果App Store被拒理由大全</a></li>
+<li><a href="http://www.jianshu.com/p/ba627e73e5b4" target="_blank" rel="noopener">iOS被拒6次的ipv6</a></li>
+<li><a href="http://www.jianshu.com/p/610f8c1938d2" target="_blank" rel="noopener">那些年提交App Store审核踩过的坑</a></li>
+<li><a href="https://nkcoder.github.io/2015/11/24/ios-app-review-reject-process/" target="_blank" rel="noopener">记App Store审核被拒的经历</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/軟件版本號" target="_blank" rel="noopener">软件版本号</a></li>
+<li><a href="http://www.jianshu.com/p/8837739251ad?utm_campaign=hugo&utm_medium=reader_share&utm_content=note&utm_source=weixin-friends" target="_blank" rel="noopener">IPV6-only 的兼容性解决方案</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    拿根针尖对麦芒
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xnxy.github.io/2017/10/13/iOS应用审核被拒的原因及提交应用的注意事项/" title="iOS应用审核被拒的原因及提交应用的注意事项。">https://xnxy.github.io/2017/10/13/iOS应用审核被拒的原因及提交应用的注意事项/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/xnxy.github.io/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/xnxy.github.io/2017/10/09/关于Block的使用及注意事项/" rel="next" title="关于Block的使用及注意事项">
+                <i class="fa fa-chevron-left"></i> 关于Block的使用及注意事项
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/xnxy.github.io/2018/01/02/Instruments工具集/" rel="prev" title="Instruments工具集">
+                Instruments工具集 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMDkzNi83NDg1">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image" src="/xnxy.github.io/images/head.jpeg" alt="拿根针尖对麦芒">
+          
+            <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/xnxy.github.io/archives/">
+            
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/xnxy.github.io/categories/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/xnxy.github.io/tags/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/xnxy.github.io/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xnxy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="2303400083@.qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/022a5e92c62c" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>简书</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/xnxyonly1" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://jewsaten.github.io/" title="「蒋·先生」" target="_blank">「蒋·先生」</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.wangquanwei.com/" title="王权伟の博客" target="_blank">王权伟の博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://guyueyang.github.io/" title="晓平の博客" target="_blank">晓平の博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://venpled.top" title="venpled" target="_blank">venpled</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://zxzybin.github.io/" title="笑嘞同学" target="_blank">笑嘞同学</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://nicebeach.github.io/" title="共由石石石" target="_blank">共由石石石</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一：Metadata-Rejected-（元数据被拒）"><span class="nav-number">1.</span> <span class="nav-text">一：Metadata Rejected （元数据被拒）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二：Binary-Rejected-二进制被拒"><span class="nav-number">1.1.</span> <span class="nav-text">二：Binary Rejected (二进制被拒)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三：写在最后"><span class="nav-number">1.2.</span> <span class="nav-text">三：写在最后</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料："><span class="nav-number">1.3.</span> <span class="nav-text">参考资料：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2017 &mdash; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">
+      56.7k
+    </span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共56.7k字</span>
+</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/xnxy.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

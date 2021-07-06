@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/xnxy.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/xnxy.github.io/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="cocoapods,">
+
+
+
+
+
+  <link rel="alternate" href="/xnxy.github.io/atom.xml" title="拿根针尖对麦芒" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/xnxy.github.io/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="目录 规范 根规范 平台 构建设置 文件格式 子模块 多平台支持  规范规范描述了Pod库的版本。它包括从何处获取源、使用哪些文件、应用的构建设置以及其他常规元数据（例如：名称、版本和说明）等详细信息。 可以通过pod spec create命令生成存根规范文件(podspec文件)。 DSL规范提供了极大的灵活性和动态性。此外，DSL采用了按约定编程。因此他可以非常的简单： 1234567891">
+<meta name="keywords" content="cocoapods">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Podspec语法参考(翻译)">
+<meta property="og:url" content="https://xnxy.github.io/2019/08/29/Podspec语法参考(翻译)/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="目录 规范 根规范 平台 构建设置 文件格式 子模块 多平台支持  规范规范描述了Pod库的版本。它包括从何处获取源、使用哪些文件、应用的构建设置以及其他常规元数据（例如：名称、版本和说明）等详细信息。 可以通过pod spec create命令生成存根规范文件(podspec文件)。 DSL规范提供了极大的灵活性和动态性。此外，DSL采用了按约定编程。因此他可以非常的简单： 1234567891">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-31T16:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Podspec语法参考(翻译)">
+<meta name="twitter:description" content="目录 规范 根规范 平台 构建设置 文件格式 子模块 多平台支持  规范规范描述了Pod库的版本。它包括从何处获取源、使用哪些文件、应用的构建设置以及其他常规元数据（例如：名称、版本和说明）等详细信息。 可以通过pod spec create命令生成存根规范文件(podspec文件)。 DSL规范提供了极大的灵活性和动态性。此外，DSL采用了按约定编程。因此他可以非常的简单： 1234567891">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/xnxy.github.io/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xnxy.github.io/2019/08/29/Podspec语法参考(翻译)/">
+
+
+
+
+
+  <title>Podspec语法参考(翻译) | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+      <a href="https://github.com/xnxy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/xnxy.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">拿根针尖对麦芒</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">拿根针尖对麦芒</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/xnxy.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/xnxy.github.io/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/xnxy.github.io/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/xnxy.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/xnxy.github.io/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/xnxy.github.io/2019/08/29/Podspec语法参考(翻译)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/xnxy.github.io/images/head.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Podspec语法参考(翻译)</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-29T00:00:00+08:00">
+                2019-08-29
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-01T00:00:00+08:00">
+                2019-09-01
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/xnxy.github.io/categories/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5,265
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#规范">规范</a></li>
+<li><a href="#根规范">根规范</a></li>
+<li><a href="#平台">平台</a></li>
+<li><a href="#构建设置">构建设置</a></li>
+<li><a href="#文件格式">文件格式</a></li>
+<li><a href="#子模块">子模块</a></li>
+<li><a href="#多平台支持">多平台支持</a></li>
+</ul>
+<h3 id="规范"><a href="#规范" class="headerlink" title="规范"></a>规范</h3><p>规范描述了Pod库的版本。它包括从何处获取源、使用哪些文件、应用的构建设置以及其他常规元数据（例如：名称、版本和说明）等详细信息。</p>
+<p>可以通过<code>pod spec create</code>命令生成存根规范文件<code>(podspec文件)</code>。</p>
+<p>DSL规范提供了极大的灵活性和动态性。此外，DSL采用了<a href="https://zh.wikipedia.org/wiki/约定优于配置" target="_blank" rel="noopener">按约定编程</a>。因此他可以非常的简单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new do |spec|</span><br><span class="line">  spec.name         = &apos;Reachability&apos;</span><br><span class="line">  spec.version      = &apos;3.1.0&apos;</span><br><span class="line">  spec.license      = &#123; :type =&gt; &apos;BSD&apos; &#125;</span><br><span class="line">  spec.homepage     = &apos;https://github.com/tonymillion/Reachability&apos;</span><br><span class="line">  spec.authors      = &#123; &apos;Tony Million&apos; =&gt; &apos;tonymillion@gmail.com&apos; &#125;</span><br><span class="line">  spec.summary      = &apos;ARC and GCD Compatible Reachability Class for iOS and OS X.&apos;</span><br><span class="line">  spec.source       = &#123; :git =&gt; &apos;https://github.com/tonymillion/Reachability.git&apos;, :tag =&gt; &apos;v3.1.0&apos; &#125;</span><br><span class="line">  spec.source_files = &apos;Reachability.&#123;h,m&#125;&apos;</span><br><span class="line">  spec.framework    = &apos;SystemConfiguration&apos;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>或者更详细一些：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new do |spec|</span><br><span class="line">  spec.name          = &apos;Reachability&apos;</span><br><span class="line">  spec.version       = &apos;3.1.0&apos;</span><br><span class="line">  spec.license       = &#123; :type =&gt; &apos;BSD&apos; &#125;</span><br><span class="line">  spec.homepage      = &apos;https://github.com/tonymillion/Reachability&apos;</span><br><span class="line">  spec.authors       = &#123; &apos;Tony Million&apos; =&gt; &apos;tonymillion@gmail.com&apos; &#125;</span><br><span class="line">  spec.summary       = &apos;ARC and GCD Compatible Reachability Class for iOS and OS X.&apos;</span><br><span class="line">  spec.source        = &#123; :git =&gt; &apos;https://github.com/tonymillion/Reachability.git&apos;, :tag =&gt; &apos;v3.1.0&apos; &#125;</span><br><span class="line">  spec.module_name   = &apos;Rich&apos;</span><br><span class="line">  spec.swift_version = &apos;4.0&apos;</span><br><span class="line"></span><br><span class="line">  spec.ios.deployment_target  = &apos;9.0&apos;</span><br><span class="line">  spec.osx.deployment_target  = &apos;10.10&apos;</span><br><span class="line"></span><br><span class="line">  spec.source_files       = &apos;Reachability/common/*.swift&apos;</span><br><span class="line">  spec.ios.source_files   = &apos;Reachability/ios/*.swift&apos;, &apos;Reachability/extensions/*.swift&apos;</span><br><span class="line">  spec.osx.source_files   = &apos;Reachability/osx/*.swift&apos;</span><br><span class="line"></span><br><span class="line">  spec.framework      = &apos;SystemConfiguration&apos;</span><br><span class="line">  spec.ios.framework  = &apos;UIKit&apos;</span><br><span class="line">  spec.osx.framework  = &apos;AppKit&apos;</span><br><span class="line"></span><br><span class="line">  spec.dependency &apos;SomeOtherPod&apos;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a href="https://zh.wikipedia.org/wiki/约定优于配置" target="_blank" rel="noopener">约定优于配置</a>（convention over configuration）,也称为按约定编程，是一种软件设计范式，旨在减少软件开发人脸需要做决定的数量，获得简单的好处，而又不失灵活性。</p>
+</blockquote>
+<h3 id="根规范"><a href="#根规范" class="headerlink" title="根规范"></a>根规范</h3><p>“根”规范存储有关库的特定版本的信息。</p>
+<p>此组中的属性只能写入“根”规范，而不能写入“子规范”。</p>
+<hr>
+<p>此组中列出的属性是podspec所需的唯一属性。</p>
+<p>提供其他组的属性来改进podspec，并遵循一种约定优于配置的方法。根规范可以通过“子规范”直接描述这些属性。</p>
+<h4 id="name"><a href="#name" class="headerlink" title="name"></a>name</h4><p>==必须设置!==</p>
+<p>pod的名字。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.name = &apos;AFNetworking&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><p>==必须设置!==</p>
+<p>pod的版本。CocoaPods遵循语义版本控制。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.version = &apos;0.0.1&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="swift-versions"><a href="#swift-versions" class="headerlink" title="swift_versions"></a>swift_versions</h4><p>规范支持的Swift版本。“4”的版本将被CocoaPods视为“4.0”，而不是“4.1”或“4.2”。</p>
+<p>请注意，Swift编译器主要接受高级版本，有时也支持低级版本。虽然CocoaPods允许指定低级版本或修补程序版本，但Swift编译器可能不会完全遵循它。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.swift_versions = [&apos;3.0&apos;]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.swift_versions = [&apos;3.0&apos;, &apos;4.0&apos;, &apos;4.2&apos;]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.swift_version = &apos;3.0&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.swift_version = &apos;3.0&apos;, &apos;4.0&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="cocoapods-version"><a href="#cocoapods-version" class="headerlink" title="cocoapods_version"></a>cocoapods_version</h4><p>规范支持的CocoaPods版本。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.cocoapods_version = &apos;&gt;= 0.36&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="authors"><a href="#authors" class="headerlink" title="authors"></a>authors</h4><p>==必须设置!==</p>
+<p>库维护人员的姓名和电子邮件地址，而不是Podspec维护人员的姓名和电子邮件地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.author = &apos;Darth Vader&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.authors = &apos;Darth Vader&apos;, &apos;Wookiee&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spec.authors = &#123; &apos;Darth Vader&apos; =&gt; &apos;darthvader@darkside.com&apos;,</span><br><span class="line">                 &apos;Wookiee&apos;     =&gt; &apos;wookiee@aggrrttaaggrrt.com&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="social-media-url"><a href="#social-media-url" class="headerlink" title="social_media_url"></a>social_media_url</h4><p>pod的社交媒体联系人的URL，CocoaPods web 服务可以使用这个。</p>
+<p>例如，如果URL是相对于Twitter的，@CocoaPodsFeed通知将包括Twitter句柄(缩短描述)。这并不一定是一个Twitter URL，但是只有那些包含在Twitter @CocoaPodsFeed通知中。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.social_media_url = &apos;https://twitter.com/cocoapods&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.social_media_url = &apos;https://groups.google.com/forum/#!forum/cocoapods&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="license"><a href="#license" class="headerlink" title="license"></a>license</h4><p>==必须设置!==</p>
+<p>pod的许可证。</p>
+<hr>
+<p>除非源包含名为LICENSE.<em>或LICENSE.</em>的文件，否则必须指定许可文件的路径或许可类型常用的通知的整数文本。如果指定了许可证文件，则它必须没有文件扩展名，或者是txt、md或markdown之一。</p>
+<p>CocoaPods使用此信息生成确认文件（markdown和plit）,这些文件可用于最终应用程序的确认部分。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.license = &apos;MIT&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.license = &#123; :type =&gt; &apos;MIT&apos;, :file =&gt; &apos;MIT-LICENSE.txt&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spec.license = &#123; :type =&gt; &apos;MIT&apos;, :text =&gt; &lt;&lt;-LICENSE</span><br><span class="line">                   Copyright 2012</span><br><span class="line">                   Permission is granted to...</span><br><span class="line">                 LICENSE</span><br><span class="line">               &#125;</span><br></pre></td></tr></table></figure>
+
+<p>支持keys:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">:type</span><br><span class="line"></span><br><span class="line">:file</span><br><span class="line"></span><br><span class="line">:text</span><br></pre></td></tr></table></figure>
+
+<h4 id="homepage"><a href="#homepage" class="headerlink" title="homepage"></a>homepage</h4><p>==必须设置!==</p>
+<p>pod主页的URL。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.homepage = &apos;http://www.example.com&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="source"><a href="#source" class="headerlink" title="source"></a>source</h4><p>==必须设置!==</p>
+<p>可以从中检索库的位置。</p>
+<p>例如：</p>
+<blockquote>
+<p>指定带有标签（tag）的git源。这就是大多数OSS podspec的工作原理。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spec.source = &#123; :git =&gt; &apos;https://github.com/AFNetworking/AFNetworking.git&apos;,</span><br><span class="line">                :tag =&gt; spec.version.to_s &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用前缀为“V”和子模块的标签(tag)。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spec.source = &#123; :git =&gt; &apos;https://github.com/typhoon-framework/Typhoon.git&apos;,</span><br><span class="line">                :tag =&gt; &quot;v#&#123;spec.version&#125;&quot;, :submodules =&gt; true &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用带标签(tag)的Subversion.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.source = &#123; :svn =&gt; &apos;http://svn.code.sf.net/p/polyclipping/code&apos;, :tag =&gt; &apos;4.8.8&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用与规范的语义版本字符串具有相同版本的Mercurial。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.source = &#123; :hg =&gt; &apos;https://bitbucket.org/dcutting/hyperbek&apos;, :revision =&gt; &quot;#&#123;s.version&#125;&quot; &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用HTTP下载压缩文件的代码。它支持zip、tgz、bz2、txz和tar。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.source = &#123; :http =&gt; &apos;http://dev.wechatapp.com/download/sdk/WeChat_SDK_iOS_en.zip&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用HTTP下载文件，使用哈希验证下载。它支持sha1和sha256。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spec.source = &#123; :http =&gt; &apos;http://dev.wechatapp.com/download/sdk/WeChat_SDK_iOS_en.zip&apos;,</span><br><span class="line">                :sha1 =&gt; &apos;7e21857fe11a511f472cfd7cfa2d979bd7ab7d96&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>支持Keys:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">:git =&gt; :tag, :branch, :commit, :submodules</span><br><span class="line"></span><br><span class="line">:svn =&gt; :folder, :tag, :revision</span><br><span class="line"></span><br><span class="line">:hg =&gt; :revision</span><br><span class="line"></span><br><span class="line">:http =&gt; :flatten, :type, :sha256, :sha1, :headers</span><br></pre></td></tr></table></figure>
+
+<h4 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h4><p>==必须设置!==</p>
+<p>对pod的简短描述（最多140个字符）。</p>
+<hr>
+<p>摘要应该简短，但内容丰富。它代表pod的标签，无需指定它是一个库（虽然它是）。</p>
+<p>该摘要首字母应大写并包含正确的标点符号。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.summary = &apos;Computes the meaning of life.&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="description"><a href="#description" class="headerlink" title="description"></a>description</h4><p>对Pod的描述比摘要更详细。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spec.description = &lt;&lt;-DESC</span><br><span class="line">                     Computes the meaning of life.</span><br><span class="line">                     Features:</span><br><span class="line">                     1. Is self aware</span><br><span class="line">                     ...</span><br><span class="line">                     42. Likes candies.</span><br><span class="line">                   DESC</span><br></pre></td></tr></table></figure>
+
+<h4 id="screenshots"><a href="#screenshots" class="headerlink" title="screenshots"></a>screenshots</h4><p>显示pod图片的url列表。面向用户界面的库。CocoaPods建议使用<code>gif</code>格式。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.screenshot  = &apos;http://dl.dropbox.com/u/378729/MBProgressHUD/1.png&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spec.screenshots = [ &apos;http://dl.dropbox.com/u/378729/MBProgressHUD/1.png&apos;,</span><br><span class="line">                     &apos;http://dl.dropbox.com/u/378729/MBProgressHUD/2.png&apos; ]</span><br></pre></td></tr></table></figure>
+
+<h4 id="documentation-url"><a href="#documentation-url" class="headerlink" title="documentation_url"></a>documentation_url</h4><p>CocaoPods web properties 将提供pod文档的可选URL。将其留空将默认为库的cocoadocs生成的URL。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.documentation_url = &apos;http://www.example.com/docs.html&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="prepare-command"><a href="#prepare-command" class="headerlink" title="prepare_command"></a>prepare_command</h4><p>下载Pod后将执行bash脚本。此命令可用于创建、删除和修改下载的任何文件，并将在收集规范的其他文件属性的任何路径之前运行。</p>
+<p>此命令在清理Pod和创建Pod项目之前运行。工作目录是Pod的根目录。</p>
+<p>如果pod安装了<code>:path</code>选项，则不会执行此命令。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.prepare_command = &apos;ruby build_files.rb&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spec.prepare_command = &lt;&lt;-CMD</span><br><span class="line">                        sed -i &apos;s/MyNameSpacedHeader/Header/g&apos; ./**/*.h</span><br><span class="line">                        sed -i &apos;s/MyNameOtherSpacedHeader/OtherHeader/g&apos; ./**/*.h</span><br><span class="line">                   CMD</span><br></pre></td></tr></table></figure>
+
+<h4 id="static-framework"><a href="#static-framework" class="headerlink" title="static_framework"></a>static_framework</h4><p>代表，如果使用<code>use_frameworks!</code>指定时，pod应包含静态库框架。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.static_framework = true</span><br></pre></td></tr></table></figure>
+
+<h4 id="deprecated"><a href="#deprecated" class="headerlink" title="deprecated"></a>deprecated</h4><p>是否已弃用该库。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.deprecated = true</span><br></pre></td></tr></table></figure>
+
+<h4 id="deprecated-in-favor-of"><a href="#deprecated-in-favor-of" class="headerlink" title="deprecated_in_favor_of"></a>deprecated_in_favor_of</h4><p>不赞成使用的Pod的名称。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.deprecated_in_favor_of = &apos;NewMoreAwesomePod&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="平台"><a href="#平台" class="headerlink" title="平台"></a>平台</h3><p>规范应指明支持库的平台和相应的部署目标。</p>
+<p>如果未在子空间中定义，则此组的属性将继承父对象的值。</p>
+<h4 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h4><p>pod支持的平台。不设置表示所有平台都支持。当支持多个平台时，您应该使用下面的部署目标。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.platform = :osx, &apos;10.8&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.platform = :ios</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.platform = :osx</span><br></pre></td></tr></table></figure>
+
+<h4 id="deployment-target"><a href="#deployment-target" class="headerlink" title="deployment_target"></a>deployment_target</h4><p>平台支持最小版本。</p>
+<p>与platform属性相反，deployment_target属性允许指定支持此pod的多个平台-为每个平台指定不同的部署目标。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.ios.deployment_target = &apos;6.0&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.osx.deployment_target = &apos;10.8&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="构建设置"><a href="#构建设置" class="headerlink" title="构建设置"></a>构建设置</h3><p>在这个组中列出了与构建环境的配置相关的属性，这些属性应该用于构建库。</p>
+<p>如果没有在subspec中定义，这个组的属性将继承父元素的值。</p>
+<h4 id="dependency"><a href="#dependency" class="headerlink" title="dependency"></a>dependency</h4><p>对其pod或“sub-specification’”的依赖</p>
+<p>依赖项可以指定版本。推荐使用版本指示器<code>~&gt;</code>，因为它提供了对版本的良好控制，而没有太多限制。例如，<code>~&gt;1.0.1</code>相当于<code>&gt;=1.0.1</code>且<code>&lt;1.1</code>。类似地，<code>~&gt;1.0</code>将匹配<code>1.0</code>、<code>1.0.1</code>和<code>1.1</code>，但不会升级到2.0。</p>
+<p>具有过度限制依赖关系的pod限制了它们与其他pod的兼容性。</p>
+<p>例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.dependency &apos;AFNetworking&apos;, &apos;~&gt; 1.0&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.dependency &apos;AFNetworking&apos;, &apos;~&gt; 1.0&apos;, :configurations =&gt; [&apos;Debug&apos;]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.dependency &apos;AFNetworking&apos;, &apos;~&gt; 1.0&apos;, :configurations =&gt; :debug</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.dependency &apos;RestKit/CoreData&apos;, &apos;~&gt; 0.20.0&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.ios.dependency &apos;MBProgressHUD&apos;, &apos;~&gt; 0.5&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="info-plist"><a href="#info-plist" class="headerlink" title="info_plist"></a>info_plist</h4><p>添加生成的<code>info.plist</code></p>
+<p>这些值将与CocoaPods生成的默认值合并，覆盖所有重复项。</p>
+<p>对于库规范，这些值将合并到生成的信息列表对于使用框架集成的库。它对静态库没有影响。</p>
+<p>不支持子服务器（应用程序和测试规范除外）。</p>
+<p>对于应用程序规范，这些值将合并到应用程序主机的<code>信息列表(Info.plist)</code>.</p>
+<p>对于测试规范，这些值将合并到测试包的<code>信息列表（Info.plist）</code>.</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spec.info_plist = &#123;</span><br><span class="line">  &apos;CFBundleIdentifier&apos; =&gt; &apos;com.myorg.MyLib&apos;,</span><br><span class="line">  &apos;MY_VAR&apos; =&gt; &apos;SOME_VALUE&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="requires-arc"><a href="#requires-arc" class="headerlink" title="requires_arc"></a>requires_arc</h4><p>多平台</p>
+<p><code>requires_arc</code>允许您指定哪个源_文件使用arc。这可以是支持ARC的文件，如果是true，表示所有源文件都使用ARC。</p>
+<p>不使用ARC的文件将具有<code>-fno-objc-arc</code>编译器标志。</p>
+<p>此属性的默认值为true。</p>
+<p>默认为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.requires_arc = true</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.requires_arc = false</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.requires_arc = &apos;Classes/Arc&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.requires_arc = [&apos;Classes/*ARC.m&apos;, &apos;Classes/ARC.mm&apos;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="frameworks"><a href="#frameworks" class="headerlink" title="frameworks"></a>frameworks</h4><p>多平台</p>
+<p>用户目标需要链接的系统框架列表。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.ios.framework = &apos;CFNetwork&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.frameworks = &apos;QuartzCore&apos;, &apos;CoreData&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="weak-frameworks"><a href="#weak-frameworks" class="headerlink" title="weak_frameworks"></a>weak_frameworks</h4><p>多平台</p>
+<p>用户目标需要弱链接的框架列表。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.weak_framework = &apos;Twitter&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.weak_frameworks = &apos;Twitter&apos;, &apos;SafariServices&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="libraries"><a href="#libraries" class="headerlink" title="libraries"></a>libraries</h4><p>多平台</p>
+<p>用户的目标（应用程序）需要链接的系统库列表。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.ios.library = &apos;xml2&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.libraries = &apos;xml2&apos;, &apos;z&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="compiler-flags"><a href="#compiler-flags" class="headerlink" title="compiler_flags"></a>compiler_flags</h4><p>多平台</p>
+<p>应传递给编译器的标志列表。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.compiler_flags = &apos;-DOS_OBJECT_USE_OBJC=0&apos;, &apos;-Wno-format&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="pod-target-xcconfig"><a href="#pod-target-xcconfig" class="headerlink" title="pod_target_xcconfig"></a>pod_target_xcconfig</h4><p>多平台</p>
+<p>要添加到最终私有pod目标xcconfig文件的任何标志。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.pod_target_xcconfig = &#123; &apos;OTHER_LDFLAGS&apos; =&gt; &apos;-lObjC&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="user-target-xcconfig"><a href="#user-target-xcconfig" class="headerlink" title="user_target_xcconfig"></a>user_target_xcconfig</h4><p>多平台</p>
+<p>指定要添加到最终聚合目标xcconfig文件的标志，该文件将传播到非重写并将生成设置继承到集成用户目标。</p>
+<hr>
+<p>不建议使用此属性，因为pod不应污染用户项目的生成设置，这可能会导致冲突。</p>
+<p>将合并采用多个值的生成设置的多个定义。如果自定义生成设置和生成设置的定义冲突且只接受一个值，则会警告用户。</p>
+<p>如果在用户目标中导入pod时需要使用clang编译器标志或预编译器宏定义，则通常会将它们放在此处。注意，这不仅会影响pod的公共接口的编译器视图，还会影响pod旁边的所有其他集成pod。您应该总是更喜欢<code>pod_target_xcconfig</code>，它可以包含相同的设置，但只在编译pod目标时影响工具链。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.user_target_xcconfig = &#123; &apos;MY_SUBSPEC&apos; =&gt; &apos;YES&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="prefix-header-contents"><a href="#prefix-header-contents" class="headerlink" title="prefix_header_contents"></a>prefix_header_contents</h4><p>多平台</p>
+<p>要注入到pod项目前缀头中的任何内容。</p>
+<p>不建议使用此属性，因为Pods不应该污染其他库或用户项目的前缀头。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.prefix_header_contents = &apos;#import &lt;UIKit/UIKit.h&gt;&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.prefix_header_contents = &apos;#import &lt;UIKit/UIKit.h&gt;&apos;, &apos;#import &lt;Foundation/Foundation.h&gt;&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="prefix-header-file"><a href="#prefix-header-file" class="headerlink" title="prefix_header_file"></a>prefix_header_file</h4><p>多平台</p>
+<p>要注入pod项目前缀头的前缀头文件的路径。false表示不应生成默认CocoaPods前缀头。true是默认值，指示应生成默认CocoaPods前缀头。</p>
+<p>不建议使用文件路径选项，因为Pods不应污染其他库或用户项目的前缀头。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.prefix_header_file = &apos;iphone/include/prefix.pch&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.prefix_header_file = false</span><br></pre></td></tr></table></figure>
+
+<h4 id="module-name"><a href="#module-name" class="headerlink" title="module_name"></a>module_name</h4><p>将为此规范而不是默认规范生成的framework/clang模块使用的名称（如果设置了header_dir，则为规范名称）。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.module_name = &apos;Three20&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="header-dir"><a href="#header-dir" class="headerlink" title="header_dir"></a>header_dir</h4><p>多平台</p>
+<p>存储头文件以使其不中断的目录包括。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.header_dir = &apos;Three20Core&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="header-mappings-dir"><a href="#header-mappings-dir" class="headerlink" title="header_mappings_dir"></a>header_mappings_dir</h4><p>多平台</p>
+<p>用于保存头文件的文件夹结构的目录。如果没有提供头文件是扁平的。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.header_mappings_dir = &apos;src/include&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="script-phases"><a href="#script-phases" class="headerlink" title="script_phases"></a>script_phases</h4><p>多平台</p>
+<p>此属性允许定义脚本阶段，作为Pod编译的一部分执行。与prepare命令不同，脚本阶段作为xcodebuild的一部分执行，它们还可以利用编译期间设置的所有环境变量。</p>
+<p>pod可以提供多个脚本阶段来执行，它们将按照声明的顺序添加，并在考虑了它们的执行位置设置之后添加。</p>
+<p>注意：为了提供对所有脚本阶段内容的可见性和感知，如果pod包含任何脚本阶段，则在安装pod时会向用户发出警告。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.script_phase = &#123; :name =&gt; &apos;Hello World&apos;, :script =&gt; &apos;echo &quot;Hello World&quot;&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.script_phase = &#123; :name =&gt; &apos;Hello World&apos;, :script =&gt; &apos;echo &quot;Hello World&quot;&apos;, :execution_position =&gt; :before_compile &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.script_phase = &#123; :name =&gt; &apos;Hello World&apos;, :script =&gt; &apos;puts &quot;Hello World&quot;&apos;, :shell_path =&gt; &apos;/usr/bin/ruby&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spec.script_phase = &#123; :name =&gt; &apos;Hello World&apos;, :script =&gt; &apos;echo &quot;Hello World&quot;&apos;,</span><br><span class="line">  :input_files =&gt; [&apos;/path/to/input_file.txt&apos;], :output_files =&gt; [&apos;/path/to/output_file.txt&apos;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spec.script_phase = &#123; :name =&gt; &apos;Hello World&apos;, :script =&gt; &apos;echo &quot;Hello World&quot;&apos;,</span><br><span class="line">  :input_file_lists =&gt; [&apos;/path/to/input_files.xcfilelist&apos;], :output_file_lists =&gt; [&apos;/path/to/output_files.xcfilelist&apos;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spec.script_phases = [</span><br><span class="line">    &#123; :name =&gt; &apos;Hello World&apos;, :script =&gt; &apos;echo &quot;Hello World&quot;&apos; &#125;,</span><br><span class="line">    &#123; :name =&gt; &apos;Hello Ruby World&apos;, :script =&gt; &apos;puts &quot;Hello World&quot;&apos;, :shell_path =&gt; &apos;/usr/bin/ruby&apos; &#125;,</span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h3><p>Podspecs应该位于存储库的根目录，文件的路径也应该相对于存储库的根目录指定。文件模式不支持遍历父目录(..)。文件模式可能包含以下通配符模式:</p>
+<p>类型: *</p>
+<p>匹配任何文件。可以被glob中的其他值限制。</p>
+<ul>
+<li><code>*</code>将匹配所有文件</li>
+<li><code>c*</code>将匹配所有以<code>c</code>开头的文件</li>
+<li><code>*c</code>是否会匹配所有以<code>c</code>结尾的文件</li>
+<li><code>*c*</code>将匹配其中包含<code>c</code>的所有文件(包括开头或结尾)</li>
+</ul>
+<p>相当于正则表达式中的<code>/.*/x</code>。</p>
+<p>注意，这与类Unix隐藏文件（dotfiles）不匹配。为了在匹配结果中包含这些内容，必须使用{*，.}之类的内容。</p>
+<hr>
+<p>类型：**</p>
+<p>递归匹配目录。</p>
+<hr>
+<p>类型：？</p>
+<p>匹配任何一个字符。相当于正则表达式中的<code>/.{1}/</code>。</p>
+<hr>
+<p>类型：[set]</p>
+<p>匹配集合中的任意字符。</p>
+<p>其行为与正则表达式中的字符集完全相同，包括集取反（[^a-z]）。</p>
+<hr>
+<p>类型：{p,q}</p>
+<p>匹配文字<code>p</code>或文字<code>q</code>。</p>
+<p>匹配的文字长度可能超过一个字符。可以指定两个以上的文字。</p>
+<p>相当于regexp中的模式替换。</p>
+<hr>
+<p>类型：\</p>
+<p>转义字符。</p>
+<hr>
+<p>例如：</p>
+<p>在JSONKit的源根目录中对这些进行评估。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;JSONKit.?&quot;    #=&gt; [&quot;JSONKit.h&quot;, &quot;JSONKit.m&quot;]</span><br><span class="line">&quot;*.[a-z][a-z]&quot; #=&gt; [&quot;CHANGELOG.md&quot;, &quot;README.md&quot;]</span><br><span class="line">&quot;*.[^m]*&quot;      #=&gt; [&quot;JSONKit.h&quot;]</span><br><span class="line">&quot;*.&#123;h,m&#125;&quot;      #=&gt; [&quot;JSONKit.h&quot;, &quot;JSONKit.m&quot;]</span><br><span class="line">&quot;*&quot;            #=&gt; [&quot;CHANGELOG.md&quot;, &quot;JSONKit.h&quot;, &quot;JSONKit.m&quot;, &quot;README.md&quot;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="source-files"><a href="#source-files" class="headerlink" title="source_files"></a>source_files</h4><p>多平台</p>
+<p>pod 的源文件。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.source_files = &apos;Classes/**/*.&#123;h,m&#125;&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.source_files = &apos;Classes/**/*.&#123;h,m&#125;&apos;, &apos;More_Classes/**/*.&#123;h,m&#125;&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="public-header-files"><a href="#public-header-files" class="headerlink" title="public_header_files"></a>public_header_files</h4><p>多平台</p>
+<p>应用于标记公共头文件列表。</p>
+<hr>
+<p>这些模式与源文件相匹配，以包含将公开给用户项目并从中生成文档的头。构建库时，这些头文件将显示在构建目录中。如果未指定公共头，则源文件中的所有头都视为公共。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.public_header_files = &apos;Headers/Public/*.h&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="private-header-files"><a href="#private-header-files" class="headerlink" title="private_header_files"></a>private_header_files</h4><p>多平台</p>
+<p>应用于标记私有头文件列表。</p>
+<p>这些模式与公共头匹配（如果未指定公共头，则与所有头匹配），以排除那些不应向用户项目公开且不应用于生成文档的头。构建库时，这些头文件将显示在构建目录中。</p>
+<p>未列为public或private的头文件将被视为private，但另外根本不会出现在生成目录中。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.private_header_files = &apos;Headers/Private/*.h&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="vendored-frameworks"><a href="#vendored-frameworks" class="headerlink" title="vendored_frameworks"></a>vendored_frameworks</h4><p>多平台</p>
+<p>pod附带的动态库的路径。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.ios.vendored_frameworks = &apos;Frameworks/MyFramework.framework&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.vendored_frameworks = &apos;MyFramework.framework&apos;, &apos;TheirFramework.framework&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="vendored-libraries"><a href="#vendored-libraries" class="headerlink" title="vendored_libraries"></a>vendored_libraries</h4><p>多平台</p>
+<p>pod附带静态库的路径。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.ios.vendored_library = &apos;Libraries/libProj4.a&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.vendored_libraries = &apos;libProj4.a&apos;, &apos;libJavaScriptCore.a&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="resource-bundles"><a href="#resource-bundles" class="headerlink" title="resource_bundles"></a>resource_bundles</h4><p>多平台</p>
+<p>这个属性允许定义应该为Pod构建的资源包的名称和文件。它们被指定为散列，其中的键表示捆绑包的名称以及它们应该包含的文件模式的值。</p>
+<p>为了将Pod构建为静态库，我们强烈建议库开发人员采用资源包，因为使用resources属性可能会出现名称冲突。</p>
+<p>捆绑包的名称应至少包括Pod的名称，以尽量减少名称冲突的可能性。</p>
+<p>要为每个平台提供不同的资源，必须使用具有名称空间的捆绑包。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.ios.resource_bundle = &#123; &apos;MapBox&apos; =&gt; &apos;MapView/Map/Resources/*.png&apos; &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spec.resource_bundles = &#123;</span><br><span class="line">    &apos;MapBox&apos; =&gt; [&apos;MapView/Map/Resources/*.png&apos;],</span><br><span class="line">    &apos;MapBoxOtherResources&apos; =&gt; [&apos;MapView/Map/OtherResources/*.png&apos;]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="resources"><a href="#resources" class="headerlink" title="resources"></a>resources</h4><p>多平台</p>
+<p>应复制到目标捆绑包中的资源列表。</p>
+<p>为了将Pod构建为静态库，我们强烈建议库开发人员采用资源包，因为使用resources属性可能会出现名称冲突。此外，使用此属性指定的资源将直接复制到客户端目标，因此Xcode不会优化它们。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.resource = &apos;Resources/HockeySDK.bundle&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.resources = [&apos;Images/*.png&apos;, &apos;Sounds/*&apos;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="exclude-files"><a href="#exclude-files" class="headerlink" title="exclude_files"></a>exclude_files</h4><p>多平台</p>
+<p>应从其他文件模式中排除的文件模式的列表。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.ios.exclude_files = &apos;Classes/osx&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.exclude_files = &apos;Classes/**/unused.&#123;h,m&#125;&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="preserve-paths"><a href="#preserve-paths" class="headerlink" title="preserve_paths"></a>preserve_paths</h4><p>多平台</p>
+<p>下载后不应删除的任何文件。</p>
+<p>默认情况下，CocoaPods会删除所有与其他任何文件模式都不匹配的文件。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.preserve_path = &apos;IMPORTANT.txt&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.preserve_paths = &apos;Frameworks/*.framework&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="module-map"><a href="#module-map" class="headerlink" title="module_map"></a>module_map</h4><p>多平台</p>
+<p>此pod集成为框架时应使用的模块映射文件。</p>
+<p>默认情况下，CocoaPods基于规范中的公共头创建模块映射文件。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.module_map = &apos;source/module.modulemap&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="子模块"><a href="#子模块" class="headerlink" title="子模块"></a>子模块</h3><p>库可以指定对另一个库、另一个库的子库或其自身的子库的依赖关系。</p>
+<h4 id="subspec"><a href="#subspec" class="headerlink" title="subspec"></a>subspec</h4><p>表示库模块的规范。</p>
+<p>子空间参与双重层次。</p>
+<p>一方面，规范自动继承所有它的子“子规范”（除非指定了默认子规范）作为依赖项。</p>
+<p>另一方面，“子规范”继承父级属性的值，以便可以在祖先中指定属性的公共值。</p>
+<p>虽然在实践中听起来很复杂，但这意味着子空间通常会做您所期望的事情：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod &apos;ShareKit&apos;, &apos;2.0&apos;</span><br></pre></td></tr></table></figure>
+
+<p>将ShareKit与<code>ShareKit/Evernote</code>、<code>ShareKit/Facebook</code>等所有共享者一起安装，因为它们被定义为子空间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pod &apos;ShareKit/Twitter&apos;,  &apos;2.0&apos;</span><br><span class="line">pod &apos;ShareKit/Pinboard&apos;, &apos;2.0&apos;</span><br></pre></td></tr></table></figure>
+
+<p>仅使用<code>ShareKit/Twitter</code>、<code>ShareKit/Pinboard</code>的源文件安装ShareKit。注意，在这种情况下，要编译的“子规范”需要源文件、依赖项和根规范定义的其他属性。CocoaPods足够聪明，可以处理由重复属性引起的任何问题。</p>
+<p>例如：</p>
+<blockquote>
+<p>带有不同源文件的子规范。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">subspec &apos;Twitter&apos; do |sp|</span><br><span class="line">  sp.source_files = &apos;Classes/Twitter&apos;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">subspec &apos;Pinboard&apos; do |sp|</span><br><span class="line">  sp.source_files = &apos;Classes/Pinboard&apos;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>子空间引用对其他子空间的依赖关系。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new do |s|</span><br><span class="line">  s.name = &apos;RestKit&apos;</span><br><span class="line"></span><br><span class="line">  s.subspec &apos;Core&apos; do |cs|</span><br><span class="line">    cs.dependency &apos;RestKit/ObjectMapping&apos;</span><br><span class="line">    cs.dependency &apos;RestKit/Network&apos;</span><br><span class="line">    cs.dependency &apos;RestKit/CoreData&apos;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">  s.subspec &apos;ObjectMapping&apos; do |os|</span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>嵌套subspecs。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new do |s|</span><br><span class="line">  s.name = &apos;Root&apos;</span><br><span class="line"></span><br><span class="line">  s.subspec &apos;Level_1&apos; do |sp|</span><br><span class="line">    sp.subspec &apos;Level_2&apos; do |ssp|</span><br><span class="line">    end</span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h4 id="requires-app-host"><a href="#requires-app-host" class="headerlink" title="requires_app_host"></a>requires_app_host</h4><p>多平台</p>
+<p>测试规范是否要求应用程序主机运行测试。这仅适用于测试规范。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_spec.requires_app_host = true</span><br></pre></td></tr></table></figure>
+
+<h4 id="app-host-name"><a href="#app-host-name" class="headerlink" title="app_host_name"></a>app_host_name</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">必要时用作应用程序宿主的应用程序规范。</span><br></pre></td></tr></table></figure>
+
+<h4 id="scheme"><a href="#scheme" class="headerlink" title="scheme"></a>scheme</h4><p>多平台</p>
+<p>指定要用于此规范的scheme配置。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.scheme = &#123; :launch_arguments =&gt; [&apos;Arg1&apos;] &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.scheme = &#123; :launch_arguments =&gt; [&apos;Arg1&apos;, &apos;Arg2&apos;], :environment_variables =&gt; &#123; &apos;Key1&apos; =&gt; &apos;Val1&apos;&#125; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>支持的Keys：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">:launch_arguments</span><br><span class="line"></span><br><span class="line">:environment_variables</span><br><span class="line"></span><br><span class="line">:code_coverage</span><br></pre></td></tr></table></figure>
+
+<h4 id="test-spec"><a href="#test-spec" class="headerlink" title="test_spec"></a>test_spec</h4><p>表示库的测试规范。在这里，您可以放置podspec的所有测试以及测试依赖项。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new do |spec|</span><br><span class="line">  spec.name = &apos;NSAttributedString+CCLFormat&apos;</span><br><span class="line"></span><br><span class="line">  spec.test_spec do |test_spec|</span><br><span class="line">    test_spec.source_files = &apos;NSAttributedString+CCLFormatTests.m&apos;</span><br><span class="line">    test_spec.dependency &apos;Expecta&apos;</span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h4 id="app-spec"><a href="#app-spec" class="headerlink" title="app_spec"></a>app_spec</h4><p>表示库的应用程序规范。在这里，你可以放置你的podspec的所有应用源文件以及应用依赖项。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new do |spec|</span><br><span class="line">  spec.name = &apos;NSAttributedString+CCLFormat&apos;</span><br><span class="line"></span><br><span class="line">  spec.app_spec do |app_spec|</span><br><span class="line">    app_spec.source_files = &apos;NSAttributedString+CCLFormat.m&apos;</span><br><span class="line">    app_spec.dependency &apos;AFNetworking&apos;</span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h4 id="default-subspecs"><a href="#default-subspecs" class="headerlink" title="default_subspecs"></a>default_subspecs</h4><p>应该用作首选依赖项的子空间名称数组。如果未指定，则规范要求其所有子空间作为依赖项。</p>
+<p>您可以使用值<code>:none</code>来指定编译此pod不需要任何子空间，并且所有子空间都是可选的。</p>
+<hr>
+<p>默认情况下，Pod应该提供完整的库。用户可以微调其依赖关系，并排除不需要的子空间，一旦他们的需求是已知的。因此，很少需要此属性。如果存在提供替代不兼容实现的“子规范”，则使用它来选择默认值，或者排除很少需要的模块（尤其是当它们触发对其他库的依赖时）。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.default_subspec = &apos;Core&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.default_subspecs = &apos;Core&apos;, &apos;UI&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.default_subspecs = :none</span><br></pre></td></tr></table></figure>
+
+<h3 id="多平台支持"><a href="#多平台支持" class="headerlink" title="多平台支持"></a>多平台支持</h3><p>规范可以存储仅特定于一个平台的值。</p>
+<p>例如，可能需要存储仅特定于iOS项目的资源。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spec.resources = &apos;Resources/**/*.png&apos;</span><br><span class="line">spec.ios.resources = &apos;Resources_ios/**/*.png&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h4><p>提供指定iOS属性的支持。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.ios.source_files = &apos;Classes/ios/**/*.&#123;h,m&#125;&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="osx"><a href="#osx" class="headerlink" title="osx"></a>osx</h4><p>提供对指定OSX属性的支持。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.osx.source_files = &apos;Classes/osx/**/*.&#123;h,m&#125;&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="macos"><a href="#macos" class="headerlink" title="macos"></a>macos</h4><p>提供对指定OSX属性的支持。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.osx.source_files = &apos;Classes/osx/**/*.&#123;h,m&#125;&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="tvos"><a href="#tvos" class="headerlink" title="tvos"></a>tvos</h4><p>提供指定tvOS属性的支持。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.tvos.source_files = &apos;Classes/tvos/**/*.&#123;h,m&#125;&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="watchos"><a href="#watchos" class="headerlink" title="watchos"></a>watchos</h4><p>提供指定watchOS属性的支持。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.watchos.source_files = &apos;Classes/watchos/**/*.&#123;h,m&#125;&apos;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://guides.cocoapods.org/syntax/podspec.html" target="_blank" rel="noopener">Podspec Syntax Reference v1.9.0</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/约定优于配置" target="_blank" rel="noopener">约定优于配置</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    拿根针尖对麦芒
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xnxy.github.io/2019/08/29/Podspec语法参考(翻译)/" title="Podspec语法参考(翻译)">https://xnxy.github.io/2019/08/29/Podspec语法参考(翻译)/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/xnxy.github.io/tags/cocoapods/" rel="tag"><i class="fa fa-tag"></i> cocoapods</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/xnxy.github.io/2019/08/28/Command-line参考(翻译)/" rel="next" title="Command-line参考(翻译)">
+                <i class="fa fa-chevron-left"></i> Command-line参考(翻译)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/xnxy.github.io/2019/08/29/Podfile语法参考(翻译)/" rel="prev" title="Podfile语法参考(翻译)">
+                Podfile语法参考(翻译) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMDkzNi83NDg1">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image" src="/xnxy.github.io/images/head.jpeg" alt="拿根针尖对麦芒">
+          
+            <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/xnxy.github.io/archives/">
+            
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/xnxy.github.io/categories/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/xnxy.github.io/tags/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/xnxy.github.io/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xnxy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="2303400083@.qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/022a5e92c62c" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>简书</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/xnxyonly1" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://jewsaten.github.io/" title="「蒋·先生」" target="_blank">「蒋·先生」</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.wangquanwei.com/" title="王权伟の博客" target="_blank">王权伟の博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://guyueyang.github.io/" title="晓平の博客" target="_blank">晓平の博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://venpled.top" title="venpled" target="_blank">venpled</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://zxzybin.github.io/" title="笑嘞同学" target="_blank">笑嘞同学</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://nicebeach.github.io/" title="共由石石石" target="_blank">共由石石石</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#规范"><span class="nav-number">1.1.</span> <span class="nav-text">规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根规范"><span class="nav-number">1.2.</span> <span class="nav-text">根规范</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#name"><span class="nav-number">1.2.1.</span> <span class="nav-text">name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#version"><span class="nav-number">1.2.2.</span> <span class="nav-text">version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#swift-versions"><span class="nav-number">1.2.3.</span> <span class="nav-text">swift_versions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cocoapods-version"><span class="nav-number">1.2.4.</span> <span class="nav-text">cocoapods_version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#authors"><span class="nav-number">1.2.5.</span> <span class="nav-text">authors</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#social-media-url"><span class="nav-number">1.2.6.</span> <span class="nav-text">social_media_url</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#license"><span class="nav-number">1.2.7.</span> <span class="nav-text">license</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#homepage"><span class="nav-number">1.2.8.</span> <span class="nav-text">homepage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#source"><span class="nav-number">1.2.9.</span> <span class="nav-text">source</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#summary"><span class="nav-number">1.2.10.</span> <span class="nav-text">summary</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#description"><span class="nav-number">1.2.11.</span> <span class="nav-text">description</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#screenshots"><span class="nav-number">1.2.12.</span> <span class="nav-text">screenshots</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#documentation-url"><span class="nav-number">1.2.13.</span> <span class="nav-text">documentation_url</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#prepare-command"><span class="nav-number">1.2.14.</span> <span class="nav-text">prepare_command</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#static-framework"><span class="nav-number">1.2.15.</span> <span class="nav-text">static_framework</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deprecated"><span class="nav-number">1.2.16.</span> <span class="nav-text">deprecated</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deprecated-in-favor-of"><span class="nav-number">1.2.17.</span> <span class="nav-text">deprecated_in_favor_of</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平台"><span class="nav-number">1.3.</span> <span class="nav-text">平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#platform"><span class="nav-number">1.3.1.</span> <span class="nav-text">platform</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deployment-target"><span class="nav-number">1.3.2.</span> <span class="nav-text">deployment_target</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建设置"><span class="nav-number">1.4.</span> <span class="nav-text">构建设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dependency"><span class="nav-number">1.4.1.</span> <span class="nav-text">dependency</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#info-plist"><span class="nav-number">1.4.2.</span> <span class="nav-text">info_plist</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#requires-arc"><span class="nav-number">1.4.3.</span> <span class="nav-text">requires_arc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#frameworks"><span class="nav-number">1.4.4.</span> <span class="nav-text">frameworks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#weak-frameworks"><span class="nav-number">1.4.5.</span> <span class="nav-text">weak_frameworks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#libraries"><span class="nav-number">1.4.6.</span> <span class="nav-text">libraries</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#compiler-flags"><span class="nav-number">1.4.7.</span> <span class="nav-text">compiler_flags</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pod-target-xcconfig"><span class="nav-number">1.4.8.</span> <span class="nav-text">pod_target_xcconfig</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#user-target-xcconfig"><span class="nav-number">1.4.9.</span> <span class="nav-text">user_target_xcconfig</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#prefix-header-contents"><span class="nav-number">1.4.10.</span> <span class="nav-text">prefix_header_contents</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#prefix-header-file"><span class="nav-number">1.4.11.</span> <span class="nav-text">prefix_header_file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#module-name"><span class="nav-number">1.4.12.</span> <span class="nav-text">module_name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#header-dir"><span class="nav-number">1.4.13.</span> <span class="nav-text">header_dir</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#header-mappings-dir"><span class="nav-number">1.4.14.</span> <span class="nav-text">header_mappings_dir</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#script-phases"><span class="nav-number">1.4.15.</span> <span class="nav-text">script_phases</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件格式"><span class="nav-number">1.5.</span> <span class="nav-text">文件格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#source-files"><span class="nav-number">1.5.1.</span> <span class="nav-text">source_files</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#public-header-files"><span class="nav-number">1.5.2.</span> <span class="nav-text">public_header_files</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#private-header-files"><span class="nav-number">1.5.3.</span> <span class="nav-text">private_header_files</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vendored-frameworks"><span class="nav-number">1.5.4.</span> <span class="nav-text">vendored_frameworks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vendored-libraries"><span class="nav-number">1.5.5.</span> <span class="nav-text">vendored_libraries</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resource-bundles"><span class="nav-number">1.5.6.</span> <span class="nav-text">resource_bundles</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resources"><span class="nav-number">1.5.7.</span> <span class="nav-text">resources</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#exclude-files"><span class="nav-number">1.5.8.</span> <span class="nav-text">exclude_files</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#preserve-paths"><span class="nav-number">1.5.9.</span> <span class="nav-text">preserve_paths</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#module-map"><span class="nav-number">1.5.10.</span> <span class="nav-text">module_map</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子模块"><span class="nav-number">1.6.</span> <span class="nav-text">子模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#subspec"><span class="nav-number">1.6.1.</span> <span class="nav-text">subspec</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#requires-app-host"><span class="nav-number">1.6.2.</span> <span class="nav-text">requires_app_host</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#app-host-name"><span class="nav-number">1.6.3.</span> <span class="nav-text">app_host_name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#scheme"><span class="nav-number">1.6.4.</span> <span class="nav-text">scheme</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#test-spec"><span class="nav-number">1.6.5.</span> <span class="nav-text">test_spec</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#app-spec"><span class="nav-number">1.6.6.</span> <span class="nav-text">app_spec</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#default-subspecs"><span class="nav-number">1.6.7.</span> <span class="nav-text">default_subspecs</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多平台支持"><span class="nav-number">1.7.</span> <span class="nav-text">多平台支持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#iOS"><span class="nav-number">1.7.1.</span> <span class="nav-text">iOS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#osx"><span class="nav-number">1.7.2.</span> <span class="nav-text">osx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#macos"><span class="nav-number">1.7.3.</span> <span class="nav-text">macos</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tvos"><span class="nav-number">1.7.4.</span> <span class="nav-text">tvos</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#watchos"><span class="nav-number">1.7.5.</span> <span class="nav-text">watchos</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2017 &mdash; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">
+      56.7k
+    </span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共56.7k字</span>
+</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/xnxy.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

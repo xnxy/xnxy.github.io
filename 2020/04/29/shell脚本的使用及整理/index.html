@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/xnxy.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/xnxy.github.io/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="shell,">
+
+
+
+
+
+  <link rel="alternate" href="/xnxy.github.io/atom.xml" title="拿根针尖对麦芒" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/xnxy.github.io/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="Overview这篇文章应该算对自己之前使用Jenkins、Shell脚本打包项目的总结。 毕竟之前很多东西要么存到项目中，要么存在笔记中，并没有进行整理。 关于shell关于shell脚本的介绍，可以查看百度百科中的介绍。 123456789101112131415任何代码最终需要被‘翻译’成二进制的形式才能在计算机中执行。有的编程语言，如C/C++、Pascal、Go语言、汇编等，必须在程序运">
+<meta name="keywords" content="shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell脚本的使用及整理">
+<meta property="og:url" content="https://xnxy.github.io/2020/04/29/shell脚本的使用及整理/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="Overview这篇文章应该算对自己之前使用Jenkins、Shell脚本打包项目的总结。 毕竟之前很多东西要么存到项目中，要么存在笔记中，并没有进行整理。 关于shell关于shell脚本的介绍，可以查看百度百科中的介绍。 123456789101112131415任何代码最终需要被‘翻译’成二进制的形式才能在计算机中执行。有的编程语言，如C/C++、Pascal、Go语言、汇编等，必须在程序运">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-04-29T08:04:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="shell脚本的使用及整理">
+<meta name="twitter:description" content="Overview这篇文章应该算对自己之前使用Jenkins、Shell脚本打包项目的总结。 毕竟之前很多东西要么存到项目中，要么存在笔记中，并没有进行整理。 关于shell关于shell脚本的介绍，可以查看百度百科中的介绍。 123456789101112131415任何代码最终需要被‘翻译’成二进制的形式才能在计算机中执行。有的编程语言，如C/C++、Pascal、Go语言、汇编等，必须在程序运">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/xnxy.github.io/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xnxy.github.io/2020/04/29/shell脚本的使用及整理/">
+
+
+
+
+
+  <title>shell脚本的使用及整理 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+      <a href="https://github.com/xnxy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/xnxy.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">拿根针尖对麦芒</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">拿根针尖对麦芒</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/xnxy.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/xnxy.github.io/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/xnxy.github.io/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/xnxy.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/xnxy.github.io/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/xnxy.github.io/2020/04/29/shell脚本的使用及整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/xnxy.github.io/images/head.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">shell脚本的使用及整理</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-29T16:04:39+08:00">
+                2020-04-29
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-04-29T16:04:39+08:00">
+                2020-04-29
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/xnxy.github.io/categories/整理/" itemprop="url" rel="index">
+                    <span itemprop="name">整理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4,063
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>这篇文章应该算对自己之前使用Jenkins、Shell脚本打包项目的总结。</p>
+<p>毕竟之前很多东西要么存到项目中，要么存在笔记中，并没有进行整理。</p>
+<h1 id="关于shell"><a href="#关于shell" class="headerlink" title="关于shell"></a>关于shell</h1><p>关于<code>shell</code>脚本的介绍，可以查看<a href="https://baike.baidu.com/item/shell/99702" target="_blank" rel="noopener">百度百科</a>中的介绍。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">任何代码最终需要被‘翻译’成二进制的形式才能在计算机中执行。</span><br><span class="line"></span><br><span class="line">有的编程语言，如C/C++、Pascal、Go语言、汇编等，必须在程序运行之前将所有代码都编程成二进制形式(可执行文件),用户拿到最终生成的可执行文件，看不到源码。</span><br><span class="line"></span><br><span class="line">这个过程叫做编译（Compile），这样的编程语言叫做[编译型语言]，完成编译过程的软件叫做编译器[Compiler]。</span><br><span class="line"></span><br><span class="line">而有的编程语言，如Shell、JavaScript、Python、PHP等，需要一边执行一边翻译，不会生成任何可执行文件，用户拿到源代码才能运行程序。程序运行后会即时翻译，翻译完一部分执行一部分，不用等到所有代码都翻译完。</span><br><span class="line"></span><br><span class="line">这个过程叫做解释，这样的编程语言叫做[解释型语言]或者[脚本语言]（Script），完成解释过程的软件叫做解释器。</span><br><span class="line"></span><br><span class="line">编译型语言的优点是执行速度快、对硬件要求低、保密性好，适合开发操作系统、大型应用程序、数据库等。</span><br><span class="line"></span><br><span class="line">脚本语言的优点是使用灵活、部署容易、跨平台性好、非常适合Web开发以及小工具的制作。</span><br><span class="line"></span><br><span class="line">Shell 就是一种脚本语言，我们编写完源码后不用编译，直接运行源码即可。</span><br></pre></td></tr></table></figure>
+
+<h2 id="shell历史"><a href="#shell历史" class="headerlink" title="shell历史"></a>shell历史</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">由于历史原因，UNIX系统上有很多种Shell：</span><br><span class="line"></span><br><span class="line">1.sh（Bourne Shell）：由Steve Bourne开发，各种UNIX系统都配有sh。</span><br><span class="line"></span><br><span class="line">2.csh（C Shell）：由Bill Joy开发，随BSD UNIX发布，它的流程控制语句很像C语言，支持很多Bourne Shell所不支持的功能：作业控制，命令历史，命令行编辑。</span><br><span class="line"></span><br><span class="line">3.ksh（Korn Shell）：由David Korn开发，向后兼容sh的功能，并且添加了csh引入的新功能，是目前很多UNIX系统标准配置的Shell，在这些系统上/bin/sh往往是指向/bin/ksh的符号链接。</span><br><span class="line"></span><br><span class="line">4.tcsh（TENEX C Shell）：是csh的增强版本，引入了命令补全等功能，在FreeBSD、Mac OS X等系统上替代了csh。</span><br><span class="line"></span><br><span class="line">5.bash（Bourne Again Shell）：由GNU开发的Shell，主要目标是与POSIX标准保持一致，同时兼顾对sh的兼容，bash从csh和ksh借鉴了很多功能，是各种Linux发行版标准配置的Shell，在Linux系统上/bin/sh往往是指向/bin/bash的符号链接。虽然如此，bash和sh还是有很多不同的，一方面，bash扩展了一些命令和参数，另一方面，bash并不完全和sh兼容，有些行为并不一致，所以bash需要模拟sh的行为：当我们通过sh这个程序名启动bash时，bash可以假装自己是sh，不认扩展的命令，并且行为与sh保持一致。</span><br></pre></td></tr></table></figure>
+
+<h1 id="术语名词"><a href="#术语名词" class="headerlink" title="术语名词"></a>术语名词</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- IDC--（Internet Data Center)互联网数据中心，主要服务包括整机租用、服务器托管、机柜租用、机房租用、专线接入和网络管理服务等。广义上的IDC业务，实际上就是数据中心所提供的一切服务。客户租用数据中心的服务器和带宽，并利用数据中心的技术力量，来实现自己对软、硬件的要求，搭建自己的互联网平台，享用数据中心所提供的一系列服务。</span><br><span class="line"></span><br><span class="line">- ISP--(Internet Service Provider)互联网服务提供商，即向广大用户综合提供互联网接入业务、信息业务、和增值业务的电信运营商。</span><br><span class="line"></span><br><span class="line">- ICP--(Internet Content Provider)互联网内容提供商，向广大用户综合提供互联网信息业务和增值业务的电信运营商。 根据中华人民共和国国务院令第292号《互联网信息服务管理办法》规定，国家对提供互联网信息服务的ICP实行许可证制度。从而，ICP证成为网站经营的许可证，经营性网站必须办理ICP证，否则就属于非法经营。因此，办理ICP证是企业网站合法经营的需要.</span><br><span class="line"></span><br><span class="line">- CDN--(Content Delivery Network)内容分发网络,依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。 CDN的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，在用户访问网站时，利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。</span><br><span class="line"></span><br><span class="line">- LVS--(Linux Virtual Server)的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。LVS集群采用IP负载均衡技术和基于内容请求分发技术。调度器具有很好的吞吐率，将请求均衡地转移到不同的服务器上执行，且调度器自动屏蔽掉服务器的故障，从而将一组服务器构成一个高性能的、高可用的虚拟服务器。整个服务器集群的结构对客户是透明的，而且无需修改客户端和服务器端的程序。为此，在设计时需要考虑系统的透明性、可伸缩性、高可用性和易管理性。</span><br><span class="line"></span><br><span class="line">- CGI--(Common Gateway Interface)通用网关接口。CGI规范允许Web服务器执行外部程序，并将它们的输出发送给Web浏览器，CGI将Web的一组简单的静态超媒体文档变成一个完整的新的交互式媒体。</span><br><span class="line"></span><br><span class="line">- GSLB--(Global Server Load Balance，全局负载均衡）作为 CDN 系统架构中最核心的部分，负责流量调度.基于DNS的GSLB 绝大部分使用负载均衡技术的应用都通过域名来访问目的主机，在用户发出任何应用连接请求时，首先必须通过DNS请求获得服务器的IP地址，基于DNS的GSLB正是在返回DNS解析结果的过程中进行智能决策，给用户返回一个最佳的服务IP。用户应用流程与没有GSLB时未发生任何变化。这也是市场上主流的GSLB技术。</span><br><span class="line"></span><br><span class="line">- BOSS--(Business &amp; Operation Support System，BOSS)是业务运营支撑系统。通常所说的BOSS分为四个部分：计费及结算系统、营业与账务系统、客户服务系统和决策支持系统。BOSS从业务层面来看就是一个框架，来承载业务系统、CRM系统、计费系统。实现统一框架中的纵向、横向管理。该系统最早由电信部门的计费系统发展演变而来，基本功能包括客户资料管理、产品管理、用户订购管理、计费、出帐、结算等，负责登记客户资料、管理用户订购服务的提供、实时的根据不同产品、套餐的资费标准计算业务（手机、固定电话用户通话时、点播收视、宽带流量与时间等）的消费金额，准实时及定期计算用户帐单，实时或定期结算用户各种消费费用。</span><br></pre></td></tr></table></figure>
+
+<h1 id="常用shell命令"><a href="#常用shell命令" class="headerlink" title="常用shell命令"></a>常用shell命令</h1><h3 id="获取SDK或IPA的版本号"><a href="#获取SDK或IPA的版本号" class="headerlink" title="获取SDK或IPA的版本号"></a>获取SDK或IPA的版本号</h3><p>使用<code>shell</code>脚本获取SDK或IPA的版本号，跟我们在代码中获取IPA的版本号一样，都是解析Info.plist中的<code>CFBundleShortVersionString</code>。</p>
+<p>所以在这里就可以使用Mac自带的专门解析plist的小工具<code>PlistBuddy</code>来获取项目的版本号。</p>
+<p>使用方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#获取Inof.plist中的版本号</span><br><span class="line">buildVersion=$(/usr/libexec/PlistBuddy -c &quot;print:CFBundleShortVersionString&quot; $&#123;projectPath&#125;../tpocr/tpocr/Info.plist)</span><br></pre></td></tr></table></figure>
+
+<p>同理我们可以将打包IPA所需的<code>scheme</code>、<code>configuration</code>……等信息存放到<code>config.plist</code>中，使用<code>PlistBuddy</code>直接读取，我们需要修改相应参数的时候可以直接修改<code>config.plist</code>，避免直接修改脚本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#工程项目路径</span><br><span class="line">projectPath=&quot;$(pwd)&quot;</span><br><span class="line">#build配置文件</span><br><span class="line">buildConfigFile=&quot;$&#123;projectPath&#125;/Packaging/config.plist&quot;</span><br><span class="line">#打包的target名称</span><br><span class="line">buildSchemeName=$(/usr/libexec/PlistBuddy -c &quot;print:build:scheme&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#build configuration</span><br><span class="line">buildConfiguration=$(/usr/libexec/PlistBuddy -c &quot;print:build:configuration&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#export options plist</span><br><span class="line">exportOptionsPlist=&quot;$&#123;projectPath&#125;/Packaging/$(/usr/libexec/PlistBuddy -c &quot;print:build:exportPlist&quot; $&#123;buildConfigFile&#125;).plist&quot;</span><br><span class="line">#用于签名的企业开发者名称</span><br><span class="line">enterpriseDistributionSignName=$(/usr/libexec/PlistBuddy -c &quot;print:resign:enterpriseName&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#企业打包provision证书</span><br><span class="line">enterpriseProvisionFile=&quot;$&#123;projectPath&#125;/Packaging/$(/usr/libexec/PlistBuddy -c &quot;print:resign:enterpriseProvision&quot; $&#123;buildConfigFile&#125;).mobileprovision&quot;</span><br><span class="line">#Jenkins job</span><br><span class="line">jenkinsJob=$(/usr/libexec/PlistBuddy -c &quot;print:deliver:jenkinsJob&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#fir api token</span><br><span class="line">firAPIToken=$(/usr/libexec/PlistBuddy -c &quot;print:deliver:fir&quot; $&#123;buildConfigFile&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用Xcodebuild指令对项目进行打包"><a href="#使用Xcodebuild指令对项目进行打包" class="headerlink" title="使用Xcodebuild指令对项目进行打包"></a>使用Xcodebuild指令对项目进行打包</h3><p>xcodebuild是命令行工具包(Command Line Tools)中的一项，是一个轻量型的、可以与Xcode分开的、在Mac上单独下载的命令行工具包。</p>
+<p>在<code>/usr/bin</code>目录下，我们可以在终端使用<code>open /usr/bin</code>查找该工具。而在<code>usr/bin</code>目录下还有很多命令工具，比如：git、make、xcrun等。</p>
+<p>在xcode9后build不指定任何签名信息，具体编译命令如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#编译IPA</span><br><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; -sdk iphoneos clean archive -archivePath $&#123;archiveFilePath&#125; | xcpretty</span><br><span class="line"></span><br><span class="line">#导出ipa文件</span><br><span class="line">xcodebuild -allowProvisioningUpdates -exportArchive -archivePath $&#123;archiveFilePath&#125; -exportPath $&#123;ipaDir&#125; -exportOptionsPlist $&#123;exportOptionsPlist&#125; | xcpretty</span><br></pre></td></tr></table></figure>
+
+<p>导出的文件中除了导出ipa包以外，还有dSYM文件。</p>
+<p>dSYM是符号表文件，每次打包我们需要保存好，如果后面项目出现问题，我们可以使用dSYM分析其崩溃信息。</p>
+<h3 id="使用xcodebuild指令打包Framework"><a href="#使用xcodebuild指令打包Framework" class="headerlink" title="使用xcodebuild指令打包Framework"></a>使用xcodebuild指令打包Framework</h3><p>我们手动打包Framework的时候，是先将每个指令集进行打包，然后使用<code>lipo -create</code>将其合并，使用命令打包也是这个逻辑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">### Build simulator platform. (i386, x86_64)</span><br><span class="line">echo &quot;========== Build Simulator Platform ==========&quot;</span><br><span class="line">echo &quot;===== Build Simulator Platform: i386 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphonesimulator BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/i386&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&apos;i386&apos; VALID_ARCHS=&apos;i386&apos; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">echo &quot;===== Build Simulator Platform: x86_64 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphonesimulator BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/x86_64&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&apos;x86_64&apos; VALID_ARCHS=&apos;x86_64&apos; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">### Build device platform. (armv7, arm64)</span><br><span class="line">echo &quot;========== Build Device Platform ==========&quot;</span><br><span class="line">echo &quot;===== Build Device Platform: armv7 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphoneos BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot;  CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/armv7&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&apos;armv7&apos; VALID_ARCHS=&apos;armv7&apos; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">echo &quot;===== Build Device Platform: arm64 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphoneos BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/arm64&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&apos;arm64&apos;  VALID_ARCHS=&apos;arm64&apos; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">### Build device platform. (arm64, armv7)</span><br><span class="line">echo &quot;========== Build Universal Platform ==========&quot;</span><br><span class="line">## Copy the framework structure to the universal folder (clean it first).</span><br><span class="line">rm -rf &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;&quot;</span><br><span class="line">mkdir -p &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;&quot;</span><br><span class="line">## Copy the last product files of xcodebuild command.</span><br><span class="line">cp -R &quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/arm64/$&#123;PRODUCT_NAME&#125;.framework&quot; &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework&quot;</span><br><span class="line">echo &quot;Smash them together to combine all architectures.&quot;</span><br><span class="line">lipo -create  &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphonesimulator/i386/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphonesimulator/x86_64/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphoneos/armv7/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphoneos/arm64/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; -output &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot;</span><br><span class="line">echo &quot;Copy Framework Code Signature&quot;</span><br><span class="line">cp -R &quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/x86_64/$&#123;PRODUCT_NAME&#125;.framework/_CodeSignature&quot; &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework/&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="关于xcpretty"><a href="#关于xcpretty" class="headerlink" title="关于xcpretty"></a>关于xcpretty</h3><p>将<code>xcpretty</code>拎出来单独说，是因为刚复工回来，更新了电脑的<code>ruby</code>然后导致了打包脚本不能使用，才注意到它。</p>
+<p><code>xcpretty</code>是一个用ruby实现的小工具，可以使用<code>gem install xcpretty</code>，作用是美化<code>xcodebuild</code>冗长的日志输入。</p>
+<p>如需使用<code>xcpretty</code>对日志进行美化只需要在<code>xcodebuild</code>命令后面加入<code>| xcpretty</code>即可。</p>
+<p>类似于下方：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; | xcpretty</span><br></pre></td></tr></table></figure>
+
+<h3 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h3><p>shell脚本的for循环结构和我们的<code>OC</code>中<code>for in</code>遍历有些类似。<br>例如下方脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#获取所有jar包并上传</span><br><span class="line">for workitem in `ls $&#123;updatePath&#125;/`; do</span><br><span class="line">workspaceDir=$&#123;updatePath&#125;&quot;/&quot;$workitem</span><br><span class="line">echo &quot;\n---jar包目录：\n$&#123;workspaceDir&#125;---\n&quot;</span><br><span class="line">java -jar /Users/apple/Desktop/build/UpdateService/jenkins-file-service.jar $&#123;workspaceDir&#125; 1 /home/verifaceops/jenkins-file/taiping_src/</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>该脚本其主要功能是遍历<code>${updatePath}</code>目录下的的文件，然后将所有文件上传到公司内网的文件服务器中。</p>
+<p>这很类似于我们了解的<code>for in</code>遍历了。</p>
+<p>for循环的一般格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for var in item1 item2 ... itemN</span><br><span class="line">do</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><p><code>shll</code>中的<code>while</code>循环也跟<code>OC</code>和<code>C</code>的用法和写法类似，比如下方一个验证密码是否正确（当然在现实中并不会用到）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#脚本内容：</span><br><span class="line">echo &quot;请输入打包密码:&quot;</span><br><span class="line">read TRY</span><br><span class="line">while [ &quot;$TRY&quot; != &quot;tplife&quot; ]; do</span><br><span class="line">  echo &quot;抱歉，密码错误！\n请重新输入：&quot;</span><br><span class="line">  read TRY</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">#终端输出：</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro Python_Project % sh build.sh</span><br><span class="line">请输入打包密码:</span><br><span class="line">123</span><br><span class="line">抱歉，密码错误！</span><br><span class="line">请重新输入：</span><br><span class="line">tplife</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro Python_Project %</span><br></pre></td></tr></table></figure>
+
+<h3 id="if判断语句"><a href="#if判断语句" class="headerlink" title="if判断语句"></a>if判断语句</h3><p><code>shell</code>的<code>if</code>语法跟<code>OC</code>类似，但感觉所有语言并没有<code>OC</code>写着优雅。</p>
+<p>if语句语法格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1 </span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN </span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>if else 语法格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1 </span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">else</span><br><span class="line">    command</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>if else-if else 语法格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if condition1</span><br><span class="line">then</span><br><span class="line">    command1</span><br><span class="line">elif condition2 </span><br><span class="line">then </span><br><span class="line">    command2</span><br><span class="line">else</span><br><span class="line">    commandN</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">-eq           //等于</span><br><span class="line">-ne           //不等于</span><br><span class="line">-gt            //大于 （greater ）</span><br><span class="line">-lt            //小于  （less）</span><br><span class="line">-ge            //大于等于</span><br><span class="line">-le            //小于等于</span><br><span class="line"></span><br><span class="line">命令的逻辑关系：</span><br><span class="line">在linux 中 命令执行状态：0 为真，其他为假</span><br><span class="line">逻辑与： &amp;&amp;</span><br><span class="line">第一个条件为假时，第二条件不用再判断，最终结果已经有；</span><br><span class="line">第一个条件为真时，第二条件必须得判断；</span><br><span class="line">逻辑或： ||</span><br><span class="line">逻辑非： ！</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#xcode9后build不指定任何签名信息</span><br><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; -sdk iphoneos clean archive -archivePath $&#123;archiveFilePath&#125; | xcpretty</span><br><span class="line"></span><br><span class="line">EXCODE=$?</span><br><span class="line">if [ &quot;$EXCODE&quot; == &quot;0&quot; ]; then</span><br><span class="line">echo &quot;Build, Archive ----&gt; O.K&quot;</span><br><span class="line">else</span><br><span class="line">echo &quot;***********************编译失败********************************&quot;</span><br><span class="line">exit 1</span><br><span class="line">fi</span><br><span class="line">echo &quot;***********************结束build archive app文件***********************&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">#将打包的apk和IPA包上传到蒲公英</span><br><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">#  update.sh</span><br><span class="line">#  </span><br><span class="line">#</span><br><span class="line">#  Created by CNTP on 2020/04/14.</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">export LANG=&quot;en_US.UTF-8&quot;</span><br><span class="line"></span><br><span class="line">updateAndroidPath=&quot;/Users/apple/Desktop/build/OCR/Android&quot;</span><br><span class="line">updateiOSPath=&quot;/Users/apple/Desktop/build/OCR/iOS&quot;</span><br><span class="line">userKey=&quot;**&quot;</span><br><span class="line">apiKey=&quot;**&quot;</span><br><span class="line"></span><br><span class="line"># ----- 上传Android apk -----</span><br><span class="line">echo &quot;\n\n----- 上传Android apk -----\n\n&quot;</span><br><span class="line"></span><br><span class="line">for workitem in `ls $&#123;updateAndroidPath&#125;`; do</span><br><span class="line">filePath=$&#123;updateAndroidPath&#125;&quot;/&quot;$workitem</span><br><span class="line">if [[ &quot;$&#123;filePath##*.&#125;&quot;x = &quot;apk&quot;x ]]; then</span><br><span class="line">echo &quot;----文件----$&#123;filePath&#125;---&quot;</span><br><span class="line">curl -F &quot;file=@$filePath&quot; \</span><br><span class="line">-F &quot;uKey=$&#123;userKey&#125;&quot; \</span><br><span class="line">-F &quot;_api_key=$&#123;apiKey&#125;&quot; \</span><br><span class="line">https://www.pgyer.com/apiv1/app/upload</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">#----- 上传iOS IPA -----</span><br><span class="line">echo &quot;\n\n----- 上传iOS IPA -----\n\n&quot;</span><br><span class="line">cd $&#123;updateiOSPath&#125;</span><br><span class="line">unzip ipa-1.0.zip</span><br><span class="line">for workitem in `ls $&#123;updateiOSPath&#125;/ipa-1.0/1.0`; do</span><br><span class="line">filePath=$&#123;updateiOSPath&#125;&quot;/ipa-1.0/1.0/&quot;$workitem</span><br><span class="line">if [[ &quot;$&#123;filePath##*.&#125;&quot;x = &quot;ipa&quot;x ]]; then</span><br><span class="line">echo &quot;----文件----$&#123;filePath&#125;---&quot;</span><br><span class="line">curl -F &quot;file=@$filePath&quot; \</span><br><span class="line">-F &quot;uKey=$&#123;userKey&#125;&quot; \</span><br><span class="line">-F &quot;_api_key=$&#123;apiKey&#125;&quot; \</span><br><span class="line">https://www.pgyer.com/apiv1/app/upload</span><br><span class="line">rm -rf $&#123;updateiOSPath&#125;/ipa-1.0</span><br><span class="line">fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h3 id="Android打包"><a href="#Android打包" class="headerlink" title="Android打包"></a>Android打包</h3><p>Android打包是调用工程根目录下的gradlew来完成打包。</p>
+<p>cd到相应工程目录，然后执行<code>gradlew clean</code>清理缓存，然后再执行<code>gradlew assembleRelease</code>进行打包。</p>
+<p>具体命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gradlew clean</span><br><span class="line">gradlew assembleRelease</span><br></pre></td></tr></table></figure>
+
+<p><code>gradlew clean</code>是清理工程目录下的<code>build</code>文件夹。<br><code>gradlew assembleRelease</code>是编译并打<code>Release</code>包，同理<code>gradlew assembleDebug</code>是编译是打<code>Debug</code>包。</p>
+<p>我们也可以使用<code>gradlew build</code>命令将<code>debug</code>、<code>release</code>环境的包都打出来。</p>
+<h3 id="服务端打包"><a href="#服务端打包" class="headerlink" title="服务端打包"></a>服务端打包</h3><p>服务端那边是使用<code>Maven</code>进行自动化打包。</p>
+<p>全程也只有下方一个指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean install -DskipTests</span><br></pre></td></tr></table></figure>
+
+<p>首先使用<code>Maven</code>需要在<code>Mac</code>系统上安装和配置<code>Maven</code>环境。</p>
+<p>具体配置可以参考<a href="https://blog.csdn.net/winstonlau/article/details/95605557" target="_blank" rel="noopener">Mac系统下载、安装和配置Maven环境</a>这篇文章。</p>
+<p>因还有其他逻辑，所以将所有逻辑存放在<code>build.sh</code>文件中。但在调用时发现，会报配置出错。</p>
+<p>所以需要在<code>Jenkins</code>配置的<code>Execute shell</code>中添加<code>#!/bin/bash -ilex</code>。</p>
+<p>其中<code>build.sh</code>为编译jar包的脚本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash -ilex</span><br><span class="line">cd /Users/apple/Desktop/build/taiping_src</span><br><span class="line">sh build.sh</span><br></pre></td></tr></table></figure>
+
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%AE%BC%E5%B1%A4" target="_blank" rel="noopener">shell-维基百科</a></li>
+<li><a href="https://baike.baidu.com/item/shell/99702" target="_blank" rel="noopener">shell-百度百科</a></li>
+<li><a href="https://www.runoob.com/linux/linux-shell.html" target="_blank" rel="noopener">shell教程-菜鸟</a></li>
+<li><a href="http://c.biancheng.net/shell/base/" target="_blank" rel="noopener">Shell基础</a></li>
+<li><a href="https://www.runoob.com/linux/linux-command-manual.html" target="_blank" rel="noopener">Linux命令大全</a></li>
+<li><a href="https://www.jianshu.com/p/7248276d3bb5" target="_blank" rel="noopener">Gradle与Maven的区别</a></li>
+<li><a href="https://blog.csdn.net/winstonlau/article/details/95605557" target="_blank" rel="noopener">Mac系统下载、安装和配置Maven环境</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    拿根针尖对麦芒
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xnxy.github.io/2020/04/29/shell脚本的使用及整理/" title="shell脚本的使用及整理">https://xnxy.github.io/2020/04/29/shell脚本的使用及整理/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/xnxy.github.io/tags/shell/" rel="tag"><i class="fa fa-tag"></i> shell</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/xnxy.github.io/2020/03/31/自动打包脚本报ruby找不到错误/" rel="next" title="自动打包脚本报ruby找不到错误">
+                <i class="fa fa-chevron-left"></i> 自动打包脚本报ruby找不到错误
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/xnxy.github.io/2020/05/08/如何判断设备是否为iPhone X,iOS获取设备型号的方法/" rel="prev" title="如何判断设备是否为iPhone X,iOS获取设备型号的方法。">
+                如何判断设备是否为iPhone X,iOS获取设备型号的方法。 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMDkzNi83NDg1">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image" src="/xnxy.github.io/images/head.jpeg" alt="拿根针尖对麦芒">
+          
+            <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/xnxy.github.io/archives/">
+            
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/xnxy.github.io/categories/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/xnxy.github.io/tags/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/xnxy.github.io/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xnxy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="2303400083@.qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/022a5e92c62c" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>简书</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/xnxyonly1" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://jewsaten.github.io/" title="「蒋·先生」" target="_blank">「蒋·先生」</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.wangquanwei.com/" title="王权伟の博客" target="_blank">王权伟の博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://guyueyang.github.io/" title="晓平の博客" target="_blank">晓平の博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://venpled.top" title="venpled" target="_blank">venpled</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://zxzybin.github.io/" title="笑嘞同学" target="_blank">笑嘞同学</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://nicebeach.github.io/" title="共由石石石" target="_blank">共由石石石</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于shell"><span class="nav-number">2.</span> <span class="nav-text">关于shell</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#shell历史"><span class="nav-number">2.1.</span> <span class="nav-text">shell历史</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#术语名词"><span class="nav-number">3.</span> <span class="nav-text">术语名词</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用shell命令"><span class="nav-number">4.</span> <span class="nav-text">常用shell命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取SDK或IPA的版本号"><span class="nav-number">4.0.1.</span> <span class="nav-text">获取SDK或IPA的版本号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Xcodebuild指令对项目进行打包"><span class="nav-number">4.0.2.</span> <span class="nav-text">使用Xcodebuild指令对项目进行打包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用xcodebuild指令打包Framework"><span class="nav-number">4.0.3.</span> <span class="nav-text">使用xcodebuild指令打包Framework</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于xcpretty"><span class="nav-number">4.0.4.</span> <span class="nav-text">关于xcpretty</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#for循环"><span class="nav-number">4.0.5.</span> <span class="nav-text">for循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#while循环"><span class="nav-number">4.0.6.</span> <span class="nav-text">while循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#if判断语句"><span class="nav-number">4.0.7.</span> <span class="nav-text">if判断语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android打包"><span class="nav-number">4.0.8.</span> <span class="nav-text">Android打包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端打包"><span class="nav-number">4.0.9.</span> <span class="nav-text">服务端打包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料："><span class="nav-number">4.0.9.1.</span> <span class="nav-text">参考资料：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2017 &mdash; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">
+      56.7k
+    </span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共56.7k字</span>
+</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/xnxy.github.io/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/xnxy.github.io/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/xnxy.github.io/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/xnxy.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
