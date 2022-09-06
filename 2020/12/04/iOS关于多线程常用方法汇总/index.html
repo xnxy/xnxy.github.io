@@ -97,7 +97,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="iOS,GPUImage,">
+  <meta name="keywords" content="iOS,">
 
 
 
@@ -115,20 +115,18 @@
 
 
 
-<meta name="description" content="关于GPUImage: GPUImage是一个基于GPU的图像、视频处理的iOS框架，支持很多种图像滤镜。当然，它目前还缺乏一些图像处理的高级功能，例如面部识别。 对于大规模并行操作（如处理图像或实时视频），GPU具有一些比CPU更显著的性能优势。在iPhone 4上，一个简单的图像滤镜在GPU上的执行速度可能比基于CPU的滤镜快100倍。 下方是GPUImage的相应类库所实现的功能：   部分">
-<meta name="keywords" content="iOS,GPUImage">
+<meta name="description" content="Overview前段时间整理了《Objective-C高级编程iOS与OS X 多线程和内存管理》中共的GCD相关的知识，其中内容大部分都是摘录书中的内容。 写完以后感觉有些意犹未尽，所以决定将在开发过程中常用的多线程的方法单独拿出来整理一下。 串行和并行 Objective-C  1234// 串行队列的创建方法dispatch_queue_t serialDispatchQueue = dis">
+<meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GPUImage相应类库所实现的功能">
-<meta property="og:url" content="https://xnxy.github.io/2019/09/09/GPUImage相应类库所实现的功能/index.html">
+<meta property="og:title" content="iOS关于多线程常用方法汇总">
+<meta property="og:url" content="https://xnxy.github.io/2020/12/04/iOS关于多线程常用方法汇总/index.html">
 <meta property="og:site_name" content="拿根针尖对麦芒">
-<meta property="og:description" content="关于GPUImage: GPUImage是一个基于GPU的图像、视频处理的iOS框架，支持很多种图像滤镜。当然，它目前还缺乏一些图像处理的高级功能，例如面部识别。 对于大规模并行操作（如处理图像或实时视频），GPU具有一些比CPU更显著的性能优势。在iPhone 4上，一个简单的图像滤镜在GPU上的执行速度可能比基于CPU的滤镜快100倍。 下方是GPUImage的相应类库所实现的功能：   部分">
+<meta property="og:description" content="Overview前段时间整理了《Objective-C高级编程iOS与OS X 多线程和内存管理》中共的GCD相关的知识，其中内容大部分都是摘录书中的内容。 写完以后感觉有些意犹未尽，所以决定将在开发过程中常用的多线程的方法单独拿出来整理一下。 串行和并行 Objective-C  1234// 串行队列的创建方法dispatch_queue_t serialDispatchQueue = dis">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://xnxy.github.io/2019/09/09/GPUImage相应类库所实现的功能/GPUImage.jpg">
-<meta property="og:updated_time" content="2019-09-09T11:12:05.000Z">
+<meta property="og:updated_time" content="2020-12-03T16:00:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GPUImage相应类库所实现的功能">
-<meta name="twitter:description" content="关于GPUImage: GPUImage是一个基于GPU的图像、视频处理的iOS框架，支持很多种图像滤镜。当然，它目前还缺乏一些图像处理的高级功能，例如面部识别。 对于大规模并行操作（如处理图像或实时视频），GPU具有一些比CPU更显著的性能优势。在iPhone 4上，一个简单的图像滤镜在GPU上的执行速度可能比基于CPU的滤镜快100倍。 下方是GPUImage的相应类库所实现的功能：   部分">
-<meta name="twitter:image" content="https://xnxy.github.io/2019/09/09/GPUImage相应类库所实现的功能/GPUImage.jpg">
+<meta name="twitter:title" content="iOS关于多线程常用方法汇总">
+<meta name="twitter:description" content="Overview前段时间整理了《Objective-C高级编程iOS与OS X 多线程和内存管理》中共的GCD相关的知识，其中内容大部分都是摘录书中的内容。 写完以后感觉有些意犹未尽，所以决定将在开发过程中常用的多线程的方法单独拿出来整理一下。 串行和并行 Objective-C  1234// 串行队列的创建方法dispatch_queue_t serialDispatchQueue = dis">
 
 
 
@@ -158,13 +156,13 @@
 
 
 
-  <link rel="canonical" href="https://xnxy.github.io/2019/09/09/GPUImage相应类库所实现的功能/">
+  <link rel="canonical" href="https://xnxy.github.io/2020/12/04/iOS关于多线程常用方法汇总/">
 
 
 
 
 
-  <title>GPUImage相应类库所实现的功能 | 拿根针尖对麦芒</title>
+  <title>iOS关于多线程常用方法汇总 | 拿根针尖对麦芒</title>
   
 
 
@@ -335,7 +333,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2019/09/09/GPUImage相应类库所实现的功能/">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2020/12/04/iOS关于多线程常用方法汇总/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="拿根针尖对麦芒">
@@ -352,7 +350,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">GPUImage相应类库所实现的功能</h2>
+          <h2 class="post-title" itemprop="name headline">iOS关于多线程常用方法汇总</h2>
         
 
         <div class="post-meta">
@@ -364,8 +362,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-09T19:12:05+08:00">
-                2019-09-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-04T00:00:00+08:00">
+                2020-12-04
               </time>
             
 
@@ -380,8 +378,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-09T19:12:05+08:00">
-                2019-09-09
+              <time title="更新于" itemprop="dateModified" datetime="2020-12-04T00:00:00+08:00">
+                2020-12-04
               </time>
             
           </span>
@@ -399,19 +397,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/源码学习/" itemprop="url" rel="index">
-                    <span itemprop="name">源码学习</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/源码学习/GPUImage/" itemprop="url" rel="index">
-                    <span itemprop="name">GPUImage</span>
+                  <a href="/categories/整理/" itemprop="url" rel="index">
+                    <span itemprop="name">整理</span>
                   </a>
                 </span>
 
@@ -441,7 +428,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  200
+                  1,149
                 </span>
               
 
@@ -466,21 +453,88 @@
       
 
       
-        <p>关于<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="noopener">GPUImage</a>:</p>
-<p>GPUImage是一个基于GPU的图像、视频处理的iOS框架，支持很多种图像滤镜。当然，它目前还缺乏一些图像处理的高级功能，例如面部识别。</p>
-<p>对于大规模并行操作（如处理图像或实时视频），GPU具有一些比CPU更显著的性能优势。在iPhone 4上，一个简单的图像滤镜在GPU上的执行速度可能比基于CPU的滤镜快100倍。</p>
-<p>下方是<a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="noopener">GPUImage</a>的相应类库所实现的功能：</p>
-<p><img src="/2019/09/09/GPUImage相应类库所实现的功能/GPUImage.jpg" alt="GPUImage-01.jpg"></p>
-<hr>
-<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/LearningGPUImage" target="_blank" rel="noopener">部分滤镜实现(会不定期更新)</a></p>
-<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="https://github.com/BradLarson/GPUImage" target="_blank" rel="noopener">GPUImage</a></li>
-<li><a href="https://www.cnblogs.com/XYQ-208910/p/5859683.html" target="_blank" rel="noopener">iOS：GPUImage强大的图像处理框架</a></li>
-<li><a href="http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find/" target="_blank" rel="noopener">AVFoundation和 GPUImage初探</a></li>
-<li><a href="http://www.cnblogs.com/salam/p/4981276.html" target="_blank" rel="noopener">GPUImage简单滤镜使用（二）</a></li>
-<li><a href="https://yq.aliyun.com/articles/55708" target="_blank" rel="noopener">使用GPUImage实现视频滤镜</a></li>
-<li><a href="http://www.cnblogs.com/salam/p/5125836.html" target="_blank" rel="noopener">iOS二十种超酷时尚艺术滤镜汇总【附源码】</a></li>
-</ul>
+        <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>前段时间整理了<a href="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/Objective-C%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8BiOS%E4%B8%8EOS%20X%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/Objective-C%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%20iOS%E4%B8%8EOS%20X%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.pdf" target="_blank" rel="noopener">《Objective-C高级编程iOS与OS X 多线程和内存管理》</a>中共的GCD相关的知识，其中内容大部分都是摘录书中的内容。</p>
+<p>写完以后感觉有些意犹未尽，所以决定将在开发过程中常用的多线程的方法单独拿出来整理一下。</p>
+<h2 id="串行和并行"><a href="#串行和并行" class="headerlink" title="串行和并行"></a>串行和并行</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 串行队列的创建方法</span><br><span class="line">dispatch_queue_t serialDispatchQueue = dispatch_queue_create(&quot;com.example.gcd.serial&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">// 并发队列的创建方法</span><br><span class="line">dispatch_queue_t concurrentDispatchQueue = dispatch_queue_create(&quot;com.example.gcd.concurrent&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//串行队列的创建方法</span><br><span class="line">let serialDispatch = DispatchQueue.init(label: &quot;com.example.gcd.serial&quot;)</span><br><span class="line">//并发队列的创建方法</span><br><span class="line">let concurrentDispatchQueue = DispatchQueue.init(label: &quot;com.example.gcd.concurrent&quot;, attributes: .concurrent)</span><br></pre></td></tr></table></figure>
+
+<h2 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dispatch_sync(serialDispatchQueue, ^&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(concurrentDispatchQueue, ^&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//同步</span><br><span class="line">serialDispatch.sync &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//异步</span><br><span class="line">concurrentDispatchQueue.async &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="各种Dispatch-Queue获取方法"><a href="#各种Dispatch-Queue获取方法" class="headerlink" title="各种Dispatch Queue获取方法"></a>各种Dispatch Queue获取方法</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * Main Dispatch Queue 的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t mainDispatchQueue = dispatch_get_main_queue();</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (高优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueHigh = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (默认优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueDefault = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (低优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueLow = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (后台优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueBackground = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/* --- 各种 Dispatch Queue的获取方法 --- */</span><br><span class="line">/*</span><br><span class="line"> * 相应参数说明：</span><br><span class="line"> * label : 队列的标识</span><br><span class="line"> * qos(服务质量)： .default 默认   .background 后台   .unspecified 不指定   .userInitiated 用户发起</span><br><span class="line">     attributes: 不指定的情况下是串行队列    .concurrent 并行队列</span><br><span class="line"> * autoreleaseFrequency: 自动释放的频率  .inherit 继承     .workItem工作组    .never 从不</span><br><span class="line"> * let dispatchQueue = DispatchQueue.init(label: String, qos: DispatchQoS, attributes: DispatchQueue.Attributes, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency, target: DispatchQueue?)</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Main Dispatch Queue 的获取方法</span><br><span class="line"> */</span><br><span class="line">let mainDispatchQueue = DispatchQueue.main</span><br></pre></td></tr></table></figure>
+
+<h2 id="线程暂停和恢复"><a href="#线程暂停和恢复" class="headerlink" title="线程暂停和恢复"></a>线程暂停和恢复</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.example.gcd.suspend&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">dispatch_suspend(queue);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    dispatch_apply(5, queue, ^(size_t index) &#123;</span><br><span class="line">        NSLog(@&quot;---%ld---1----&quot;,index);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">sleep(1);</span><br><span class="line">NSLog(@&quot;---2---&quot;);</span><br><span class="line">dispatch_resume(queue);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let queue = DispatchQueue.init(label: &quot;com.example.gcd.suspend&quot;, attributes: .concurrent)</span><br><span class="line">queue.suspend()</span><br><span class="line">queue.async &#123;</span><br><span class="line">    print(&quot;------1----&quot;)</span><br><span class="line">&#125;</span><br><span class="line">sleep(1)</span><br><span class="line">print(&quot;---2---&quot;)</span><br><span class="line">queue.resume()</span><br></pre></td></tr></table></figure>
+
+<h2 id="延迟操作"><a href="#延迟操作" class="headerlink" title="延迟操作"></a>延迟操作</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">    NSLog(@&quot;--- 延迟3秒后执行的操作 ---&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//或</span><br><span class="line"></span><br><span class="line">dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC));</span><br><span class="line">dispatch_after(time, dispatch_get_main_queue(), ^&#123;</span><br><span class="line">    NSLog(@&quot;--- 延迟3秒后执行的操作 ---&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DispatchQueue.main.asyncAfter(deadline: DispatchTime.init(uptimeNanoseconds: 2))&#123;</span><br><span class="line">    print(&quot;---延迟2秒执行---&quot;)</span><br><span class="line">&#125;</span><br><span class="line">print(&quot;---1---&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="队列组"><a href="#队列组" class="headerlink" title="队列组"></a>队列组</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">dispatch_group_t dispatchGroup = dispatch_group_create();</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.example.gcd.queue&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_group_async(dispatchGroup, queue, ^&#123;</span><br><span class="line">    //接口1</span><br><span class="line">    sleep(2);</span><br><span class="line">    NSLog(@&quot;---接口1---&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_async(dispatchGroup, queue, ^&#123;</span><br><span class="line">    //接口2</span><br><span class="line">    sleep(1);</span><br><span class="line">    NSLog(@&quot;---接口2---&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_notify(dispatchGroup, queue, ^&#123;</span><br><span class="line">    //结束</span><br><span class="line">    NSLog(@&quot;---结束---&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let dispatchGroup = DispatchGroup.init()</span><br><span class="line">let queue = DispatchQueue.init(label: &quot;com.example.gcd.queue&quot;, attributes: .concurrent)</span><br><span class="line"></span><br><span class="line">dispatchGroup.enter()</span><br><span class="line">queue.async &#123;</span><br><span class="line">    print(&quot;---1---&quot;)</span><br><span class="line">    sleep(1)</span><br><span class="line">    print(&quot;---2---&quot;)</span><br><span class="line">    dispatchGroup.leave()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatchGroup.notify(queue: queue)&#123;</span><br><span class="line">    print(&quot;---3---&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="栅栏方法"><a href="#栅栏方法" class="headerlink" title="栅栏方法"></a>栅栏方法</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.example.gcd.barrier&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    [NSThread sleepForTimeInterval:2];</span><br><span class="line">    NSLog(@&quot;dispatch_async1&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    [NSThread sleepForTimeInterval:1];</span><br><span class="line">    NSLog(@&quot;dispatch_async2&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//等待前面的任务执行完毕后自己才执行，后面的任务需等待它完成之后才执行</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;dispatch_barrier_async&quot;);</span><br><span class="line">    [NSThread sleepForTimeInterval:4];</span><br><span class="line">    NSLog(@&quot;四秒后：dispatch_barrier_async&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    [NSThread sleepForTimeInterval:1];</span><br><span class="line">    NSLog(@&quot;dispatch_async3&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;dispatch_async4&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">let queue = DispatchQueue.init(label: &quot;com.example.gcd.barrier&quot;, attributes: .concurrent)</span><br><span class="line">queue.async &#123;</span><br><span class="line">    sleep(2)</span><br><span class="line">    print(&quot;dispatch_async1&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">queue.async &#123;</span><br><span class="line">    sleep(1)</span><br><span class="line">    print(&quot;dispatch_async2&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//等待前面的任务执行完毕后自己才执行，后面的任务需等待它完成之后才执行</span><br><span class="line">queue.async(flags: .barrier)&#123;</span><br><span class="line">    sleep(4)</span><br><span class="line">    print(&quot;四秒后：dispatch_barrier_async&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">queue.async &#123;</span><br><span class="line">    sleep(1)</span><br><span class="line">    print(&quot;dispatch_async3&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">queue.async &#123;</span><br><span class="line">    print(&quot;dispatch_async4&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);</span><br><span class="line"></span><br><span class="line">    dispatch_async(dispatch_queue_create(&quot;com.example.gcd.queue&quot;, DISPATCH_QUEUE_CONCURRENT), ^&#123;</span><br><span class="line">        sleep(2);</span><br><span class="line">        NSLog(@&quot;---1---&quot;);</span><br><span class="line">        dispatch_semaphore_signal(semaphore);</span><br><span class="line">    &#125;);</span><br><span class="line">//    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">    dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t) 1 * NSEC_PER_SEC);</span><br><span class="line">    long result = dispatch_semaphore_wait(semaphore, time);</span><br><span class="line">    if (result == 0) &#123;</span><br><span class="line">        /*</span><br><span class="line">         * 由于Dispatch Semaphore 的计数值达到大于等于1</span><br><span class="line">         * 或者在待机中的指定时间内</span><br><span class="line">         * Dispatch Semaphore 的计数值达到大于等于1</span><br><span class="line">         *</span><br><span class="line">         * 可执行需要进行排他控制的处理</span><br><span class="line">         */</span><br><span class="line">        NSLog(@&quot;---2---&quot;);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        /*</span><br><span class="line">         * 由于 Dispatch Semaphore 的计数值为0</span><br><span class="line">         * 因此再达到指定时间为止待机</span><br><span class="line">         */</span><br><span class="line">        NSLog(@&quot;---3---&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">    let semaphore = DispatchSemaphore.init(value: 0)</span><br><span class="line"></span><br><span class="line">    DispatchQueue.init(label: &quot;com.example.gcd.queue&quot;,attributes: .concurrent).async &#123;</span><br><span class="line">        sleep(2)</span><br><span class="line">        print(&quot;---1---&quot;)</span><br><span class="line">        semaphore.signal()</span><br><span class="line">    &#125;</span><br><span class="line">    print(&quot;---2---&quot;)</span><br><span class="line">//    semaphore.wait()</span><br><span class="line">    let time = DispatchTime.init(uptimeNanoseconds: 1)</span><br><span class="line">    let result = semaphore.wait(timeout: time)</span><br><span class="line"></span><br><span class="line">    if result == DispatchTimeoutResult.success &#123;</span><br><span class="line">        print(&quot;---3---&quot;)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        print(&quot;---4---&quot;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -501,7 +555,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://xnxy.github.io/2019/09/09/GPUImage相应类库所实现的功能/" title="GPUImage相应类库所实现的功能">https://xnxy.github.io/2019/09/09/GPUImage相应类库所实现的功能/</a>
+    <a href="https://xnxy.github.io/2020/12/04/iOS关于多线程常用方法汇总/" title="iOS关于多线程常用方法汇总">https://xnxy.github.io/2020/12/04/iOS关于多线程常用方法汇总/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -518,8 +572,6 @@
           
             <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
           
-            <a href="/tags/GPUImage/" rel="tag"><i class="fa fa-tag"></i> GPUImage</a>
-          
         </div>
       
 
@@ -531,8 +583,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/09/2017-12-29/" rel="next" title="iOS性能调优：Analyze静态分析与Instruments动态分析">
-                <i class="fa fa-chevron-left"></i> iOS性能调优：Analyze静态分析与Instruments动态分析
+              <a href="/2020/12/02/关于多线程编程与GCD相关知识点整理/" rel="next" title="关于多线程编程与GCD相关知识点整理">
+                <i class="fa fa-chevron-left"></i> 关于多线程编程与GCD相关知识点整理
               </a>
             
           </div>
@@ -541,8 +593,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09/09/2017-10-19/" rel="prev" title="公司iOS项目MVVM架构模式设计及分析MVVM+RAC的优缺点">
-                公司iOS项目MVVM架构模式设计及分析MVVM+RAC的优缺点 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/03/15/关于判断App是否运行在Mac上和常用软件整理/" rel="prev" title="关于判断App是否运行在Mac上和常用软件整理">
+                关于判断App是否运行在Mac上和常用软件整理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -733,7 +785,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料："><span class="nav-number">1.</span> <span class="nav-text">参考资料：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#串行和并行"><span class="nav-number">1.1.</span> <span class="nav-text">串行和并行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步和异步"><span class="nav-number">1.2.</span> <span class="nav-text">同步和异步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各种Dispatch-Queue获取方法"><span class="nav-number">1.3.</span> <span class="nav-text">各种Dispatch Queue获取方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程暂停和恢复"><span class="nav-number">1.4.</span> <span class="nav-text">线程暂停和恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#延迟操作"><span class="nav-number">1.5.</span> <span class="nav-text">延迟操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列组"><span class="nav-number">1.6.</span> <span class="nav-text">队列组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅栏方法"><span class="nav-number">1.7.</span> <span class="nav-text">栅栏方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量"><span class="nav-number">1.8.</span> <span class="nav-text">信号量</span></a></li></ol></li></ol></div>
             
 
           </div>
