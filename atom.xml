@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xnxy.github.io/"/>
-  <updated>2022-08-18T16:00:00.000Z</updated>
+  <updated>2022-09-06T16:00:00.000Z</updated>
   <id>https://xnxy.github.io/</id>
   
   <author>
@@ -15,6 +15,57 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>文件管理器用户协议</title>
+    <link href="https://xnxy.github.io/2022/09/07/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%E7%94%A8%E6%88%B7%E5%8D%8F%E8%AE%AE/"/>
+    <id>https://xnxy.github.io/2022/09/07/文件管理器用户协议/</id>
+    <published>2022-09-06T16:00:00.000Z</published>
+    <updated>2022-09-06T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="文件管理器用户协议"><a href="#文件管理器用户协议" class="headerlink" title="文件管理器用户协议"></a>文件管理器用户协议</h1><h2 id="一、声明"><a href="#一、声明" class="headerlink" title="一、声明"></a>一、声明</h2><p>任何单位或个人在使用<code>文件管理器</code> APP之前（以下简称“文件管理器”），均应仔细阅读本条款，如不同意本条款可停止使用<code>文件管理器</code>，一旦使用，即被视为对本条款全部内容的认可和接受。</p><h2 id="二、关于获取隐私"><a href="#二、关于获取隐私" class="headerlink" title="二、关于获取隐私"></a>二、关于获取隐私</h2><p><code>文件管理器</code>只访问数据，不会对数据进行上传。</p><ol><li><code>文件管理器</code>需要允许访问相册，以便于选择相册中的图片或视频保存到<code>文件管理器</code>中查看。</li><li><code>文件管理器</code>需要允许访问相册，以便于选择相册中的图片或视频保存到<code>文件管理器</code>中查看。</li><li><code>文件管理器</code>需要允许访问摄像头，以便于拍摄照片和视频保存到<code>文件管理器</code>中进行查看。</li><li><code>文件管理器</code>需要允许访问麦克风，以便于拍摄视频并保存到<code>文件管理器</code>中进行查看。</li></ol><h2 id="二、风险与免责"><a href="#二、风险与免责" class="headerlink" title="二、风险与免责"></a>二、风险与免责</h2><p>若因下列事件导致您的隐私泄露，我们将尽最大努力进行补救或为您提供协助，但您同意我们无需承担任何责任。</p><ol><li>因病毒、木马、黑客攻击而导致的信息泄露；</li><li>任何其他非因<code>文件管理器</code>的原因导致的个人信息泄漏。</li></ol><h2 id="三、隐私条款更改"><a href="#三、隐私条款更改" class="headerlink" title="三、隐私条款更改"></a>三、隐私条款更改</h2><p><code>文件管理器</code>可根据国家法律法规变化及维护用户权益需要，不时修改本条款，变更后的条款将通过法定程序在本条款中标明最后更新日期。</p><blockquote><p>更新日期：2022年09月07日</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;文件管理器用户协议&quot;&gt;&lt;a href=&quot;#文件管理器用户协议&quot; class=&quot;headerlink&quot; title=&quot;文件管理器用户协议&quot;&gt;&lt;/a&gt;文件管理器用户协议&lt;/h1&gt;&lt;h2 id=&quot;一、声明&quot;&gt;&lt;a href=&quot;#一、声明&quot; class=&quot;headerli
+      
+    
+    </summary>
+    
+      <category term="iOS" scheme="https://xnxy.github.io/categories/iOS/"/>
+    
+    
+      <category term="iOS" scheme="https://xnxy.github.io/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>文件管理器技术支持</title>
+    <link href="https://xnxy.github.io/2022/09/07/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%E6%8A%80%E6%9C%AF%E6%94%AF%E6%8C%81/"/>
+    <id>https://xnxy.github.io/2022/09/07/文件管理器技术支持/</id>
+    <published>2022-09-06T16:00:00.000Z</published>
+    <updated>2022-09-06T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>文件管理器是一款优秀的本地文件管理工具，能够帮您轻松地管理手机文件。</p><h2 id="文件管理："><a href="#文件管理：" class="headerlink" title="文件管理："></a>文件管理：</h2><ol><li>暂时支持从系统相册批量导入照片和视频文件；</li><li>暂时支持手机端和电脑端互传文件；</li></ol><h2 id="内置视频播放器"><a href="#内置视频播放器" class="headerlink" title="内置视频播放器"></a>内置视频播放器</h2><p>暂时支持的视频格式有mp4、MOV、FLV、MVB、WMV等。<br>后续将持续优化。</p><h2 id="支持暗黑模式"><a href="#支持暗黑模式" class="headerlink" title="支持暗黑模式"></a>支持暗黑模式</h2><p>暗黑模式下可以保护您的眼睛。</p><h2 id="支持的格式"><a href="#支持的格式" class="headerlink" title="支持的格式"></a>支持的格式</h2><p>目前暂时支持的格式如下，后续会不断更新</p><ul><li>图片：</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jpg,jpeg,heic,webp,png,gif,bmp,eps,gdraw,heif,psd,svg,tiff,等</span><br></pre></td></tr></table></figure><ul><li>文档：</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">txt,rtf,xml,mht,mhtml,html,htm,et,ett,wps,wpt,dot,dotx,dotm,docm,doc,docx,pdf,xls,xlt,xlsx,xlsm,dbf,csv,prn, ppt、pptx、pages, numbers等</span><br></pre></td></tr></table></figure><ul><li>视频：</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flv,rmvb,mp4,mvb,avi,mpg,mpeg,vob,rm,rmvb,3gp,asf,mpg,mpeg,mpeg4,ts,mov,mpe,wmv,mkv等</span><br></pre></td></tr></table></figure><h2 id="关于帮助"><a href="#关于帮助" class="headerlink" title="关于帮助"></a>关于帮助</h2><p>感谢您使用文件管理器，在使用过程中如果有任何问题可以通过以下方式联系我寻求帮助：<br>1.个人邮箱：<a href="mailto:zhouweidev@gmail.com" target="_blank" rel="noopener">zhouweidev@gmail.com</a><br>2.微信公众号：拿根针尖对麦芒（ZhouWeiTalk）</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;文件管理器是一款优秀的本地文件管理工具，能够帮您轻松地管理手机文件。&lt;/p&gt;
+&lt;h2 id=
+      
+    
+    </summary>
+    
+      <category term="iOS" scheme="https://xnxy.github.io/categories/iOS/"/>
+    
+    
+      <category term="iOS" scheme="https://xnxy.github.io/tags/iOS/"/>
+    
+  </entry>
   
   <entry>
     <title>关于iOS &amp; iPadOS 16 beta 6相关API废弃</title>
@@ -142,6 +193,31 @@
   </entry>
   
   <entry>
+    <title>EasyOCR用户协议</title>
+    <link href="https://xnxy.github.io/2020/11/04/EasyOCR%E7%94%A8%E6%88%B7%E5%8D%8F%E8%AE%AE/"/>
+    <id>https://xnxy.github.io/2020/11/04/EasyOCR用户协议/</id>
+    <published>2020-11-03T16:00:00.000Z</published>
+    <updated>2020-11-03T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="EasyOCR用户协议"><a href="#EasyOCR用户协议" class="headerlink" title="EasyOCR用户协议"></a>EasyOCR用户协议</h1><h2 id="一、声明"><a href="#一、声明" class="headerlink" title="一、声明"></a>一、声明</h2><p>任何单位或个人在使用EasyOCR APP之前（以下简称“EasyOCR”），均应仔细阅读本条款，如不同意本条款可停止使用EasyOCR，一旦使用，即被视为对本条款全部内容的认可和接受。</p><h2 id="二、关于获取隐私"><a href="#二、关于获取隐私" class="headerlink" title="二、关于获取隐私"></a>二、关于获取隐私</h2><p>EasyOCR只访问数据，不会对数据进行上传。</p><ol><li>EasyOCR需要您允许访问相机，以便于拍照进行文字识别；</li><li>EasyOCR需要您允许访问相册，以便于选择图片进行识别。</li></ol><h2 id="二、风险与免责"><a href="#二、风险与免责" class="headerlink" title="二、风险与免责"></a>二、风险与免责</h2><p>若因下列事件导致您的隐私泄露，我们将尽最大努力进行补救或为您提供协助，但您同意我们无需承担任何责任。</p><ol><li>因病毒、木马、黑客攻击而导致的信息泄露；</li><li>任何其他非因EasyOCR的原因导致的个人信息泄漏；</li></ol><h2 id="三、隐私条款更改"><a href="#三、隐私条款更改" class="headerlink" title="三、隐私条款更改"></a>三、隐私条款更改</h2><p>EasyOCR可根据国家法律法规变化及维护用户权益需要，不时修改本条款，变更后的条款将通过法定程序在本条款中标明最后更新日期。</p><blockquote><p>更新日期：2020年11月04日</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;EasyOCR用户协议&quot;&gt;&lt;a href=&quot;#EasyOCR用户协议&quot; class=&quot;headerlink&quot; title=&quot;EasyOCR用户协议&quot;&gt;&lt;/a&gt;EasyOCR用户协议&lt;/h1&gt;&lt;h2 id=&quot;一、声明&quot;&gt;&lt;a href=&quot;#一、声明&quot; class=&quot;
+      
+    
+    </summary>
+    
+      <category term="个人项目" scheme="https://xnxy.github.io/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/"/>
+    
+    
+      <category term="iOS" scheme="https://xnxy.github.io/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>EasyOCR技术支持</title>
     <link href="https://xnxy.github.io/2020/11/04/EasyOCR%E6%8A%80%E6%9C%AF%E6%94%AF%E6%8C%81/"/>
     <id>https://xnxy.github.io/2020/11/04/EasyOCR技术支持/</id>
@@ -156,31 +232,6 @@
       
         &lt;h2 id=&quot;产品简介&quot;&gt;&lt;a href=&quot;#产品简介&quot; class=&quot;headerlink&quot; title=&quot;产品简介&quot;&gt;&lt;/a&gt;产品简介&lt;/h2&gt;&lt;p&gt;EasyOCR是一款专业的本地OCR图片文字识别APP。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;https://blog-zho
-      
-    
-    </summary>
-    
-      <category term="个人项目" scheme="https://xnxy.github.io/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/"/>
-    
-    
-      <category term="iOS" scheme="https://xnxy.github.io/tags/iOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>EasyOCR用户协议</title>
-    <link href="https://xnxy.github.io/2020/11/04/EasyOCR%E7%94%A8%E6%88%B7%E5%8D%8F%E8%AE%AE/"/>
-    <id>https://xnxy.github.io/2020/11/04/EasyOCR用户协议/</id>
-    <published>2020-11-03T16:00:00.000Z</published>
-    <updated>2020-11-03T16:00:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="EasyOCR用户协议"><a href="#EasyOCR用户协议" class="headerlink" title="EasyOCR用户协议"></a>EasyOCR用户协议</h1><h2 id="一、声明"><a href="#一、声明" class="headerlink" title="一、声明"></a>一、声明</h2><p>任何单位或个人在使用EasyOCR APP之前（以下简称“EasyOCR”），均应仔细阅读本条款，如不同意本条款可停止使用EasyOCR，一旦使用，即被视为对本条款全部内容的认可和接受。</p><h2 id="二、关于获取隐私"><a href="#二、关于获取隐私" class="headerlink" title="二、关于获取隐私"></a>二、关于获取隐私</h2><p>EasyOCR只访问数据，不会对数据进行上传。</p><ol><li>EasyOCR需要您允许访问相机，以便于拍照进行文字识别；</li><li>EasyOCR需要您允许访问相册，以便于选择图片进行识别。</li></ol><h2 id="二、风险与免责"><a href="#二、风险与免责" class="headerlink" title="二、风险与免责"></a>二、风险与免责</h2><p>若因下列事件导致您的隐私泄露，我们将尽最大努力进行补救或为您提供协助，但您同意我们无需承担任何责任。</p><ol><li>因病毒、木马、黑客攻击而导致的信息泄露；</li><li>任何其他非因EasyOCR的原因导致的个人信息泄漏；</li></ol><h2 id="三、隐私条款更改"><a href="#三、隐私条款更改" class="headerlink" title="三、隐私条款更改"></a>三、隐私条款更改</h2><p>EasyOCR可根据国家法律法规变化及维护用户权益需要，不时修改本条款，变更后的条款将通过法定程序在本条款中标明最后更新日期。</p><blockquote><p>更新日期：2020年11月04日</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;EasyOCR用户协议&quot;&gt;&lt;a href=&quot;#EasyOCR用户协议&quot; class=&quot;headerlink&quot; title=&quot;EasyOCR用户协议&quot;&gt;&lt;/a&gt;EasyOCR用户协议&lt;/h1&gt;&lt;h2 id=&quot;一、声明&quot;&gt;&lt;a href=&quot;#一、声明&quot; class=&quot;
       
     
     </summary>
@@ -472,58 +523,6 @@
     
     
       <category term="iOS" scheme="https://xnxy.github.io/tags/iOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于iOS动态库</title>
-    <link href="https://xnxy.github.io/2020/02/28/%E5%85%B3%E4%BA%8EiOS%E5%8A%A8%E6%80%81%E5%BA%93/"/>
-    <id>https://xnxy.github.io/2020/02/28/关于iOS动态库/</id>
-    <published>2020-02-27T16:00:00.000Z</published>
-    <updated>2020-02-27T16:00:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><h1 id="动态库概述"><a href="#动态库概述" class="headerlink" title="动态库概述"></a>动态库概述</h1><p>决定应用程序性能的两个重要因素是它们启动时间和它们的内存占用量。减少应用程序可执行文件的大小，并在启动后最大程度地减少其内存使用量，使该应用程序启动熟读更快，并在启动后使用较少的内存。使用动态库而不是静态库可减少应用程序的可执行文件大小。他们还允许应用程序仅在需要时而不是在启动时才延迟具有特殊功能的库加载。此功能进一步有助于缩短启动时间和有效使用内存。</p><p>本文介绍了动态库，并说明了如何使用动态库而不是静态库来减少应用程序文件大小和初始内存占用。本文还概述了应用程序在运行时用于动态库加载程序兼容性功能。</p><h2 id="什么是动态库？"><a href="#什么是动态库？" class="headerlink" title="什么是动态库？"></a>什么是动态库？</h2><p>应用程序的大多数功能都是在可执行代码库中实现的。使用静态连接器将应用程序与库链接后，该应用程序使用的代码将复制到生成的可执行文件中。<code>A 静态链接</code>收集编译源代码，称为目标代码和库代码成一个可执行文件在运行时加载到存储器中的全部。成为应用程序可执行文件一部分的库称为静态库。<code>静态库</code>是目标文件的集合或归档。</p><blockquote><p>Note：静态库也称为静态档案库和静态链接的共享库。</p></blockquote><p>启动应用程序是,该应用程序的代码（包括与之链接的静态库的代码）被加载到应用程序的地址空间中。将许多静态库链接到应用程序中会生成大型应用程序可执行文件。<strong>图1</strong>显示静态库中实现的功能的应用程序的内存使用情况。具有大型可执行文件的应用程序会遇到启动速度慢和内存占用大的问题。此外，更新静态库后，其客户端应用程序也不会从对其进行的改进中收益。要访问改进的功能，应用程序的开发人员必须将应用程序的目标文件与库的新版本链接。应用程序用户将不得不用最新版本替换其应用程序副本。因此，要使用程序始终具有静态库提供的最新功能，就需要开发人员和最终用户进行破坏性的工作。</p><p><strong>图1 使用静态库的应用</strong></p><p><img src="https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/art/address_space1_2x.png" alt="图1 使用静态库的应用"></p><p>更好的方法是让应用在启动时或运行时在实际需要时将代码加载到其地址空间中。提供这种灵活性的库的类型称为<code>动态库</code>。动态库不是静态链接到客户端应用程序中的。它们不会成为可执行文件的一部分。相反，可以在启动应用程序或运行时将动态库加载（并链接到应用程序）。</p><blockquote><p>Note: 动态库也称为动态共享库，共享对象或动态链接库。</p></blockquote><p>图2显示了如何将某些功能实现为动态库而不是静态库，以减少启动后应用程序使用的内存。</p><p><strong>图2 使用动态库的应用程序</strong></p><p><img src="https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/art/address_space2_2x.png" alt="图2 使用动态库的应用程序"></p><p>使用动态库，程序可以从对其自动使用的库的改进中受益，因为他们与库的链接是动态的，而不是静态的。也就是说，可以在不要求应用程序开发人员重新编译应用程序的情况下改进和扩展客户端应用程序的功能。为OS X 编写的应用程序受益于此功能，因为OS X 中的所有系统库都是动态库。这就是使用Carbon或Cocoa技术的应用程序如何从OS X的改进中受益的方法。</p><p>动态库提供的另一个好吃是，它们可以在加载时初始化，并且在客户端应用正常终止时可以执行清理任务。静态库没有此功能。有关详细信息，请参见<code>模块初始化器和终结器</code>。</p><h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><h2 id="Podfile-配置"><a href="#Podfile-配置" class="headerlink" title="Podfile 配置"></a>Podfile 配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">source &apos;https://github.com/CocoaPods/Specs.git&apos;</span><br><span class="line">source &apos;http://***/iOS/yryc-specs.git&apos;</span><br><span class="line">platform :ios, &apos;8.0&apos;</span><br><span class="line">inhibit_all_warnings!</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">workspace &apos;MyDemo.xcworkspace&apos;</span><br><span class="line"></span><br><span class="line">target &apos;MyDemo&apos; do</span><br><span class="line">project &apos;MyDemo.xcodeproj&apos;</span><br><span class="line"></span><br><span class="line"> pod &apos;ReactiveObjC&apos;, &apos;~&gt; 3.1.1&apos;</span><br><span class="line"> pod &apos;ZLPhotoBrowser&apos;</span><br><span class="line"> pod &apos;MySDK&apos;, :git =&gt; &apos;http://***/iOS/MySDK.git&apos;, :branch =&gt; &apos;master&apos;</span><br><span class="line"> </span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &apos;MySDK&apos; do</span><br><span class="line">project &apos;../MySDK/MySDK.xcodeproj&apos;</span><br><span class="line"></span><br><span class="line">pod &apos;ReactiveObjC&apos;, &apos;~&gt; 3.1.1&apos;</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure><blockquote><p> 查看SDK和IPA二进制文件包含指令集</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cd 到SDK 或 IPA Mach-O二进制文件目录</span><br><span class="line"></span><br><span class="line">lipo -info MySDK</span><br></pre></td></tr></table></figure><blockquote><p>查看SDK和IPA二进制文件包含的动态库</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd 到SDK 或 IPA Mach-O二进制文件目录</span><br><span class="line"></span><br><span class="line">otool -L MySDK</span><br></pre></td></tr></table></figure><blockquote></blockquote><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul><li><a href="https://tech.meituan.com/2018/07/12/mci.html" target="_blank" rel="noopener">MCI：移动持续集成在大众点评的实践</a></li><li><a href="https://juejin.im/post/5a620cf5f265da3e36415764" target="_blank" rel="noopener">蜂鸟商家版 iOS 组件化 / 模块化实践总结</a></li><li><a href="https://developer.apple.com/documentation" target="_blank" rel="noopener">Developer Documentation</a></li><li><a href="https://clang.llvm.org/docs/Modules.html#introduction" target="_blank" rel="noopener">LLVM</a></li><li><a href="https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/000-Introduction/Introduction.html#//apple_ref/doc/uid/TP40001908-SW1" target="_blank" rel="noopener">Dynamic Library Programming Topics</a></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;h1 id=&quot;动态库概述&quot;&gt;&lt;a href=&quot;#动态库概述&quot; class=&quot;headerlink
-      
-    
-    </summary>
-    
-      <category term="翻译" scheme="https://xnxy.github.io/categories/%E7%BF%BB%E8%AF%91/"/>
-    
-    
-      <category term="Framework" scheme="https://xnxy.github.io/tags/Framework/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS开发适配iOS11&amp;iPhone X 、Xcode9遇到的坑</title>
-    <link href="https://xnxy.github.io/2019/09/09/2017-10-12/"/>
-    <id>https://xnxy.github.io/2019/09/09/2017-10-12/</id>
-    <published>2019-09-09T11:53:52.000Z</published>
-    <updated>2019-09-09T11:53:52.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="1-tableView向下偏移，部分UIScrollView布局出现混乱。"><a href="#1-tableView向下偏移，部分UIScrollView布局出现混乱。" class="headerlink" title="1.tableView向下偏移，部分UIScrollView布局出现混乱。"></a>1.<code>tableView</code>向下偏移，部分<code>UIScrollView</code>布局出现混乱。</h2><blockquote><p>   原因：<br>   因<code>iOS11</code>弃用了<code>automaticallyAdjustsScrollViewInsets</code> 使用了<code>contentInsetAdjustmentBehavior</code>代替。</p></blockquote><blockquote><p>解决方法如下,其中<code>@available(iOS 11.0, *)</code>表示在<code>iOS11</code>版本以上可用。</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (@available(iOS 11.0, *)) &#123;</span><br><span class="line">self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">self.automaticallyAdjustsScrollViewInsets = NO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><blockquote><p>当然我们可以定义个宏</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#define  KAdjustsScrollViewInsets_NO(scrollView,vc)\</span><br><span class="line">_Pragma(&quot;clang diagnostic push&quot;) \</span><br><span class="line">_Pragma(&quot;clang diagnostic ignored \&quot;-Wdeprecated-declarations\&quot;&quot;) \</span><br><span class="line">if (@available(iOS 11.0,*))  &#123;\</span><br><span class="line">scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;\</span><br><span class="line">&#125; else &#123;\</span><br><span class="line">self.automaticallyAdjustsScrollViewInsets = NO;\</span><br><span class="line">&#125;\</span><br><span class="line">_Pragma(&quot;clang diagnostic pop&quot;) \</span><br></pre></td></tr></table></figure><h2 id="2-TableView的区头、区尾、cell高度变大。"><a href="#2-TableView的区头、区尾、cell高度变大。" class="headerlink" title="2.TableView的区头、区尾、cell高度变大。"></a>2.<code>TableView</code>的区头、区尾、<code>cell</code>高度变大。</h2><blockquote><p>原因：因为<code>TaBleView</code>的 <code>estimatedRowHeight</code>、<code>estimatedSectionHeaderHeight</code>、<code>estimatedSectionFooterHeight</code>三个高度由默认的<code>0</code>变成了<code>UITableViewAutomaticDimension</code>，导致了高度计算不对。</p></blockquote><blockquote><p>解决方法：</p><p>在相应界面，将三个属性都设为<code>0</code>；</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (@available(iOS 11.0, *)) &#123;</span><br><span class="line">_tableView.estimatedRowHeight = 0;</span><br><span class="line">_tableView.estimatedSectionHeaderHeight = 0;</span><br><span class="line">_tableView.estimatedSectionFooterHeight = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><blockquote><p>为了方便我们也可以定义宏</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#define TableViewCloseTheEstimate(tableView)\</span><br><span class="line">if (@available(iOS 11.0, *)) &#123;\</span><br><span class="line">tableView.estimatedRowHeight = 0;\</span><br><span class="line">tableView.estimatedSectionHeaderHeight = 0;\</span><br><span class="line">tableView.estimatedSectionFooterHeight = 0;\</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><blockquote><p>当然我们如果想全局都将这三个属性设为<code>0</code>，也可以在<code>AppDelegate.m</code> 中进行全局设置。</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (@available(iOS 11.0, *)) &#123;</span><br><span class="line">[UITableView appearance].estimatedRowHeight = 0;</span><br><span class="line">[UITableView appearance].estimatedSectionHeaderHeight = 0;</span><br><span class="line">[UITableView appearance].estimatedSectionFooterHeight = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="3-部分Block警告"><a href="#3-部分Block警告" class="headerlink" title="3.部分Block警告"></a>3.部分<code>Block</code>警告</h2><p><img src="/2019/09/09/2017-10-12/block.png" alt="image"></p><blockquote><p>例如：</p></blockquote><p><img src="/2019/09/09/2017-10-12/block-1.png" alt="image"></p><blockquote><p> 原因：定义未带参数的<code>Block</code>时，<code>Xcode9</code>中会报上面错误。</p></blockquote><blockquote><p>解决方法：</p></blockquote><ul><li>参数位置为 <code>void</code> 。</li><li>部分第三方也有此种警告。你不可能一个个去修改修改，所以我们需要在<code>Build Setting</code>——&gt; <code>Other Warning Flags</code> 中添加：<code>-Wno-strict-prototypes</code>,然后再<code>Clean</code>、<code>Build</code>。这种方法只是屏蔽警告……</li></ul><p><img src="/2019/09/09/2017-10-12/block-2.png" alt="image"></p><h2 id="4-ReactiveCocoa-Unknown-warning-group-39-Wreceiver-is-weak-39-ignored-警告"><a href="#4-ReactiveCocoa-Unknown-warning-group-39-Wreceiver-is-weak-39-ignored-警告" class="headerlink" title="4.ReactiveCocoa Unknown warning group &#39;-Wreceiver-is-weak&#39;,ignored 警告"></a>4.<code>ReactiveCocoa Unknown warning group &#39;-Wreceiver-is-weak&#39;,ignored</code> 警告</h2><blockquote><p>原因：之前的<code>Xcode</code>中如果消息的接收者是一个<code>weak</code>对象时，<code>clang</code>编译器会报 <code>receiver-is-weak</code>警告，所以在<code>ReactiveCocoa</code>中添加了下方的<code>push</code>&amp;<code>pop</code>以消除警告。而在<code>Xcode9</code>中<code>clang</code>已经把这个警告给移除，所以再添加下方<code>push</code>&amp;<code>pop</code>就会有警告。</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#define RACObserve(TARGET, KEYPATH) \</span><br><span class="line">(&#123; \</span><br><span class="line">_Pragma(&quot;clang diagnostic push&quot;) \</span><br><span class="line">_Pragma(&quot;clang diagnostic ignored \&quot;-Wreceiver-is-weak\&quot;&quot;) \</span><br><span class="line">__weak id target_ = (TARGET); \</span><br><span class="line">[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self]; \</span><br><span class="line">_Pragma(&quot;clang diagnostic pop&quot;) \</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure><blockquote><p>解决方法：</p><p>将<code>pod &#39;ReactiveCocoa&#39;, &#39;2.5&#39;</code>换成下方。</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod &apos;ReactiveCocoa&apos;, :git =&gt; &apos;https://github.com/zhao0/ReactiveCocoa.git&apos;, :tag =&gt; &apos;2.5.2&apos;</span><br></pre></td></tr></table></figure><h2 id="5-友盟社会化组件在Xcode9上无法编译。"><a href="#5-友盟社会化组件在Xcode9上无法编译。" class="headerlink" title="5. 友盟社会化组件在Xcode9上无法编译。"></a>5. 友盟社会化组件在<code>Xcode9</code>上无法编译。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Pods/UMengSocialCOM/Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_5.2.1/SocialSDKXib/UMSCommentDetailController.xib: warning: Internationalization is not available when compiling for targets before iOS 6.0</span><br></pre></td></tr></table></figure><blockquote><p>原因：之前引用的<code>pod &#39;UMengSocialCOM&#39;, &#39;~&gt; 5.2.1&#39;</code>，此版本友盟已不再维护，替换成<code>UMengUShare</code>。<br>因项目中只使用了<code>微信</code>、<code>微博</code>、<code>QQ</code>的登录和分享，所以<code>Podfile</code>文件中将 <code>pod &#39;UMengSocialCOM&#39;, &#39;~&gt; 5.2.1&#39;</code> 替换为👇</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#友盟社会化组件</span><br><span class="line">pod &apos;UMengUShare/Network&apos;, &apos;~&gt; 6.4.5&apos;</span><br><span class="line">pod &apos;UMengUShare/Core&apos;, &apos;~&gt; 6.4.5&apos;</span><br><span class="line">pod &apos;UMengUShare/UI&apos;, &apos;~&gt; 6.4.5&apos;</span><br><span class="line">pod &apos;UMengUShare/Plugin&apos;, &apos;~&gt; 6.4.5&apos;</span><br><span class="line">pod &apos;UMengUShare/Social/WeChat&apos;, &apos;~&gt; 6.4.5&apos;</span><br><span class="line">pod &apos;UMengUShare/Social/QQ&apos;, &apos;~&gt; 6.4.5&apos;</span><br><span class="line">pod &apos;UMengUShare/Social/Sina&apos;, &apos;~&gt; 6.4.5&apos;</span><br></pre></td></tr></table></figure><blockquote><p>同时为了后期的维护，我们对所需要用到的接口进行了二次封装；</p></blockquote><h2 id="6-iPhone-X-中-TabBar下方多了一条透明区域。"><a href="#6-iPhone-X-中-TabBar下方多了一条透明区域。" class="headerlink" title="6.iPhone X 中 TabBar下方多了一条透明区域。"></a>6.<code>iPhone X</code> 中 <code>TabBar</code>下方多了一条透明区域。</h2><blockquote><p>原因： <code>iPhone X</code> 的底部是预留给系统功能的一个区域 <code>Home Indicator</code>, 高度<code>34pt</code>。如果使用的系统的<code>TabBar</code>,那么<code>Home Indicator</code>就会延展相应的<code>barTintColor</code>，而我们使用是自定义的。</p></blockquote><blockquote><p>解决方法：<br>我们在所以<code>ViewContrller</code>继承的基类<code>BaseViewController</code>中添加了<code>self.edgesForExtendedLayout = UIRectEdgeNone</code>;</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (instancetype) init &#123;</span><br><span class="line">self = [super init];</span><br><span class="line">if (self) &#123;</span><br><span class="line">self.edgesForExtendedLayout = UIRectEdgeNone;</span><br><span class="line">&#125;</span><br><span class="line">return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><blockquote><p>修改完后，布局可能有所变化。<br>就比如我们的一些布局为：<code>make.top.equalTo(self.view.top).offset(kNavigationAndStatusBarHeight)</code>;  需要改为：<code>make.top.equalTo(self.view.top)</code>；</p></blockquote><h2 id="7-iPhone-X中状态栏高度变高"><a href="#7-iPhone-X中状态栏高度变高" class="headerlink" title="7.iPhone X中状态栏高度变高"></a>7.<code>iPhone X</code>中状态栏高度变高</h2><blockquote><p>原因: <code>iPhone X</code>全面屏，增加了<code>刘海儿</code>，高度从之前的<code>20pt</code>变成了<code>44pt</code>。<br>所以我们定义宏的时候就不能直接写死。</p></blockquote><blockquote><p>解决方法：</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define kStatusBarHeight ([[UIApplication sharedApplication] statusBarFrame].size.height)</span><br></pre></td></tr></table></figure><blockquote><p>同时补上定义的其他宏</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#define kStatusBarHeight ([[UIApplication sharedApplication] statusBarFrame].size.height)</span><br><span class="line">#define kNavigationBarHeight 44.f</span><br><span class="line">#define kNavigationAndStatusBarHeight (kStatusBarHeight + 44.f)</span><br><span class="line">#define kTabBarHeight 49.f</span><br><span class="line">#define KiPhoneXTabBarHeight (34.f + 49.f)</span><br><span class="line">#define KHomeIndicatorHeight 34.f</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#define kSCREEN_WIDTH          ([UIScreen mainScreen].bounds.size.width)</span><br><span class="line">#define kSCREEN_HEIGHT         ([UIScreen mainScreen].bounds.size.height)</span><br><span class="line"></span><br><span class="line">// iPhone5 or iPhone5s</span><br><span class="line">#define  iPhone5_5s_SE     (kSCREEN_WIDTH == 320.f &amp;&amp; kSCREEN_HEIGHT == 568.f)</span><br><span class="line"></span><br><span class="line">//iPhone6 or iPhone6s or iPhone7 or iPhone8</span><br><span class="line">#define  iPhone6_6s_7_8     (kSCREEN_WIDTH == 375.f &amp;&amp; kSCREEN_HEIGHT == 667.f)</span><br><span class="line"></span><br><span class="line">//iPhone6Plus or iPhone6sPlus or iPhone7Plus or iPhone8Plus</span><br><span class="line">#define  iPhone6Plus_6sPlus_7Plus_8Plus (kSCREEN_WIDTH == 414.f &amp;&amp; kSCREEN_HEIGHT == 736.f)</span><br><span class="line"></span><br><span class="line">//iPhone X</span><br><span class="line">#define iPhoneX     (kSCREEN_WIDTH == 375.f &amp;&amp; kSCREEN_HEIGHT == 812.f)</span><br></pre></td></tr></table></figure><h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul><li><a href="https://developer.apple.com/ios/human-interface-guidelines/overview/themes/" target="_blank" rel="noopener">iOS11人机交互指南</a></li><li><a href="http://www.jianshu.com/p/7b15f92fc73e" target="_blank" rel="noopener">iOS11人机交互指南-01 iPhone X概览</a></li><li><a href="http://www.jianshu.com/p/c355cc4b12c2" target="_blank" rel="noopener">适配iOS11&amp;iPhone X 的一些坑</a></li><li><a href="https://www.apple.com/cn/iphone/compare/" target="_blank" rel="noopener">iPhone机型比较</a></li><li><a href="http://www.jianshu.com/p/26fc39135c34" target="_blank" rel="noopener">简书App适配iOS11</a></li><li><a href="http://www.jianshu.com/p/9376eca870b8" target="_blank" rel="noopener">iOS开发 设配iOS11</a></li><li><a href="https://tech.meituan.com/iPhoneX刘海打理指北.html" target="_blank" rel="noopener">iPhone X 刘海打理指北</a></li><li><a href="https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&mid=2247484087&idx=1&sn=c7465eab852fb95a043b20826b40ad91&chksm=e9d0c955dea740439b3fa1c839745a99281800dc494509d6898b60f4806035447beb6327f094&scene=38#wechat_redirect" target="_blank" rel="noopener">iPhone X 刘海儿打理指南</a></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;1-tableView向下偏移，部分UIScrollView布局出现混乱。&quot;&gt;&lt;a href=&quot;#1-tableView向下偏移，部分UIScrollView布局出现混乱。&quot; class=&quot;headerlink&quot; title=&quot;1.tableView向下偏移，部分
-      
-    
-    </summary>
-    
-      <category term="开发" scheme="https://xnxy.github.io/categories/%E5%BC%80%E5%8F%91/"/>
-    
-    
-      <category term="iOS" scheme="https://xnxy.github.io/tags/iOS/"/>
-    
-      <category term="iPhone X" scheme="https://xnxy.github.io/tags/iPhone-X/"/>
     
   </entry>
   
