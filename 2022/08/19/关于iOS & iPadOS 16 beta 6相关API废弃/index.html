@@ -428,7 +428,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  273
+                  235
                 </span>
               
 
@@ -465,10 +465,10 @@
 <p>详细内容可查阅<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/" target="_blank" rel="noopener">官网发行说明</a></p>
 <hr>
 <p>今天更新了Xcode14将手中项目跑了一遍，发现在iOS16中确实有些API的废弃，准备改完后再重新整理篇文章。</p>
-<p>关于<code>shouldAutorotate</code>方法的废弃修改可以参考下方。<br>关于使用低版本的Xcode无法调用可以使用下面的宏<code>defined(__IPHONE_16_0)</code>进行判断。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view.</span><br><span class="line">#if defined(__IPHONE_16_0)</span><br><span class="line">    if (@available(iOS 16.0, *)) &#123;</span><br><span class="line">        [self setNeedsUpdateOfSupportedInterfaceOrientations];</span><br><span class="line">    &#125;</span><br><span class="line">#endif</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关于<code>shouldAutorotate</code>方法的废弃修改可以参考下方。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view.</span><br><span class="line">    if (@available(iOS 16.0, *)) &#123;</span><br><span class="line">        [self setNeedsUpdateOfSupportedInterfaceOrientations];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#if !defined(__IPHONE_16_0)</span><br><span class="line">- (BOOL)shouldAutorotate &#123;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)shouldAutorotate &#123;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>关于旋转屏幕可以参考简书中的<a href="https://www.jianshu.com/p/ff6ed9de906d" target="_blank" rel="noopener">iOS16 横竖屏切换适配</a>文章。</p>
@@ -534,8 +534,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2022/09/07/文件管理器技术支持/" rel="prev" title="文件管理器技术支持">
-                文件管理器技术支持 <i class="fa fa-chevron-right"></i>
+              <a href="/2022/09/07/文件管理器用户协议/" rel="prev" title="文件管理器用户协议">
+                文件管理器用户协议 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
