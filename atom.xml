@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xnxy.github.io/"/>
-  <updated>2022-09-20T16:00:00.000Z</updated>
+  <updated>2022-09-18T16:00:00.000Z</updated>
   <id>https://xnxy.github.io/</id>
   
   <author>
@@ -15,31 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>关于苹果机审</title>
-    <link href="https://xnxy.github.io/2022/09/21/%E5%85%B3%E4%BA%8E%E8%8B%B9%E6%9E%9C%E6%9C%BA%E5%AE%A1/"/>
-    <id>https://xnxy.github.io/2022/09/21/关于苹果机审/</id>
-    <published>2022-09-20T16:00:00.000Z</published>
-    <updated>2022-09-20T16:00:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>昨天将[文件管理器]提交到AppStroe,按照我的本意是不想提交的，因为同类型的应用很多，虽然有广告，但他们用户基数是比较大的，应用提交上去应该也分不到太多羹。</p><p>最后想想写都写了然后提交了上去，审核通不通过那就看天意了。但在提交的时候发现苹果机审的数据库有更新，于是在此说明一下。</p><h2 id="未公开API调用"><a href="#未公开API调用" class="headerlink" title="未公开API调用"></a>未公开API调用</h2><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/%E5%85%B3%E4%BA%8E%E8%8B%B9%E6%9E%9C%E6%9C%BA%E5%AE%A1/001.png" alt="机审"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The app references non-public selectors in Payload/EasyDocuments.app/EasyDocuments:_setContentOverlayInsets:andLeftMargin:rightMargin:,imageForKey:,setImage:forKey:</span><br></pre></td></tr></table></figure><p>从日志中可以看出苹果机审又新增了很多方法的检测，如果跟它数据库中的方法名一样的话也会被误检到，最好的方法是修改相应的方法名。</p><h3 id="ZFPlayer"><a href="#ZFPlayer" class="headerlink" title="ZFPlayer"></a>ZFPlayer</h3><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/%E5%85%B3%E4%BA%8E%E8%8B%B9%E6%9E%9C%E6%9C%BA%E5%AE%A1/002.png" alt="ZFPlayer"></p><p>在<code>ZFPlayer</code>库中使用了<code>_setContentOverlayInsets:andLeftMargin:rightMargin:</code>被检测到，该问题已经跟该库的维护者反应，临时修改可以先使用下面方法。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSData *data = [NSData.alloc initWithBase64EncodedString:@&quot;X3NldENvbnRlbnRPdmVybGF5SW5zZXRzOmFuZExlZnRNYXJnaW46cmlnaHRNYXJnaW46&quot; options:kNilOptions];</span><br><span class="line">NSString *method = [NSString.alloc initWithData:data encoding:NSUTF8StringEncoding];</span><br><span class="line">SEL originalSelector = NSSelectorFromString(method);</span><br></pre></td></tr></table></figure><h3 id="lottie"><a href="#lottie" class="headerlink" title="lottie"></a>lottie</h3><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/%E5%85%B3%E4%BA%8E%E8%8B%B9%E6%9E%9C%E6%9C%BA%E5%AE%A1/003.png" alt="lottie"></p><p>最新版本的<code>lottie</code>是swift版本，目前集成的是OC版本，可以直接将GitHub上的库下载下来修改相应方法名，提交到我们私有库中即可。</p><p>如果赶时间也可以使用下面的方式引入。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pod &apos;lottie-ios&apos;, :path =&gt; &apos;../../lottie-ios-2.5.3/&apos;</span><br><span class="line"></span><br><span class="line">或</span><br><span class="line">pod &apos;lottie-ios&apos;, :git =&gt; &apos;https://***.git&apos;, :tag =&gt; &apos;2.5.3_fix_image&apos;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;昨天将[文件管理器]提交到AppStroe,按照我的本意是不想提交的，因为同类型的应用很多，
-      
-    
-    </summary>
-    
-      <category term="iOS" scheme="https://xnxy.github.io/categories/iOS/"/>
-    
-    
-      <category term="iOS" scheme="https://xnxy.github.io/tags/iOS/"/>
-    
-  </entry>
   
   <entry>
     <title>关于iOS防越狱、防调试相关功能记录</title>
@@ -518,6 +493,35 @@
     
     
       <category term="shell" scheme="https://xnxy.github.io/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>自动打包脚本报ruby找不到错误</title>
+    <link href="https://xnxy.github.io/2020/03/31/%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85%E8%84%9A%E6%9C%AC%E6%8A%A5ruby%E6%89%BE%E4%B8%8D%E5%88%B0%E9%94%99%E8%AF%AF/"/>
+    <id>https://xnxy.github.io/2020/03/31/自动打包脚本报ruby找不到错误/</id>
+    <published>2020-03-31T07:43:27.000Z</published>
+    <updated>2020-03-31T07:43:27.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近更新了CocoaPods，同时也更新了ruby，但在使用Jenkins自动打包的时候，发现脚本报错。在查询时发现网上很多错误信息，于是决定整理一下，方便以后查询。</p><blockquote><p>编译报错内容</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cntp@TPL-0000-161520deMacBook-Pro tpocrdemo % sh Packaging/AutoPackaging.sh</span><br><span class="line">***********************开始build archive app文件***********************</span><br><span class="line">当前目录路径--------&gt;/Users/cntp/Desktop/tpaiface-ios/ocr-191103/tp/tpaiface/dev/iphone/tpocr-v1.0.191101/tpocrdemo</span><br><span class="line">Packaging/AutoPackaging.sh: /usr/local/bin/xcpretty: /System/Library/Frameworks/Ruby.framework/Versions/2.3/usr/bin/ruby: bad interpreter: No such file or directory</span><br><span class="line">***********************编译失败********************************</span><br></pre></td></tr></table></figure><p>从报错信息中可以看出在使用<code>xcpretty</code>时使用的相应ruby版本未找到。</p><p>于是使用<code>open /System/Library/Frameworks/Ruby.framework/Versions</code> 打开相应目录发现目录中下级目录为<code>/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby</code>跟预期版本不符。</p><p>那就切换一下即可。</p><blockquote><p>查看<code>ruby</code>当前版本</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cntp@TPL-0000-161520deMacBook-Pro ~ % rvm current</span><br><span class="line">ruby-2.5.1</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro ~ % ruby --version</span><br><span class="line">ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-darwin18]</span><br></pre></td></tr></table></figure><p>在使用<code>ruby --version</code>和<code>rvm current</code>指令查看版本时发现<code>ruby</code>的版本为<code>2.5.1</code>，而电脑中的那个目录为<code>2.6</code>，看来需要更新<code>ruby</code>，不过理论到排查到这里，只要切换下<code>ruby</code>的版本就可以了。</p><blockquote><p>切换<code>ruby</code>版本</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cntp@TPL-0000-161520deMacBook-Pro ~ % rvm --default use 2.5.1</span><br><span class="line">Using /Users/cntp/.rvm/gems/ruby-2.5.1</span><br></pre></td></tr></table></figure><p>因为目录电脑安装的<code>ruby</code>的版本为<code>2.5.1</code>所以使用<code>rvm --default use 2.5.1</code>指令将Mac上的<code>ruby</code>的版本切换到<code>2.5.1</code>。</p><blockquote><p>运行脚本验证</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*************************自动打包结束**************************</span><br><span class="line">README.mdipa-1.0tpocr-ios-v1.0.191101.zip</span><br><span class="line">docipa-1.0.ziptpocr接口设计说明.md</span><br><span class="line">************************* done! 😎 **************************</span><br><span class="line">打包完成，本次共节约 4 分钟</span><br></pre></td></tr></table></figure><p>运行脚本，发现脚本已经不会报错，说明问题已经解决。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最近更新了CocoaPods，同时也更新了ruby，但在使用Jenkins自动打包的时候，发现脚本报错。在查询时发现网上很多错误信息，于是决定整理一下，方便以后查询。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;编译报错内容&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure 
+      
+    
+    </summary>
+    
+      <category term="记录" scheme="https://xnxy.github.io/categories/%E8%AE%B0%E5%BD%95/"/>
+    
+    
+      <category term="iOS" scheme="https://xnxy.github.io/tags/iOS/"/>
     
   </entry>
   
