@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Swift基础知识1.常量&amp;变量什么是常量和变量 在Swift中规定:在定义一个标识符时必须明确说明该标识符是一个常量还是变量 使用let来定义常量,定义之后不可以修改 使用var来定义变量,定义之后可以修改  常量和变量的基本使用123456789import UIKitlet a : Int &#x3D; 10&#x2F;&#x2F; 错误写法,当一个字段定义为常量时是不可以修改的&#x2F;&#x2F; a &#x3D; 20var b :">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift学习指北">
+<meta property="og:url" content="https://xnxy.github.io/2021/03/20/Swift%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="Swift基础知识1.常量&amp;变量什么是常量和变量 在Swift中规定:在定义一个标识符时必须明确说明该标识符是一个常量还是变量 使用let来定义常量,定义之后不可以修改 使用var来定义变量,定义之后可以修改  常量和变量的基本使用123456789import UIKitlet a : Int &#x3D; 10&#x2F;&#x2F; 错误写法,当一个字段定义为常量时是不可以修改的&#x2F;&#x2F; a &#x3D; 20var b :">
+<meta property="og:locale">
+<meta property="og:image" content="https://xnxy.github.io/Images/Snip20151121_1.png">
+<meta property="article:published_time" content="2021-03-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-10-11T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xnxy.github.io/Images/Snip20151121_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xnxy.github.io/2021/03/20/Swift基础知识/"/>
+
+
+
+
+
+  <title>Swift学习指北 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+      <a target="_blank" rel="noopener" href="https://github.com/xnxy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">拿根针尖对麦芒</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">拿根针尖对麦芒</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2021/03/20/Swift%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Swift学习指北</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-20T00:00:00+08:00">
+                2021-03-20
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2022-10-12T00:00:00+08:00">
+                2022-10-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Swift基础知识"><a href="#Swift基础知识" class="headerlink" title="Swift基础知识"></a>Swift基础知识</h1><h2 id="1-常量-amp-变量"><a href="#1-常量-amp-变量" class="headerlink" title="1.常量&amp;变量"></a>1.常量&amp;变量</h2><h3 id="什么是常量和变量"><a href="#什么是常量和变量" class="headerlink" title="什么是常量和变量"></a>什么是常量和变量</h3><ul>
+<li>在Swift中规定:在定义一个标识符时必须明确说明该标识符是一个常量还是变量</li>
+<li>使用let来定义常量,定义之后不可以修改</li>
+<li>使用var来定义变量,定义之后可以修改</li>
+</ul>
+<h3 id="常量和变量的基本使用"><a href="#常量和变量的基本使用" class="headerlink" title="常量和变量的基本使用"></a>常量和变量的基本使用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line">let a : Int = 10</span><br><span class="line">// 错误写法,当一个字段定义为常量时是不可以修改的</span><br><span class="line">// a = 20</span><br><span class="line"></span><br><span class="line">var b : Int = 20</span><br><span class="line">// 因为b定义为变量,因此是可以修改的</span><br><span class="line">b = 30</span><br></pre></td></tr></table></figure>
+
+<h3 id="常量和变量的使用注意"><a href="#常量和变量的使用注意" class="headerlink" title="常量和变量的使用注意:"></a>常量和变量的使用注意:</h3><ul>
+<li>注意:<ul>
+<li>在真实使用过程中,建议先定义常量,如果需要修改再修改为变量(更加安全)</li>
+<li>是指向的对象不可以再进行修改.但是可以通过指针获得对象后,修改对象内部的属性</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 注意:声明为常量不可以修改的意思是指针不可以再指向其他对象.但是可以通过指针拿到对象,修改其中的属性</span><br><span class="line">// view : UIView = [[UIView alloc] init];</span><br><span class="line">// Swift对象中不需要*</span><br><span class="line">var view : UIView = UIView()</span><br><span class="line">view = UIView()</span><br><span class="line"></span><br><span class="line">let view1 : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))</span><br><span class="line">view1.backgroundColor = UIColor.redColor()</span><br><span class="line"></span><br><span class="line">// 枚举类型的用法:类型.枚举的值</span><br><span class="line">let btn : UIButton = UIButton(type: UIButtonType.Custom)</span><br><span class="line">btn.backgroundColor = UIColor.blueColor()</span><br><span class="line">btn.setTitle(&quot;按钮&quot;, forState: UIControlState.Normal)</span><br><span class="line">btn.frame = CGRect(x: 20, y: 20, width: 60, height: 30)</span><br><span class="line">view1.addSubview(btn)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Swift类型的介绍"><a href="#2-Swift类型的介绍" class="headerlink" title="2.Swift类型的介绍"></a>2.Swift类型的介绍</h2><ul>
+<li>Swift中的数据类型也有:整型&#x2F;浮点型&#x2F;对象类型&#x2F;结构体类型等等</li>
+<li>先了解整型和浮点型</li>
+<li>整型<ul>
+<li>有符号<ul>
+<li>Int8 : 有符号8位整型</li>
+<li>Int16 : 有符号16位整型</li>
+<li>Int32 : 有符号32位整型</li>
+<li>Int64 : 有符号64位整型</li>
+<li>Int : 和平台相关(默认,相当于OC的NSInteger)</li>
+</ul>
+</li>
+<li>无符号<ul>
+<li>UInt8 : 无符号8位整型</li>
+<li>UInt16 : 无符号16位整型</li>
+<li>UInt32 : 无符号32位整型</li>
+<li>UInt64 : 无符号64位整型</li>
+<li>UInt : 和平台相关(常用,相当于OC的NSUInteger)(默认)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>浮点型<ul>
+<li>Float : 32位浮点型</li>
+<li>Double : 64浮点型(默认)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 定义一个Int类型的变量m,并且赋值为10</span><br><span class="line">var m : Int = 10</span><br><span class="line">// 定义一个Double类型的常量n,并且赋值为3.14</span><br><span class="line">let n : Double = 3.14</span><br></pre></td></tr></table></figure>
+
+<h3 id="Swift中的类型推导"><a href="#Swift中的类型推导" class="headerlink" title="Swift中的类型推导"></a>Swift中的<code>类型推导</code></h3><ul>
+<li>Swift是强类型的语言</li>
+<li>Swift中任何一个标识符都有明确的类型</li>
+<li>注意:<ul>
+<li>如果定义一个标识符时有直接进行赋值,那么标识符后面的类型可以省略.</li>
+<li>因为Swift有类型推导,会自动根据后面的赋值来决定前面的标识符的数据类型</li>
+<li>可以通过<code>option</code>+<code>鼠标左键</code>来查看变量的数据类型<br><img src="/../Images/Snip20151121_1.png"></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 定义变量时没有指定明确的类型,但是因为赋值给i一个20.20为整型.因此i为整型</span><br><span class="line">var i = 20</span><br><span class="line">// 错误写法:如果之后赋值给i一个浮点型数值,则会报错</span><br><span class="line">// i = 30.5</span><br><span class="line"></span><br><span class="line">// 正确写法</span><br><span class="line">var j = 3.33</span><br><span class="line">j = 6.66</span><br></pre></td></tr></table></figure>
+
+<h3 id="Swift中基本运算"><a href="#Swift中基本运算" class="headerlink" title="Swift中基本运算"></a>Swift中基本运算</h3><ul>
+<li>Swift中在进行基本运算时必须保证类型一致,否则会出错<ul>
+<li>相同类型之间才可以进行运算</li>
+<li>因为Swift中没有隐式转换</li>
+</ul>
+</li>
+<li>数据类型的转化<ul>
+<li>Int类型转成Double类型:Double(标识符)</li>
+<li>Double类型转成Int类型:Int(标识符)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let a = 10</span><br><span class="line">let b = 3.14</span><br><span class="line"></span><br><span class="line">// 错误写法</span><br><span class="line">// let c = a + b</span><br><span class="line">// let c = a * b</span><br><span class="line"></span><br><span class="line">// 正确写法</span><br><span class="line">let c = Double(a) + b</span><br><span class="line">let d = a + Int(b)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-逻辑分支"><a href="#3-逻辑分支" class="headerlink" title="3.逻辑分支"></a>3.逻辑分支</h2><h3 id="一-分支的介绍"><a href="#一-分支的介绍" class="headerlink" title="一. 分支的介绍"></a>一. 分支的介绍</h3><ul>
+<li>分支即if&#x2F;switch&#x2F;三目运算符等判断语句</li>
+<li>通过分支语句可以控制程序的执行流程</li>
+</ul>
+<h3 id="二-if分支语句"><a href="#二-if分支语句" class="headerlink" title="二. if分支语句"></a>二. if分支语句</h3><ul>
+<li>和OC中if语句有一定的区别<ul>
+<li>判断句可以不加()</li>
+<li>在Swift的判断句中必须有明确的真假<ul>
+<li>不再有非0即真</li>
+<li>必须有明确的Bool值</li>
+<li>Bool有两个取值:false&#x2F;true</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">// 演练一:</span><br><span class="line">let a = 10</span><br><span class="line"></span><br><span class="line">// 错误写法:</span><br><span class="line">//if a &#123;</span><br><span class="line">//    print(&quot;a&quot;)</span><br><span class="line">//&#125;</span><br><span class="line"></span><br><span class="line">// 正确写法</span><br><span class="line">if a &gt; 9 &#123;</span><br><span class="line">    print(a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 演练二:</span><br><span class="line">let score = 87</span><br><span class="line"></span><br><span class="line">if score &lt; 60 &#123;</span><br><span class="line">    print(&quot;不及格&quot;)</span><br><span class="line">&#125; else if score &lt;= 70 &#123;</span><br><span class="line">    print(&quot;及格&quot;)</span><br><span class="line">&#125; else if score &lt;= 80 &#123;</span><br><span class="line">    print(&quot;良好&quot;)</span><br><span class="line">&#125; else if score &lt;= 90 &#123;</span><br><span class="line">    print(&quot;优秀&quot;)</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    print(&quot;完美&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 演练三:</span><br><span class="line">// 这个是可选类型,因为只有声明成可选类型后,才可以判断是否为空</span><br><span class="line">// 可选类型会在后续讲解,可先了解即可</span><br><span class="line">let view : UIView? = UIView()</span><br><span class="line"></span><br><span class="line">// 判断如果view有值,则设置背景</span><br><span class="line">// 错误写法</span><br><span class="line">//if view &#123;</span><br><span class="line">//    view.backgroundColor = UIColor.redColor()</span><br><span class="line">//&#125;</span><br><span class="line"></span><br><span class="line">if view != nil &#123;</span><br><span class="line">    view!.backgroundColor = UIColor.redColor()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="三-三目运算符"><a href="#三-三目运算符" class="headerlink" title="三. 三目运算符"></a>三. 三目运算符</h3><ul>
+<li><code>Swift</code> 中的 <code>三目</code> 运算保持了和 <code>OC</code> 一致的风格</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var a = 10</span><br><span class="line">var b = 50</span><br><span class="line"></span><br><span class="line">var result = a &gt; b ? a : b</span><br><span class="line">println(result)</span><br></pre></td></tr></table></figure>
+
+<h3 id="四-guard的使用"><a href="#四-guard的使用" class="headerlink" title="四.guard的使用"></a>四.guard的使用</h3><ul>
+<li>guard是Swift2.0新增的语法</li>
+<li>它与if语句非常类似，它设计的目的是提高程序的可读性</li>
+<li>guard语句必须带有else语句，它的语法如下：<ul>
+<li>当条件表达式为true时候跳过else语句中的内容，执行语句组内容</li>
+<li>条件表达式为false时候执行else语句中的内容，跳转语句一般是return、break、continue和throw</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">guard 条件表达式 else &#123;</span><br><span class="line">    // 条换语句</span><br><span class="line">    break</span><br><span class="line">&#125;</span><br><span class="line">语句组</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var age = 18</span><br><span class="line"></span><br><span class="line">func online(age : Int) -&gt; Void &#123;</span><br><span class="line">    guard age &gt;= 18 else &#123;</span><br><span class="line">        print(&quot;回家去&quot;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    print(&quot;可以上网&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">online(age)</span><br></pre></td></tr></table></figure>
+
+<h3 id="四-switch分支"><a href="#四-switch分支" class="headerlink" title="四.switch分支"></a>四.switch分支</h3><h5 id="switch的介绍"><a href="#switch的介绍" class="headerlink" title="switch的介绍"></a>switch的介绍</h5><ul>
+<li>Switch作为选择结构中必不可少的语句也被加入到了Swift中</li>
+<li>只要有过编程经验的人对Switch语句都不会感到陌生</li>
+<li>但苹果对Switch进行了大大的增强，使其拥有其他语言中没有的特性</li>
+</ul>
+<h5 id="switch的简单使用"><a href="#switch的简单使用" class="headerlink" title="switch的简单使用"></a>switch的简单使用</h5><ul>
+<li>基本用法和OC用法一致</li>
+<li>不同之处:<ul>
+<li>switch后可以不跟()</li>
+<li>case后可以不跟break(默认会有break)</li>
+</ul>
+</li>
+<li>例子:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let sex = 0</span><br><span class="line"></span><br><span class="line">switch sex &#123;</span><br><span class="line">case 0 :</span><br><span class="line">    print(&quot;男&quot;)</span><br><span class="line">case 1 :</span><br><span class="line">    print(&quot;女&quot;)</span><br><span class="line">default :</span><br><span class="line">    print(&quot;其他&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>简单使用补充:<ul>
+<li>一个case判断中,可以判断多个值</li>
+<li>多个值以<code>,</code>隔开</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let sex = 0</span><br><span class="line"></span><br><span class="line">switch sex &#123;</span><br><span class="line">case 0, 1:</span><br><span class="line">    print(&quot;正常人&quot;)</span><br><span class="line">default:</span><br><span class="line">    print(&quot;其他&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>简单使用补充:<ul>
+<li>如果希望出现之前的case穿透,则可以使用关键字<code>fallthrough</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let sex = 0</span><br><span class="line"></span><br><span class="line">switch sex &#123;</span><br><span class="line">case 0:</span><br><span class="line">    fallthrough</span><br><span class="line">case 1:</span><br><span class="line">    print(&quot;正常人&quot;)</span><br><span class="line">default:</span><br><span class="line">    print(&quot;其他&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Switch支持多种数据类型"><a href="#Switch支持多种数据类型" class="headerlink" title="Switch支持多种数据类型"></a>Switch支持多种数据类型</h5><ul>
+<li>浮点型的switch判断</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let f = 3.14</span><br><span class="line">switch f &#123;</span><br><span class="line">case 3.14:</span><br><span class="line">    print(&quot;π&quot;)</span><br><span class="line">default:</span><br><span class="line">    print(&quot;not π&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>支持字符串类型<ul>
+<li>字符串的使用后面会详细讲解</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">let m = 5</span><br><span class="line">let n = 10</span><br><span class="line">var result = 0</span><br><span class="line"></span><br><span class="line">let opration = &quot;+&quot;</span><br><span class="line"></span><br><span class="line">switch opration &#123;</span><br><span class="line">    case &quot;+&quot;:</span><br><span class="line">        result = m + n</span><br><span class="line">    case &quot;-&quot;:</span><br><span class="line">        result = m - n</span><br><span class="line">    case &quot;*&quot;:</span><br><span class="line">        result = m * n</span><br><span class="line">    case &quot;/&quot;:</span><br><span class="line">        result = m / n</span><br><span class="line">default:</span><br><span class="line">    result = 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+
+<h5 id="switch支持区间判断"><a href="#switch支持区间判断" class="headerlink" title="switch支持区间判断"></a>switch支持区间判断</h5><ul>
+<li>什么是区间?<ul>
+<li>通常我们指的是数字区间:0~10,100~200</li>
+</ul>
+</li>
+<li>swift中的区间常见有两种<ul>
+<li>开区间:0..&lt;10 表示:0~9,不包括10</li>
+<li>闭区间:0...10 表示:0~10</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let score = 88</span><br><span class="line"></span><br><span class="line">switch score &#123;</span><br><span class="line">case 0..&lt;60:</span><br><span class="line">    print(&quot;不及格&quot;)</span><br><span class="line">case 60..&lt;80:</span><br><span class="line">    print(&quot;几个&quot;)</span><br><span class="line">case 80..&lt;90:</span><br><span class="line">    print(&quot;良好&quot;)</span><br><span class="line">case 90..&lt;100:</span><br><span class="line">    print(&quot;优秀&quot;)</span><br><span class="line">default:</span><br><span class="line">    print(&quot;满分&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-循环的介绍"><a href="#4-循环的介绍" class="headerlink" title="4.循环的介绍"></a>4.循环的介绍</h2><ul>
+<li>在开发中经常会需要循环</li>
+<li>常见的循环有:for&#x2F;while&#x2F;do while.</li>
+<li>这里我们只介绍for&#x2F;while,因为for&#x2F;while最常见</li>
+</ul>
+<h3 id="for循环的写法"><a href="#for循环的写法" class="headerlink" title="for循环的写法"></a>for循环的写法</h3><ul>
+<li>最常规写法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 传统写法</span><br><span class="line">for var i = 0; i &lt; 10; i++ &#123;</span><br><span class="line">    print(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>区间for循环</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for i in 0..&lt;10 &#123;</span><br><span class="line">    print(i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for i in 0...10 &#123;</span><br><span class="line">    print(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>特殊写法<ul>
+<li>如果在for循环中不需要用到下标i</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for _ in 0..&lt;10 &#123;</span><br><span class="line">    print(&quot;hello&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="while和do-while循环"><a href="#while和do-while循环" class="headerlink" title="while和do while循环"></a>while和do while循环</h3><ul>
+<li>while循环<ul>
+<li>while的判断句必须有正确的真假,没有非0即真</li>
+<li>while后面的()可以省略</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var a = 0</span><br><span class="line">while a &lt; 10 &#123;</span><br><span class="line">    a++</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>do while循环<ul>
+<li>使用repeat关键字来代替了do</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let b = 0</span><br><span class="line">repeat &#123;</span><br><span class="line">    print(b)</span><br><span class="line">    b++</span><br><span class="line">&#125; while b &lt; 20</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-字符串的介绍"><a href="#5-字符串的介绍" class="headerlink" title="5.字符串的介绍"></a>5.字符串的介绍</h2><ul>
+<li>字符串在任何的开发中使用都是非常频繁的</li>
+<li>OC和Swift中字符串的区别<ul>
+<li>在OC中字符串类型时NSString,在Swift中字符串类型是String</li>
+<li>OC中字符串@&quot;&quot;,Swift中字符串&quot;&quot;</li>
+</ul>
+</li>
+<li>使用 <code>String</code> 的原因<ul>
+<li><code>String</code> 是一个结构体，性能更高</li>
+<li><code>NSString</code> 是一个 <code>OC</code> 对象，性能略差</li>
+<li><code>String</code> 支持直接遍历</li>
+<li><code>Swift</code> 提供了 <code>String</code> 和 <code>NSString</code> 之间的无缝转换</li>
+</ul>
+</li>
+</ul>
+<h3 id="字符串的使用"><a href="#字符串的使用" class="headerlink" title="字符串的使用"></a>字符串的使用</h3><h5 id="遍历字符串"><a href="#遍历字符串" class="headerlink" title="遍历字符串"></a>遍历字符串</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 字符串遍历</span><br><span class="line">var str = &quot;Hello, Swift&quot;</span><br><span class="line">for c in str.characters &#123;</span><br><span class="line">    print(c)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="字符串拼接"><a href="#字符串拼接" class="headerlink" title="字符串拼接"></a>字符串拼接</h5><ul>
+<li>两个字符串的拼接</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let str1 = &quot;Hello&quot;</span><br><span class="line">let str2 = &quot;World&quot;</span><br><span class="line">let str3 = str1 + str2</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>字符串和其他数据类型的拼接</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let name = &quot;why&quot;</span><br><span class="line">let age = 18</span><br><span class="line"></span><br><span class="line">let info = &quot;my name is \(name), age is \(age)&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>字符串的格式化<ul>
+<li>比如时间:03:04</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let min = 3</span><br><span class="line">let second = 4</span><br><span class="line"></span><br><span class="line">let time = String(format: &quot;%02d:%02d&quot;, arguments: [min, second])</span><br></pre></td></tr></table></figure>
+
+<h5 id="字符串的截取"><a href="#字符串的截取" class="headerlink" title="字符串的截取"></a>字符串的截取</h5><ul>
+<li>Swift中提供了特殊的截取方式<ul>
+<li>该方式非常麻烦</li>
+<li>Index创建较为麻烦</li>
+</ul>
+</li>
+<li>简单的方式是将String转成NSString来使用<ul>
+<li>在标识符后加:as NSString即可</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let myStr = &quot;www.520it.com&quot;</span><br><span class="line">var subStr = (myStr as NSString).substringFromIndex(4)</span><br><span class="line">subStr = (myStr as NSString).substringToIndex(3)</span><br><span class="line">subStr = (myStr as NSString).substringWithRange(NSRange(location: 4, length: 5))</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-数组"><a href="#6-数组" class="headerlink" title="6.数组"></a>6.数组</h2><h3 id="数组的介绍"><a href="#数组的介绍" class="headerlink" title="数组的介绍"></a>数组的介绍</h3><ul>
+<li>数组（Array）是一串有序的由相同类型元素构成的集合</li>
+<li>数组中的集合元素是有序的，可以重复出现</li>
+<li>Swift中的数组<ul>
+<li>swift数组类型是Array，是一个泛型集合</li>
+</ul>
+</li>
+</ul>
+<h3 id="数组的初始化"><a href="#数组的初始化" class="headerlink" title="数组的初始化"></a>数组的初始化</h3><ul>
+<li>数组分成:可变数组和不可变数组<ul>
+<li>使用let修饰的数组是不可变数组</li>
+<li>使用var修饰的数组是可变数组</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 定义一个可变数组,必须初始化才能使用</span><br><span class="line">var array1 : [String] = [String]()</span><br><span class="line"></span><br><span class="line">// 定义一个不可变数组</span><br><span class="line">let array2 : [NSObject] = [&quot;why&quot;, 18]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在声明一个Array类型的时候可以使用下列的语句之一</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var stuArray1:Array&lt;String&gt;</span><br><span class="line">var stuArray2: [String]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>声明的数组需要进行初始化才能使用，数组类型往往是在声明的同时进行初始化的</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 定义时直接初始化</span><br><span class="line">var array = [&quot;why&quot;, &quot;lnj&quot;, &quot;lmj&quot;]</span><br><span class="line"></span><br><span class="line">// 先定义,后初始化</span><br><span class="line">var array : Array&lt;String&gt;</span><br><span class="line">array = [&quot;why&quot;, &quot;lnj&quot;, &quot;lmj&quot;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="对数组的基本操作"><a href="#对数组的基本操作" class="headerlink" title="对数组的基本操作"></a>对数组的基本操作</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 添加数据</span><br><span class="line">array.append(&quot;yz&quot;)</span><br><span class="line"></span><br><span class="line">// 删除元素</span><br><span class="line">array.removeFirst()</span><br><span class="line"></span><br><span class="line">// 修改元素</span><br><span class="line">array[0] = &quot;why&quot;</span><br><span class="line"></span><br><span class="line">// 取值</span><br><span class="line">array[1]</span><br></pre></td></tr></table></figure>
+
+<h3 id="数组的遍历"><a href="#数组的遍历" class="headerlink" title="数组的遍历"></a>数组的遍历</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 遍历数组</span><br><span class="line">for i in 0..&lt;array.count &#123;</span><br><span class="line">    print(array[i])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// forin方式</span><br><span class="line">for item in array &#123;</span><br><span class="line">    print(item)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 设置遍历的区间</span><br><span class="line">for item in array[0..&lt;2] &#123;</span><br><span class="line">    print(item)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数组的合并"><a href="#数组的合并" class="headerlink" title="数组的合并"></a>数组的合并</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 数组合并</span><br><span class="line">// 注意:只有相同类型的数组才能合并</span><br><span class="line">var array = [&quot;why&quot;, &quot;lmj&quot;,&quot;lnj&quot;]</span><br><span class="line">var array1 = [&quot;yz&quot;, &quot;wsz&quot;]</span><br><span class="line">var array2 = array + array1;</span><br><span class="line"></span><br><span class="line">// 不建议一个数组中存放多种类型的数据</span><br><span class="line">var array3 = [2, 3, &quot;why&quot;]</span><br><span class="line">var array4 = [&quot;yz&quot;, 23]</span><br><span class="line">array3 + array4</span><br></pre></td></tr></table></figure>
+<h2 id="7-字典"><a href="#7-字典" class="headerlink" title="7.字典"></a>7.字典</h2><h3 id="字典的介绍"><a href="#字典的介绍" class="headerlink" title="字典的介绍"></a>字典的介绍</h3><ul>
+<li>字典允许按照某个键来访问元素</li>
+<li>字典是由两部分集合构成的，一个是键（key）集合，一个是值（value）集合</li>
+<li>键集合是不能有重复元素的，而值集合是可以重复的，键和值是成对出现的</li>
+<li>Swift中的字典<ul>
+<li>Swift字典类型是Dictionary，也是一个泛型集合</li>
+</ul>
+</li>
+</ul>
+<h3 id="字典的初始化"><a href="#字典的初始化" class="headerlink" title="字典的初始化"></a>字典的初始化</h3><ul>
+<li>Swift中的可变和不可变字典<ul>
+<li>使用let修饰的数组是不可变字典</li>
+<li>使用var修饰的数组是可变字典</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 定义一个可变字典</span><br><span class="line">var dict1 : [String : NSObject] = [String : NSObject]()</span><br><span class="line"></span><br><span class="line">// 定义一个不可变字典</span><br><span class="line">let dict2 = [&quot;name&quot; : &quot;why&quot;, &quot;age&quot; : 18]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在声明一个Dictionary类型的时候可以使用下面的语句之一</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var dict1: Dictionary&lt;Int, String&gt;</span><br><span class="line">var dict2: [Int: String]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>声明的字典需要进行初始化才能使用，字典类型往往是在声明的同时进行初始化的</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 定时字典的同时,进行初始化</span><br><span class="line">var dict = [&quot;name&quot; : &quot;why&quot;, &quot;age&quot; : 18]</span><br><span class="line"></span><br><span class="line">// swift中任意对象,通常不使用NSObject,使用AnyObject</span><br><span class="line">var dict : Dictionary&lt;String, AnyObject&gt;</span><br><span class="line">dict = [&quot;name&quot; : &quot;why&quot;, &quot;age&quot; : 18]</span><br></pre></td></tr></table></figure>
+
+<h3 id="字典的基本操作"><a href="#字典的基本操作" class="headerlink" title="字典的基本操作"></a>字典的基本操作</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 添加数据</span><br><span class="line">dict[&quot;height&quot;] = 1.88</span><br><span class="line">dict[&quot;weight&quot;] = 70.0</span><br><span class="line">dict</span><br><span class="line"></span><br><span class="line">// 删除字段</span><br><span class="line">dict.removeValueForKey(&quot;height&quot;)</span><br><span class="line">dict</span><br><span class="line"></span><br><span class="line">// 修改字典</span><br><span class="line">dict[&quot;name&quot;] = &quot;lmj&quot;</span><br><span class="line">dict</span><br><span class="line"></span><br><span class="line">// 查询字典</span><br><span class="line">dict[&quot;name&quot;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="字典的遍历"><a href="#字典的遍历" class="headerlink" title="字典的遍历"></a>字典的遍历</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 遍历字典中所有的值</span><br><span class="line">for value in dict.values &#123;</span><br><span class="line">    print(value)</span><br><span class="line">&#125;</span><br><span class="line">// 遍历字典中所有的键</span><br><span class="line">for key in dict.keys &#123;</span><br><span class="line">    print(key)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 遍历所有的键值对</span><br><span class="line">for (key, value) in dict &#123;</span><br><span class="line">    print(key)</span><br><span class="line">    print(value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="字典的合并"><a href="#字典的合并" class="headerlink" title="字典的合并"></a>字典的合并</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 字典的合并</span><br><span class="line">var dict1 = [&quot;name&quot; : &quot;yz&quot;, &quot;age&quot; : 20]</span><br><span class="line">var dict2 = [&quot;height&quot; : 1.87, &quot;phoneNum&quot; : &quot;+86 110&quot;]</span><br><span class="line">// 字典不可以相加合并</span><br><span class="line">for (key, value) in dict1 &#123;</span><br><span class="line">    dict2[key] = value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="8-元组"><a href="#8-元组" class="headerlink" title="8.元组"></a>8.元组</h2><h3 id="元组的介绍"><a href="#元组的介绍" class="headerlink" title="元组的介绍"></a>元组的介绍</h3><ul>
+<li>元组是Swift中特有的,OC中并没有相关类型</li>
+<li>它是什么呢?<ul>
+<li>它是一种数据结构，在数学中应用广泛</li>
+<li>类似于数组或者字典</li>
+<li>可以用于定义一组数据</li>
+<li>组成元组类型的数据可以称为”元素”</li>
+</ul>
+</li>
+</ul>
+<h3 id="元组的定义"><a href="#元组的定义" class="headerlink" title="元组的定义"></a>元组的定义</h3><ul>
+<li><p>元组的常见写法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 使用元组描述一个人的信息</span><br><span class="line">(&quot;1001&quot;, &quot;张三&quot;, 30, 90)</span><br><span class="line">// 给元素加上元素名称,之后可以通过元素名称访问元素</span><br><span class="line">(id:&quot;1001&quot;, name:&quot;张三&quot;, english_score:30, chinese_score:90)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="元组的简单使用"><a href="#元组的简单使用" class="headerlink" title="元组的简单使用"></a>元组的简单使用</h3><ul>
+<li>用元组来描述一个HTTP的错误信息</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 元祖:HTTP错误</span><br><span class="line">// let array = [404, &quot;Not Found&quot;]</span><br><span class="line">// 写法一:</span><br><span class="line">let error = (404, &quot;Not Found&quot;)</span><br><span class="line">print(error.0)</span><br><span class="line">print(error.1)</span><br><span class="line"></span><br><span class="line">// 写法二:</span><br><span class="line">let error = (errorCode : 404, errorInfo : &quot;Not Found&quot;)</span><br><span class="line">print(error.errorCode)</span><br><span class="line">print(error.errorInfo)</span><br><span class="line"></span><br><span class="line">// 写法三:</span><br><span class="line">let (errorCode, errorIno) = (404, &quot;Not Found&quot;)</span><br><span class="line">print(errorCode)</span><br><span class="line">print(errorIno)</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-可选类型"><a href="#9-可选类型" class="headerlink" title="9.可选类型"></a>9.可选类型</h2><h3 id="可选类型的介绍"><a href="#可选类型的介绍" class="headerlink" title="可选类型的介绍"></a>可选类型的介绍</h3><ul>
+<li>注意:<ul>
+<li>可选类型时swift中较理解的一个知识点</li>
+<li>暂时先了解,多利用Xcode的提示来使用</li>
+<li>随着学习的深入,慢慢理解其中的原理和好处</li>
+</ul>
+</li>
+<li>概念:<ul>
+<li>在OC开发中,如果一个变量暂停不使用,可以赋值为0(基本属性类型)或者赋值为空(对象类型)</li>
+<li>在swift开发中,nil也是一个特殊的类型.因为和真实的类型不匹配是不能赋值的(swift是强类型语言)</li>
+<li>但是开发中赋值nil,在所难免.因此推出了可选类型</li>
+</ul>
+</li>
+<li>可选类型的取值:<ul>
+<li>空值</li>
+<li>有值</li>
+</ul>
+</li>
+</ul>
+<h3 id="定义可选类型"><a href="#定义可选类型" class="headerlink" title="定义可选类型"></a>定义可选类型</h3><ul>
+<li>定义一个可选类型有两种写法<ul>
+<li>最基本的写法</li>
+<li>语法糖(常用)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 错误写法</span><br><span class="line">// let string : String = nil</span><br><span class="line">// 正确写法:</span><br><span class="line">// 注意:name的类型是一个可选类型,但是该可选类型中可以存放字符串.</span><br><span class="line">// 写法一:定义可选类型</span><br><span class="line">let name : Optional&lt;String&gt; = nil</span><br><span class="line"></span><br><span class="line">// 写法二:定义可选类型,语法糖(常用)</span><br><span class="line">let name : String? = nil</span><br></pre></td></tr></table></figure>
+
+<h3 id="可选类型的使用"><a href="#可选类型的使用" class="headerlink" title="可选类型的使用"></a>可选类型的使用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">// 演练一:给可选类型赋值</span><br><span class="line">// 定义可选类型</span><br><span class="line">var string : Optional&lt;String&gt; = nil</span><br><span class="line"></span><br><span class="line">// 给可选类型赋值</span><br><span class="line">// 错误写法:因此该可选类型中只能存放字符串</span><br><span class="line">string = 123</span><br><span class="line">// 正确写法:</span><br><span class="line">string = &quot;Hello world&quot;</span><br><span class="line"></span><br><span class="line">// 打印结果</span><br><span class="line">print(string)</span><br><span class="line">// 结果:Optional(&quot;Hello world&quot;)\n</span><br><span class="line">// 因为打印出来的是可选类型,所有会带Optional</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 演练二:取出可选类型的值</span><br><span class="line">// 取出可选类型的真实值(解包)</span><br><span class="line">print(string!)</span><br><span class="line">// 结果:Hello world\n</span><br><span class="line"></span><br><span class="line">// 注意:如果可选类型为nil,强制取出其中的值(解包),会出错</span><br><span class="line">string = nil</span><br><span class="line">print(string!) // 报错</span><br><span class="line"></span><br><span class="line">// 正确写法:</span><br><span class="line">if string != nil &#123;</span><br><span class="line">    print(string!)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 简单写法:为了让在if语句中可以方便使用string</span><br><span class="line">// 可选绑定</span><br><span class="line">if let str = string &#123;</span><br><span class="line">    print(str)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="真实应用场景"><a href="#真实应用场景" class="headerlink" title="真实应用场景"></a>真实应用场景</h3><ul>
+<li>目的:让代码更加严谨</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 通过该方法创建的URL,可能有值,也可能没有值.</span><br><span class="line">// 错误写法:如果返回值是nil时,就不能接收了</span><br><span class="line">// 如果字符串中有中文,则返回值为nil,因此该方法的返回值就是一个可选类型,而使用一个NSURL类型接收是错误的</span><br><span class="line">let url : NSURL = NSURL(string: &quot;www.baidu.com&quot;)</span><br><span class="line"></span><br><span class="line">// 正确写法:使用可选类型来接收</span><br><span class="line">let url : NSURL? = NSURL(string: &quot;www.baidu.com&quot;)</span><br><span class="line">// 该方式利用类型推导</span><br><span class="line">let url = NSURL(string: &quot;www.baidu.com&quot;)</span><br><span class="line"></span><br><span class="line">// 通过url来创建request对象:在使用可选类型前要先进行判断是否有值</span><br><span class="line">// 该语法成为可选绑定(如果url有值就解包赋值给tempURL,并且执行&#123;&#125;)</span><br><span class="line">if let tempUrl = url &#123;</span><br><span class="line">    let request = NSURLRequest(URL: tempUrl)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="10-函数"><a href="#10-函数" class="headerlink" title="10.函数"></a>10.函数</h2><h3 id="函数的介绍"><a href="#函数的介绍" class="headerlink" title="函数的介绍"></a>函数的介绍</h3><ul>
+<li>函数相当于OC中的方法</li>
+<li>函数的格式如下</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func 函数名(参数列表) -&gt; 返回值类型 &#123;</span><br><span class="line">    代码块</span><br><span class="line">    return 返回值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>func是关键字,多个参数列表之间可以用逗号（,）分隔，也可以没有参数</li>
+<li>使用箭头”-&gt;“指向返回值类型</li>
+<li>如果函数没有返回值，返回值为Void.并且”-&gt; 返回值类型”部分可以省略</li>
+</ul>
+<h3 id="常见的函数类型"><a href="#常见的函数类型" class="headerlink" title="常见的函数类型"></a>常见的函数类型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// 1.没有参数,没用返回值</span><br><span class="line">func about() -&gt; Void &#123;</span><br><span class="line">    print(&quot;iphone6s plus&quot;)</span><br><span class="line">&#125;</span><br><span class="line">// 调用函数</span><br><span class="line">about()</span><br><span class="line"></span><br><span class="line">// 简单写法</span><br><span class="line">// 如果没用返回值,Void可以写成()</span><br><span class="line">func about1() -&gt; () &#123;</span><br><span class="line">    print(&quot;iphone6s plus&quot;)</span><br><span class="line">&#125;</span><br><span class="line">// 如果没有返回值,后面的内容可以都不写</span><br><span class="line">func about2() &#123;</span><br><span class="line">    print(&quot;iphone6s plus&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">about2()</span><br><span class="line"></span><br><span class="line">// 2.有参数,没用返回值</span><br><span class="line">func callPhone(phoneNum : String) &#123;</span><br><span class="line">    print(&quot;打电话给\(phoneNum)&quot;)</span><br><span class="line">&#125;</span><br><span class="line">callPhone(&quot;+86 110&quot;)</span><br><span class="line"></span><br><span class="line">// 3.没用参数,有返回值</span><br><span class="line">func readMessage() -&gt; String &#123;</span><br><span class="line">    return &quot;吃饭了吗?&quot;</span><br><span class="line">&#125;</span><br><span class="line">var str = readMessage()</span><br><span class="line">print(str)</span><br><span class="line"></span><br><span class="line">// 4.有参数,有返回值</span><br><span class="line">func sum(num1 : Int, num2 : Int) -&gt; Int &#123;</span><br><span class="line">    return num1 + num2</span><br><span class="line">&#125;</span><br><span class="line">var result = sum(20, num2: 30)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数的使用注意"><a href="#函数的使用注意" class="headerlink" title="函数的使用注意"></a>函数的使用注意</h3><ul>
+<li>注意一: 外部参数和内部参数<ul>
+<li>在函数内部可以看到的参数,就是内部参数</li>
+<li>在函数外面可以看到的参数,就是外部参数</li>
+<li>默认情况下,从第二个参数开始,参数名称既是内部参数也是外部参数</li>
+<li>如果第一个参数也想要有外部参数,可以设置标签:在变量名前加标签即可</li>
+<li>如果不想要外部参数,可以在参数名称前加_</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// num1和a是外部参数的名称</span><br><span class="line">func ride(num1 num1 : Int, a num2 : Int, b num3 : Int) -&gt; Int &#123;</span><br><span class="line">    return num1 * num2 * num3</span><br><span class="line">&#125;</span><br><span class="line">var result1 = ride(num1: 20, a: 4, b: 5)</span><br><span class="line"></span><br><span class="line">// 方法的重载:方法名称相同,但是参数不同,可以称之为方法的重载(了解)</span><br><span class="line">func ride(num1: Int, _ num2 :Int) -&gt; Int &#123;</span><br><span class="line">    return num1 * num2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var result2 = ride(20, 20)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意二: 默认参数<ul>
+<li>某些情况,如果没有传入具体的参数,可以使用默认参数</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">func makecoffee(type :String = &quot;卡布奇诺&quot;) -&gt; String &#123;</span><br><span class="line">    return &quot;制作一杯\(type)咖啡。&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let coffee1 = makecoffee(&quot;拿铁&quot;)</span><br><span class="line">let coffee2 = makecoffee()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意三: 可变参数<ul>
+<li>swift中函数的参数个数可以变化，它可以接受不确定数量的输入类型参数</li>
+<li>它们必须具有相同的类型</li>
+<li>我们可以通过在参数类型名后面加入（...）的方式来指示这是可变参数</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">func sum(numbers:Double...) -&gt; Double &#123;</span><br><span class="line">    var total: Double = 0</span><br><span class="line">    for number in numbers &#123;</span><br><span class="line">        total += number</span><br><span class="line">    &#125;</span><br><span class="line">    return total</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sum(100.0, 20, 30)</span><br><span class="line">sum(30, 80)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意四: 引用类型(指针的传递)<ul>
+<li>默认情况下,函数的参数是值传递.如果想改变外面的变量,则需要传递变量的地址</li>
+<li>必须是变量,因为需要在内部改变其值</li>
+<li>Swift提供的inout关键字就可以实现</li>
+<li>对比下列两个函数</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// 函数一:值传递</span><br><span class="line">func swap(var a : Int, var b : Int) &#123;</span><br><span class="line">    let temp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = temp</span><br><span class="line"></span><br><span class="line">    print(&quot;a:\(a), b:\(b)&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var a = 10</span><br><span class="line">var b = 20</span><br><span class="line">swap(a, b: b)</span><br><span class="line">print(&quot;a:\(a), b:\(b)&quot;)</span><br><span class="line"></span><br><span class="line">// 函数二:指针的传递</span><br><span class="line">func swap1(inout a : Int, inout b : Int) &#123;</span><br><span class="line">    let temp = a</span><br><span class="line">    a = b</span><br><span class="line">    b = temp</span><br><span class="line"></span><br><span class="line">    print(&quot;a:\(a), b:\(b)&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">swap1(&amp;a, b: &amp;b)</span><br><span class="line">print(&quot;a:\(a), b:\(b)&quot;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>函数的嵌套使用<ul>
+<li>swift中函数可以嵌套使用</li>
+<li>即函数中包含函数,但是不推荐该写法</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 函数的嵌套</span><br><span class="line">let value = 55</span><br><span class="line">func test() &#123;</span><br><span class="line">    func demo() &#123;</span><br><span class="line">        print(&quot;demo \(value)&quot;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    print(&quot;test&quot;)</span><br><span class="line">    demo()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">demo() // 错误</span><br><span class="line">test() // 执行函数会先打印&#x27;test&#x27;,再打印&#x27;demo&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="11-Swift中类的使用"><a href="#11-Swift中类的使用" class="headerlink" title="11.Swift中类的使用"></a>11.Swift中类的使用</h2><h3 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h3><ul>
+<li>类的介绍和定义</li>
+<li>类的属性</li>
+<li>类的构造函数</li>
+</ul>
+<h3 id="一-类的介绍和定义"><a href="#一-类的介绍和定义" class="headerlink" title="一. 类的介绍和定义"></a>一. 类的介绍和定义</h3><ul>
+<li>Swift也是一门面向对象开发的语言</li>
+<li>面向对象的基础是类,类产生了对象</li>
+<li>在Swift中如何定义类呢?<ul>
+<li>class是Swift中的关键字,用于定义类</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class 类名 : SuperClass &#123;</span><br><span class="line">    // 定义属性和方法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意:<ul>
+<li>定义的类,可以没有父类.那么该类是rootClass</li>
+<li>通常情况下,定义类时.继承自NSObject(非OC的NSObject)</li>
+</ul>
+</li>
+</ul>
+<h3 id="二-如何定义类的属性"><a href="#二-如何定义类的属性" class="headerlink" title="二. 如何定义类的属性"></a>二. 如何定义类的属性</h3><h5 id="类的属性介绍"><a href="#类的属性介绍" class="headerlink" title="类的属性介绍"></a>类的属性介绍</h5><ul>
+<li>Swift中类的属性有多种<ul>
+<li>存储属性:存储实例的常量和变量</li>
+<li>计算属性:通过某种方式计算出来的属性</li>
+<li>类属性:与整个类自身相关的属性</li>
+</ul>
+</li>
+</ul>
+<h5 id="存储属性"><a href="#存储属性" class="headerlink" title="存储属性"></a>存储属性</h5><ul>
+<li>存储属性是最简单的属性，它作为类实例的一部分，用于存储常量和变量</li>
+<li>可以给存储属性提供一个默认值，也可以在初始化方法中对其进行初始化</li>
+<li>下面是存储属性的写法<ul>
+<li>age和name都是存储属性,用来记录该学生的年龄和姓名</li>
+<li>chineseScore和mathScore也是存储属性,用来记录该学生的语文分数和数学分数</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Student : NSObject &#123;</span><br><span class="line">    // 定义属性</span><br><span class="line">    // 存储属性</span><br><span class="line">    var age : Int = 0</span><br><span class="line">    var name : String?</span><br><span class="line"></span><br><span class="line">    var chineseScore : Double = 0.0</span><br><span class="line">    var mathScore : Double = 0.0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 创建学生对象</span><br><span class="line">let stu = Student()</span><br><span class="line"></span><br><span class="line">// 给存储属性赋值</span><br><span class="line">stu.age = 10</span><br><span class="line">stu.name = &quot;why&quot;</span><br><span class="line"></span><br><span class="line">stu.chineseScore = 89.0</span><br><span class="line">stu.mathScore = 98.0</span><br></pre></td></tr></table></figure>
+
+<h5 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h5><ul>
+<li>计算属性并不存储实际的值，而是提供一个getter和一个可选的setter来间接获取和设置其它属性</li>
+<li>计算属性<code>一般</code>只提供getter方法</li>
+<li>如果只提供getter，而不提供setter，则该计算属性为只读属性,并且可以省略get{}</li>
+<li>下面是计算属性的写法<ul>
+<li>averageScore是计算属性,通过chineseScore和mathScore计算而来的属性</li>
+<li>在setter方法中有一个newValue变量,是系统指定分配的</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Student : NSObject &#123;</span><br><span class="line">    // 定义属性</span><br><span class="line">    // 存储属性</span><br><span class="line">    var age : Int = 0</span><br><span class="line">    var name : String?</span><br><span class="line"></span><br><span class="line">    var chineseScore : Double = 0.0</span><br><span class="line">    var mathScore : Double = 0.0</span><br><span class="line"></span><br><span class="line">    // 计算属性</span><br><span class="line">    var averageScore : Double &#123;</span><br><span class="line">        get &#123;</span><br><span class="line">            return (chineseScore + mathScore) / 2</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 没有意义,因为之后获取值时依然是计算得到的</span><br><span class="line">        // newValue是系统分配的变量名,内部存储着新值</span><br><span class="line">        set &#123;</span><br><span class="line">            self.averageScore = newValue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 获取计算属性的值</span><br><span class="line">print(stu.averageScore)</span><br></pre></td></tr></table></figure>
+
+<h5 id="类属性"><a href="#类属性" class="headerlink" title="类属性"></a>类属性</h5><ul>
+<li>类属性是与类相关联的，而不是与类的实例相关联</li>
+<li>所有的类和实例都共有一份类属性.因此在某一处修改之后,该类属性就会被修改</li>
+<li>类属性的设置和修改,需要通过类来完成</li>
+<li>下面是类属性的写法<ul>
+<li>类属性使用static来修饰</li>
+<li>courseCount是类属性,用来记录学生有多少门课程</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class Student : NSObject &#123;</span><br><span class="line">    // 定义属性</span><br><span class="line">    // 存储属性</span><br><span class="line">    var age : Int = 0</span><br><span class="line">    var name : String?</span><br><span class="line"></span><br><span class="line">    var chineseScore : Double = 0.0</span><br><span class="line">    var mathScore : Double = 0.0</span><br><span class="line"></span><br><span class="line">    // 计算属性</span><br><span class="line">    var averageScore : Double &#123;</span><br><span class="line">        get &#123;</span><br><span class="line">            return (chineseScore + mathScore) / 2</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 没有意义.newValue是系统分配的变量名,内部存储着新值</span><br><span class="line">        set &#123;</span><br><span class="line">            self.averageScore = newValue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 类属性</span><br><span class="line">    static var corseCount : Int = 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 设置类属性的值</span><br><span class="line">Student.corseCount = 3</span><br><span class="line">// 取出类属性的值</span><br><span class="line">print(Student.corseCount)</span><br></pre></td></tr></table></figure>
+
+<h5 id="监听属性的改变"><a href="#监听属性的改变" class="headerlink" title="监听属性的改变"></a>监听属性的改变</h5><ul>
+<li>在OC中我们可以重写set方法来监听属性的改变</li>
+<li>Swift中可以通过属性观察者来监听和响应属性值的变化</li>
+<li>通常是监听存储属性和类属性的改变.(对于计算属性，我们不需要定义属性观察者，因为我们可以在计算属性的setter中直接观察并响应这种值的变化)</li>
+<li>我们通过设置以下观察方法来定义观察者<ul>
+<li>willSet：在属性值被存储之前设置。此时新属性值作为一个常量参数被传入。该参数名默认为newValue，我们可以自己定义该参数名</li>
+<li>didSet：在新属性值被存储后立即调用。与willSet相同，此时传入的是属性的旧值，默认参数名为oldValue</li>
+<li>willSet与didSet只有在属性第一次被设置时才会调用，在初始化时，不会去调用这些监听方法</li>
+</ul>
+</li>
+<li>监听的方式如下:<ul>
+<li>监听age和name的变化</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Person : NSObject &#123;</span><br><span class="line">    var name : String? &#123;</span><br><span class="line">        // 可以给newValue自定义名称</span><br><span class="line">        willSet (new)&#123; // 属性即将改变,还未改变时会调用的方法</span><br><span class="line">            // 在该方法中有一个默认的系统属性newValue,用于存储新值</span><br><span class="line">            print(name)</span><br><span class="line">            print(new)</span><br><span class="line">        &#125;</span><br><span class="line">        // 可以给oldValue自定义名称</span><br><span class="line">        didSet (old) &#123; // 属性值已经改变了,会调用的方法</span><br><span class="line">            // 在该方法中有一个默认的系统属性oldValue,用于存储旧值</span><br><span class="line">            print(name)</span><br><span class="line">            print(old)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    var age : Int = 0</span><br><span class="line">    var height : Double = 0.0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let p : Person = Person()</span><br><span class="line"></span><br><span class="line">// 在赋值时,监听该属性的改变</span><br><span class="line">// 在OC中是通过重写set方法</span><br><span class="line">// 在swift中,可以给属性添加监听器</span><br><span class="line">p.name = &quot;why&quot;</span><br><span class="line"></span><br><span class="line">//p.name = &quot;yz&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="12-类的构造函数"><a href="#12-类的构造函数" class="headerlink" title="12.类的构造函数"></a>12.类的构造函数</h2><h3 id="构造函数的介绍"><a href="#构造函数的介绍" class="headerlink" title="构造函数的介绍"></a>构造函数的介绍</h3><ul>
+<li>构造函数类似于OC中的初始化方法:init方法</li>
+<li>默认情况下载创建一个类时,必然会调用一个构造函数</li>
+<li>即便是没有编写任何构造函数，编译器也会提供一个默认的构造函数。</li>
+<li>如果是继承自NSObject,可以对父类的构造函数进行重写</li>
+</ul>
+<h3 id="构造函数的基本使用"><a href="#构造函数的基本使用" class="headerlink" title="构造函数的基本使用"></a>构造函数的基本使用</h3><h5 id="构造函数的基本使用-1"><a href="#构造函数的基本使用-1" class="headerlink" title="构造函数的基本使用"></a>构造函数的基本使用</h5><ul>
+<li>类的属性必须有值</li>
+<li>如果不是在定义时初始化值,可以在构造函数中赋值</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Person: NSObject &#123;</span><br><span class="line">    var name : String</span><br><span class="line">    var age : Int</span><br><span class="line"></span><br><span class="line">    // 重写了NSObject(父类)的构造方法</span><br><span class="line">    override init() &#123;</span><br><span class="line">        name = &quot;&quot;</span><br><span class="line">        age = 0</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 创建一个Person对象</span><br><span class="line">let p = Person()</span><br></pre></td></tr></table></figure>
+
+<h5 id="初始化时给属性赋值"><a href="#初始化时给属性赋值" class="headerlink" title="初始化时给属性赋值"></a>初始化时给属性赋值</h5><ul>
+<li>很多时候,我们在创建一个对象时就会给属性赋值</li>
+<li>可以自定义构造函数</li>
+<li>注意:如果自定义了构造函数,会覆盖init()方法.即不在有默认的构造函数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Person: NSObject &#123;</span><br><span class="line">    var name : String</span><br><span class="line">    var age : Int</span><br><span class="line"></span><br><span class="line">    // 自定义构造函数,会覆盖init()函数</span><br><span class="line">    init(name : String, age : Int) &#123;</span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 创建一个Person对象</span><br><span class="line">let p = Person(name: &quot;why&quot;, age: 18)</span><br></pre></td></tr></table></figure>
+
+<h5 id="字典转模型-初始化时传入字典"><a href="#字典转模型-初始化时传入字典" class="headerlink" title="字典转模型(初始化时传入字典)"></a>字典转模型(初始化时传入字典)</h5><ul>
+<li>真实创建对象时,更多的是将字典转成模型</li>
+<li>注意:<ul>
+<li>去字典中取出的是NSObject,任意类型.</li>
+<li>可以通过as!转成需要的类型,再赋值(不可以直接赋值)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Person: NSObject &#123;</span><br><span class="line">    var name : String</span><br><span class="line">    var age : Int</span><br><span class="line"></span><br><span class="line">    // 自定义构造函数,会覆盖init()函数</span><br><span class="line">    init(dict : [String : NSObject]) &#123;</span><br><span class="line">        name = dict[&quot;name&quot;] as! String</span><br><span class="line">        age = dict[&quot;age&quot;] as! Int</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 创建一个Person对象</span><br><span class="line">let dict = [&quot;name&quot; : &quot;why&quot;, &quot;age&quot; : 18]</span><br><span class="line">let p = Person(dict: dict)</span><br></pre></td></tr></table></figure>
+
+<h5 id="字典转模型-利用KVC转化"><a href="#字典转模型-利用KVC转化" class="headerlink" title="字典转模型(利用KVC转化)"></a>字典转模型(利用KVC转化)</h5><ul>
+<li>利用KVC字典转模型会更加方便</li>
+<li>注意:<ul>
+<li>KVC并不能保证会给所有的属性赋值</li>
+<li>因此属性需要有默认值<ul>
+<li>基本数据类型默认值设置为0</li>
+<li>对象或者结构体类型定义为可选类型即可(可选类型没有赋值前为nil)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Person: NSObject &#123;</span><br><span class="line">    // 结构体或者类的类型,必须是可选类型.因为不能保证一定会赋值</span><br><span class="line">    var name : String?</span><br><span class="line"></span><br><span class="line">    // 基本数据类型不能是可选类型,否则KVC无法转化</span><br><span class="line">    var age : Int = 0</span><br><span class="line"></span><br><span class="line">    // 自定义构造函数,会覆盖init()函数</span><br><span class="line">    init(dict : [String : NSObject]) &#123;</span><br><span class="line">        // 必须先初始化对象</span><br><span class="line">        super.init()</span><br><span class="line"></span><br><span class="line">        // 调用对象的KVC方法字典转模型</span><br><span class="line">        setValuesForKeysWithDictionary(dict)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 创建一个Person对象</span><br><span class="line">let dict = [&quot;name&quot; : &quot;why&quot;, &quot;age&quot; : 18]</span><br><span class="line">let p = Person(dict: dict)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="13-闭包"><a href="#13-闭包" class="headerlink" title="13.闭包"></a>13.闭包</h2><h3 id="闭包的介绍"><a href="#闭包的介绍" class="headerlink" title="闭包的介绍"></a>闭包的介绍</h3><ul>
+<li>闭包和OC中的block非常相似<ul>
+<li>OC中的block是匿名的函数</li>
+<li>Swift中的闭包是一个特殊的函数</li>
+<li>block和闭包都经常用于回调</li>
+</ul>
+</li>
+<li>注意:闭包和block一样,第一次使用时可能不习惯它的语法,可以先按照使用简单的闭包,随着学习的深入,慢慢掌握其灵活的运用方法.</li>
+</ul>
+<h3 id="闭包的使用"><a href="#闭包的使用" class="headerlink" title="闭包的使用"></a>闭包的使用</h3><h5 id="block的用法回顾"><a href="#block的用法回顾" class="headerlink" title="block的用法回顾"></a>block的用法回顾</h5><ul>
+<li>定义网络请求的类</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@interface HttpTool : NSObject</span><br><span class="line">- (void)loadRequest:(void (^)())callBackBlock;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation HttpTool</span><br><span class="line">- (void)loadRequest:(void (^)())callBackBlock</span><br><span class="line">&#123;</span><br><span class="line">    dispatch_async(dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">        NSLog(@&quot;加载网络数据:%@&quot;, [NSThread currentThread]);</span><br><span class="line"></span><br><span class="line">        dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            callBackBlock();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进行网络请求,请求到数据后利用block进行回调</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self.httpTool loadRequest:^&#123;</span><br><span class="line">        NSLog(@&quot;主线程中,将数据回调.%@&quot;, [NSThread currentThread]);</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>block写法总结:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">block的写法:</span><br><span class="line">        类型:</span><br><span class="line">        返回值(^block的名称)(block的参数)</span><br><span class="line"></span><br><span class="line">        值:</span><br><span class="line">        ^(参数列表) &#123;</span><br><span class="line">            // 执行的代码</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<h5 id="使用闭包代替block"><a href="#使用闭包代替block" class="headerlink" title="使用闭包代替block"></a>使用闭包代替block</h5><ul>
+<li>定义网络请求的类</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class HttpTool: NSObject &#123;</span><br><span class="line"></span><br><span class="line">    func loadRequest(callBack : ()-&gt;())&#123;</span><br><span class="line">        dispatch_async(dispatch_get_global_queue(0, 0)) &#123; () -&gt; Void in</span><br><span class="line">            print(&quot;加载数据&quot;, [NSThread.currentThread()])</span><br><span class="line"></span><br><span class="line">             dispatch_async(dispatch_get_main_queue(), &#123; () -&gt; Void in</span><br><span class="line">                callBack()</span><br><span class="line">             &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进行网络请求,请求到数据后利用闭包进行回调</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">override func touchesBegan(touches: Set&lt;UITouch&gt;, withEvent event: UIEvent?) &#123;</span><br><span class="line">    // 网络请求</span><br><span class="line">    httpTool.loadRequest (&#123; () -&gt; () in</span><br><span class="line">        print(&quot;回到主线程&quot;, NSThread.currentThread());</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>闭包写法总结:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">闭包的写法:</span><br><span class="line">    类型:(形参列表)-&gt;(返回值)</span><br><span class="line">    技巧:初学者定义闭包类型,直接写()-&gt;().再填充参数和返回值</span><br><span class="line"></span><br><span class="line">    值:</span><br><span class="line">    &#123;</span><br><span class="line">        (形参) -&gt; 返回值类型 in</span><br><span class="line">        // 执行代码</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="闭包的简写"><a href="#闭包的简写" class="headerlink" title="闭包的简写"></a>闭包的简写</h5><ul>
+<li>如果闭包没有参数,没有返回值.in和in之前的内容可以省略</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">httpTool.loadRequest(&#123;</span><br><span class="line">    print(&quot;回到主线程&quot;, NSThread.currentThread());</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>尾随闭包写法:<ul>
+<li>如果闭包是函数的最后一个参数,则可以将闭包写在()后面</li>
+<li>如果函数只有一个参数,并且这个参数是闭包,那么()可以不写</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">httpTool.loadRequest() &#123;</span><br><span class="line">    print(&quot;回到主线程&quot;, NSThread.currentThread());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 开发中建议该写法</span><br><span class="line">httpTool.loadRequest &#123;</span><br><span class="line">    print(&quot;回到主线程&quot;, NSThread.currentThread());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="闭包的循环引用"><a href="#闭包的循环引用" class="headerlink" title="闭包的循环引用"></a>闭包的循环引用</h3><ul>
+<li>如果在HttpTool中有对闭包进行强引用,则会形成循环引用</li>
+<li>补充:在Swift中检测一个对象是否销毁,可以实现对象的<code>deinit</code>函数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 析构函数(相当于OC中dealloc方法)</span><br><span class="line">deinit &#123;</span><br><span class="line">    print(&quot;ViewController----deinit&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>循环引用的(实现)<ul>
+<li>该实现是为了产生循环引用,而产生的循环引用</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class HttpTool: NSObject &#123;</span><br><span class="line"></span><br><span class="line">    // 定义属性,来强引用传入的闭包</span><br><span class="line">    var callBack : (()-&gt;())?</span><br><span class="line"></span><br><span class="line">    func loadRequest(callBack : ()-&gt;())&#123;</span><br><span class="line">        dispatch_async(dispatch_get_global_queue(0, 0)) &#123; () -&gt; Void in</span><br><span class="line">            print(&quot;加载数据&quot;, [NSThread.currentThread()])</span><br><span class="line"></span><br><span class="line">             dispatch_async(dispatch_get_main_queue(), &#123; () -&gt; Void in</span><br><span class="line">                callBack()</span><br><span class="line">             &#125;)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        self.callBack = callBack</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>swift中解决循环引用的方式</li>
+<li>方案一:<ul>
+<li>使用weak,对当前控制器使用弱引用</li>
+<li>但是因为self可能有值也可能没有值,因此weakSelf是一个可选类型,在真正使用时可以对其强制解包(该处强制解包没有问题,因为控制器一定存在,否则无法调用所在函数)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 解决方案一:</span><br><span class="line">weak var weakSelf = self</span><br><span class="line">httpTool.loadData &#123;</span><br><span class="line">    print(&quot;加载数据完成,更新界面:&quot;, NSThread.currentThread())</span><br><span class="line">    weakSelf!.view.backgroundColor = UIColor.redColor()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>方案二:<ul>
+<li>和方案一类型,只是书写方式更加简单</li>
+<li>可以写在闭包中,并且在闭包中用到的self都是弱引用</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">httpTool.loadData &#123;[weak self] () -&gt; () in</span><br><span class="line">    print(&quot;加载数据完成,更新界面:&quot;, NSThread.currentThread())</span><br><span class="line">    self!.view.backgroundColor = UIColor.redColor()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>方案三:(常用)<ul>
+<li>使用关键字<code>unowned</code></li>
+<li>从行为上来说 unowned 更像OC中的 unsafe_unretained</li>
+<li>unowned<br>表示:即使它原来引用的对象被释放了，仍然会保持对被已经释放了的对象的一个<br>&quot;无效的&quot; 引用，它不能是 Optional 值，也不会被指向 nil</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">httpTool.loadData &#123;[unowned self] () -&gt; () in</span><br><span class="line">        print(&quot;加载数据完成,更新界面:&quot;, NSThread.currentThread())</span><br><span class="line">        self.view.backgroundColor = UIColor.redColor()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="14-懒加载"><a href="#14-懒加载" class="headerlink" title="14.懒加载"></a>14.懒加载</h2><h3 id="懒加载的介绍"><a href="#懒加载的介绍" class="headerlink" title="懒加载的介绍"></a>懒加载的介绍</h3><ul>
+<li>swift中也有懒加载的方式</li>
+<li>(苹果的设计思想:希望所有的对象在使用时才真正加载到内存中)</li>
+<li>和OC不同的是swift有专门的关键字来实现懒加载</li>
+<li>lazy关键字可以用于定义某一个属性懒加载</li>
+</ul>
+<h3 id="懒加载的使用"><a href="#懒加载的使用" class="headerlink" title="懒加载的使用"></a>懒加载的使用</h3><ul>
+<li>格式</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lazy var 变量: 类型 = &#123; 创建变量代码 &#125;()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>懒加载的使用</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 懒加载的本质是,在第一次使用的时候执行闭包,将闭包的返回值赋值给属性</span><br><span class="line">// lazy的作用是只会赋值一次</span><br><span class="line">lazy var array : [String] = &#123;</span><br><span class="line">    () -&gt; [String] in</span><br><span class="line">    return [&quot;why&quot;, &quot;lmj&quot;, &quot;lnj&quot;]</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+
+<h2 id="14-getter-amp-setter"><a href="#14-getter-amp-setter" class="headerlink" title="14.getter &amp; setter"></a>14.getter &amp; setter</h2><h3 id="自定义-Person-类"><a href="#自定义-Person-类" class="headerlink" title="自定义 Person 类"></a>自定义 Person 类</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>: <span class="title class_">NSObject</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span>?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="getter-amp-setter"><a href="#getter-amp-setter" class="headerlink" title="getter &amp; setter"></a>getter &amp; setter</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> _name: <span class="type">String</span>?</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> name: <span class="type">String</span>? &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> _name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">set</span> &#123;</span><br><span class="line">        _name <span class="operator">=</span> newValue</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 <code>Swift</code> 中以上形式的 getter &amp; setter 很少用</li>
+</ul>
+<h2 id="didSet"><a href="#didSet" class="headerlink" title="didSet"></a>didSet</h2><ul>
+<li>在 OC 中，我们通常希望在给某一个变量赋值之后，去做一些额外的操作</li>
+<li>最经典的应用就是在自定义 Cell 的时候，通过模型的设置方法完成 Cell<br>的填充</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> length: <span class="type">Int</span>? &#123;</span><br><span class="line">    <span class="keyword">didSet</span> &#123;</span><br><span class="line">        timeStr <span class="operator">=</span> <span class="type">String</span>(format: <span class="string">&quot;%02d:%02d:%02d&quot;</span>, arguments: [length<span class="operator">!</span> <span class="operator">/</span> <span class="number">3600</span>, (length<span class="operator">!</span> <span class="operator">%</span> <span class="number">3600</span>) <span class="operator">/</span> <span class="number">60</span>, length<span class="operator">!</span> <span class="operator">%</span> <span class="number">60</span>])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> timeStr: <span class="type">String</span>?</span><br></pre></td></tr></table></figure>
+
+<h2 id="计算型属性"><a href="#计算型属性" class="headerlink" title="计算型属性"></a>计算型属性</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> title: <span class="type">String</span> &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Mr &quot;</span> <span class="operator">+</span> (name <span class="operator">??</span> <span class="string">&quot;&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>只实现 <code>getter</code> 方法的属性被称为计算型属性，等同于 OC 中的<br><code>ReadOnly</code> 属性</li>
+<li>计算型属性本身不占用内存空间</li>
+<li>不可以给计算型属性设置数值</li>
+<li>计算型属性可以使用以下代码简写</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> title: <span class="type">String</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Mr &quot;</span> <span class="operator">+</span> (name <span class="operator">??</span> <span class="string">&quot;&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">init</span>(<span class="params">dict</span>: [<span class="params">NSObject</span>: <span class="type">AnyObject</span>]) &#123;</span><br><span class="line">    name <span class="operator">=</span> dict[<span class="string">&quot;name&quot;</span>] <span class="keyword">as?</span> <span class="type">String</span></span><br><span class="line">    age <span class="operator">=</span> dict[<span class="string">&quot;age&quot;</span>] <span class="keyword">as?</span> <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">deinit</span> &#123;</span><br><span class="line">    println(<span class="string">&quot;88&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    拿根针尖对麦芒
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xnxy.github.io/2021/03/20/Swift%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="Swift学习指北">https://xnxy.github.io/2021/03/20/Swift%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/15/%E5%85%B3%E4%BA%8E%E5%88%A4%E6%96%ADApp%E6%98%AF%E5%90%A6%E8%BF%90%E8%A1%8C%E5%9C%A8Mac%E4%B8%8A%E5%92%8C%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%95%B4%E7%90%86/" rel="next" title="关于判断App是否运行在Mac上和常用软件整理">
+                <i class="fa fa-chevron-left"></i> 关于判断App是否运行在Mac上和常用软件整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/06/16/IPA%E7%AD%BE%E5%90%8D%E6%A3%80%E6%9F%A5-iOS15/" rel="prev" title="IPA签名检查-iOS15">
+                IPA签名检查-iOS15 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/head.jpeg"
+              alt="" />
+          
+            <p class="site-author-name" itemprop="name"></p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/%20%7C%7C%20archive">
+            
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xnxy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="2303400083@.qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.jianshu.com/u/022a5e92c62c" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>简书</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/xnxyonly1" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://jewsaten.github.io/" title="「蒋·先生」" target="_blank">「蒋·先生」</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.wangquanwei.com/" title="王权伟の博客" target="_blank">王权伟の博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://guyueyang.github.io/" title="晓平の博客" target="_blank">晓平の博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Swift%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">Swift基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%B8%B8%E9%87%8F-amp-%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.</span> <span class="nav-text">1.常量&amp;变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%B8%B8%E9%87%8F%E5%92%8C%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">什么是常量和变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E5%92%8C%E5%8F%98%E9%87%8F%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.1.2.</span> <span class="nav-text">常量和变量的基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E5%92%8C%E5%8F%98%E9%87%8F%E7%9A%84%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F"><span class="nav-number">1.1.3.</span> <span class="nav-text">常量和变量的使用注意:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Swift%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.2.</span> <span class="nav-text">2.Swift类型的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC"><span class="nav-number">1.2.1.</span> <span class="nav-text">Swift中的类型推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift%E4%B8%AD%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97"><span class="nav-number">1.2.2.</span> <span class="nav-text">Swift中基本运算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%80%BB%E8%BE%91%E5%88%86%E6%94%AF"><span class="nav-number">1.3.</span> <span class="nav-text">3.逻辑分支</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E5%88%86%E6%94%AF%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.3.1.</span> <span class="nav-text">一. 分支的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-if%E5%88%86%E6%94%AF%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.3.2.</span> <span class="nav-text">二. if分支语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89-%E4%B8%89%E7%9B%AE%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.3.3.</span> <span class="nav-text">三. 三目运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B-guard%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.3.4.</span> <span class="nav-text">四.guard的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B-switch%E5%88%86%E6%94%AF"><span class="nav-number">1.3.5.</span> <span class="nav-text">四.switch分支</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#switch%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.3.5.0.1.</span> <span class="nav-text">switch的介绍</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#switch%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">1.3.5.0.2.</span> <span class="nav-text">switch的简单使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Switch%E6%94%AF%E6%8C%81%E5%A4%9A%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.5.0.3.</span> <span class="nav-text">Switch支持多种数据类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#switch%E6%94%AF%E6%8C%81%E5%8C%BA%E9%97%B4%E5%88%A4%E6%96%AD"><span class="nav-number">1.3.5.0.4.</span> <span class="nav-text">switch支持区间判断</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.4.</span> <span class="nav-text">4.循环的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%86%99%E6%B3%95"><span class="nav-number">1.4.1.</span> <span class="nav-text">for循环的写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#while%E5%92%8Cdo-while%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.4.2.</span> <span class="nav-text">while和do while循环</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.5.</span> <span class="nav-text">5.字符串的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.5.1.</span> <span class="nav-text">字符串的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%81%8D%E5%8E%86%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.5.1.0.1.</span> <span class="nav-text">遍历字符串</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5"><span class="nav-number">1.5.1.0.2.</span> <span class="nav-text">字符串拼接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%88%AA%E5%8F%96"><span class="nav-number">1.5.1.0.3.</span> <span class="nav-text">字符串的截取</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%95%B0%E7%BB%84"><span class="nav-number">1.6.</span> <span class="nav-text">6.数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.6.1.</span> <span class="nav-text">数组的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.6.2.</span> <span class="nav-text">数组的初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0%E7%BB%84%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">1.6.3.</span> <span class="nav-text">对数组的基本操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-number">1.6.4.</span> <span class="nav-text">数组的遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E5%90%88%E5%B9%B6"><span class="nav-number">1.6.5.</span> <span class="nav-text">数组的合并</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%AD%97%E5%85%B8"><span class="nav-number">1.7.</span> <span class="nav-text">7.字典</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.7.1.</span> <span class="nav-text">字典的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.7.2.</span> <span class="nav-text">字典的初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">1.7.3.</span> <span class="nav-text">字典的基本操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-number">1.7.4.</span> <span class="nav-text">字典的遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E7%9A%84%E5%90%88%E5%B9%B6"><span class="nav-number">1.7.5.</span> <span class="nav-text">字典的合并</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E5%85%83%E7%BB%84"><span class="nav-number">1.8.</span> <span class="nav-text">8.元组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E7%BB%84%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.8.1.</span> <span class="nav-text">元组的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E7%BB%84%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.8.2.</span> <span class="nav-text">元组的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E7%BB%84%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">1.8.3.</span> <span class="nav-text">元组的简单使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E5%8F%AF%E9%80%89%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.9.</span> <span class="nav-text">9.可选类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E9%80%89%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.9.1.</span> <span class="nav-text">可选类型的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%8F%AF%E9%80%89%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.9.2.</span> <span class="nav-text">定义可选类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E9%80%89%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.9.3.</span> <span class="nav-text">可选类型的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%9F%E5%AE%9E%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.9.4.</span> <span class="nav-text">真实应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E5%87%BD%E6%95%B0"><span class="nav-number">1.10.</span> <span class="nav-text">10.函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.10.1.</span> <span class="nav-text">函数的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.10.2.</span> <span class="nav-text">常见的函数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F"><span class="nav-number">1.10.3.</span> <span class="nav-text">函数的使用注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-Swift%E4%B8%AD%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.11.</span> <span class="nav-text">11.Swift中类的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9"><span class="nav-number">1.11.1.</span> <span class="nav-text">主要内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E7%B1%BB%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%AE%9A%E4%B9%89"><span class="nav-number">1.11.2.</span> <span class="nav-text">一. 类的介绍和定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-number">1.11.3.</span> <span class="nav-text">二. 如何定义类的属性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.11.3.0.1.</span> <span class="nav-text">类的属性介绍</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%B1%9E%E6%80%A7"><span class="nav-number">1.11.3.0.2.</span> <span class="nav-text">存储属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7"><span class="nav-number">1.11.3.0.3.</span> <span class="nav-text">计算属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B1%BB%E5%B1%9E%E6%80%A7"><span class="nav-number">1.11.3.0.4.</span> <span class="nav-text">类属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7%E7%9A%84%E6%94%B9%E5%8F%98"><span class="nav-number">1.11.3.0.5.</span> <span class="nav-text">监听属性的改变</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.12.</span> <span class="nav-text">12.类的构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.12.1.</span> <span class="nav-text">构造函数的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.12.2.</span> <span class="nav-text">构造函数的基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8-1"><span class="nav-number">1.12.2.0.1.</span> <span class="nav-text">构造函数的基本使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6%E7%BB%99%E5%B1%9E%E6%80%A7%E8%B5%8B%E5%80%BC"><span class="nav-number">1.12.2.0.2.</span> <span class="nav-text">初始化时给属性赋值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B-%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6%E4%BC%A0%E5%85%A5%E5%AD%97%E5%85%B8"><span class="nav-number">1.12.2.0.3.</span> <span class="nav-text">字典转模型(初始化时传入字典)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B-%E5%88%A9%E7%94%A8KVC%E8%BD%AC%E5%8C%96"><span class="nav-number">1.12.2.0.4.</span> <span class="nav-text">字典转模型(利用KVC转化)</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-%E9%97%AD%E5%8C%85"><span class="nav-number">1.13.</span> <span class="nav-text">13.闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.13.1.</span> <span class="nav-text">闭包的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.13.2.</span> <span class="nav-text">闭包的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#block%E7%9A%84%E7%94%A8%E6%B3%95%E5%9B%9E%E9%A1%BE"><span class="nav-number">1.13.2.0.1.</span> <span class="nav-text">block的用法回顾</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%97%AD%E5%8C%85%E4%BB%A3%E6%9B%BFblock"><span class="nav-number">1.13.2.0.2.</span> <span class="nav-text">使用闭包代替block</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E7%AE%80%E5%86%99"><span class="nav-number">1.13.2.0.3.</span> <span class="nav-text">闭包的简写</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">1.13.3.</span> <span class="nav-text">闭包的循环引用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-%E6%87%92%E5%8A%A0%E8%BD%BD"><span class="nav-number">1.14.</span> <span class="nav-text">14.懒加载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.14.1.</span> <span class="nav-text">懒加载的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.14.2.</span> <span class="nav-text">懒加载的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-getter-amp-setter"><span class="nav-number">1.15.</span> <span class="nav-text">14.getter &amp; setter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-Person-%E7%B1%BB"><span class="nav-number">1.15.1.</span> <span class="nav-text">自定义 Person 类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getter-amp-setter"><span class="nav-number">1.15.2.</span> <span class="nav-text">getter &amp; setter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#didSet"><span class="nav-number">1.16.</span> <span class="nav-text">didSet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E5%9E%8B%E5%B1%9E%E6%80%A7"><span class="nav-number">1.17.</span> <span class="nav-text">计算型属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.18.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.19.</span> <span class="nav-text">析构函数</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 &mdash; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">
+      
+    </span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共字</span>
+</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
