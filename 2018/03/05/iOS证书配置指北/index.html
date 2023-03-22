@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="我们都知道开发一款应用需要配置苹果常用证书、AppId,Provisioning Profiles，如果有推送还需要配置推送证书等，所以索性将所有的证书的配置流程都记录下来，方便以后查阅。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS证书配置指北">
+<meta property="og:url" content="https://xnxy.github.io/2018/03/05/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="我们都知道开发一款应用需要配置苹果常用证书、AppId,Provisioning Profiles，如果有推送还需要配置推送证书等，所以索性将所有的证书的配置流程都记录下来，方便以后查阅。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%B4%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%90%8D%E6%96%87%E4%BB%B6%E8%AF%B7%E6%B1%82.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E4%BF%9D%E5%AD%98CSR%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E9%80%89%E6%8B%A9Identifiers%E4%B8%AD%E7%9A%84AppIDs.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E6%B7%BB%E5%8A%A0AppID.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E9%80%89%E6%8B%A9Certificates%E4%B8%AD%E7%9A%84All,%E7%84%B6%E5%90%8E%E9%80%89%E6%8B%A9%E4%B8%8A%E6%96%B9%E7%9A%84%E5%8A%A0%E5%8F%B7.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E9%80%89%E6%8B%A9%E7%9B%B8%E5%BA%94%E8%AF%81%E4%B9%A6.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E4%B8%8A%E4%BC%A0CSR%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E4%BB%8E%E9%92%A5%E5%8C%99%E4%B8%B2%E4%B8%AD%E6%9F%A5%E7%9C%8B%E8%AF%81%E4%B9%A6.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E5%AF%BC%E5%87%BAP12%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E8%BE%93%E5%85%A5%E8%AF%81%E4%B9%A6%E5%AF%86%E7%A0%81.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/Ad-Hoc%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png">
+<meta property="article:published_time" content="2018-03-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2018-03-07T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="知识总结">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97.png">
+
+
+<link rel="canonical" href="https://xnxy.github.io/2018/03/05/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2018/03/05/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/","path":"2018/03/05/iOS证书配置指北/","title":"iOS证书配置指北"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS证书配置指北 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">拿根针尖对麦芒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#App-ID"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">App ID</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E8%80%85%E8%AF%81%E4%B9%A6"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">开发者证书</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">推送证书</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%88Provisioning-Profiles%EF%BC%89"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">配置文件（Provisioning Profiles）</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BACSR%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">创建CSR文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAApp-ID"><span class="nav-number">3.</span> <span class="nav-text">创建App ID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%BC%80%E5%8F%91%E8%80%85%E8%AF%81%E4%B9%A6-%E5%92%8C-%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6"><span class="nav-number">4.</span> <span class="nav-text">创建开发者证书 和 推送证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6-%E5%AF%BC%E5%87%BAp12%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%88%B0%E5%8F%8B%E7%9B%9F%EF%BC%88%E6%9E%81%E5%85%89%EF%BC%89%E5%90%8E%E5%8F%B0"><span class="nav-number">5.</span> <span class="nav-text">推送证书 导出p12文件上传到友盟（极光）后台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%88Provisioning-Profiles%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">创建配置文件（Provisioning Profiles）</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="拿根针尖对麦芒"
+      src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+  <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+  <div class="site-description" itemprop="description">修行ing</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xnxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xnxy" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2303400083@.qq.com" title="E-Mail → mailto:2303400083@.qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/022a5e92c62c" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;022a5e92c62c" rel="noopener me" target="_blank">简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/xnxyonly1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;xnxyonly1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://jewsaten.github.io/" title="https:&#x2F;&#x2F;jewsaten.github.io" rel="noopener" target="_blank">「蒋·先生」</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.wangquanwei.com/" title="http:&#x2F;&#x2F;www.wangquanwei.com" rel="noopener" target="_blank">王权伟</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://guyueyang.github.io/" title="https:&#x2F;&#x2F;guyueyang.github.io" rel="noopener" target="_blank">晓平</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2018/03/05/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS证书配置指北 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="我们都知道开发一款应用需要配置苹果常用证书、AppId,Provisioning Profiles，如果有推送还需要配置推送证书等，所以索性将所有的证书的配置流程都记录下来，方便以后查阅。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS证书配置指北
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-03-05 00:00:00" itemprop="dateCreated datePublished" datetime="2018-03-05T00:00:00+08:00">2018-03-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2018-03-08 00:00:00" itemprop="dateModified" datetime="2018-03-08T00:00:00+08:00">2018-03-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">我们都知道开发一款应用需要配置苹果常用证书、AppId,Provisioning Profiles，如果有推送还需要配置推送证书等，所以索性将所有的证书的配置流程都记录下来，方便以后查阅。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97.png" alt="iOS证书配置指北.png"></p>
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>我们都知道开发一款应用需要配置苹果常用证书、AppId,Provisioning Profiles，如果有推送还需要配置推送证书等，所以索性将所有的证书的配置流程都记录下来，方便以后查阅。</p>
+<h6 id="App-ID"><a href="#App-ID" class="headerlink" title="App ID"></a>App ID</h6><p>App ID 是每个应用的独立标识，在设置中可以配置该应用的权限，比如：Push Notifications、Network Extensions等。</p>
+<h6 id="开发者证书"><a href="#开发者证书" class="headerlink" title="开发者证书"></a>开发者证书</h6><p>开发证书类型分为两种，一种开发证书（iOS Development）一种发布证书(iOS Distribution)。开发证书（iOS Development）用于真机调试；生产证书用于打包上传App Store，用于验证开发者身份。</p>
+<h6 id="推送证书"><a href="#推送证书" class="headerlink" title="推送证书"></a>推送证书</h6><p>如果项目中集成了推送功能，同样需要配置推送证书。推送证书同样也分两种：开发（Apple Development iOS Push Services）、生产（Apple Production iOS Push Services）。推送证书在AppID中创建生成，同时生成的的p12文件需要上传到服务端后台（友盟后台、极光后台或自己服务端后台）。</p>
+<h6 id="配置文件（Provisioning-Profiles）"><a href="#配置文件（Provisioning-Profiles）" class="headerlink" title="配置文件（Provisioning Profiles）"></a>配置文件（Provisioning Profiles）</h6><p>配置文件同样也分两种，分为开发（Development）和发布（Distribution），配置文件（Provisioning Profiles）中包含了证书、App ID、设备（Devices）。它在开发者账号体系中扮演着配置和验证的角色，是真机调试和打包上架必须的文件。</p>
+<p>ps:打Ad-hoc包的时候，如果遇到刚添加的设备UDID没添加进去，可以将开发模式的配置文件下载下来，打包后直接选中即可。</p>
+<hr>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%B4%A6%E5%8F%B7.png" alt="苹果开发账号"></p>
+<p>在配置证书之前我们需要有一个开发账号。个人账号和公司账号类似，每年都需要支付99刀，其中公司账号需要邓白氏编码而个人账号并不需要。</p>
+<p>如果项目需要不通过App Store进行安装，可以申请企业账号。当然了，也可以找一些第三方直接打企业包，比如蒲公英之类的。</p>
+<h3 id="创建CSR文件"><a href="#创建CSR文件" class="headerlink" title="创建CSR文件"></a>创建CSR文件</h3><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Certificate_signing_request">CSR（Certificate signing request）</a>即证书请求文件。证书申请者在申请数字证书时由CSP(加密服务提供者)在生成私钥的同时也生成证书请求文件（CSR文件），证书申请者只要把CSR文件提交给证书颁发机构后（创建App ID时上传到苹果后台），证书颁发机构使用其根证书私钥签名生成证书公钥文件（开发者证书）。</p>
+<p>关于CSR文件的创建，我们可以直接使用Mac上的钥匙串访问直接请求。</p>
+<p>具体步骤为： 钥匙串访问 -&gt; 钥匙串访问 -&gt; 证书助理 -&gt; 从证书颁发机构请求证书……</p>
+<p>1、打开电脑上的钥匙串访问，选中证书助理；</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E8%AF%81%E4%B9%A6%E7%AD%BE%E5%90%8D%E6%96%87%E4%BB%B6%E8%AF%B7%E6%B1%82.png" alt="证书签名文件请求"></p>
+<p>2、用户电子邮件地址填开发者账号的邮箱，名称可以随意填，然后保存到磁盘上。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E4%BF%9D%E5%AD%98CSR%E6%96%87%E4%BB%B6.png" alt="保存CSR文件"></p>
+<h3 id="创建App-ID"><a href="#创建App-ID" class="headerlink" title="创建App ID"></a>创建App ID</h3><p>1、登录<a target="_blank" rel="noopener" href="https://developer.apple.com/">苹果开发者中心</a>,或者直接登录<a target="_blank" rel="noopener" href="https://developer.apple.com/membercenter">Apple Member Center</a>选择<code>Certificates,Identifiers &amp; Profiles</code>；</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E8%8B%B9%E6%9E%9C%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83.png" alt="苹果开发者中心"></p>
+<p>2、选择Identifiers 中的 App IDs，然后点上方的加号；</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E9%80%89%E6%8B%A9Identifiers%E4%B8%AD%E7%9A%84AppIDs.png" alt="选择Identifiers 中的 App IDs"></p>
+<p>3、添加App ID Description和Bundle ID,如果项目中有推送，将Push Notifications勾选。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E6%B7%BB%E5%8A%A0AppID.png" alt="添加App ID"></p>
+<h3 id="创建开发者证书-和-推送证书"><a href="#创建开发者证书-和-推送证书" class="headerlink" title="创建开发者证书 和 推送证书"></a>创建开发者证书 和 推送证书</h3><p>1、选择Certificates,然后选择上方的加号；</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E9%80%89%E6%8B%A9Certificates%E4%B8%AD%E7%9A%84All,%E7%84%B6%E5%90%8E%E9%80%89%E6%8B%A9%E4%B8%8A%E6%96%B9%E7%9A%84%E5%8A%A0%E5%8F%B7.png" alt="选择Certificates中的All,然后选择上方的加号"></p>
+<p>2、选择相应的证书，因为开发调试证书、生产发布证书、开发环境推送证书、生产环境推送证书基本都类似，所以这里只选择开发调试证书为例。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E9%80%89%E6%8B%A9%E7%9B%B8%E5%BA%94%E8%AF%81%E4%B9%A6.png" alt="选择相应证书"></p>
+<p>3、一路点击Continue, 到Generate后选择一开始生成的CSR文件上传，然后再继续点击Continue。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E4%B8%8A%E4%BC%A0CSR%E6%96%87%E4%BB%B6.png" alt="上传CSR文件"></p>
+<p>4、生成完开发调试、生成调试证书 和 开发环境推送证书、生成环境推送证书后，先下载到桌面上。然后双击添加到钥匙串中。</p>
+<p>由于我们使用友盟，生成的推送证书（开发环境和生产环境）需要从钥匙串访问中导出p12文件，添加到友盟后台。</p>
+<h3 id="推送证书-导出p12文件上传到友盟（极光）后台"><a href="#推送证书-导出p12文件上传到友盟（极光）后台" class="headerlink" title="推送证书 导出p12文件上传到友盟（极光）后台"></a>推送证书 导出p12文件上传到友盟（极光）后台</h3><p>1、由上一步创建了开发环境的推送证书和生成环境的推送证书，下载到电脑上后，直接双击即可安装到钥匙串中。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E4%BB%8E%E9%92%A5%E5%8C%99%E4%B8%B2%E4%B8%AD%E6%9F%A5%E7%9C%8B%E8%AF%81%E4%B9%A6.png" alt="从钥匙串中查看证书"></p>
+<p>2、选中相应证书（开发环境推送证书或生成环境推送证书）右键 导出；</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E5%AF%BC%E5%87%BAP12%E6%96%87%E4%BB%B6.png" alt="导出P12文件"></p>
+<p>3、点击存储后需要输入密码，密码要记住，上传到友盟（极光）后台时，需要用到。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E8%BE%93%E5%85%A5%E8%AF%81%E4%B9%A6%E5%AF%86%E7%A0%81.png" alt="输入证书密码"></p>
+<h3 id="创建配置文件（Provisioning-Profiles）"><a href="#创建配置文件（Provisioning-Profiles）" class="headerlink" title="创建配置文件（Provisioning Profiles）"></a>创建配置文件（Provisioning Profiles）</h3><p>1、选中Provisioning Profiles 然后选中上方的加号。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png" alt="创建配置文件"></p>
+<p>2、配置文件也分为开发和发布，我们这里以Ad Hoc为例，因为我们打测试包的时候，如果有些设备的UDID未添加进配置文件中，我们需要下载配置文件手动选择。而其他的的配置文件目前的Xcode会自动请求，所以一般不需要我们自己手动创建。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/Ad-Hoc%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png" alt="Ad-Hoc配置文件"></p>
+<p>3、选择刚创建的App ID,选择相应证书、选择测试的设备，然后创建名称一直点击Continue即可，最后下载下来。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8C%97/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png" alt="创建配置文件"></p>
+<p>到此为止证书和配置文件之类的都创建完了~~</p>
+<p>总结：</p>
+<ul>
+<li>导出p12证书的时候需要密码，上传到友盟（极光）后台需要输入密码。</li>
+<li>开发和生成的推送证书创建成功后，到相应App ID 下查看是否有，如果没有可以停段时间刷新下，或下载下来手动上传上去。</li>
+<li>新添加上的测试机的UDID，打包的时候没打包上去，需要重新创建配置文件，下载后将本地的删除，然后双击。不过刚添加UDID，重新创建配置文件后，我一般在打包的时候手动选择配置文件。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" rel="tag"># 知识总结</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/02/28/2018-02-28/" rel="prev" title="关于Block中的weakSelf和strongSelf">
+                  <i class="fa fa-chevron-left"></i> 关于Block中的weakSelf和strongSelf
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/03/09/2017%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/" rel="next" title="2017年个人总结">
+                  2017年个人总结 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.3/algoliasearch-lite.umd.js" integrity="sha256-dyJcbGuYfdzNfifkHxYVd/rzeR6SLLcDFYEidcybldM=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.51.1/instantsearch.production.min.js" integrity="sha256-y6I4MY/blLHk4a7G33zp97DcnBFRY2iMId4FObo8toI=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

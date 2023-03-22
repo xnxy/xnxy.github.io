@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="这篇博客主要是介绍公司的iOS项目MVVM架构模式的设计及分析MVVM+RAC的优缺点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="公司iOS项目MVVM架构模式设计及分析MVVM+RAC的优缺点">
+<meta property="og:url" content="https://xnxy.github.io/2017/10/19/2017-10-19/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="这篇博客主要是介绍公司的iOS项目MVVM架构模式的设计及分析MVVM+RAC的优缺点。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVC.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVP.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVVM.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/%E5%85%AC%E5%8F%B8%E6%9F%90%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MCVMVMV.gif">
+<meta property="article:published_time" content="2017-10-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2017-10-18T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="架构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVC.png">
+
+
+<link rel="canonical" href="https://xnxy.github.io/2017/10/19/2017-10-19/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2017/10/19/2017-10-19/","path":"2017/10/19/2017-10-19/","title":"公司iOS项目MVVM架构模式设计及分析MVVM+RAC的优缺点"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>公司iOS项目MVVM架构模式设计及分析MVVM+RAC的优缺点 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">拿根针尖对麦芒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MVC"><span class="nav-number">1.0.1.</span> <span class="nav-text">MVC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MVP"><span class="nav-number">1.0.2.</span> <span class="nav-text">MVP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MVVM"><span class="nav-number">1.0.3.</span> <span class="nav-text">MVVM</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%8F%B8MVVM%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">公司MVVM架构模式的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8EReactiveCocoa"><span class="nav-number">2.0.1.</span> <span class="nav-text">关于ReactiveCocoa</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AC%E5%8F%B8%E6%9F%90%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.0.2.</span> <span class="nav-text">公司某项目目录结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVVM-RAC%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">MVVM + RAC的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%EF%BC%9A"><span class="nav-number">3.0.1.</span> <span class="nav-text">参考资料：</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="拿根针尖对麦芒"
+      src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+  <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+  <div class="site-description" itemprop="description">修行ing</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xnxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xnxy" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2303400083@.qq.com" title="E-Mail → mailto:2303400083@.qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/022a5e92c62c" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;022a5e92c62c" rel="noopener me" target="_blank">简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/xnxyonly1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;xnxyonly1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://jewsaten.github.io/" title="https:&#x2F;&#x2F;jewsaten.github.io" rel="noopener" target="_blank">「蒋·先生」</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.wangquanwei.com/" title="http:&#x2F;&#x2F;www.wangquanwei.com" rel="noopener" target="_blank">王权伟</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://guyueyang.github.io/" title="https:&#x2F;&#x2F;guyueyang.github.io" rel="noopener" target="_blank">晓平</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2017/10/19/2017-10-19/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="公司iOS项目MVVM架构模式设计及分析MVVM+RAC的优缺点 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="这篇博客主要是介绍公司的iOS项目MVVM架构模式的设计及分析MVVM+RAC的优缺点。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          公司iOS项目MVVM架构模式设计及分析MVVM+RAC的优缺点
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-10-19 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-19T00:00:00+08:00">2017-10-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">这篇博客主要是介绍公司的iOS项目MVVM架构模式的设计及分析MVVM+RAC的优缺点。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <hr>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><hr>
+<p>&amp;emsp;&amp;emsp;这篇博客主要是介绍公司的iOS项目MVVM架构模式的设计及分析MVVM+RAC的优缺点。</p>
+<hr>
+<h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVC.png" alt="MVC"></p>
+<blockquote>
+<p>Model   : 实体模型</p>
+<p>View    : UI控件，负责View的绘制及用户的交互。</p>
+<p>Controller : 业务逻辑、数据处理和UI处理</p>
+</blockquote>
+<p>MVC, Model - View - Controller,一个很古老很经典的设计模式，拥有大概50年的历史。而MVC这个架构模式的最大优点就是其概念简单，易于理解，任何一个软件工程毕业的学生都应该在大学课程中学习过。但如果开发过程中使用不当，很可能使大量的代码集中在Controller之中，使Controller变得十分臃肿。</p>
+<hr>
+<h4 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVP.png" alt="MVP"></p>
+<blockquote>
+<p>Model   :  实体模型</p>
+<p>View    ：UI控件，负责View的绘制及用户的交互。</p>
+<p>Presenter   : 负责完成View和Model之间的交互与业务逻辑。</p>
+</blockquote>
+<p>MVP, Model - View - Presenter,其实就是将MVC中Controller换成Presenter，是MVC的一个变种。其目的是完全切断View和Model之间的联系，由Presenter充当桥梁对视图和模型进行解耦。</p>
+<hr>
+<h4 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVVM.png" alt="MVVM"></p>
+<blockquote>
+<p>Model   : 实体模型。</p>
+<p>View    : UI控件，负责View的绘制及用户的交互。</p>
+<p>ViewModel :负责View和Model之间的交互，业务逻辑等。</p>
+</blockquote>
+<p>MVVM, Model - View - ViewModel, 一个从MVC模式中演化出来的设计模式。在iOS开发过程中，将原本在Controller中的业务逻辑、数据请求，数据处理 放到ViewModel中，从而有效地减少ViewController中的代码量，减轻ViewController的负担。同时将业务逻辑等放到ViewModel中也方便后期的测试与维护。</p>
+<hr>
+<h2 id="公司MVVM架构模式的设计"><a href="#公司MVVM架构模式的设计" class="headerlink" title="公司MVVM架构模式的设计"></a>公司MVVM架构模式的设计</h2><hr>
+<p>&amp;emsp;&amp;emsp;因为MVVM架构模式的方便测试、维护，复用性高和低耦合等特性，所以公司的项目采用MVVM的架构模式。同时在iOS客户端的开发过程中，我们使用了ReactiveCocoa来实现其绑定机制。</p>
+<h4 id="关于ReactiveCocoa"><a href="#关于ReactiveCocoa" class="headerlink" title="关于ReactiveCocoa"></a>关于ReactiveCocoa</h4><p>&amp;emsp;&amp;emsp; ReactiveCocoa 简称RAC，是由GitHub开源的一个应用于iOS和OS X开发的新框架。集合了函数式编程和响应式编程，所以RAC也被称为函数响应式编程框架（FRP）。</p>
+<p>&amp;emsp;&amp;emsp; 在开发过程中RAC解决了传统开发中状态之间依赖过多、Controller过于臃肿等问题。提供了统一的消息传递机制，降低了类与类之间的耦合度，提高了开发效率。具体使用方法可以参看GitHub中<a target="_blank" rel="noopener" href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa的详细文档</a>。</p>
+<h4 id="公司某项目目录结构"><a href="#公司某项目目录结构" class="headerlink" title="公司某项目目录结构"></a>公司某项目目录结构</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/%E5%85%AC%E5%8F%B8%E6%9F%90%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt="公司某项目目录结构"></p>
+<p>项目中的目录结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- 第三方sdk(应该用Frameworks)：主要存放一些暂不支持CocoaPods的第三方库。</span><br><span class="line">- Application: 程序的入口文件和配置文件</span><br><span class="line">- BaseClass： 基类、公共扩展类、公共View</span><br><span class="line">- NetWork：网络请求类（对AFNetworking的二次封装）</span><br><span class="line">- Utils: 工具类</span><br><span class="line">- ViewModels：相应模块对应的ViewModel</span><br><span class="line">- Model：实体模型(公司数据结构使用Protobuf，所以Model使用脚本直接生成)</span><br><span class="line">- Views: 相应模块的界面相关（每一个模块对应一个ViewModel）</span><br></pre></td></tr></table></figure>
+
+
+
+<p>&amp;emsp;&amp;emsp;每种语言发展到一定阶段都会出现相应的依赖管理工具，例如Java的Maven，nodejs的npm，而iOS依赖管理工具是CocoaPods。CocoaPods的出现为我们节省了集成、管理第三方库的时间，所以公司的项目同样使用了CocoaPods管理第三方库。</p>
+<p>&amp;emsp;&amp;emsp;而在数据结构方面我们使用了Google的Protocol Buffer(简称：Protobuf)。而Protobuf是google公司内部的混合语言数据标准，是一种轻便高效的结构化数据存储格式，可以用于结构化数据的序列化。</p>
+<p>&amp;emsp;&amp;emsp;使用时需要先配置开发环境，具体可以查看之前写的一篇博客<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/213178307bcf">《Mac 下配置protobuf（3.2.0）开发环境》</a>。如果使用的是Proto2可以查看另篇博客<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/8c6c009bc500">《ProtocolBuffer for Objective-C 运行环境配置及使用》</a>。</p>
+<hr>
+<h2 id="MVVM-RAC的优缺点"><a href="#MVVM-RAC的优缺点" class="headerlink" title="MVVM + RAC的优缺点"></a>MVVM + RAC的优缺点</h2><hr>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MCVMVMV.gif" alt="MCVMVMV.gif"></p>
+<p>&amp;emsp;&amp;emsp; RAC和MVVM上面已经介绍过。现在越来越多的项目已经开始使用MVVM的架构模式，同时RAC已经成为MVVM的标配。由上图动画可以看出，对于一个简单的MVC架构的iOS应用，很容易调整到MVVM的。</p>
+<p>&amp;emsp;&amp;emsp;当然在我们享受函数响应式编程框架带来的便捷的同时，也需要承受其带来缺点。但随着自己能力的提高，这些所谓的缺点也会渐渐消失。如果有兴趣也可以查看<a target="_blank" rel="noopener" href="https://tech.meituan.com/tag/ReactiveCocoa">美团点评技术团队关于RAC的研究</a>，相信你定会有所收获。</p>
+<blockquote>
+<ul>
+<li>优点：</li>
+</ul>
+<p>&amp;emsp;&amp;emsp;1. 方便测试与维护。将业务逻辑、网络请求，数据处理放到ViewModel中便于后期单元测试、维护。</p>
+<p>&amp;emsp;&amp;emsp;2. 低耦合。双向绑定，View可以根据Model的改变而进行修改，一个ViewModel可以绑定到不同的View上。</p>
+<p>&amp;emsp;&amp;emsp;3. 复用性高。可以将一些视图逻辑放到ViewModel中，让很多View重用此视图逻辑等。</p>
+<ul>
+<li>缺点：</li>
+</ul>
+<p>&amp;emsp;&amp;emsp;1. ReactiveCocoa学习成本较高。大部分人对MVVM不太熟悉，基于绑定机制进行编程需要一定的学习成本才能较好的上手。</p>
+<p>&amp;emsp;&amp;emsp;2. 数据绑定使Debug更困难。数据绑定会使程序异常传到其他位置，由上图可以看出，当View上发现bug时，有可能是ViewModel造成的，也可能是Model造成的。</p>
+</blockquote>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model-View-Controller</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter">Model-View-Presenter</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel">Model-View-ViewModel</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.sprynthesis.com/2014/12/06/reactivecocoa-mvvm-introduction/">ReactiveCocoa and MVVM, an Introduction</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a></li>
+<li><a target="_blank" rel="noopener" href="http://rxmarbles.com/">RxJS Marbles</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/protocol-buffers/docs/overview">ProtoBuf开发者指南</a></li>
+<li><a target="_blank" rel="noopener" href="https://cocoapods.org/">CocoaPods官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/tag/ReactiveCocoa">美团点评ReactiveCocoa归档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20148405">你对MVC、MVP、MVVM 三种组合模式分别有什么样的理解？</a></li>
+<li><a target="_blank" rel="noopener" href="http://yulingtianxia.com/blog/2015/05/21/ReactiveCocoa-and-MVVM-an-Introduction/">ReactiveCocoa和MVVM入门</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag"># 架构</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/10/13/iOS%E5%BA%94%E7%94%A8%E5%AE%A1%E6%A0%B8%E8%A2%AB%E6%8B%92%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E6%8F%90%E4%BA%A4%E5%BA%94%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" rel="prev" title="iOS应用审核被拒的原因及提交应用的注意事项。">
+                  <i class="fa fa-chevron-left"></i> iOS应用审核被拒的原因及提交应用的注意事项。
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/10/20/2017-10-20/" rel="next" title="iOS客户端UI界面设计的原则及规范">
+                  iOS客户端UI界面设计的原则及规范 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.3/algoliasearch-lite.umd.js" integrity="sha256-dyJcbGuYfdzNfifkHxYVd/rzeR6SLLcDFYEidcybldM=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.51.1/instantsearch.production.min.js" integrity="sha256-y6I4MY/blLHk4a7G33zp97DcnBFRY2iMId4FObo8toI=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

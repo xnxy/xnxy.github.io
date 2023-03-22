@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="公司最近刚上线了个新项目，从十一月初开始搭框架到12月18号提交，20号审核通过，总共耗时一个半月的时间。虽然并不是一个很大的项目，但相对来说时间还是略微有些仓促。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS性能调优：Analyze静态分析与Instruments动态分析">
+<meta property="og:url" content="https://xnxy.github.io/2017/12/29/2017-12-29/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="公司最近刚上线了个新项目，从十一月初开始搭框架到12月18号提交，20号审核通过，总共耗时一个半月的时间。虽然并不是一个很大的项目，但相对来说时间还是略微有些仓促。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/instruments.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/Analyze%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E9%80%BB%E8%BE%91%E9%94%99%E8%AF%AF.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E9%80%BB%E8%BE%91%E9%94%99%E8%AF%AF_%E4%BF%AE%E6%94%B9%E5%90%8E.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E7%94%9F%E6%88%90%E6%9D%A1%E5%BD%A2%E7%A0%81.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E7%94%9F%E6%88%90%E6%9D%A1%E5%BD%A2%E7%A0%81_%E4%BF%AE%E6%94%B9%E5%90%8E.png">
+<meta property="og:image" content="hhttp://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/NSNumber.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/NSNumber_%E4%BF%AE%E6%94%B9%E5%90%8E.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E6%96%87%E4%BB%B6%E5%BD%92%E6%A1%A3.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E6%96%87%E4%BB%B6%E5%BD%92%E6%A1%A3_%E4%BF%AE%E6%94%B9%E5%90%8E.png">
+<meta property="og:image" content="hhttp://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/动态分析.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E5%8A%A8%E6%80%81%E5%88%86%E6%9E%90_%E4%BF%AE%E6%94%B9%E5%90%8E.png">
+<meta property="article:published_time" content="2017-12-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2017-12-28T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/instruments.png">
+
+
+<link rel="canonical" href="https://xnxy.github.io/2017/12/29/2017-12-29/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2017/12/29/2017-12-29/","path":"2017/12/29/2017-12-29/","title":"iOS性能调优：Analyze静态分析与Instruments动态分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS性能调优：Analyze静态分析与Instruments动态分析 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">拿根针尖对麦芒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analyze-%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">Analyze 静态分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">动态分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%AF%B9%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text">1、对项目进行静态分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%AF%B9%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E5%8A%A8%E6%80%81%E5%88%86%E6%9E%90%E3%80%82"><span class="nav-number">5.</span> <span class="nav-text">2、对项目进行动态分析。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-number">6.</span> <span class="nav-text">写在最后</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%EF%BC%9A"><span class="nav-number">6.1.</span> <span class="nav-text">参考资料：</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="拿根针尖对麦芒"
+      src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+  <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+  <div class="site-description" itemprop="description">修行ing</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xnxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xnxy" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2303400083@.qq.com" title="E-Mail → mailto:2303400083@.qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/022a5e92c62c" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;022a5e92c62c" rel="noopener me" target="_blank">简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/xnxyonly1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;xnxyonly1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://jewsaten.github.io/" title="https:&#x2F;&#x2F;jewsaten.github.io" rel="noopener" target="_blank">「蒋·先生」</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.wangquanwei.com/" title="http:&#x2F;&#x2F;www.wangquanwei.com" rel="noopener" target="_blank">王权伟</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://guyueyang.github.io/" title="https:&#x2F;&#x2F;guyueyang.github.io" rel="noopener" target="_blank">晓平</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2017/12/29/2017-12-29/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS性能调优：Analyze静态分析与Instruments动态分析 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="公司最近刚上线了个新项目，从十一月初开始搭框架到12月18号提交，20号审核通过，总共耗时一个半月的时间。虽然并不是一个很大的项目，但相对来说时间还是略微有些仓促。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS性能调优：Analyze静态分析与Instruments动态分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-12-29 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-29T00:00:00+08:00">2017-12-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/iOS%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" itemprop="url" rel="index"><span itemprop="name">iOS性能调优</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">公司最近刚上线了个新项目，从十一月初开始搭框架到12月18号提交，20号审核通过，总共耗时一个半月的时间。虽然并不是一个很大的项目，但相对来说时间还是略微有些仓促。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>公司最近刚上线了个新项目，从十一月初开始搭框架到12月18号提交，20号审核通过，总共耗时一个半月的时间。虽然并不是一个很大的项目，但相对来说时间还是略微有些仓促。</p>
+<p>虽然在期间也做过简单的测试，但因为需要在圣诞节前夕上架，时间比较紧，很多隐藏的问题并未及时发现。</p>
+<p>于是这周开始对项目进行静态分析和动态分析，分析其潜在的逻辑错误、内存管理错误等。等待下个版本的提交。</p>
+<h3 id="Analyze-静态分析"><a href="#Analyze-静态分析" class="headerlink" title="Analyze 静态分析"></a>Analyze 静态分析</h3><p>很多博客也都对Analyze进行了详细的介绍，同时也可以搜到很多关于 Analyze静态分析的资料。</p>
+<p>Analyze静态分析是Xcode自带的一个强大的性能调优工具，它能够在不运行程序的情况下直接对代码进行分析。能够快速的分析出项目中的逻辑错误、内存管理错误、声明错误、API调用错误等。</p>
+<p>使用方法：</p>
+<p>Xcode -&gt; Product -&gt; Analyze</p>
+<p>快捷键：command + shift + b</p>
+<h3 id="动态分析"><a href="#动态分析" class="headerlink" title="动态分析"></a>动态分析</h3><p>Instruments 也是Xcode自带的性能调优工具，它能够在程序运行的情况下对代码进行分析。能够方便地分析出代码中出现的内存泄漏、僵尸对象等和程序性能、内存分配情况。</p>
+<p>使用方法：</p>
+<p>Xcode -&gt; Open Developer Tool -&gt; Instruments</p>
+<p>快捷键： command + i</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/instruments.png" alt="instruments"></p>
+<h3 id="1、对项目进行静态分析"><a href="#1、对项目进行静态分析" class="headerlink" title="1、对项目进行静态分析"></a>1、对项目进行静态分析</h3><p>首先我们使用Analyze对项目进行分析,发现竟然那么多隐藏的问题。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/Analyze%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90.png" alt="Analyze静态分析"></p>
+<ul>
+<li>1、第一处属于声明错误……</li>
+</ul>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E9%80%BB%E8%BE%91%E9%94%99%E8%AF%AF.png" alt="逻辑错误"></p>
+<p>修改后：</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E9%80%BB%E8%BE%91%E9%94%99%E8%AF%AF_%E4%BF%AE%E6%94%B9%E5%90%8E.png" alt="逻辑错误_修改后"></p>
+<ul>
+<li>2、第二处属于内存管理错误。根据提示一行行阅读可以看出‘colorSpaceRef’ 和 ‘imageRefResized’ 使用过后未释放，那么在使用完后释放下就可以了。</li>
+</ul>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E7%94%9F%E6%88%90%E6%9D%A1%E5%BD%A2%E7%A0%81.png" alt="生成条形码"></p>
+<p>修改后：</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E7%94%9F%E6%88%90%E6%9D%A1%E5%BD%A2%E7%A0%81_%E4%BF%AE%E6%94%B9%E5%90%8E.png" alt="生成条形码_修改后"></p>
+<ul>
+<li>3、第三处</li>
+</ul>
+<p><img src="hhttp://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/NSNumber.png" alt="NSNumber"></p>
+<p>修改后：</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/NSNumber_%E4%BF%AE%E6%94%B9%E5%90%8E.png" alt="NSNumber_修改后"></p>
+<ul>
+<li>4、第四处，封装的文件归档的代码，忘记什么时间写的了……</li>
+</ul>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E6%96%87%E4%BB%B6%E5%BD%92%E6%A1%A3.png" alt="文件归档"></p>
+<p>修改后：</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E6%96%87%E4%BB%B6%E5%BD%92%E6%A1%A3_%E4%BF%AE%E6%94%B9%E5%90%8E.png" alt="文件归档_修改后"></p>
+<h3 id="2、对项目进行动态分析。"><a href="#2、对项目进行动态分析。" class="headerlink" title="2、对项目进行动态分析。"></a>2、对项目进行动态分析。</h3><p>在使用Instruments 中的Leaks进行漏洞检测的时候发现下面的问题，吓的我立即从座位上弹了起来。不过Leaks还是很强大的，通过对源码的追踪，发现在封装的网络请求中 ‘AFURLSessionManager’重复创建未释放。</p>
+<p>原因是将之前封装的HTTPS请求改成HTTP请求过程的中，忘记了 ‘AFURLSessionManager’并不是单例，然后造成了每次请求重复创建‘AFURLSessionManager’的情况。</p>
+<p>同时还使用Time Profiler工具检测应用CPU使用情况、使用Zombies检测应用中是否存在僵尸对象、使用Energy Log 检测耗电情况、使用Core Animation 检测图层混合等GPU耗时、使用Network检测流量使用情况…… 并没发现问题，所以此次不再介绍。</p>
+<p><img src="hhttp://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/动态分析.png" alt="动态分析"></p>
+<p>修改后：</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-12-29/%E5%8A%A8%E6%80%81%E5%88%86%E6%9E%90_%E4%BF%AE%E6%94%B9%E5%90%8E.png" alt="动态分析_ 修改后"></p>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><ul>
+<li>在此次的分析过程中除了使用静态分析和动态分析外，还使用了YYFPSLabel对帧率进行了测试，并没有发现离屏渲染等情况，所以这里也不再介绍。</li>
+<li>instuments 是一个很强大的工具集，建议每次开发完后都抽出时间对项目进行测试、分析。</li>
+</ul>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/starainDou/p/5208880.html">iOS性能调优系列：Analyze静态分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6b97ee2eb1c0">iOS - 静态与动态内存分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/05b68c84913a">iOS 性能调优,成为一名合格iOS程序员必须掌握的技能</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cocoachina.com/ios/20150225/11163.html">iOS性能优化：Instruments使用实战</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/878bfd38666d">iOS查看屏幕帧数工具–YYFPSLabel</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/10/23/2017-10-23/" rel="prev" title="iOS客户端公共WIFI解决方案探究">
+                  <i class="fa fa-chevron-left"></i> iOS客户端公共WIFI解决方案探究
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/01/02/Instruments%E5%B7%A5%E5%85%B7%E9%9B%86/" rel="next" title="Instruments工具集">
+                  Instruments工具集 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.3/algoliasearch-lite.umd.js" integrity="sha256-dyJcbGuYfdzNfifkHxYVd/rzeR6SLLcDFYEidcybldM=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.51.1/instantsearch.production.min.js" integrity="sha256-y6I4MY/blLHk4a7G33zp97DcnBFRY2iMId4FObo8toI=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

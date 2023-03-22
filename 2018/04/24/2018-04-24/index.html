@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前段时间开发者中心出现上方警告，然后根据提示更新绑定的手机号，发现公司AppleID设置的密保问题忘记了,而且AppleID绑定的应急邮箱也不知道是谁的。在跟AppleID那边联系解决这个问题后，绑定手机号，发现开发者中心还是出现上述问题。于是再跟开发者中心那边的客服联系，在上周二将所有问题解决。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于开发者中心出现的update the mobile phone number associated with your Apple ID">
+<meta property="og:url" content="https://xnxy.github.io/2018/04/24/2018-04-24/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="前段时间开发者中心出现上方警告，然后根据提示更新绑定的手机号，发现公司AppleID设置的密保问题忘记了,而且AppleID绑定的应急邮箱也不知道是谁的。在跟AppleID那边联系解决这个问题后，绑定手机号，发现开发者中心还是出现上述问题。于是再跟开发者中心那边的客服联系，在上周二将所有问题解决。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E6%9B%B4%E6%96%B0%E5%8D%8F%E8%AE%AE.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E6%8A%80%E6%9C%AF%E6%94%AF%E6%8C%81.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E8%8E%B7%E5%BE%97%E5%8D%8F%E5%8A%A9.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/appleID.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E9%81%97%E5%BF%98%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E4%B8%8EApple%E6%94%AF%E6%8C%81%E9%83%A8%E9%97%A8%E4%BA%BA%E5%91%98%E9%80%9A%E8%AF%9D.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E7%BB%91%E5%AE%9A%E6%89%8B%E6%9C%BA%E5%8F%B7.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6%E5%88%B0chinadev.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83%E5%9B%9E%E5%A4%8D.png">
+<meta property="og:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83%E5%AE%A2%E6%9C%8D%E7%94%B5%E8%AF%9D.png">
+<meta property="article:published_time" content="2018-04-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2018-04-23T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="知识整理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E6%9B%B4%E6%96%B0%E5%8D%8F%E8%AE%AE.png">
+
+
+<link rel="canonical" href="https://xnxy.github.io/2018/04/24/2018-04-24/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2018/04/24/2018-04-24/","path":"2018/04/24/2018-04-24/","title":"关于开发者中心出现的update the mobile phone number associated with your Apple ID"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>关于开发者中心出现的update the mobile phone number associated with your Apple ID | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">拿根针尖对麦芒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">关于解决方式</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E7%94%A8%E6%89%8B%E6%9C%BA%E7%99%BB%E5%BD%95%E6%88%96%E7%94%B5%E8%84%91-%E7%BD%91%E9%A1%B5%E6%88%96iCloud-%E7%99%BB%E5%BD%95AppleID"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">第一步：用手机登录或电脑(网页或iCloud)登录AppleID</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%9C%A8%E7%94%A8%E6%88%B7%E4%B8%AD%E5%BF%83-%E6%B7%BB%E5%8A%A0-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81-%EF%BC%88%E7%94%B5%E8%84%91%EF%BC%9AiClound-gt-%E8%B4%A6%E6%88%B7%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF-gt-%E8%81%94%E7%B3%BB%E4%BF%A1%E6%81%AF%EF%BC%89%E3%80%81%EF%BC%88%E6%89%8B%E6%9C%BA%EF%BC%9A%E8%AE%BE%E7%BD%AE-gt-%E7%94%A8%E6%88%B7%E4%B8%AD%E5%BF%83-gt-%E5%A7%93%E5%90%8D%E3%80%81%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E3%80%81%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6-gt-%E7%BC%96%E8%BE%91-gt-%E6%B7%BB%E5%8A%A0%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E6%88%96%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81-gt-%E6%B7%BB%E5%8A%A0%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%EF%BC%89%E3%80%81%EF%BC%88%E7%BD%91%E9%A1%B5-%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86AppleID-gt-Account-gt-%E7%BC%96%E8%BE%91-gt-CONTACTABLE-AT-gt-Add-More%E2%80%A6%E2%80%A6%EF%BC%89%E3%80%82"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">第二步：在用户中心 添加 电话号码 （电脑：iClound -&gt;账户详细信息 -&gt;联系信息）、（手机：设置-&gt;用户中心-&gt;姓名、电话号码、电子邮件 -&gt; 编辑 -&gt; 添加电子邮件或电话号码 -&gt;添加电话号码）、（网页: 登录管理AppleID - &gt; Account -&gt; 编辑 - &gt;  CONTACTABLE AT -&gt; Add More……）。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E7%99%BB%E5%BD%95%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83%EF%BC%8C%E5%90%8C%E6%84%8F%E5%8D%8F%E8%AE%AE%E3%80%82"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">第三步：登录开发者中心，同意协议。</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8EAppleID-%E5%AF%86%E4%BF%9D%E9%97%AE%E9%A2%98%E5%BF%98%E8%AE%B0%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-number">2.</span> <span class="nav-text">关于AppleID 密保问题忘记的情况</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1%E3%80%81%E5%9C%A8Apple-ID-%E5%AE%98%E6%96%B9Apple%E6%94%AF%E6%8C%81%E4%B8%AD%E9%80%89%E6%8B%A9%E6%8A%80%E6%9C%AF%E6%94%AF%E6%8C%81%E3%80%82"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">1、在Apple ID -官方Apple支持中选择技术支持。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2%E3%80%81%E9%80%89%E6%8B%A9%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC"><span class="nav-number">2.1.0.2.</span> <span class="nav-text">2、选择联系我们</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3%E3%80%81%E9%80%89%E6%8B%A9Apple-ID"><span class="nav-number">2.1.0.3.</span> <span class="nav-text">3、选择Apple ID</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4%E3%80%81%E9%80%89%E6%8B%A9%E9%81%97%E5%BF%98%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.0.4.</span> <span class="nav-text">4、选择遗忘安全问题</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5%E3%80%81%E9%80%89%E6%8B%A9%E7%AB%8B%E5%8D%B3%E4%B8%8EApple-%E6%94%AF%E6%8C%81%E9%83%A8%E9%97%A8%E4%BA%BA%E5%91%98%E9%80%9A%E8%AF%9D"><span class="nav-number">2.1.0.5.</span> <span class="nav-text">5、选择立即与Apple 支持部门人员通话</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83%E4%BB%8D%E5%87%BA%E7%8E%B0%E4%B8%8A%E6%96%B9%E8%AD%A6%E5%91%8A%E7%9A%84%E9%97%AE%E9%A2%98%E3%80%82"><span class="nav-number">3.</span> <span class="nav-text">关于开发者中心仍出现上方警告的问题。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.1.</span> <span class="nav-text">步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1%E3%80%81%E4%BD%BF%E7%94%A8%E6%B3%A8%E5%86%8CAppleID-%E7%9A%84%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6%E5%88%B0chinadev-chinadev-asia-apple-com-%E5%8F%91%E9%80%81%E9%97%AE%E9%A2%98%E9%82%AE%E4%BB%B6%E3%80%82"><span class="nav-number">3.1.0.1.</span> <span class="nav-text">1、使用注册AppleID 的邮箱发送邮件到chinadev chinadev@asia.apple.com  发送问题邮件。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2%E3%80%81%E5%8F%91%E9%80%81%E6%88%90%E5%8A%9F%E5%90%8E%EF%BC%8C%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83%E4%BC%9A%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AA%E6%A1%88%E4%BE%8B%E7%BC%96%E5%8F%B7%EF%BC%8C%E8%AE%B0%E4%BD%8F%E6%A1%88%E4%BE%8B%E7%BC%96%E5%8F%B7%EF%BC%8C%E8%B7%9F%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83%E5%AE%A2%E6%9C%8D%E8%81%94%E7%B3%BB%E9%9C%80%E8%A6%81%E7%94%A8%E5%88%B0%EF%BC%8C%E6%9D%A5%E8%AF%81%E6%98%8E%E4%BD%A0%E7%9A%84%E8%BA%AB%E4%BB%BD%E3%80%82"><span class="nav-number">3.1.0.2.</span> <span class="nav-text">2、发送成功后，开发者中心会返回一个案例编号，记住案例编号，跟开发者中心客服联系需要用到，来证明你的身份。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3%E3%80%81%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83%E4%B8%8D%E4%BC%9A%E4%B8%BB%E5%8A%A8%E8%81%94%E7%B3%BB%E4%BD%A0%EF%BC%8C%E6%89%80%E4%BB%A5%E9%9C%80%E8%A6%81%E4%BD%A0%E8%81%94%E7%B3%BB%E5%AE%A2%E6%9C%8D-%E4%B8%AD%E5%9B%BD%E6%8B%A8%E6%89%93-4006-701-855-%E5%85%B7%E4%BD%93%E5%8F%B7%E7%A0%81%E5%8F%AF%E4%BB%A5%E6%9F%A5%E7%9C%8B-https-developer-apple-com-contact-phone-cn-%E3%80%82%E8%90%A5%E4%B8%9A%E6%97%B6%E9%97%B4%E4%B8%BA9%EF%BC%9A00-%E5%88%B0-17%EF%BC%9A00-%E3%80%82"><span class="nav-number">3.1.0.3.</span> <span class="nav-text">3、开发者中心不会主动联系你，所以需要你联系客服,中国拨打 4006 701 855, 具体号码可以查看 https:&#x2F;&#x2F;developer.apple.com&#x2F;contact&#x2F;phone&#x2F;cn&#x2F; 。营业时间为9：00 到 17：00 。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4%E3%80%81%E6%8B%A8%E6%89%93%E7%94%B5%E8%AF%9D%E9%9C%80%E8%A6%81%E6%8E%92%E9%98%9F%EF%BC%8C%E5%8F%AF%E8%83%BD%E9%9C%80%E8%A6%81%E7%AD%89%E5%BE%88%E9%95%BF%E4%B8%80%E6%AE%B5%E6%97%B6%E9%97%B4%E3%80%82%E6%8E%A5%E9%80%9A%E5%90%8E%E4%BD%A0%E8%A6%81%E4%B8%BB%E5%8A%A8%E6%8F%90%E4%BE%9B%E5%88%9A%E6%89%8D%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81%E7%BB%99%E4%BD%A0%E7%9A%84%E6%A1%88%E4%BE%8B%E7%BC%96%E5%8F%B7%EF%BC%8C%E8%BF%99%E6%A0%B7%E5%B0%B1%E4%B8%8D%E7%94%A8%E8%AF%81%E6%98%8E%E4%BD%A0%E6%98%AF%E8%BF%99%E4%B8%AA%E8%B4%A6%E5%8F%B7%E7%9A%84%E6%8C%81%E6%9C%89%E8%80%85%E4%BA%86%E3%80%82%E9%81%BF%E5%85%8D%E4%BA%86%E5%BE%88%E5%A4%9A%E9%BA%BB%E7%83%A6%E3%80%82"><span class="nav-number">3.1.0.4.</span> <span class="nav-text">4、拨打电话需要排队，可能需要等很长一段时间。接通后你要主动提供刚才邮件发送给你的案例编号，这样就不用证明你是这个账号的持有者了。避免了很多麻烦。</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="拿根针尖对麦芒"
+      src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+  <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+  <div class="site-description" itemprop="description">修行ing</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xnxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xnxy" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2303400083@.qq.com" title="E-Mail → mailto:2303400083@.qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/022a5e92c62c" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;022a5e92c62c" rel="noopener me" target="_blank">简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/xnxyonly1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;xnxyonly1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://jewsaten.github.io/" title="https:&#x2F;&#x2F;jewsaten.github.io" rel="noopener" target="_blank">「蒋·先生」</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.wangquanwei.com/" title="http:&#x2F;&#x2F;www.wangquanwei.com" rel="noopener" target="_blank">王权伟</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://guyueyang.github.io/" title="https:&#x2F;&#x2F;guyueyang.github.io" rel="noopener" target="_blank">晓平</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2018/04/24/2018-04-24/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="关于开发者中心出现的update the mobile phone number associated with your Apple ID | 拿根针尖对麦芒">
+      <meta itemprop="description" content="前段时间开发者中心出现上方警告，然后根据提示更新绑定的手机号，发现公司AppleID设置的密保问题忘记了,而且AppleID绑定的应急邮箱也不知道是谁的。在跟AppleID那边联系解决这个问题后，绑定手机号，发现开发者中心还是出现上述问题。于是再跟开发者中心那边的客服联系，在上周二将所有问题解决。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于开发者中心出现的update the mobile phone number associated with your Apple ID
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-04-24 00:00:00" itemprop="dateCreated datePublished" datetime="2018-04-24T00:00:00+08:00">2018-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">前段时间开发者中心出现上方警告，然后根据提示更新绑定的手机号，发现公司AppleID设置的密保问题忘记了,而且AppleID绑定的应急邮箱也不知道是谁的。在跟AppleID那边联系解决这个问题后，绑定手机号，发现开发者中心还是出现上述问题。于是再跟开发者中心那边的客服联系，在上周二将所有问题解决。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E6%9B%B4%E6%96%B0%E5%8D%8F%E8%AE%AE.png" alt="更新协议"></p>
+<blockquote>
+<p>The Apple Developer Program License Agreement has been updated.<br>In order to access certain membership resources, you must accept the latest license agreement. First, you’ll need to update the mobile phone number associated with your Apple ID. Your mobile phone number must be based in your country&#x2F;region. Edit this number in the Account section of appleid.apple.com, and return to your developer account to continue.</p>
+</blockquote>
+<p>前段时间开发者中心出现上方警告，然后根据提示更新绑定的手机号，发现公司AppleID设置的密保问题忘记了,而且AppleID绑定的应急邮箱也不知道是谁的。在跟AppleID那边联系解决这个问题后，绑定手机号，发现开发者中心还是出现上述问题。于是再跟开发者中心那边的客服联系，在上周二将所有问题解决。</p>
+<p>这周发现很多群中也有很多开发者受这个问题的困扰，所以决定将处理这个问题的整个步骤记录下来，以供参考。</p>
+<h3 id="关于解决方式"><a href="#关于解决方式" class="headerlink" title="关于解决方式"></a>关于解决方式</h3><h6 id="第一步：用手机登录或电脑-网页或iCloud-登录AppleID"><a href="#第一步：用手机登录或电脑-网页或iCloud-登录AppleID" class="headerlink" title="第一步：用手机登录或电脑(网页或iCloud)登录AppleID"></a>第一步：用手机登录或电脑(网页或iCloud)登录AppleID</h6><h6 id="第二步：在用户中心-添加-电话号码-（电脑：iClound-gt-账户详细信息-gt-联系信息）、（手机：设置-gt-用户中心-gt-姓名、电话号码、电子邮件-gt-编辑-gt-添加电子邮件或电话号码-gt-添加电话号码）、（网页-登录管理AppleID-gt-Account-gt-编辑-gt-CONTACTABLE-AT-gt-Add-More……）。"><a href="#第二步：在用户中心-添加-电话号码-（电脑：iClound-gt-账户详细信息-gt-联系信息）、（手机：设置-gt-用户中心-gt-姓名、电话号码、电子邮件-gt-编辑-gt-添加电子邮件或电话号码-gt-添加电话号码）、（网页-登录管理AppleID-gt-Account-gt-编辑-gt-CONTACTABLE-AT-gt-Add-More……）。" class="headerlink" title="第二步：在用户中心 添加 电话号码 （电脑：iClound -&gt;账户详细信息 -&gt;联系信息）、（手机：设置-&gt;用户中心-&gt;姓名、电话号码、电子邮件 -&gt; 编辑 -&gt; 添加电子邮件或电话号码 -&gt;添加电话号码）、（网页: 登录管理AppleID - &gt; Account -&gt; 编辑 - &gt;  CONTACTABLE AT -&gt; Add More……）。"></a>第二步：在用户中心 添加 电话号码 （电脑：iClound -&gt;账户详细信息 -&gt;联系信息）、（手机：设置-&gt;用户中心-&gt;姓名、电话号码、电子邮件 -&gt; 编辑 -&gt; 添加电子邮件或电话号码 -&gt;添加电话号码）、（网页: 登录管理AppleID - &gt; Account -&gt; 编辑 - &gt;  CONTACTABLE AT -&gt; Add More……）。</h6><h6 id="第三步：登录开发者中心，同意协议。"><a href="#第三步：登录开发者中心，同意协议。" class="headerlink" title="第三步：登录开发者中心，同意协议。"></a>第三步：登录开发者中心，同意协议。</h6><h3 id="关于AppleID-密保问题忘记的情况"><a href="#关于AppleID-密保问题忘记的情况" class="headerlink" title="关于AppleID 密保问题忘记的情况"></a>关于AppleID 密保问题忘记的情况</h3><p>在开发者中心发现这个警告时，然后就点击<code>Edit phone Number</code>会跳转到<a target="_blank" rel="noopener" href="https://appleid.apple.com/#!&page=signin">管理AppleID界面</a>，但在登录的时候发现需要输入密保问题。</p>
+<p>在询问经理，得知并不知道密保问题的时候，于是开始联系AppleID的客服，寻求帮助。</p>
+<h4 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h4><h6 id="1、在Apple-ID-官方Apple支持中选择技术支持。"><a href="#1、在Apple-ID-官方Apple支持中选择技术支持。" class="headerlink" title="1、在Apple ID -官方Apple支持中选择技术支持。"></a>1、在<a target="_blank" rel="noopener" href="https://support.apple.com/zh-cn/apple-id">Apple ID -官方Apple支持</a>中选择技术支持。</h6><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E6%8A%80%E6%9C%AF%E6%94%AF%E6%8C%81.png" alt="技术支持"></p>
+<h6 id="2、选择联系我们"><a href="#2、选择联系我们" class="headerlink" title="2、选择联系我们"></a>2、选择联系我们</h6><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E8%8E%B7%E5%BE%97%E5%8D%8F%E5%8A%A9.png" alt="获得协助"></p>
+<h6 id="3、选择Apple-ID"><a href="#3、选择Apple-ID" class="headerlink" title="3、选择Apple ID"></a>3、选择Apple ID</h6><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/appleID.png" alt="Apple ID"></p>
+<h6 id="4、选择遗忘安全问题"><a href="#4、选择遗忘安全问题" class="headerlink" title="4、选择遗忘安全问题"></a>4、选择遗忘安全问题</h6><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E9%81%97%E5%BF%98%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98.png" alt="遗忘安全问题"></p>
+<h6 id="5、选择立即与Apple-支持部门人员通话"><a href="#5、选择立即与Apple-支持部门人员通话" class="headerlink" title="5、选择立即与Apple 支持部门人员通话"></a>5、选择立即与Apple 支持部门人员通话</h6><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E4%B8%8EApple%E6%94%AF%E6%8C%81%E9%83%A8%E9%97%A8%E4%BA%BA%E5%91%98%E9%80%9A%E8%AF%9D.png" alt="与Apple支持部门人员通话"></p>
+<p>提交完成后，客服不到两分钟就会打电话过来。其实还是蛮迅速的。</p>
+<p>根据Apple支持部门的人员的方法，最后安全问题忘记的问题得到解决。</p>
+<p>客服询问了是否有设备登录过这个AppleID，因为我手机中iTunes Connect 登录过，iMac也登录，最后她提议使用手机或电脑登录这个AppleID，然后开启双重验证。</p>
+<p>于是在手机的设置中，退出自己的Apple ID 登录公司这个Apple ID 然后开启双重验证。 再到<a target="_blank" rel="noopener" href="https://appleid.apple.com/#!&page=signin">管理AppleID</a>中登录。</p>
+<p>这时手机上会出现地址验证，会有个验证码，在网页端输入即可。然后就可以更改手机号、应急邮箱等一些个人信息了。</p>
+<h3 id="关于开发者中心仍出现上方警告的问题。"><a href="#关于开发者中心仍出现上方警告的问题。" class="headerlink" title="关于开发者中心仍出现上方警告的问题。"></a>关于开发者中心仍出现上方警告的问题。</h3><p>在Apple ID 那边绑定了手机号，邮箱等信息的时候，发现开发者中心仍出现上方警告，于是跟开发者中心客服联系沟通最后解决了这个问题。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E7%BB%91%E5%AE%9A%E6%89%8B%E6%9C%BA%E5%8F%B7.png" alt="绑定手机号"></p>
+<p>在绑定手机号的时候要在账户<code>Account</code>中绑定，而一开始我是在<code>Security</code>中绑定，在询问开发者中心客服后在<code>Account</code>中绑定后，再重新登录<a target="_blank" rel="noopener" href="https://developer.apple.com/">开发者中心</a>已经可以同意协议，然后就可以了。</p>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><h6 id="1、使用注册AppleID-的邮箱发送邮件到chinadev-chinadev-asia-apple-com-发送问题邮件。"><a href="#1、使用注册AppleID-的邮箱发送邮件到chinadev-chinadev-asia-apple-com-发送问题邮件。" class="headerlink" title="1、使用注册AppleID 的邮箱发送邮件到chinadev chinadev@asia.apple.com  发送问题邮件。"></a>1、使用注册AppleID 的邮箱发送邮件到chinadev <code>chinadev@asia.apple.com</code>  发送问题邮件。</h6><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6%E5%88%B0chinadev.png" alt="发送邮件到chinadev"></p>
+<p>第一个问题是因为我们开发者账号要续费了…………</p>
+<h6 id="2、发送成功后，开发者中心会返回一个案例编号，记住案例编号，跟开发者中心客服联系需要用到，来证明你的身份。"><a href="#2、发送成功后，开发者中心会返回一个案例编号，记住案例编号，跟开发者中心客服联系需要用到，来证明你的身份。" class="headerlink" title="2、发送成功后，开发者中心会返回一个案例编号，记住案例编号，跟开发者中心客服联系需要用到，来证明你的身份。"></a>2、发送成功后，开发者中心会返回一个案例编号，记住案例编号，跟开发者中心客服联系需要用到，来证明你的身份。</h6><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83%E5%9B%9E%E5%A4%8D.png" alt="开发者中心回复"></p>
+<h6 id="3、开发者中心不会主动联系你，所以需要你联系客服-中国拨打-4006-701-855-具体号码可以查看-https-developer-apple-com-contact-phone-cn-。营业时间为9：00-到-17：00-。"><a href="#3、开发者中心不会主动联系你，所以需要你联系客服-中国拨打-4006-701-855-具体号码可以查看-https-developer-apple-com-contact-phone-cn-。营业时间为9：00-到-17：00-。" class="headerlink" title="3、开发者中心不会主动联系你，所以需要你联系客服,中国拨打 4006 701 855, 具体号码可以查看 https://developer.apple.com/contact/phone/cn/ 。营业时间为9：00 到 17：00 。"></a>3、开发者中心不会主动联系你，所以需要你联系客服,中国拨打 <code>4006 701 855</code>, 具体号码可以查看 <a target="_blank" rel="noopener" href="https://developer.apple.com/contact/phone/cn/">https://developer.apple.com/contact/phone/cn/</a> 。营业时间为9：00 到 17：00 。</h6><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%AD%E5%BF%83%E5%AE%A2%E6%9C%8D%E7%94%B5%E8%AF%9D.png" alt="开发者中心客服电话"></p>
+<h6 id="4、拨打电话需要排队，可能需要等很长一段时间。接通后你要主动提供刚才邮件发送给你的案例编号，这样就不用证明你是这个账号的持有者了。避免了很多麻烦。"><a href="#4、拨打电话需要排队，可能需要等很长一段时间。接通后你要主动提供刚才邮件发送给你的案例编号，这样就不用证明你是这个账号的持有者了。避免了很多麻烦。" class="headerlink" title="4、拨打电话需要排队，可能需要等很长一段时间。接通后你要主动提供刚才邮件发送给你的案例编号，这样就不用证明你是这个账号的持有者了。避免了很多麻烦。"></a>4、拨打电话需要排队，可能需要等很长一段时间。接通后你要主动提供刚才邮件发送给你的案例编号，这样就不用证明你是这个账号的持有者了。避免了很多麻烦。</h6><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>关于上方警告问题，需要先登录<a target="_blank" rel="noopener" href="https://appleid.apple.com/#!&page=signin">AppleID</a>，登录后在Account账户这边绑定。</li>
+<li>关于密保忘记无法登录<a target="_blank" rel="noopener" href="https://appleid.apple.com/#!&page=signin">AppleID</a>的问题，用之前登录过这个AppleID的手机或电脑，再登录这个AppleID，然后开启双重验证。如果无法解决，根据上方方式寻求客服帮忙解决。</li>
+<li>关于AppleID绑定手机号后还是出现警告的，可以联系开发者中心的客服。不过联系客服可以先用注册邮箱发送邮件，这样就避免了证明自己是这个账号拥有者的过程。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" rel="tag"># 知识整理</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/04/12/2018-04-12/" rel="prev" title="Objective-C Runtime的介绍及在工程中的使用">
+                  <i class="fa fa-chevron-left"></i> Objective-C Runtime的介绍及在工程中的使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/01/31/2019%E5%BD%92%E9%80%94%E9%9A%8F%E7%AC%94/" rel="next" title="2019归途随笔">
+                  2019归途随笔 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.3/algoliasearch-lite.umd.js" integrity="sha256-dyJcbGuYfdzNfifkHxYVd/rzeR6SLLcDFYEidcybldM=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.51.1/instantsearch.production.min.js" integrity="sha256-y6I4MY/blLHk4a7G33zp97DcnBFRY2iMId4FObo8toI=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
