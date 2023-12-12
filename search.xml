@@ -1231,7 +1231,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="关于使用"><a href="#关于使用" class="headerlink" title="关于使用"></a>关于使用</h2><p>进入首页选择拍照识别（相册识别）-&gt; 调整角度（右上角裁剪）-&gt;点击识别按钮-&gt;进入识别结果页面，将内容复制剪贴板（右上角复制全部内容到剪切板）</p>
 <h2 id="关于帮助"><a href="#关于帮助" class="headerlink" title="关于帮助"></a>关于帮助</h2><p>感谢您使用EasyOCR，在使用过程中如果有任何问题可以通过以下方式联系我寻求帮助：</p>
 <ol>
-<li>个人邮箱：<a href="mailto:&#x32;&#x33;&#48;&#x33;&#52;&#48;&#x30;&#48;&#x38;&#x33;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#x32;&#x33;&#48;&#x33;&#52;&#48;&#x30;&#48;&#x38;&#x33;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;</a></li>
+<li>个人邮箱：<a href="mailto:&#x32;&#x33;&#x30;&#51;&#x34;&#x30;&#x30;&#48;&#x38;&#51;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#109;">&#x32;&#x33;&#x30;&#51;&#x34;&#x30;&#x30;&#48;&#x38;&#51;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#109;</a></li>
 <li>微信公众号：拿根针尖对麦芒（ZhouWeiTalk）</li>
 </ol>
 ]]></content>
@@ -1331,6 +1331,34 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>Flutter中隐藏键盘操作</title>
+    <url>/2023/04/03/Flutter%E4%B8%AD%E9%9A%90%E8%97%8F%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<blockquote>
+<p>方式一</p>
+</blockquote>
+<p>在iOS原生开发中我们可能会使用<code>textField.resignFirstResponder() </code>或者<code>endEditing</code>来隐藏键盘。</p>
+<p>而在Flutter中我们可以使用获取<code>Focus</code>，然后调用<code>unfocus</code>的方式取消键盘。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScopeNode currentFocus = FocusScope.of(context);</span><br><span class="line">if(!currentFocus.hasPrimaryFocus) &#123;</span><br><span class="line">    currentFocus.unfocus();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>方式二</p>
+</blockquote>
+<p>当然在获取控制器困难的时候，在iOS原生开发中我们可以使用下面的方法取消键盘。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>而Flutter中也可以使用同样的方法，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScope.of(context).requestFocus(FocusNode());</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>知识点</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CADisplayLink介绍及其相关</title>
     <url>/2018/03/16/CADisplayLink%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>CADisplayLink其实就是一个定时器对象，是一个能让我们以和屏幕刷新率(60HZ)同步的频率将特定的内容画到屏幕上的定时器类。</p>
@@ -1377,85 +1405,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>Flutter中隐藏键盘操作</title>
-    <url>/2023/04/03/Flutter%E4%B8%AD%E9%9A%90%E8%97%8F%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<blockquote>
-<p>方式一</p>
-</blockquote>
-<p>在iOS原生开发中我们可能会使用<code>textField.resignFirstResponder() </code>或者<code>endEditing</code>来隐藏键盘。</p>
-<p>而在Flutter中我们可以使用获取<code>Focus</code>，然后调用<code>unfocus</code>的方式取消键盘。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScopeNode currentFocus = FocusScope.of(context);</span><br><span class="line">if(!currentFocus.hasPrimaryFocus) &#123;</span><br><span class="line">    currentFocus.unfocus();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>方式二</p>
-</blockquote>
-<p>当然在获取控制器困难的时候，在iOS原生开发中我们可以使用下面的方法取消键盘。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>而Flutter中也可以使用同样的方法，如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScope.of(context).requestFocus(FocusNode());</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>知识点</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Flutter全面屏适配</title>
-    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
-<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
-<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>Flutter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>GPUImage相应类库所实现的功能</title>
-    <url>/2019/09/09/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<p>关于<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>:</p>
-<p>GPUImage是一个基于GPU的图像、视频处理的iOS框架，支持很多种图像滤镜。当然，它目前还缺乏一些图像处理的高级功能，例如面部识别。</p>
-<p>对于大规模并行操作（如处理图像或实时视频），GPU具有一些比CPU更显著的性能优势。在iPhone 4上，一个简单的图像滤镜在GPU上的执行速度可能比基于CPU的滤镜快100倍。</p>
-<p>下方是<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>的相应类库所实现的功能：</p>
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/GPUImage.jpg" alt="GPUImage-01.jpg"></p>
-<hr>
-<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/LearningGPUImage">部分滤镜实现(会不定期更新)</a></p>
-<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="https://github.com/BradLarson/GPUImage">GPUImage</a></li>
-<li><a href="https://www.cnblogs.com/XYQ-208910/p/5859683.html">iOS：GPUImage强大的图像处理框架</a></li>
-<li><a href="http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find/">AVFoundation和 GPUImage初探</a></li>
-<li><a href="http://www.cnblogs.com/salam/p/4981276.html">GPUImage简单滤镜使用（二）</a></li>
-<li><a href="https://yq.aliyun.com/articles/55708">使用GPUImage实现视频滤镜</a></li>
-<li><a href="http://www.cnblogs.com/salam/p/5125836.html">iOS二十种超酷时尚艺术滤镜汇总【附源码】</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>源码学习</category>
-        <category>GPUImage</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>GPUImage</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Flutter介绍与配置</title>
     <url>/2022/04/15/Flutter%E4%BB%8B%E7%BB%8D%E4%B8%8E%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>关于<a href="https://flutter.cn/docs">Flutter</a>的介绍和具体配置，建议查看官网或者是<a href="https://book.flutterchina.club/preface.html#%E7%AC%AC%E4%BA%8C%E7%89%88%E5%8F%98%E5%8C%96">Flutter实战·第二版</a>中的相关文档。</p>
@@ -1495,6 +1444,96 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>Flutter全面屏适配</title>
+    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
+<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
+<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flutter如何适配鸿蒙Next系统并打HAP安装包</title>
+    <url>/2023/11/16/Flutter%E5%A6%82%E4%BD%95%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next%E7%B3%BB%E7%BB%9F%E5%B9%B6%E6%89%93HAP%E5%AE%89%E8%A3%85%E5%8C%85/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>因最近有媒体报道后期鸿蒙Next系统不支持安卓应用的安装，虽然不清楚真假，但作为开发我们也需要为此做准备。</p>
+<p>着手调研使用Flutter打适配鸿蒙Next的HAP包的技术方案后，通过分析和对比最后也确认了<a href="https://gitee.com/openharmony-sig">开源鸿蒙</a>定制<a href="https://gitee.com/openharmony-sig/flutter_flutter">Flutter</a>的方案，这种方案对于Flutter项目来说是一种开放成本最低的方式。</p>
+<h2 id="安装适配鸿蒙系统的Flutter"><a href="#安装适配鸿蒙系统的Flutter" class="headerlink" title="安装适配鸿蒙系统的Flutter"></a>安装适配鸿蒙系统的Flutter</h2><p>关于Flutter的配置可以参考<a href="https://gitee.com/openharmony-sig/flutter_flutter">开源鸿蒙适配的Flutter</a>中的文档一步步进行配置。</p>
+<p>配置成功后如下方所示：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zhouwei@FYMacBook-Air ~ % flutter doctor -v</span><br><span class="line">[!] Flutter (Channel master, 3.7.12, on macOS 12.6.9 21G726 darwin-x64, locale zh-Hans-CN)</span><br><span class="line">    • Flutter version 3.7.12 on channel master at /Users/zhouwei/Desktop/hm_flutter</span><br><span class="line">    ! Upstream repository https://gitee.com/openharmony-sig/flutter_flutter.git is not a standard</span><br><span class="line">      remote.</span><br><span class="line">      Set environment variable <span class="string">&quot;FLUTTER_GIT_URL&quot;</span> to</span><br><span class="line">      https://gitee.com/openharmony-sig/flutter_flutter.git to dismiss this error.</span><br><span class="line">    • Framework revision 198162b99b (18 hours ago), 2023-11-23 12:38:27 +0000</span><br><span class="line">    • Engine revision 1a65d409c7</span><br><span class="line">    • Dart version 2.19.6</span><br><span class="line">    • DevTools version 2.20.1</span><br><span class="line">    • Pub download mirror https://pub.flutter-io.cn</span><br><span class="line">    • Flutter download mirror https://storage.flutter-io.cn</span><br><span class="line">    • If those were intentional, you can disregard the above warnings; however it is recommended</span><br><span class="line">      to use <span class="string">&quot;git&quot;</span> directly to perform update checks and upgrades.</span><br><span class="line"></span><br><span class="line">[✓] OpenHarmony toolchain - develop <span class="keyword">for</span> OpenHarmony devices</span><br><span class="line">    • OpenHarmony Sdk location: /Users/zhouwei/Documents/sdk, available api versions has [10]</span><br><span class="line">    • hdc version 1.3.0</span><br><span class="line">    • ohpm version 1.2.0</span><br><span class="line">    • signTool location:/Users/zhouwei/Documents/developtools_hapsigner/autosign</span><br><span class="line"></span><br><span class="line">[✓] Android toolchain - develop <span class="keyword">for</span> Android devices (Android SDK version 33.0.2)</span><br><span class="line">    • Android SDK at /Users/zhouwei/Library/Android/sdk</span><br><span class="line">    • Platform android-33, build-tools 33.0.2</span><br><span class="line">    • ANDROID_HOME = /Users/zhouwei/Library/Android/sdk</span><br><span class="line">    • Java binary at: /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java</span><br><span class="line">    • Java version OpenJDK Runtime Environment (build 11.0.15+0-b2043.56-8887301)</span><br><span class="line">    • All Android licenses accepted.</span><br><span class="line"></span><br><span class="line">[✓] Xcode - develop <span class="keyword">for</span> iOS and macOS (Xcode 14.2)</span><br><span class="line">    • Xcode at /Applications/Xcode.app/Contents/Developer</span><br><span class="line">    • Build 14C18</span><br><span class="line">    • CocoaPods version 1.11.3</span><br><span class="line"></span><br><span class="line">[✓] Chrome - develop <span class="keyword">for</span> the web</span><br><span class="line">    • Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome</span><br><span class="line"></span><br><span class="line">[✓] Android Studio (version 2022.1)</span><br><span class="line">    • Android Studio at /Applications/Android Studio.app/Contents</span><br><span class="line">    • Flutter plugin can be installed from:</span><br><span class="line">      🔨 https://plugins.jetbrains.com/plugin/9212-flutter</span><br><span class="line">    • Dart plugin can be installed from:</span><br><span class="line">      🔨 https://plugins.jetbrains.com/plugin/6351-dart</span><br><span class="line">    • Java version OpenJDK Runtime Environment (build 11.0.15+0-b2043.56-8887301)</span><br><span class="line"></span><br><span class="line">[✓] VS Code (version 1.82.0)</span><br><span class="line">    • VS Code at /Applications/Visual Studio Code.app/Contents</span><br><span class="line">    • Flutter extension version 3.70.0</span><br><span class="line"></span><br><span class="line">[✓] Connected device (2 available)</span><br><span class="line">    • macOS (desktop) • macos  • darwin-x64     • macOS 12.6.9 21G726 darwin-x64</span><br><span class="line">    • Chrome (web)    • chrome • web-javascript • Google Chrome 119.0.6045.159</span><br><span class="line"></span><br><span class="line">[✓] HTTP Host Availability</span><br><span class="line">    • All required HTTP hosts are available</span><br><span class="line"></span><br><span class="line">! Doctor found issues <span class="keyword">in</span> 1 category.</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译适配鸿蒙系统的Flutter-engine"><a href="#编译适配鸿蒙系统的Flutter-engine" class="headerlink" title="编译适配鸿蒙系统的Flutter engine"></a>编译适配鸿蒙系统的Flutter engine</h2><p>根据<a href="https://gitee.com/openharmony-sig/flutter_flutter">适配鸿蒙系统的Flutter版本</a>中的文档配置完后，打HAP包则需要指定<code>--local-engine</code>。</p>
+<p>如果你发现在执行完<code>flutter doctor -v</code>命令后，在<code>flutter/bin/cache/artifacts/engine</code>目录下没有发现鸿蒙的<code>engine</code>的时候，需要我们手动编译<a href="https://gitee.com/openharmony-sig/flutter_engine">可构建支持在OpenHarmony设备上运行的flutter engine程序</a>。</p>
+<p>同样我们可以查考<a href="https://gitee.com/openharmony-sig/flutter_engine">可构建支持在OpenHarmony设备上运行的flutter engine程序</a>中的文档进行编译。</p>
+<p>需要注意的是我们在编译前需要下载<a href="https://storage.googleapis.com/chrome-infra/depot_tools.zip">depot_tools</a></p>
+<p>我们可以使用下方命令进行下载（终端需要配置代理）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git</span><br></pre></td></tr></table></figure>
+
+<p>所有一切都成功后便可编译HAP包安装到模拟器或手机(Next系统)手机。</p>
+<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/Flutter%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next/%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99%E7%9A%84Flutter%E9%A1%B9%E7%9B%AE.png" alt="适配鸿蒙Next的Flutter项目"></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul>
+<li><a href="https://gitee.com/openharmony-sig/flutter_flutter">适配鸿蒙系统的Flutter版本</a></li>
+<li><a href="https://gitee.com/openharmony-sig/flutter_engine">可构建支持在OpenHarmony设备上运行的flutter engine程序</a></li>
+<li><a href="https://tech.meituan.com/2021/01/22/flutter-in-harmonyos.html">让 Flutter 在鸿蒙系统上跑起来</a></li>
+<li><a href="https://developer.huawei.com/consumer/cn/events/hdc2020/">HarmonyOS Developer</a></li>
+<li><a href="https://developer.harmonyos.com/cn/documentation">HarmonyOS Documentation</a></li>
+<li><a href="https://docs.flutter.dev/resources/architectural-overview">Flutter architectural overview</a></li>
+<li><a href="https://github.com/flutter/flutter/wiki/Custom-Flutter-Engine-Embedders">定制Flutter引擎嵌入器</a></li>
+<li><a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/device_template-0000001053702407-V3">DevEco Studio使用指南</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/657055957">Harmony 开始支持 Flutter ，聊聊 Harmony 和 Flutter 之间的因果</a></li>
+<li><a href="https://juejin.cn/post/7281948788483489804">Flutter Love 鸿蒙</a></li>
+<li><a href="https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment">设置Engine开发环境</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>鸿蒙</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GPUImage相应类库所实现的功能</title>
+    <url>/2019/09/09/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<p>关于<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>:</p>
+<p>GPUImage是一个基于GPU的图像、视频处理的iOS框架，支持很多种图像滤镜。当然，它目前还缺乏一些图像处理的高级功能，例如面部识别。</p>
+<p>对于大规模并行操作（如处理图像或实时视频），GPU具有一些比CPU更显著的性能优势。在iPhone 4上，一个简单的图像滤镜在GPU上的执行速度可能比基于CPU的滤镜快100倍。</p>
+<p>下方是<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>的相应类库所实现的功能：</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/GPUImage.jpg" alt="GPUImage-01.jpg"></p>
+<hr>
+<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/LearningGPUImage">部分滤镜实现(会不定期更新)</a></p>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://github.com/BradLarson/GPUImage">GPUImage</a></li>
+<li><a href="https://www.cnblogs.com/XYQ-208910/p/5859683.html">iOS：GPUImage强大的图像处理框架</a></li>
+<li><a href="http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find/">AVFoundation和 GPUImage初探</a></li>
+<li><a href="http://www.cnblogs.com/salam/p/4981276.html">GPUImage简单滤镜使用（二）</a></li>
+<li><a href="https://yq.aliyun.com/articles/55708">使用GPUImage实现视频滤镜</a></li>
+<li><a href="http://www.cnblogs.com/salam/p/5125836.html">iOS二十种超酷时尚艺术滤镜汇总【附源码】</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>源码学习</category>
+        <category>GPUImage</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>GPUImage</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>IPA签名检查-iOS15</title>
     <url>/2021/06/16/IPA%E7%AD%BE%E5%90%8D%E6%A3%80%E6%9F%A5-iOS15/</url>
     <content><![CDATA[<p>具体内容可以查看官方文档：<a href="https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format">Using the Latest Code Signature Format</a></p>
@@ -1510,35 +1549,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 ]]></content>
       <categories>
         <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Instruments工具集</title>
-    <url>/2018/01/02/Instruments%E5%B7%A5%E5%85%B7%E9%9B%86/</url>
-    <content><![CDATA[<h3 id="Blank"><a href="#Blank" class="headerlink" title="Blank"></a>Blank</h3><p>A blank trace document that can be customized with instruments from the Library.</p>
-<h3 id="Activity-Monitor"><a href="#Activity-Monitor" class="headerlink" title="Activity Monitor"></a>Activity Monitor</h3><p>Monitors CPU, memory, disk,and network usage statistics for processes and the system.</p>
-<h3 id="Allocations"><a href="#Allocations" class="headerlink" title="Allocations"></a>Allocations</h3><p>Tracks a process’ anonymous virtual memory and heap, providing class names and optionally retain&#x2F;release histories for objects.</p>
-<h3 id="Cocoa-Layout"><a href="#Cocoa-Layout" class="headerlink" title="Cocoa Layout"></a>Cocoa Layout</h3><p>Observes changes to NSLayoutConstraint objects to help determine when and where a layout constraint went awry.</p>
-<h3 id="Core-Animation"><a href="#Core-Animation" class="headerlink" title="Core Animation"></a>Core Animation</h3><p>This template measures application graphics performance as well as CPU usage of a process via time profiling.</p>
-<h3 id="Core-Data"><a href="#Core-Data" class="headerlink" title="Core Data"></a>Core Data</h3><p>This template traces Core Data filesystem activity, including fetches,cache misses, and saves.</p>
-<h3 id="Counters"><a href="#Counters" class="headerlink" title="Counters"></a>Counters</h3><p>Collects performance monitor counter(PMC) events using time or event based sampling methods.</p>
-<h3 id="Energy-Log"><a href="#Energy-Log" class="headerlink" title="Energy Log"></a>Energy Log</h3><p>This template provides diagnostics regarding energy usage as well as basic on&#x2F;off state of major device components.</p>
-<h3 id="File-Activity"><a href="#File-Activity" class="headerlink" title="File Activity"></a>File Activity</h3><p>This template monitors file and directory activity, including file open&#x2F;close calls, file permission modifications,directory creation, file moves,etc.</p>
-<h3 id="Leaks"><a href="#Leaks" class="headerlink" title="Leaks"></a>Leaks</h3><p>Measures general memory usage,checks for leaked memory,and provides statistics on object allocations by class as well as memory address histories for all active allocations and leaked blocks.</p>
-<h3 id="Metal-System-Trace"><a href="#Metal-System-Trace" class="headerlink" title="Metal System Trace"></a>Metal System Trace</h3><p>Metal System Trace profiles the performance of iOS,tvOS and macOS  Metal applications by providing tracing information from the application,driver,and GPU layers.</p>
-<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><p>Analyze how your applications are using TCP&#x2F;IP connections using the Connections instrument.</p>
-<h3 id="SceneKit"><a href="#SceneKit" class="headerlink" title="SceneKit"></a>SceneKit</h3><p>Profiles an application’s use of SceneKit.Determines the type of work going into each frame, such as animations, physics,scene culling,and rendering.</p>
-<h3 id="System-Trace"><a href="#System-Trace" class="headerlink" title="System Trace"></a>System Trace</h3><p>A comprehensive view of what’s happening in the operationg system. See how threads are being scheduled across CPUs and understand how system calls and virtual memory faults anr affectiong your application’s Performance.</p>
-<h3 id="System-Usage"><a href="#System-Usage" class="headerlink" title="System Usage"></a>System Usage</h3><p>This template records I&#x2F;O system activity related to files, sockets,and shared memory for a single process launched via instruments, Inputs, outputs,duration,backtrace,calltree,etc.is provided for each call.</p>
-<h3 id="Time-Profiler"><a href="#Time-Profiler" class="headerlink" title="Time Profiler"></a>Time Profiler</h3><p>Performs low-overhead time -based sampling of processes runing on the system’s CPUs.</p>
-<h3 id="Zombies"><a href="#Zombies" class="headerlink" title="Zombies"></a>Zombies</h3><p>Measures general memory usage while focusing on the delection of over - released “zombie” objects. Also statistics on object allocations by class as well as memory address histories for all active allocations.</p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-        <category>iOS性能调优</category>
       </categories>
       <tags>
         <tag>iOS</tag>
@@ -2072,270 +2082,32 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>Xcode12项目适配</title>
-    <url>/2020/09/24/Xcode12%E9%A1%B9%E7%9B%AE%E9%80%82%E9%85%8D/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近更新Xcode12，发现编译有的项目的时候会出现些问题，然后一个个解决所有项目完美编译通过。</p>
-<p>最近看有的群里在讨论Xcode12编译项目的一些问题，觉得可以整理一篇自己遇到问题的文章，便于遇到同样问题的朋友查阅。</p>
-<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><blockquote>
-<p>项目无法在模拟器中运行</p>
-</blockquote>
-<p>将项目运行到模拟器的时候报<code>No architectures to compile for (ONLY_ACTIVE_ARCH=YES, active arch=x86_64, VALID_ARCHS=arm64 armv7)</code>错误。</p>
-<p>修复：</p>
-<p>TARGETS-&gt;Build Settings-&gt;搜索<code>VALID_ARCHS</code>, 然后添加模拟器的指令集。如果有多个TARGETS时，需要分别添加。</p>
-<p>如图所示：<br><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/Xcode12%E9%A1%B9%E7%9B%AE%E9%80%82%E9%85%8D/%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C%E6%A8%A1%E6%8B%9F%E5%99%A8%E9%80%82%E9%85%8D.jpg" alt="项目运行模拟器适配"></p>
-<blockquote>
-<p>Library not found for -lstdc++.6.0.9</p>
-</blockquote>
-<p>果然自己保存在github中的<code>lstdc++</code>库是对的，忘记从哪个版本Xcode去除了<code>lstdc++</code>库，每次更新Xcode的时候都需要重新添加一下。</p>
-<p>修复：</p>
-<ul>
-<li>从<a href="https://github.com/xnxy/libsted-.git">github</a>中下载<code>lstdc++</code>，将其复制到下面的路径下即可。</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/</span><br><span class="line"></span><br><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>Swift代码中报<code>Constructing an object of class type &#39;Self&#39; with a metatype value must use a &#39;required&#39; initializer。错误</code></p>
-<p>修复：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">required init() &#123;</span><br><span class="line">   super.init(</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>整理</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS14隐私权限适配及其他</title>
-    <url>/2020/09/14/iOS14%E9%9A%90%E7%A7%81%E6%9D%83%E9%99%90%E9%80%82%E9%85%8D%E5%8F%8A%E5%85%B6%E4%BB%96/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在<a href="https://developer.apple.com/videos/wwdc2020/">WWDC2020</a>发布会上苹果展示了新的<a href="https://developer.apple.com/cn/ios/">iOS14</a>系统。对于iOS开发工程师来说，适配iOS14其重点在于隐私权限的适配。具体内容可以观看<a href="https://developer.apple.com/videos/play/wwdc2020/10676/">WWDC2020中：建立更好的隐私信任</a>的视频进行了解。</p>
-<blockquote>
-<p>note:截止目前，适配<code>iOS14</code>需要更新mac系统到<code>11  beta 6</code>、xcode需要更新到<code>12 beta 6</code>、手机需要更新到<code>14 beta 8</code>，相关版本可以到<a href="https://developer.apple.com/download/#ios-restore-images-iphone-new">苹果官网下载</a>；更新beta版本打包可能会影响正常上架，该问题未进行测试，但需要引起注意。</p>
-</blockquote>
-<h1 id="广告标识符的获取"><a href="#广告标识符的获取" class="headerlink" title="广告标识符的获取"></a>广告标识符的获取</h1><p>广告标识符(Identity for Advertisers)简称<code>IDFA</code>，主要用来标记用户。在<code>iOS14</code>系统中，系统会默认关闭广告标跟踪权限。如果在开发中使用，需要向用户请求权限，步骤如下：</p>
-<blockquote>
-<p>1、info.plist配置</p>
-</blockquote>
-<p>选中<code>info.plist</code>右键<code>Open As</code>-&gt;<code>Source Code</code> 然后将下方配置和描述信息添加进去。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;NSUserTrackingUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;“太平通宝”需要您允许访问广告标识符权限，以便于追踪广告和信息的推送&lt;/string&gt;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>2、头文件引入</p>
-</blockquote>
-<p>为了适配低版本Xcode编译，需要使用预编译命令,所以头文件引入方式如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#if defined(__IPHONE_14_0)</span><br><span class="line">#import &lt;AppTrackingTransparency/AppTrackingTransparency.h&gt;//适配iOS14</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>3、获取IDFA</p>
-</blockquote>
-<p><code>iOS14</code>及以上系统，需要先请求跟踪权限，用户同意后才能获取广告标识。获取方法标识符的代码<code>iOS14</code>之前一样。示例代码如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+ (NSString *)idfaString &#123;</span><br><span class="line">    __block NSString *idfa;</span><br><span class="line">#if defined(__IPHONE_14_0)</span><br><span class="line">    if (@available(iOS 14, *)) &#123;</span><br><span class="line">        // iOS14及以上版本需要先请求权限</span><br><span class="line">        ATTrackingManagerAuthorizationStatus status = ATTrackingManager.trackingAuthorizationStatus;</span><br><span class="line">        if (status == ATTrackingManagerAuthorizationStatusNotDetermined) &#123; //用户未做选择或未弹窗</span><br><span class="line">            dispatch_semaphore_t sem = dispatch_semaphore_create(0);</span><br><span class="line">            [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) &#123;</span><br><span class="line">                // 获取到权限后，依然使用老方法获取idfa</span><br><span class="line">                if (status == ATTrackingManagerAuthorizationStatusAuthorized) &#123; //用户允许</span><br><span class="line">                    idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];</span><br><span class="line">                    ICLog(@&quot;--iOS14----%@----&quot;,idfa);</span><br><span class="line">                &#125;</span><br><span class="line">                dispatch_semaphore_signal(sem);</span><br><span class="line">            &#125;];</span><br><span class="line">            dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);</span><br><span class="line">        &#125;else if(status == ATTrackingManagerAuthorizationStatusAuthorized)&#123;//用户允许</span><br><span class="line">            idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            ICLog(@&quot;请在设置-隐私-Tracking中允许App请求跟踪&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">#else</span><br><span class="line">    // iOS14以下版本依然使用老方法</span><br><span class="line">    // 判断在设置-隐私里用户是否打开了广告跟踪</span><br><span class="line">    if ([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) &#123;</span><br><span class="line">        idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];</span><br><span class="line">        ICLog(@&quot;---iOS14以下系统----%@-----&quot;,idfa);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        ICLog(@&quot;请在设置-隐私-广告中打开广告跟踪功能&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">#endif</span><br><span class="line">    idfa = (idfa ? : @&quot;&quot;);</span><br><span class="line">    return idfa;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="相册权限"><a href="#相册权限" class="headerlink" title="相册权限"></a>相册权限</h1><p>iOS14中新增了个<code>有限的图片库访问</code>模式，在授权弹窗的时候会新增个<code>Select Photo</code>选项，用户可以选择一部分图片供App读取，而App无法获取相册中的所有图片信息。</p>
-<p>如果用户使用了<code>有限图片库访问</code>(Limited Photo Library Access)的模式, 如果App不进行适配，权限提示框会在每次冷启动打开相册的时候重新弹出，我们需要在<code>info.plist</code>中进行配置，关闭弹窗。</p>
-<blockquote>
-<p>1、info.plist配置</p>
-</blockquote>
-<p>选中<code>info.plist</code>右键<code>Open As</code>-&gt;<code>Source Code</code> 然后将下方配置和描述信息添加进去。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;PHPhotoLibraryPreventAutomaticLimitedAccessAlert&lt;/key&gt;</span><br><span class="line">&lt;true/&gt;</span><br></pre></td></tr></table></figure>
-
-<p>当然，我们也可以通过相应API来控制何时弹出图片选择的弹出。API如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[PHPhotoLibrary sharedPhotoLibrary] presentLimitedLibraryPickerFromViewController:self];</span><br></pre></td></tr></table></figure>
-<p>同时，在iOS14中官方推荐使用苹果推荐使用<code>PHPicker</code>来代替原API来选择图片。</p>
-<p>关于<code>PHPicker</code>的介绍可以参看<a href="https://developer.apple.com/videos/play/wwdc2020/10652/">WWDC2020：认识新的照片选择器</a>的相关介绍。</p>
-<h1 id="位置信息"><a href="#位置信息" class="headerlink" title="位置信息"></a>位置信息</h1><p>在iOS14中，苹果新增了<code>模糊定位</code>的概念。原因是苹果认为很多APP并不需要获取用户的<code>精准定位</code>。所以在iOS14授权弹窗的时候新增了<code>Precise</code>的精准开关，默认会选中精准位置，用户可以通过这个开关进行更改。</p>
-<h2 id="对于地理位置敏感的APP"><a href="#对于地理位置敏感的APP" class="headerlink" title="对于地理位置敏感的APP"></a>对于地理位置敏感的APP</h2><blockquote>
-<p>1、info.plist配置</p>
-</blockquote>
-<p>不过对于需要精准定位的App需要在<code>info.plist</code>中设置<code>NSLocationTemporaryUsageDescriptionDictionary</code>字典，key为<code>purposeKey</code>,value为对应获取<code>精准定位</code>的原因。</p>
-<p>示例如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;NSLocationTemporaryUsageDescriptionDictionary&lt;/key&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;punchTheClock&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;“太平通宝”需要您允许精准定位，以便于使用打卡功能&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>2、获取单次精准定位</p>
-</blockquote>
-<p>同时需要调用相应API，获取精准定位。代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[CALocationMnanger requestTemporaryFullAccuracyAuthorizationWithPurposeKey:@&quot;punchTheClock&quot;]</span><br></pre></td></tr></table></figure>
-
-<h2 id="对于地理位置不敏感的App"><a href="#对于地理位置不敏感的App" class="headerlink" title="对于地理位置不敏感的App"></a>对于地理位置不敏感的App</h2><p>对定位信息不敏感的APP，iOS14中可以直接在<code>info.plist</code>中添加<code>NSLocationDefaultAccuracyReduced</code>为<code>true</code>,默认请求<code>模糊定位</code>。</p>
-<p>选中<code>info.plist</code>右键<code>Open As</code>-&gt;<code>Source Code</code> 然后将下方配置和描述信息添加进去。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;NSLocationDefaultAccuracyReduced&lt;/key&gt;</span><br><span class="line">&lt;true/&gt;</span><br></pre></td></tr></table></figure>
-
-<h1 id="Local-Network"><a href="#Local-Network" class="headerlink" title="Local Network"></a>Local Network</h1><p>iOS14中新增了<code>Local Network</code>权限提示，具体关于<code>Local Network</code>的相关信息可以查看<a href="https://developer.apple.com/videos/play/wwdc2020/10110/">苹果官网的视频</a>或者<code>少数派</code>的关于<a href="https://zhuanlan.zhihu.com/p/157159226?from_voters_page=true">iOS14新增的本地网络权限，要开给第三方App吗?</a>等相关资料。</p>
-<h1 id="剪贴板"><a href="#剪贴板" class="headerlink" title="剪贴板"></a>剪贴板</h1><p>在iOS14中，如果APP读取剪切版的内容时，手机会弹出提示，提示哪个APP在获取剪切板内容。</p>
-<h1 id="相机和麦克风"><a href="#相机和麦克风" class="headerlink" title="相机和麦克风"></a>相机和麦克风</h1><p>在iOS14中APP如果使用相机和麦克风，手机的的上方会有绿色和黄色的提示，同时也可以查看是哪个APP在使用相机和麦克风。</p>
-<p>关于该功能开发人员无法控制。</p>
-<h1 id="UIDatePicker更新UI样式"><a href="#UIDatePicker更新UI样式" class="headerlink" title="UIDatePicker更新UI样式"></a>UIDatePicker更新UI样式</h1><p>在iOS14中，<code>UIDatePicker</code>的样式新增了<code>UIDatePickerStyleInline</code>，而且为默认值。如果项目中使用了<code>UIDatePicker</code>，而且希望使用原来的样式，需要设置其样式。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">self.pickerView.preferredDatePickerStyle = UIDatePickerStyleWheels;</span><br></pre></td></tr></table></figure>
-
-<h1 id="UITableViewCell适配"><a href="#UITableViewCell适配" class="headerlink" title="UITableViewCell适配"></a>UITableViewCell适配</h1><blockquote>
-<p>UITableViewCell无法点击</p>
-</blockquote>
-<p>在Xcode12、iOS14中，如果在UITableViewCell渲染前没有调用<code>self.contentView</code>，系统会在渲染完<code>UITableViewCell</code>上的控件后在其上方添加<code>contentView</code>，这会使<code>contentView</code>拦截住<code>UITableViewCell</code>控件的响应事件。</p>
-<p>其解决方式是将<code>UITableViewCell</code>上的控件添加到<code>self.contentView</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[self addSubview:view];</span><br><span class="line">改为：</span><br><span class="line">[self.contentView addSubview:view];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>hook修复UITableViewCell无法点击问题</p>
-</blockquote>
-<p>虽然上方的方法可以修复UITableViewCell无法点击问题，但对于一个很庞大的项目来说，不确定是否有遗漏，尤其是一些组件。所以在项目中需要用到<code>修改+hook</code>的方式。</p>
-<p>方法也很简单，直接hook住<code>UITableViewCell</code>中的<code>addSubview：</code>方法，全局修复下即可，同时后期写代码也要注意代码规范。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#import &quot;UITableViewCell+TB.h&quot;</span><br><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line"></span><br><span class="line">@implementation UITableViewCell (TB)</span><br><span class="line"></span><br><span class="line">+ (void)load &#123;</span><br><span class="line">    Method method1 = class_getInstanceMethod([self class], NSSelectorFromString(@&quot;addSubview:&quot;));</span><br><span class="line">    Method method2 = class_getInstanceMethod([self class], @selector(tb_addSubview:));</span><br><span class="line">    method_exchangeImplementations(method1, method2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)addSubview:(UIView *)view&#123;</span><br><span class="line">    [super addSubview:view];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)tb_addSubview:(UIView *)view &#123;</span><br><span class="line">    if  ([view isKindOfClass:NSClassFromString(@&quot;UITableViewCellContentView&quot;)]) &#123;</span><br><span class="line">        [self tb_addSubview:view];</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        [self.contentView addSubview:view];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-
-
-<blockquote>
-<p>UITableViewCell 背景色变成灰色</p>
-</blockquote>
-<p>灰色为<code>self.contentView</code>的背景色，在init方法中共添加即可。</p>
-<h1 id="YYAnimatedImageView-无法加载图片"><a href="#YYAnimatedImageView-无法加载图片" class="headerlink" title="YYAnimatedImageView 无法加载图片"></a>YYAnimatedImageView 无法加载图片</h1><p>因为项目中用到<code>YYImage</code>第三方库。</p>
-<p>解决方式：<br>修复：YYAnimatedImageView.m 529行的函数修改如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)displayLayer:(CALayer *)layer &#123;</span><br><span class="line">    if (_curFrame) &#123;</span><br><span class="line">        layer.contents = (__bridge id)_curFrame.CGImage;</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        if (@available(iOS 14.0, *)) &#123;</span><br><span class="line">            [super displayLayer:layer];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但在项目中，并不会这些修复，毕竟是第三方库，我们可以直接替换这个类的该方法。</p>
-<p>代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#import &quot;YYAnimatedImageView+TB.h&quot;</span><br><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line"></span><br><span class="line">@implementation YYAnimatedImageView (TB)</span><br><span class="line"></span><br><span class="line">+ (void)load &#123;</span><br><span class="line">    Method method1 = class_getInstanceMethod([self class], NSSelectorFromString(@&quot;displayLayer:&quot;));</span><br><span class="line">    Method method2 = class_getInstanceMethod([self class], @selector(tb_displayLayer:));</span><br><span class="line">    method_exchangeImplementations(method1, method2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)tb_displayLayer:(CALayer *)layer&#123;</span><br><span class="line">    Ivar ivar = class_getInstanceVariable(self.class, &quot;_curFrame&quot;);</span><br><span class="line">    UIImage *_curFrame = object_getIvar(self, ivar);</span><br><span class="line">    if (_curFrame) &#123;</span><br><span class="line">        layer.contents = (__bridge id)_curFrame.CGImage;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        if (@available(iOS 14.0, *)) &#123;</span><br><span class="line">            [super displayLayer:layer];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><blockquote>
-<p>关于真机调试</p>
-</blockquote>
-<p>最新Xcode 12 beta版本<code>31G</code>,而且还不稳定，如果需要使用低版本Xcode运行到iOS14的真机上可以下载<a href="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/iOS14%E9%9A%90%E7%A7%81%E6%9D%83%E9%99%90%E9%80%82%E9%85%8D%E5%8F%8A%E5%85%B6%E4%BB%96/14.0.zip">iOS14的DeviceSupport</a>，存放的路径为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>关于更新iOS14系统</p>
-</blockquote>
-<p>关于更新iOS14 beta版的系统，我在<a href="https://jingyan.baidu.com/article/2a1383284630dd464b134f11.html">百度经验</a>上水了篇文章，可以点击百度经验查看，当然经验水的有些粗糙，还有错别字。</p>
-<p>也可能是好久没写了，写完后，竟然还给了0.3元的红包……</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://developer.apple.com/videos/wwdc2020/">WWDC2020</a></li>
-<li><a href="https://developer.apple.com/videos/play/wwdc2020/10676/">WWDC2020中：建立更好的隐私信任</a></li>
-<li><a href="https://developer.apple.com/videos/play/wwdc2020/10652/">WWDC2020：认识新的照片选择器</a></li>
-<li><a href="https://developer.apple.com/videos/play/wwdc2020/10110/">WWDC2020-在你的应用程序中支持本地网络隐私</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/157159226?from_voters_page=true">iOS14新增的本地网络权限，要开给第三方App吗?</a></li>
-<li><a href="https://mp.weixin.qq.com/s/CJML-2YUv6sqEEnI8rI0Bw">iOS14 隐私适配及部分解决方案</a></li>
-<li><a href="https://www.jianshu.com/p/a0b0303962bb">iOS14 适配 先行者</a></li>
-<li><a href="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/iOS14%E9%9A%90%E7%A7%81%E6%9D%83%E9%99%90%E9%80%82%E9%85%8D%E5%8F%8A%E5%85%B6%E4%BB%96/14.0.zip">iOS14:DeviceSupport</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>整理</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS关于多线程常用方法汇总</title>
-    <url>/2020/12/04/iOS%E5%85%B3%E4%BA%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>前段时间整理了<a href="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/Objective-C%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8BiOS%E4%B8%8EOS%20X%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/Objective-C%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%20iOS%E4%B8%8EOS%20X%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.pdf">《Objective-C高级编程iOS与OS X 多线程和内存管理》</a>中共的GCD相关的知识，其中内容大部分都是摘录书中的内容。</p>
-<p>写完以后感觉有些意犹未尽，所以决定将在开发过程中常用的多线程的方法单独拿出来整理一下。</p>
-<h2 id="串行和并行"><a href="#串行和并行" class="headerlink" title="串行和并行"></a>串行和并行</h2><blockquote>
-<p>Objective-C</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 串行队列的创建方法</span><br><span class="line">dispatch_queue_t serialDispatchQueue = dispatch_queue_create(&quot;com.example.gcd.serial&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">// 并发队列的创建方法</span><br><span class="line">dispatch_queue_t concurrentDispatchQueue = dispatch_queue_create(&quot;com.example.gcd.concurrent&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Swift</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//串行队列的创建方法</span><br><span class="line">let serialDispatch = DispatchQueue.init(label: &quot;com.example.gcd.serial&quot;)</span><br><span class="line">//并发队列的创建方法</span><br><span class="line">let concurrentDispatchQueue = DispatchQueue.init(label: &quot;com.example.gcd.concurrent&quot;, attributes: .concurrent)</span><br></pre></td></tr></table></figure>
-
-<h2 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h2><blockquote>
-<p>Objective-C</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dispatch_sync(serialDispatchQueue, ^&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(concurrentDispatchQueue, ^&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Swift</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//同步</span><br><span class="line">serialDispatch.sync &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//异步</span><br><span class="line">concurrentDispatchQueue.async &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="各种Dispatch-Queue获取方法"><a href="#各种Dispatch-Queue获取方法" class="headerlink" title="各种Dispatch Queue获取方法"></a>各种Dispatch Queue获取方法</h2><blockquote>
-<p>Objective-C</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/*</span><br><span class="line"> * Main Dispatch Queue 的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t mainDispatchQueue = dispatch_get_main_queue();</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (高优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueHigh = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (默认优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueDefault = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (低优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueLow = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (后台优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueBackground = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Swift</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/* --- 各种 Dispatch Queue的获取方法 --- */</span><br><span class="line">/*</span><br><span class="line"> * 相应参数说明：</span><br><span class="line"> * label : 队列的标识</span><br><span class="line"> * qos(服务质量)： .default 默认   .background 后台   .unspecified 不指定   .userInitiated 用户发起</span><br><span class="line">     attributes: 不指定的情况下是串行队列    .concurrent 并行队列</span><br><span class="line"> * autoreleaseFrequency: 自动释放的频率  .inherit 继承     .workItem工作组    .never 从不</span><br><span class="line"> * let dispatchQueue = DispatchQueue.init(label: String, qos: DispatchQoS, attributes: DispatchQueue.Attributes, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency, target: DispatchQueue?)</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Main Dispatch Queue 的获取方法</span><br><span class="line"> */</span><br><span class="line">let mainDispatchQueue = DispatchQueue.main</span><br></pre></td></tr></table></figure>
-
-<h2 id="线程暂停和恢复"><a href="#线程暂停和恢复" class="headerlink" title="线程暂停和恢复"></a>线程暂停和恢复</h2><blockquote>
-<p>Objective-C</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.example.gcd.suspend&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">dispatch_suspend(queue);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    dispatch_apply(5, queue, ^(size_t index) &#123;</span><br><span class="line">        NSLog(@&quot;---%ld---1----&quot;,index);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">sleep(1);</span><br><span class="line">NSLog(@&quot;---2---&quot;);</span><br><span class="line">dispatch_resume(queue);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Swift</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let queue = DispatchQueue.init(label: &quot;com.example.gcd.suspend&quot;, attributes: .concurrent)</span><br><span class="line">queue.suspend()</span><br><span class="line">queue.async &#123;</span><br><span class="line">    print(&quot;------1----&quot;)</span><br><span class="line">&#125;</span><br><span class="line">sleep(1)</span><br><span class="line">print(&quot;---2---&quot;)</span><br><span class="line">queue.resume()</span><br></pre></td></tr></table></figure>
-
-<h2 id="延迟操作"><a href="#延迟操作" class="headerlink" title="延迟操作"></a>延迟操作</h2><blockquote>
-<p>Objective-C</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">    NSLog(@&quot;--- 延迟3秒后执行的操作 ---&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//或</span><br><span class="line"></span><br><span class="line">dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC));</span><br><span class="line">dispatch_after(time, dispatch_get_main_queue(), ^&#123;</span><br><span class="line">    NSLog(@&quot;--- 延迟3秒后执行的操作 ---&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Swift</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DispatchQueue.main.asyncAfter(deadline: DispatchTime.init(uptimeNanoseconds: 2))&#123;</span><br><span class="line">    print(&quot;---延迟2秒执行---&quot;)</span><br><span class="line">&#125;</span><br><span class="line">print(&quot;---1---&quot;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="队列组"><a href="#队列组" class="headerlink" title="队列组"></a>队列组</h2><blockquote>
-<p>Objective-C</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dispatch_group_t dispatchGroup = dispatch_group_create();</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.example.gcd.queue&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_group_async(dispatchGroup, queue, ^&#123;</span><br><span class="line">    //接口1</span><br><span class="line">    sleep(2);</span><br><span class="line">    NSLog(@&quot;---接口1---&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_async(dispatchGroup, queue, ^&#123;</span><br><span class="line">    //接口2</span><br><span class="line">    sleep(1);</span><br><span class="line">    NSLog(@&quot;---接口2---&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_notify(dispatchGroup, queue, ^&#123;</span><br><span class="line">    //结束</span><br><span class="line">    NSLog(@&quot;---结束---&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Swift</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let dispatchGroup = DispatchGroup.init()</span><br><span class="line">let queue = DispatchQueue.init(label: &quot;com.example.gcd.queue&quot;, attributes: .concurrent)</span><br><span class="line"></span><br><span class="line">dispatchGroup.enter()</span><br><span class="line">queue.async &#123;</span><br><span class="line">    print(&quot;---1---&quot;)</span><br><span class="line">    sleep(1)</span><br><span class="line">    print(&quot;---2---&quot;)</span><br><span class="line">    dispatchGroup.leave()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatchGroup.notify(queue: queue)&#123;</span><br><span class="line">    print(&quot;---3---&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="栅栏方法"><a href="#栅栏方法" class="headerlink" title="栅栏方法"></a>栅栏方法</h2><blockquote>
-<p>Objective-C</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.example.gcd.barrier&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    [NSThread sleepForTimeInterval:2];</span><br><span class="line">    NSLog(@&quot;dispatch_async1&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    [NSThread sleepForTimeInterval:1];</span><br><span class="line">    NSLog(@&quot;dispatch_async2&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//等待前面的任务执行完毕后自己才执行，后面的任务需等待它完成之后才执行</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;dispatch_barrier_async&quot;);</span><br><span class="line">    [NSThread sleepForTimeInterval:4];</span><br><span class="line">    NSLog(@&quot;四秒后：dispatch_barrier_async&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    [NSThread sleepForTimeInterval:1];</span><br><span class="line">    NSLog(@&quot;dispatch_async3&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;dispatch_async4&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Swift</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let queue = DispatchQueue.init(label: &quot;com.example.gcd.barrier&quot;, attributes: .concurrent)</span><br><span class="line">queue.async &#123;</span><br><span class="line">    sleep(2)</span><br><span class="line">    print(&quot;dispatch_async1&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">queue.async &#123;</span><br><span class="line">    sleep(1)</span><br><span class="line">    print(&quot;dispatch_async2&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//等待前面的任务执行完毕后自己才执行，后面的任务需等待它完成之后才执行</span><br><span class="line">queue.async(flags: .barrier)&#123;</span><br><span class="line">    sleep(4)</span><br><span class="line">    print(&quot;四秒后：dispatch_barrier_async&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">queue.async &#123;</span><br><span class="line">    sleep(1)</span><br><span class="line">    print(&quot;dispatch_async3&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">queue.async &#123;</span><br><span class="line">    print(&quot;dispatch_async4&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><blockquote>
-<p>Objective-C</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);</span><br><span class="line"></span><br><span class="line">    dispatch_async(dispatch_queue_create(&quot;com.example.gcd.queue&quot;, DISPATCH_QUEUE_CONCURRENT), ^&#123;</span><br><span class="line">        sleep(2);</span><br><span class="line">        NSLog(@&quot;---1---&quot;);</span><br><span class="line">        dispatch_semaphore_signal(semaphore);</span><br><span class="line">    &#125;);</span><br><span class="line">//    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">    dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t) 1 * NSEC_PER_SEC);</span><br><span class="line">    long result = dispatch_semaphore_wait(semaphore, time);</span><br><span class="line">    if (result == 0) &#123;</span><br><span class="line">        /*</span><br><span class="line">         * 由于Dispatch Semaphore 的计数值达到大于等于1</span><br><span class="line">         * 或者在待机中的指定时间内</span><br><span class="line">         * Dispatch Semaphore 的计数值达到大于等于1</span><br><span class="line">         *</span><br><span class="line">         * 可执行需要进行排他控制的处理</span><br><span class="line">         */</span><br><span class="line">        NSLog(@&quot;---2---&quot;);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        /*</span><br><span class="line">         * 由于 Dispatch Semaphore 的计数值为0</span><br><span class="line">         * 因此再达到指定时间为止待机</span><br><span class="line">         */</span><br><span class="line">        NSLog(@&quot;---3---&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Swift</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    let semaphore = DispatchSemaphore.init(value: 0)</span><br><span class="line"></span><br><span class="line">    DispatchQueue.init(label: &quot;com.example.gcd.queue&quot;,attributes: .concurrent).async &#123;</span><br><span class="line">        sleep(2)</span><br><span class="line">        print(&quot;---1---&quot;)</span><br><span class="line">        semaphore.signal()</span><br><span class="line">    &#125;</span><br><span class="line">    print(&quot;---2---&quot;)</span><br><span class="line">//    semaphore.wait()</span><br><span class="line">    let time = DispatchTime.init(uptimeNanoseconds: 1)</span><br><span class="line">    let result = semaphore.wait(timeout: time)</span><br><span class="line"></span><br><span class="line">    if result == DispatchTimeoutResult.success &#123;</span><br><span class="line">        print(&quot;---3---&quot;)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        print(&quot;---4---&quot;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>整理</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS审核-因需要访问相机权限被拒</title>
-    <url>/2019/09/09/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/</url>
-    <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E4%B9%8B%E5%89%8D%E7%9A%84%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="之前的权限描述.png"></p>
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E8%A2%AB%E6%8B%92%E5%8E%9F%E5%9B%A0.png" alt="被拒原因.png"></p>
-<h4 id="关于被拒"><a href="#关于被拒" class="headerlink" title="关于被拒"></a>关于被拒</h4><p>收到邮件发现应用审核被拒了，而审核被拒的原因竟然是因为权限描述的问题。</p>
-<p>当时有些费解，毕竟获取相机权限这个功能已经写了很久。没想到突然因为这个原因被拒，通过阅读邮件和查阅<a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a>发现，现在使用权限，需要说明使用的原因。</p>
-<h4 id="更改"><a href="#更改" class="headerlink" title="更改"></a>更改</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E6%9B%B4%E6%94%B9%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="更改权限描述.png"></p>
-<p>于是更改后在周一下班前提交，今天早晨查看邮件，发现已审核通过。</p>
-<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><ul>
-<li>1、在App Store 审核指南更新的时候，要重新阅读一遍审核指南，同时注意修改的部分，避免下次提交时审核被拒。</li>
-<li>2、最近发现从开始审核（in Review）到审核完毕时间缩短了好多……</li>
-</ul>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a></li>
-</ul>
+    <title>Instruments工具集</title>
+    <url>/2018/01/02/Instruments%E5%B7%A5%E5%85%B7%E9%9B%86/</url>
+    <content><![CDATA[<h3 id="Blank"><a href="#Blank" class="headerlink" title="Blank"></a>Blank</h3><p>A blank trace document that can be customized with instruments from the Library.</p>
+<h3 id="Activity-Monitor"><a href="#Activity-Monitor" class="headerlink" title="Activity Monitor"></a>Activity Monitor</h3><p>Monitors CPU, memory, disk,and network usage statistics for processes and the system.</p>
+<h3 id="Allocations"><a href="#Allocations" class="headerlink" title="Allocations"></a>Allocations</h3><p>Tracks a process’ anonymous virtual memory and heap, providing class names and optionally retain&#x2F;release histories for objects.</p>
+<h3 id="Cocoa-Layout"><a href="#Cocoa-Layout" class="headerlink" title="Cocoa Layout"></a>Cocoa Layout</h3><p>Observes changes to NSLayoutConstraint objects to help determine when and where a layout constraint went awry.</p>
+<h3 id="Core-Animation"><a href="#Core-Animation" class="headerlink" title="Core Animation"></a>Core Animation</h3><p>This template measures application graphics performance as well as CPU usage of a process via time profiling.</p>
+<h3 id="Core-Data"><a href="#Core-Data" class="headerlink" title="Core Data"></a>Core Data</h3><p>This template traces Core Data filesystem activity, including fetches,cache misses, and saves.</p>
+<h3 id="Counters"><a href="#Counters" class="headerlink" title="Counters"></a>Counters</h3><p>Collects performance monitor counter(PMC) events using time or event based sampling methods.</p>
+<h3 id="Energy-Log"><a href="#Energy-Log" class="headerlink" title="Energy Log"></a>Energy Log</h3><p>This template provides diagnostics regarding energy usage as well as basic on&#x2F;off state of major device components.</p>
+<h3 id="File-Activity"><a href="#File-Activity" class="headerlink" title="File Activity"></a>File Activity</h3><p>This template monitors file and directory activity, including file open&#x2F;close calls, file permission modifications,directory creation, file moves,etc.</p>
+<h3 id="Leaks"><a href="#Leaks" class="headerlink" title="Leaks"></a>Leaks</h3><p>Measures general memory usage,checks for leaked memory,and provides statistics on object allocations by class as well as memory address histories for all active allocations and leaked blocks.</p>
+<h3 id="Metal-System-Trace"><a href="#Metal-System-Trace" class="headerlink" title="Metal System Trace"></a>Metal System Trace</h3><p>Metal System Trace profiles the performance of iOS,tvOS and macOS  Metal applications by providing tracing information from the application,driver,and GPU layers.</p>
+<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><p>Analyze how your applications are using TCP&#x2F;IP connections using the Connections instrument.</p>
+<h3 id="SceneKit"><a href="#SceneKit" class="headerlink" title="SceneKit"></a>SceneKit</h3><p>Profiles an application’s use of SceneKit.Determines the type of work going into each frame, such as animations, physics,scene culling,and rendering.</p>
+<h3 id="System-Trace"><a href="#System-Trace" class="headerlink" title="System Trace"></a>System Trace</h3><p>A comprehensive view of what’s happening in the operationg system. See how threads are being scheduled across CPUs and understand how system calls and virtual memory faults anr affectiong your application’s Performance.</p>
+<h3 id="System-Usage"><a href="#System-Usage" class="headerlink" title="System Usage"></a>System Usage</h3><p>This template records I&#x2F;O system activity related to files, sockets,and shared memory for a single process launched via instruments, Inputs, outputs,duration,backtrace,calltree,etc.is provided for each call.</p>
+<h3 id="Time-Profiler"><a href="#Time-Profiler" class="headerlink" title="Time Profiler"></a>Time Profiler</h3><p>Performs low-overhead time -based sampling of processes runing on the system’s CPUs.</p>
+<h3 id="Zombies"><a href="#Zombies" class="headerlink" title="Zombies"></a>Zombies</h3><p>Measures general memory usage while focusing on the delection of over - released “zombie” objects. Also statistics on object allocations by class as well as memory address histories for all active allocations.</p>
 ]]></content>
       <categories>
         <category>iOS</category>
+        <category>iOS性能调优</category>
       </categories>
       <tags>
         <tag>iOS</tag>
-        <tag>知识整理</tag>
       </tags>
   </entry>
   <entry>
@@ -2851,6 +2623,273 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>cocoapods</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Xcode12项目适配</title>
+    <url>/2020/09/24/Xcode12%E9%A1%B9%E7%9B%AE%E9%80%82%E9%85%8D/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近更新Xcode12，发现编译有的项目的时候会出现些问题，然后一个个解决所有项目完美编译通过。</p>
+<p>最近看有的群里在讨论Xcode12编译项目的一些问题，觉得可以整理一篇自己遇到问题的文章，便于遇到同样问题的朋友查阅。</p>
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><blockquote>
+<p>项目无法在模拟器中运行</p>
+</blockquote>
+<p>将项目运行到模拟器的时候报<code>No architectures to compile for (ONLY_ACTIVE_ARCH=YES, active arch=x86_64, VALID_ARCHS=arm64 armv7)</code>错误。</p>
+<p>修复：</p>
+<p>TARGETS-&gt;Build Settings-&gt;搜索<code>VALID_ARCHS</code>, 然后添加模拟器的指令集。如果有多个TARGETS时，需要分别添加。</p>
+<p>如图所示：<br><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/Xcode12%E9%A1%B9%E7%9B%AE%E9%80%82%E9%85%8D/%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C%E6%A8%A1%E6%8B%9F%E5%99%A8%E9%80%82%E9%85%8D.jpg" alt="项目运行模拟器适配"></p>
+<blockquote>
+<p>Library not found for -lstdc++.6.0.9</p>
+</blockquote>
+<p>果然自己保存在github中的<code>lstdc++</code>库是对的，忘记从哪个版本Xcode去除了<code>lstdc++</code>库，每次更新Xcode的时候都需要重新添加一下。</p>
+<p>修复：</p>
+<ul>
+<li>从<a href="https://github.com/xnxy/libsted-.git">github</a>中下载<code>lstdc++</code>，将其复制到下面的路径下即可。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/</span><br><span class="line"></span><br><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>Swift代码中报<code>Constructing an object of class type &#39;Self&#39; with a metatype value must use a &#39;required&#39; initializer。错误</code></p>
+<p>修复：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">required init() &#123;</span><br><span class="line">   super.init(</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS14隐私权限适配及其他</title>
+    <url>/2020/09/14/iOS14%E9%9A%90%E7%A7%81%E6%9D%83%E9%99%90%E9%80%82%E9%85%8D%E5%8F%8A%E5%85%B6%E4%BB%96/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在<a href="https://developer.apple.com/videos/wwdc2020/">WWDC2020</a>发布会上苹果展示了新的<a href="https://developer.apple.com/cn/ios/">iOS14</a>系统。对于iOS开发工程师来说，适配iOS14其重点在于隐私权限的适配。具体内容可以观看<a href="https://developer.apple.com/videos/play/wwdc2020/10676/">WWDC2020中：建立更好的隐私信任</a>的视频进行了解。</p>
+<blockquote>
+<p>note:截止目前，适配<code>iOS14</code>需要更新mac系统到<code>11  beta 6</code>、xcode需要更新到<code>12 beta 6</code>、手机需要更新到<code>14 beta 8</code>，相关版本可以到<a href="https://developer.apple.com/download/#ios-restore-images-iphone-new">苹果官网下载</a>；更新beta版本打包可能会影响正常上架，该问题未进行测试，但需要引起注意。</p>
+</blockquote>
+<h1 id="广告标识符的获取"><a href="#广告标识符的获取" class="headerlink" title="广告标识符的获取"></a>广告标识符的获取</h1><p>广告标识符(Identity for Advertisers)简称<code>IDFA</code>，主要用来标记用户。在<code>iOS14</code>系统中，系统会默认关闭广告标跟踪权限。如果在开发中使用，需要向用户请求权限，步骤如下：</p>
+<blockquote>
+<p>1、info.plist配置</p>
+</blockquote>
+<p>选中<code>info.plist</code>右键<code>Open As</code>-&gt;<code>Source Code</code> 然后将下方配置和描述信息添加进去。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;NSUserTrackingUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;“太平通宝”需要您允许访问广告标识符权限，以便于追踪广告和信息的推送&lt;/string&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>2、头文件引入</p>
+</blockquote>
+<p>为了适配低版本Xcode编译，需要使用预编译命令,所以头文件引入方式如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#if defined(__IPHONE_14_0)</span><br><span class="line">#import &lt;AppTrackingTransparency/AppTrackingTransparency.h&gt;//适配iOS14</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>3、获取IDFA</p>
+</blockquote>
+<p><code>iOS14</code>及以上系统，需要先请求跟踪权限，用户同意后才能获取广告标识。获取方法标识符的代码<code>iOS14</code>之前一样。示例代码如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+ (NSString *)idfaString &#123;</span><br><span class="line">    __block NSString *idfa;</span><br><span class="line">#if defined(__IPHONE_14_0)</span><br><span class="line">    if (@available(iOS 14, *)) &#123;</span><br><span class="line">        // iOS14及以上版本需要先请求权限</span><br><span class="line">        ATTrackingManagerAuthorizationStatus status = ATTrackingManager.trackingAuthorizationStatus;</span><br><span class="line">        if (status == ATTrackingManagerAuthorizationStatusNotDetermined) &#123; //用户未做选择或未弹窗</span><br><span class="line">            dispatch_semaphore_t sem = dispatch_semaphore_create(0);</span><br><span class="line">            [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) &#123;</span><br><span class="line">                // 获取到权限后，依然使用老方法获取idfa</span><br><span class="line">                if (status == ATTrackingManagerAuthorizationStatusAuthorized) &#123; //用户允许</span><br><span class="line">                    idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];</span><br><span class="line">                    ICLog(@&quot;--iOS14----%@----&quot;,idfa);</span><br><span class="line">                &#125;</span><br><span class="line">                dispatch_semaphore_signal(sem);</span><br><span class="line">            &#125;];</span><br><span class="line">            dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);</span><br><span class="line">        &#125;else if(status == ATTrackingManagerAuthorizationStatusAuthorized)&#123;//用户允许</span><br><span class="line">            idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            ICLog(@&quot;请在设置-隐私-Tracking中允许App请求跟踪&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">#else</span><br><span class="line">    // iOS14以下版本依然使用老方法</span><br><span class="line">    // 判断在设置-隐私里用户是否打开了广告跟踪</span><br><span class="line">    if ([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) &#123;</span><br><span class="line">        idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];</span><br><span class="line">        ICLog(@&quot;---iOS14以下系统----%@-----&quot;,idfa);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        ICLog(@&quot;请在设置-隐私-广告中打开广告跟踪功能&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">#endif</span><br><span class="line">    idfa = (idfa ? : @&quot;&quot;);</span><br><span class="line">    return idfa;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="相册权限"><a href="#相册权限" class="headerlink" title="相册权限"></a>相册权限</h1><p>iOS14中新增了个<code>有限的图片库访问</code>模式，在授权弹窗的时候会新增个<code>Select Photo</code>选项，用户可以选择一部分图片供App读取，而App无法获取相册中的所有图片信息。</p>
+<p>如果用户使用了<code>有限图片库访问</code>(Limited Photo Library Access)的模式, 如果App不进行适配，权限提示框会在每次冷启动打开相册的时候重新弹出，我们需要在<code>info.plist</code>中进行配置，关闭弹窗。</p>
+<blockquote>
+<p>1、info.plist配置</p>
+</blockquote>
+<p>选中<code>info.plist</code>右键<code>Open As</code>-&gt;<code>Source Code</code> 然后将下方配置和描述信息添加进去。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;PHPhotoLibraryPreventAutomaticLimitedAccessAlert&lt;/key&gt;</span><br><span class="line">&lt;true/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>当然，我们也可以通过相应API来控制何时弹出图片选择的弹出。API如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[PHPhotoLibrary sharedPhotoLibrary] presentLimitedLibraryPickerFromViewController:self];</span><br></pre></td></tr></table></figure>
+<p>同时，在iOS14中官方推荐使用苹果推荐使用<code>PHPicker</code>来代替原API来选择图片。</p>
+<p>关于<code>PHPicker</code>的介绍可以参看<a href="https://developer.apple.com/videos/play/wwdc2020/10652/">WWDC2020：认识新的照片选择器</a>的相关介绍。</p>
+<h1 id="位置信息"><a href="#位置信息" class="headerlink" title="位置信息"></a>位置信息</h1><p>在iOS14中，苹果新增了<code>模糊定位</code>的概念。原因是苹果认为很多APP并不需要获取用户的<code>精准定位</code>。所以在iOS14授权弹窗的时候新增了<code>Precise</code>的精准开关，默认会选中精准位置，用户可以通过这个开关进行更改。</p>
+<h2 id="对于地理位置敏感的APP"><a href="#对于地理位置敏感的APP" class="headerlink" title="对于地理位置敏感的APP"></a>对于地理位置敏感的APP</h2><blockquote>
+<p>1、info.plist配置</p>
+</blockquote>
+<p>不过对于需要精准定位的App需要在<code>info.plist</code>中设置<code>NSLocationTemporaryUsageDescriptionDictionary</code>字典，key为<code>purposeKey</code>,value为对应获取<code>精准定位</code>的原因。</p>
+<p>示例如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;NSLocationTemporaryUsageDescriptionDictionary&lt;/key&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;punchTheClock&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;“太平通宝”需要您允许精准定位，以便于使用打卡功能&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>2、获取单次精准定位</p>
+</blockquote>
+<p>同时需要调用相应API，获取精准定位。代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[CALocationMnanger requestTemporaryFullAccuracyAuthorizationWithPurposeKey:@&quot;punchTheClock&quot;]</span><br></pre></td></tr></table></figure>
+
+<h2 id="对于地理位置不敏感的App"><a href="#对于地理位置不敏感的App" class="headerlink" title="对于地理位置不敏感的App"></a>对于地理位置不敏感的App</h2><p>对定位信息不敏感的APP，iOS14中可以直接在<code>info.plist</code>中添加<code>NSLocationDefaultAccuracyReduced</code>为<code>true</code>,默认请求<code>模糊定位</code>。</p>
+<p>选中<code>info.plist</code>右键<code>Open As</code>-&gt;<code>Source Code</code> 然后将下方配置和描述信息添加进去。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;NSLocationDefaultAccuracyReduced&lt;/key&gt;</span><br><span class="line">&lt;true/&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Local-Network"><a href="#Local-Network" class="headerlink" title="Local Network"></a>Local Network</h1><p>iOS14中新增了<code>Local Network</code>权限提示，具体关于<code>Local Network</code>的相关信息可以查看<a href="https://developer.apple.com/videos/play/wwdc2020/10110/">苹果官网的视频</a>或者<code>少数派</code>的关于<a href="https://zhuanlan.zhihu.com/p/157159226?from_voters_page=true">iOS14新增的本地网络权限，要开给第三方App吗?</a>等相关资料。</p>
+<h1 id="剪贴板"><a href="#剪贴板" class="headerlink" title="剪贴板"></a>剪贴板</h1><p>在iOS14中，如果APP读取剪切版的内容时，手机会弹出提示，提示哪个APP在获取剪切板内容。</p>
+<h1 id="相机和麦克风"><a href="#相机和麦克风" class="headerlink" title="相机和麦克风"></a>相机和麦克风</h1><p>在iOS14中APP如果使用相机和麦克风，手机的的上方会有绿色和黄色的提示，同时也可以查看是哪个APP在使用相机和麦克风。</p>
+<p>关于该功能开发人员无法控制。</p>
+<h1 id="UIDatePicker更新UI样式"><a href="#UIDatePicker更新UI样式" class="headerlink" title="UIDatePicker更新UI样式"></a>UIDatePicker更新UI样式</h1><p>在iOS14中，<code>UIDatePicker</code>的样式新增了<code>UIDatePickerStyleInline</code>，而且为默认值。如果项目中使用了<code>UIDatePicker</code>，而且希望使用原来的样式，需要设置其样式。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">self.pickerView.preferredDatePickerStyle = UIDatePickerStyleWheels;</span><br></pre></td></tr></table></figure>
+
+<h1 id="UITableViewCell适配"><a href="#UITableViewCell适配" class="headerlink" title="UITableViewCell适配"></a>UITableViewCell适配</h1><blockquote>
+<p>UITableViewCell无法点击</p>
+</blockquote>
+<p>在Xcode12、iOS14中，如果在UITableViewCell渲染前没有调用<code>self.contentView</code>，系统会在渲染完<code>UITableViewCell</code>上的控件后在其上方添加<code>contentView</code>，这会使<code>contentView</code>拦截住<code>UITableViewCell</code>控件的响应事件。</p>
+<p>其解决方式是将<code>UITableViewCell</code>上的控件添加到<code>self.contentView</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[self addSubview:view];</span><br><span class="line">改为：</span><br><span class="line">[self.contentView addSubview:view];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>hook修复UITableViewCell无法点击问题</p>
+</blockquote>
+<p>虽然上方的方法可以修复UITableViewCell无法点击问题，但对于一个很庞大的项目来说，不确定是否有遗漏，尤其是一些组件。所以在项目中需要用到<code>修改+hook</code>的方式。</p>
+<p>方法也很简单，直接hook住<code>UITableViewCell</code>中的<code>addSubview：</code>方法，全局修复下即可，同时后期写代码也要注意代码规范。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#import &quot;UITableViewCell+TB.h&quot;</span><br><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line"></span><br><span class="line">@implementation UITableViewCell (TB)</span><br><span class="line"></span><br><span class="line">+ (void)load &#123;</span><br><span class="line">    Method method1 = class_getInstanceMethod([self class], NSSelectorFromString(@&quot;addSubview:&quot;));</span><br><span class="line">    Method method2 = class_getInstanceMethod([self class], @selector(tb_addSubview:));</span><br><span class="line">    method_exchangeImplementations(method1, method2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)addSubview:(UIView *)view&#123;</span><br><span class="line">    [super addSubview:view];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)tb_addSubview:(UIView *)view &#123;</span><br><span class="line">    if  ([view isKindOfClass:NSClassFromString(@&quot;UITableViewCellContentView&quot;)]) &#123;</span><br><span class="line">        [self tb_addSubview:view];</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        [self.contentView addSubview:view];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>UITableViewCell 背景色变成灰色</p>
+</blockquote>
+<p>灰色为<code>self.contentView</code>的背景色，在init方法中共添加即可。</p>
+<h1 id="YYAnimatedImageView-无法加载图片"><a href="#YYAnimatedImageView-无法加载图片" class="headerlink" title="YYAnimatedImageView 无法加载图片"></a>YYAnimatedImageView 无法加载图片</h1><p>因为项目中用到<code>YYImage</code>第三方库。</p>
+<p>解决方式：<br>修复：YYAnimatedImageView.m 529行的函数修改如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)displayLayer:(CALayer *)layer &#123;</span><br><span class="line">    if (_curFrame) &#123;</span><br><span class="line">        layer.contents = (__bridge id)_curFrame.CGImage;</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        if (@available(iOS 14.0, *)) &#123;</span><br><span class="line">            [super displayLayer:layer];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但在项目中，并不会这些修复，毕竟是第三方库，我们可以直接替换这个类的该方法。</p>
+<p>代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#import &quot;YYAnimatedImageView+TB.h&quot;</span><br><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line"></span><br><span class="line">@implementation YYAnimatedImageView (TB)</span><br><span class="line"></span><br><span class="line">+ (void)load &#123;</span><br><span class="line">    Method method1 = class_getInstanceMethod([self class], NSSelectorFromString(@&quot;displayLayer:&quot;));</span><br><span class="line">    Method method2 = class_getInstanceMethod([self class], @selector(tb_displayLayer:));</span><br><span class="line">    method_exchangeImplementations(method1, method2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)tb_displayLayer:(CALayer *)layer&#123;</span><br><span class="line">    Ivar ivar = class_getInstanceVariable(self.class, &quot;_curFrame&quot;);</span><br><span class="line">    UIImage *_curFrame = object_getIvar(self, ivar);</span><br><span class="line">    if (_curFrame) &#123;</span><br><span class="line">        layer.contents = (__bridge id)_curFrame.CGImage;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        if (@available(iOS 14.0, *)) &#123;</span><br><span class="line">            [super displayLayer:layer];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><blockquote>
+<p>关于真机调试</p>
+</blockquote>
+<p>最新Xcode 12 beta版本<code>31G</code>,而且还不稳定，如果需要使用低版本Xcode运行到iOS14的真机上可以下载<a href="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/iOS14%E9%9A%90%E7%A7%81%E6%9D%83%E9%99%90%E9%80%82%E9%85%8D%E5%8F%8A%E5%85%B6%E4%BB%96/14.0.zip">iOS14的DeviceSupport</a>，存放的路径为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>关于更新iOS14系统</p>
+</blockquote>
+<p>关于更新iOS14 beta版的系统，我在<a href="https://jingyan.baidu.com/article/2a1383284630dd464b134f11.html">百度经验</a>上水了篇文章，可以点击百度经验查看，当然经验水的有些粗糙，还有错别字。</p>
+<p>也可能是好久没写了，写完后，竟然还给了0.3元的红包……</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://developer.apple.com/videos/wwdc2020/">WWDC2020</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2020/10676/">WWDC2020中：建立更好的隐私信任</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2020/10652/">WWDC2020：认识新的照片选择器</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2020/10110/">WWDC2020-在你的应用程序中支持本地网络隐私</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/157159226?from_voters_page=true">iOS14新增的本地网络权限，要开给第三方App吗?</a></li>
+<li><a href="https://mp.weixin.qq.com/s/CJML-2YUv6sqEEnI8rI0Bw">iOS14 隐私适配及部分解决方案</a></li>
+<li><a href="https://www.jianshu.com/p/a0b0303962bb">iOS14 适配 先行者</a></li>
+<li><a href="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/iOS14%E9%9A%90%E7%A7%81%E6%9D%83%E9%99%90%E9%80%82%E9%85%8D%E5%8F%8A%E5%85%B6%E4%BB%96/14.0.zip">iOS14:DeviceSupport</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS关于多线程常用方法汇总</title>
+    <url>/2020/12/04/iOS%E5%85%B3%E4%BA%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>前段时间整理了<a href="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/Objective-C%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8BiOS%E4%B8%8EOS%20X%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/Objective-C%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%20iOS%E4%B8%8EOS%20X%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.pdf">《Objective-C高级编程iOS与OS X 多线程和内存管理》</a>中共的GCD相关的知识，其中内容大部分都是摘录书中的内容。</p>
+<p>写完以后感觉有些意犹未尽，所以决定将在开发过程中常用的多线程的方法单独拿出来整理一下。</p>
+<h2 id="串行和并行"><a href="#串行和并行" class="headerlink" title="串行和并行"></a>串行和并行</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 串行队列的创建方法</span><br><span class="line">dispatch_queue_t serialDispatchQueue = dispatch_queue_create(&quot;com.example.gcd.serial&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">// 并发队列的创建方法</span><br><span class="line">dispatch_queue_t concurrentDispatchQueue = dispatch_queue_create(&quot;com.example.gcd.concurrent&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//串行队列的创建方法</span><br><span class="line">let serialDispatch = DispatchQueue.init(label: &quot;com.example.gcd.serial&quot;)</span><br><span class="line">//并发队列的创建方法</span><br><span class="line">let concurrentDispatchQueue = DispatchQueue.init(label: &quot;com.example.gcd.concurrent&quot;, attributes: .concurrent)</span><br></pre></td></tr></table></figure>
+
+<h2 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dispatch_sync(serialDispatchQueue, ^&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(concurrentDispatchQueue, ^&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//同步</span><br><span class="line">serialDispatch.sync &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//异步</span><br><span class="line">concurrentDispatchQueue.async &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="各种Dispatch-Queue获取方法"><a href="#各种Dispatch-Queue获取方法" class="headerlink" title="各种Dispatch Queue获取方法"></a>各种Dispatch Queue获取方法</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/*</span><br><span class="line"> * Main Dispatch Queue 的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t mainDispatchQueue = dispatch_get_main_queue();</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (高优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueHigh = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (默认优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueDefault = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (低优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueLow = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Global Dispatch Queue (后台优先级)的获取方法</span><br><span class="line"> */</span><br><span class="line">dispatch_queue_t globalDispatchQueueBackground = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/* --- 各种 Dispatch Queue的获取方法 --- */</span><br><span class="line">/*</span><br><span class="line"> * 相应参数说明：</span><br><span class="line"> * label : 队列的标识</span><br><span class="line"> * qos(服务质量)： .default 默认   .background 后台   .unspecified 不指定   .userInitiated 用户发起</span><br><span class="line">     attributes: 不指定的情况下是串行队列    .concurrent 并行队列</span><br><span class="line"> * autoreleaseFrequency: 自动释放的频率  .inherit 继承     .workItem工作组    .never 从不</span><br><span class="line"> * let dispatchQueue = DispatchQueue.init(label: String, qos: DispatchQoS, attributes: DispatchQueue.Attributes, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency, target: DispatchQueue?)</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * Main Dispatch Queue 的获取方法</span><br><span class="line"> */</span><br><span class="line">let mainDispatchQueue = DispatchQueue.main</span><br></pre></td></tr></table></figure>
+
+<h2 id="线程暂停和恢复"><a href="#线程暂停和恢复" class="headerlink" title="线程暂停和恢复"></a>线程暂停和恢复</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.example.gcd.suspend&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">dispatch_suspend(queue);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    dispatch_apply(5, queue, ^(size_t index) &#123;</span><br><span class="line">        NSLog(@&quot;---%ld---1----&quot;,index);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">sleep(1);</span><br><span class="line">NSLog(@&quot;---2---&quot;);</span><br><span class="line">dispatch_resume(queue);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let queue = DispatchQueue.init(label: &quot;com.example.gcd.suspend&quot;, attributes: .concurrent)</span><br><span class="line">queue.suspend()</span><br><span class="line">queue.async &#123;</span><br><span class="line">    print(&quot;------1----&quot;)</span><br><span class="line">&#125;</span><br><span class="line">sleep(1)</span><br><span class="line">print(&quot;---2---&quot;)</span><br><span class="line">queue.resume()</span><br></pre></td></tr></table></figure>
+
+<h2 id="延迟操作"><a href="#延迟操作" class="headerlink" title="延迟操作"></a>延迟操作</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">    NSLog(@&quot;--- 延迟3秒后执行的操作 ---&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//或</span><br><span class="line"></span><br><span class="line">dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC));</span><br><span class="line">dispatch_after(time, dispatch_get_main_queue(), ^&#123;</span><br><span class="line">    NSLog(@&quot;--- 延迟3秒后执行的操作 ---&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DispatchQueue.main.asyncAfter(deadline: DispatchTime.init(uptimeNanoseconds: 2))&#123;</span><br><span class="line">    print(&quot;---延迟2秒执行---&quot;)</span><br><span class="line">&#125;</span><br><span class="line">print(&quot;---1---&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="队列组"><a href="#队列组" class="headerlink" title="队列组"></a>队列组</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dispatch_group_t dispatchGroup = dispatch_group_create();</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.example.gcd.queue&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_group_async(dispatchGroup, queue, ^&#123;</span><br><span class="line">    //接口1</span><br><span class="line">    sleep(2);</span><br><span class="line">    NSLog(@&quot;---接口1---&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_async(dispatchGroup, queue, ^&#123;</span><br><span class="line">    //接口2</span><br><span class="line">    sleep(1);</span><br><span class="line">    NSLog(@&quot;---接口2---&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_notify(dispatchGroup, queue, ^&#123;</span><br><span class="line">    //结束</span><br><span class="line">    NSLog(@&quot;---结束---&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let dispatchGroup = DispatchGroup.init()</span><br><span class="line">let queue = DispatchQueue.init(label: &quot;com.example.gcd.queue&quot;, attributes: .concurrent)</span><br><span class="line"></span><br><span class="line">dispatchGroup.enter()</span><br><span class="line">queue.async &#123;</span><br><span class="line">    print(&quot;---1---&quot;)</span><br><span class="line">    sleep(1)</span><br><span class="line">    print(&quot;---2---&quot;)</span><br><span class="line">    dispatchGroup.leave()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatchGroup.notify(queue: queue)&#123;</span><br><span class="line">    print(&quot;---3---&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="栅栏方法"><a href="#栅栏方法" class="headerlink" title="栅栏方法"></a>栅栏方法</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.example.gcd.barrier&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    [NSThread sleepForTimeInterval:2];</span><br><span class="line">    NSLog(@&quot;dispatch_async1&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    [NSThread sleepForTimeInterval:1];</span><br><span class="line">    NSLog(@&quot;dispatch_async2&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//等待前面的任务执行完毕后自己才执行，后面的任务需等待它完成之后才执行</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;dispatch_barrier_async&quot;);</span><br><span class="line">    [NSThread sleepForTimeInterval:4];</span><br><span class="line">    NSLog(@&quot;四秒后：dispatch_barrier_async&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    [NSThread sleepForTimeInterval:1];</span><br><span class="line">    NSLog(@&quot;dispatch_async3&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;dispatch_async4&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let queue = DispatchQueue.init(label: &quot;com.example.gcd.barrier&quot;, attributes: .concurrent)</span><br><span class="line">queue.async &#123;</span><br><span class="line">    sleep(2)</span><br><span class="line">    print(&quot;dispatch_async1&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">queue.async &#123;</span><br><span class="line">    sleep(1)</span><br><span class="line">    print(&quot;dispatch_async2&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//等待前面的任务执行完毕后自己才执行，后面的任务需等待它完成之后才执行</span><br><span class="line">queue.async(flags: .barrier)&#123;</span><br><span class="line">    sleep(4)</span><br><span class="line">    print(&quot;四秒后：dispatch_barrier_async&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">queue.async &#123;</span><br><span class="line">    sleep(1)</span><br><span class="line">    print(&quot;dispatch_async3&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">queue.async &#123;</span><br><span class="line">    print(&quot;dispatch_async4&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><blockquote>
+<p>Objective-C</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);</span><br><span class="line"></span><br><span class="line">    dispatch_async(dispatch_queue_create(&quot;com.example.gcd.queue&quot;, DISPATCH_QUEUE_CONCURRENT), ^&#123;</span><br><span class="line">        sleep(2);</span><br><span class="line">        NSLog(@&quot;---1---&quot;);</span><br><span class="line">        dispatch_semaphore_signal(semaphore);</span><br><span class="line">    &#125;);</span><br><span class="line">//    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">    dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t) 1 * NSEC_PER_SEC);</span><br><span class="line">    long result = dispatch_semaphore_wait(semaphore, time);</span><br><span class="line">    if (result == 0) &#123;</span><br><span class="line">        /*</span><br><span class="line">         * 由于Dispatch Semaphore 的计数值达到大于等于1</span><br><span class="line">         * 或者在待机中的指定时间内</span><br><span class="line">         * Dispatch Semaphore 的计数值达到大于等于1</span><br><span class="line">         *</span><br><span class="line">         * 可执行需要进行排他控制的处理</span><br><span class="line">         */</span><br><span class="line">        NSLog(@&quot;---2---&quot;);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        /*</span><br><span class="line">         * 由于 Dispatch Semaphore 的计数值为0</span><br><span class="line">         * 因此再达到指定时间为止待机</span><br><span class="line">         */</span><br><span class="line">        NSLog(@&quot;---3---&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Swift</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    let semaphore = DispatchSemaphore.init(value: 0)</span><br><span class="line"></span><br><span class="line">    DispatchQueue.init(label: &quot;com.example.gcd.queue&quot;,attributes: .concurrent).async &#123;</span><br><span class="line">        sleep(2)</span><br><span class="line">        print(&quot;---1---&quot;)</span><br><span class="line">        semaphore.signal()</span><br><span class="line">    &#125;</span><br><span class="line">    print(&quot;---2---&quot;)</span><br><span class="line">//    semaphore.wait()</span><br><span class="line">    let time = DispatchTime.init(uptimeNanoseconds: 1)</span><br><span class="line">    let result = semaphore.wait(timeout: time)</span><br><span class="line"></span><br><span class="line">    if result == DispatchTimeoutResult.success &#123;</span><br><span class="line">        print(&quot;---3---&quot;)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        print(&quot;---4---&quot;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS审核-因需要访问相机权限被拒</title>
+    <url>/2019/09/09/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/</url>
+    <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E4%B9%8B%E5%89%8D%E7%9A%84%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="之前的权限描述.png"></p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E8%A2%AB%E6%8B%92%E5%8E%9F%E5%9B%A0.png" alt="被拒原因.png"></p>
+<h4 id="关于被拒"><a href="#关于被拒" class="headerlink" title="关于被拒"></a>关于被拒</h4><p>收到邮件发现应用审核被拒了，而审核被拒的原因竟然是因为权限描述的问题。</p>
+<p>当时有些费解，毕竟获取相机权限这个功能已经写了很久。没想到突然因为这个原因被拒，通过阅读邮件和查阅<a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a>发现，现在使用权限，需要说明使用的原因。</p>
+<h4 id="更改"><a href="#更改" class="headerlink" title="更改"></a>更改</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E6%9B%B4%E6%94%B9%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="更改权限描述.png"></p>
+<p>于是更改后在周一下班前提交，今天早晨查看邮件，发现已审核通过。</p>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><ul>
+<li>1、在App Store 审核指南更新的时候，要重新阅读一遍审核指南，同时注意修改的部分，避免下次提交时审核被拒。</li>
+<li>2、最近发现从开始审核（in Review）到审核完毕时间缩短了好多……</li>
+</ul>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>知识整理</tag>
       </tags>
   </entry>
   <entry>
@@ -3394,7 +3433,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be">The art of Lotte Reineger</a></p>
 <h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
 <p>如果你想添加更多的JSON文件，请随时这样做！</p>
-<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#x72;&#x61;&#110;&#x64;&#x6f;&#110;&#x2e;&#x77;&#x69;&#x74;&#x68;&#x72;&#111;&#119;&#64;&#97;&#105;&#114;&#98;&#x6e;&#98;&#46;&#99;&#x6f;&#x6d;">&#x62;&#x72;&#x61;&#110;&#x64;&#x6f;&#110;&#x2e;&#x77;&#x69;&#x74;&#x68;&#x72;&#111;&#119;&#64;&#97;&#105;&#114;&#98;&#x6e;&#98;&#46;&#99;&#x6f;&#x6d;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#x72;&#97;&#x6e;&#x64;&#111;&#110;&#x2e;&#x77;&#x69;&#x74;&#x68;&#114;&#111;&#x77;&#x40;&#x61;&#x69;&#114;&#98;&#x6e;&#98;&#x2e;&#99;&#x6f;&#109;">&#x62;&#x72;&#97;&#x6e;&#x64;&#111;&#110;&#x2e;&#x77;&#x69;&#x74;&#x68;&#114;&#111;&#x77;&#x40;&#x61;&#x69;&#114;&#98;&#x6e;&#98;&#x2e;&#99;&#x6f;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
 <h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
 <li>添加对交互式动画过渡的支持</li>
 </ul>
@@ -4047,24 +4086,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>华为协议更新，申请权限需告知申请目的</title>
-    <url>/2023/11/08/%E5%8D%8E%E4%B8%BA%E5%8D%8F%E8%AE%AE%E6%9B%B4%E6%96%B0%EF%BC%8C%E7%94%B3%E8%AF%B7%E6%9D%83%E9%99%90%E9%9C%80%E5%91%8A%E7%9F%A5%E7%94%B3%E8%AF%B7%E7%9B%AE%E7%9A%84/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>华为用户隐私协议更新，在2023年10月27日之后APP向用户索取电话、通讯录、定位、短信、录音、相机、存储、日历等权限时，应同步告知用户申请该权限的目的。</p>
-<p>其UI样式的展示如下方所示：</p>
-<p><img src="https://alliance-communityfile-drcn.dbankcdn.com/FileServer/getFile/cmtyPub/011/111/111/0000000000011111111.20231026211956.24295744946871341129481942182520:50001231000000:2800:2520B8380FE185FB6E785AE92AB5CAEB7E1672D6FDCE0738733E9472C07471A4.jpg" alt="华为隐私协议更新"></p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://developer.huawei.com/consumer/cn/doc/app/50104-07#h3-1683701612940-2">《审核指南》第7.21相关审核要求</a></li>
-<li><a href="https://developer.huawei.com/consumer/cn/doc/app/FAQ-faq-05#h1-1698326401789-0">APP常见个人信息保护问题FAQ请参考</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Android</category>
-      </categories>
-      <tags>
-        <tag>安卓审核</tag>
       </tags>
   </entry>
   <entry>
