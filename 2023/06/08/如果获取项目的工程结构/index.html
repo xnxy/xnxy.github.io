@@ -20,25 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="修行ing">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拿根针尖对麦芒">
-<meta property="og:url" content="https://xnxy.github.io/archives/2022/04/index.html">
+    <meta name="description" content="接收新项目的时候，我们需要快速搭建相关开发环境外也需要快速了解项目的工程结构，熟悉代码逻辑，所以我们就需要用到&#96;tree&#96;，使工程结构一目了然。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如果获取项目的工程结构">
+<meta property="og:url" content="https://xnxy.github.io/2023/06/08/%E5%A6%82%E6%9E%9C%E8%8E%B7%E5%8F%96%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B7%A5%E7%A8%8B%E7%BB%93%E6%9E%84/index.html">
 <meta property="og:site_name" content="拿根针尖对麦芒">
-<meta property="og:description" content="修行ing">
+<meta property="og:description" content="接收新项目的时候，我们需要快速搭建相关开发环境外也需要快速了解项目的工程结构，熟悉代码逻辑，所以我们就需要用到&#96;tree&#96;，使工程结构一目了然。">
 <meta property="og:locale">
+<meta property="article:published_time" content="2023-06-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-06-07T16:00:00.000Z">
 <meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="Flutter">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://xnxy.github.io/archives/2022/04/">
+<link rel="canonical" href="https://xnxy.github.io/2023/06/08/%E5%A6%82%E6%9E%9C%E8%8E%B7%E5%8F%96%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B7%A5%E7%A8%8B%E7%BB%93%E6%9E%84/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-Hans","comments":"","permalink":"","path":"archives/2022/04/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2023/06/08/%E5%A6%82%E6%9E%9C%E8%8E%B7%E5%8F%96%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B7%A5%E7%A8%8B%E7%BB%93%E6%9E%84/","path":"2023/06/08/如果获取项目的工程结构/","title":"如果获取项目的工程结构"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>归档 | 拿根针尖对麦芒</title>
+<title>如果获取项目的工程结构 | 拿根针尖对麦芒</title>
   
 
 
@@ -71,7 +74,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">拿根针尖对麦芒</h1>
+      <p class="site-title">拿根针尖对麦芒</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
@@ -125,7 +128,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -138,6 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85tree"><span class="nav-number">1.1.</span> <span class="nav-text">1.安装tree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%89%A7%E8%A1%8C%E4%B8%8B%E6%96%B9%E5%91%BD%E4%BB%A4"><span class="nav-number">1.2.</span> <span class="nav-text">2.执行下方命令</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -211,70 +215,109 @@
 
     </div>
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2023/06/08/%E5%A6%82%E6%9E%9C%E8%8E%B7%E5%8F%96%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B7%A5%E7%A8%8B%E7%BB%93%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如果获取项目的工程结构 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="接收新项目的时候，我们需要快速搭建相关开发环境外也需要快速了解项目的工程结构，熟悉代码逻辑，所以我们就需要用到`tree`，使工程结构一目了然。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如果获取项目的工程结构
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-06-08 00:00:00" itemprop="dateCreated datePublished" datetime="2023-06-08T00:00:00+08:00">2023-06-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">接收新项目的时候，我们需要快速搭建相关开发环境外也需要快速了解项目的工程结构，熟悉代码逻辑，所以我们就需要用到`tree`，使工程结构一目了然。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>接收新项目的时候，我们需要快速搭建相关开发环境外也需要快速了解项目的工程结构，熟悉代码逻辑，所以我们就需要用到<code>tree</code>，使工程结构一目了然。</p>
+<h2 id="1-安装tree"><a href="#1-安装tree" class="headerlink" title="1.安装tree"></a>1.安装tree</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install tree</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-执行下方命令"><a href="#2-执行下方命令" class="headerlink" title="2.执行下方命令"></a>2.执行下方命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tree -I &#x27;test|build|Pods|fastlane/*|*.framework/*|bean/*.dart|*.ttf|*.txt|*.xcodeproj|*.xcworkspace|*.lproj|*.zip|*.ipa|*.lock|*.md|*.png|*.xml|*.mp3|*.jpg|*.gif|*.plist|*.xcconfig|*.sh|*.json&#x27; 项目文件夹</span><br></pre></td></tr></table></figure>
+
+<p>最后关于<code>tree</code>常用命令如下所示:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">-a 显示所有文件和目录。</span><br><span class="line">-A 使用ASNI绘图字符显示树状图而非以ASCII字符组合。</span><br><span class="line">-C 在文件和目录清单加上色彩，便于区分各种类型。</span><br><span class="line">-d 显示目录名称而非内容。</span><br><span class="line">-D 列出文件或目录的更改时间。</span><br><span class="line">-f 在每个文件或目录之前，显示完整的相对路径名称。</span><br><span class="line">-F 在执行文件，目录，Socket，符号连接，管道名称名称，各自加上&quot;*&quot;,&quot;/&quot;,&quot;=&quot;,&quot;@&quot;,&quot;|&quot;号。</span><br><span class="line">-g 列出文件或目录的所属群组名称，没有对应的名称时，则显示群组识别码。</span><br><span class="line">-i 不以阶梯状列出文件或目录名称。</span><br><span class="line">-I 不显示符合范本样式的文件或目录名称。</span><br><span class="line">-l 如遇到性质为符号连接的目录，直接列出该连接所指向的原始目录。</span><br><span class="line">-n 不在文件和目录清单加上色彩。</span><br><span class="line">-N 直接列出文件和目录名称，包括控制字符。</span><br><span class="line">-p 列出权限标示。</span><br><span class="line">-P 只显示符合范本样式的文件或目录名称。</span><br><span class="line">-q 用&quot;?&quot;号取代控制字符，列出文件和目录名称。</span><br><span class="line">-s 列出文件或目录大小。</span><br><span class="line">-t 用文件和目录的更改时间排序。</span><br><span class="line">-u 列出文件或目录的拥有者名称，没有对应的名称时，则显示用户识别码。</span><br><span class="line">-x 将范围局限在现行的文件系统中，若指定目录下的某些子目录，其存放于另一个文件系统上，则将该子目录予以排除在寻找范围外。</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Flutter/" rel="tag"># Flutter</a>
+          </div>
+
         
-        <span class="collection-header">还行! 目前共计 50 篇日志。 继续努力。</span>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-04-16T00:00:00+08:00"
-              content="2022-04-16">
-          04-16
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/04/16/Flutter%E4%B8%8E%E5%8E%9F%E7%94%9F%E4%BA%A4%E4%BA%92/" itemprop="url">
-            <span itemprop="name">Flutter与原生交互</span>
-          </a>
-      </div>
-
-      
-    </header>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/03/Flutter%E4%B8%AD%E9%9A%90%E8%97%8F%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C/" rel="prev" title="Flutter中隐藏键盘操作">
+                  <i class="fa fa-chevron-left"></i> Flutter中隐藏键盘操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/11/16/Flutter%E5%A6%82%E4%BD%95%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next%E7%B3%BB%E7%BB%9F%E5%B9%B6%E6%89%93HAP%E5%AE%89%E8%A3%85%E5%8C%85/" rel="next" title="Flutter如何适配鸿蒙Next系统并打HAP安装包">
+                  Flutter如何适配鸿蒙Next系统并打HAP安装包 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-04-15T00:00:00+08:00"
-              content="2022-04-15">
-          04-15
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/04/15/Flutter%E4%BB%8B%E7%BB%8D%E4%B8%8E%E9%85%8D%E7%BD%AE/" itemprop="url">
-            <span itemprop="name">Flutter介绍与配置</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
 
 </div>
   </main>
