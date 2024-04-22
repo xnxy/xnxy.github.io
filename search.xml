@@ -626,6 +626,30 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>2019归途随笔</title>
+    <url>/2019/01/31/2019%E5%BD%92%E9%80%94%E9%9A%8F%E7%AC%94/</url>
+    <content><![CDATA[<p>小时候，我盼着长大成人，脱离家庭的束缚。</p>
+<p>从喜欢玩网络游戏，梦想成为黑客，到后来选择了软件工程专业，当了程序员，漂泊大都市。</p>
+<p>才发现离开了家的围栏后，撞到南墙才回头的那个东西叫生活。</p>
+<p>离乡时，踌躇满志，怀揣着对未来的向往与渴望。</p>
+<p>时过境迁，如今却只感到生活的压力，梦碎的无措。</p>
+<p>渐渐地，开始心平气和地对待周边事物，开始体谅父母的催婚与唠叨。</p>
+<p>像当年他们教我们说话走路一样，教他们用微信，用智能手机。</p>
+<p>于是，不知从何时起，我们开始理解了双鬓已微微发白的父母。</p>
+<p>开始理解了生活并非光靠梦想便能一帆风顺，开始与自己和解。</p>
+<p>这或许就是成长……</p>
+<p>2019年，无论未来如何，生活仍在继续，你我步履前行。</p>
+<p align="right">——写于2019年1月31日福州-潢川的火车上</p>
+
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CADisplayLink介绍及其相关</title>
     <url>/2018/03/16/CADisplayLink%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>CADisplayLink其实就是一个定时器对象，是一个能让我们以和屏幕刷新率(60HZ)同步的频率将特定的内容画到屏幕上的定时器类。</p>
@@ -669,55 +693,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2019归途随笔</title>
-    <url>/2019/01/31/2019%E5%BD%92%E9%80%94%E9%9A%8F%E7%AC%94/</url>
-    <content><![CDATA[<p>小时候，我盼着长大成人，脱离家庭的束缚。</p>
-<p>从喜欢玩网络游戏，梦想成为黑客，到后来选择了软件工程专业，当了程序员，漂泊大都市。</p>
-<p>才发现离开了家的围栏后，撞到南墙才回头的那个东西叫生活。</p>
-<p>离乡时，踌躇满志，怀揣着对未来的向往与渴望。</p>
-<p>时过境迁，如今却只感到生活的压力，梦碎的无措。</p>
-<p>渐渐地，开始心平气和地对待周边事物，开始体谅父母的催婚与唠叨。</p>
-<p>像当年他们教我们说话走路一样，教他们用微信，用智能手机。</p>
-<p>于是，不知从何时起，我们开始理解了双鬓已微微发白的父母。</p>
-<p>开始理解了生活并非光靠梦想便能一帆风顺，开始与自己和解。</p>
-<p>这或许就是成长……</p>
-<p>2019年，无论未来如何，生活仍在继续，你我步履前行。</p>
-<p align="right">——写于2019年1月31日福州-潢川的火车上</p>
-
-]]></content>
-      <categories>
-        <category>整理</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dart线程管理详解</title>
-    <url>/2023/12/14/Dart%E7%BA%BF%E7%A8%8B%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><iframe src="https://dartpad.cn/?" width="800" height="300"></iframe>
-
-<p><a href="">Dart</a>是一个优秀的编程语言，它提供了对多线程的支持。尤其是在<a href="">Flutter</a>框架中，Dart线程管理尤为重要。</p>
-<p>而在<a href="">Flutter</a>中，线程管理主要涉及到两个方面：一个是<a href="">Flutter 引擎</a>的线程管理，另一个是<a href="">Dart</a>本身的线程管理。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://dart.cn/">Dart中文文档</a></li>
-<li><a href="https://medium.com/dartlang">dartlang</a></li>
-<li><a href="https://dart.dev/#try-dart">try-dart</a></li>
-<li><a href="https://dartpad.cn/">dartpad</a></li>
-<li><a href="https://pub.dev/documentation/thread/latest/">Flutter-documentation-thread</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/40069285?utm_id=0">聊一聊Flutter线程管理与Dart Isolate机制</a></li>
-<li><a href="https://juejin.cn/post/7130915241344368671">详解 Flutter engine多线程、Dart isolate和异步</a></li>
-<li><a href="https://cloud.tencent.com/developer/article/2305626?areaId=106001">《深入浅出Dart》事件循环和协程机制</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>Dart</tag>
       </tags>
   </entry>
   <entry>
@@ -1293,6 +1268,31 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>Dart线程管理详解</title>
+    <url>/2023/12/14/Dart%E7%BA%BF%E7%A8%8B%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><iframe src="https://dartpad.cn/?" width="800" height="300"></iframe>
+
+<p><a href="">Dart</a>是一个优秀的编程语言，它提供了对多线程的支持。尤其是在<a href="">Flutter</a>框架中，Dart线程管理尤为重要。</p>
+<p>而在<a href="">Flutter</a>中，线程管理主要涉及到两个方面：一个是<a href="">Flutter 引擎</a>的线程管理，另一个是<a href="">Dart</a>本身的线程管理。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://dart.cn/">Dart中文文档</a></li>
+<li><a href="https://medium.com/dartlang">dartlang</a></li>
+<li><a href="https://dart.dev/#try-dart">try-dart</a></li>
+<li><a href="https://dartpad.cn/">dartpad</a></li>
+<li><a href="https://pub.dev/documentation/thread/latest/">Flutter-documentation-thread</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/40069285?utm_id=0">聊一聊Flutter线程管理与Dart Isolate机制</a></li>
+<li><a href="https://juejin.cn/post/7130915241344368671">详解 Flutter engine多线程、Dart isolate和异步</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2305626?areaId=106001">《深入浅出Dart》事件循环和协程机制</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Dart</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>EasyOCR技术支持</title>
     <url>/2020/11/04/EasyOCR%E6%8A%80%E6%9C%AF%E6%94%AF%E6%8C%81/</url>
     <content><![CDATA[<h2 id="产品简介"><a href="#产品简介" class="headerlink" title="产品简介"></a>产品简介</h2><p>EasyOCR是一款专业的本地OCR图片文字识别APP。</p>
@@ -1302,7 +1302,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="关于使用"><a href="#关于使用" class="headerlink" title="关于使用"></a>关于使用</h2><p>进入首页选择拍照识别（相册识别）-&gt; 调整角度（右上角裁剪）-&gt;点击识别按钮-&gt;进入识别结果页面，将内容复制剪贴板（右上角复制全部内容到剪切板）</p>
 <h2 id="关于帮助"><a href="#关于帮助" class="headerlink" title="关于帮助"></a>关于帮助</h2><p>感谢您使用EasyOCR，在使用过程中如果有任何问题可以通过以下方式联系我寻求帮助：</p>
 <ol>
-<li>个人邮箱：<a href="mailto:&#50;&#x33;&#48;&#51;&#x34;&#48;&#48;&#x30;&#56;&#x33;&#x40;&#113;&#x71;&#46;&#99;&#111;&#x6d;">&#50;&#x33;&#48;&#51;&#x34;&#48;&#48;&#x30;&#56;&#x33;&#x40;&#113;&#x71;&#46;&#99;&#111;&#x6d;</a></li>
+<li>个人邮箱：<a href="mailto:&#50;&#51;&#x30;&#x33;&#52;&#48;&#48;&#x30;&#56;&#51;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;">&#50;&#51;&#x30;&#x33;&#52;&#48;&#48;&#x30;&#56;&#51;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;</a></li>
 <li>微信公众号：拿根针尖对麦芒（ZhouWeiTalk）</li>
 </ol>
 ]]></content>
@@ -1337,34 +1337,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Flutter中隐藏键盘操作</title>
-    <url>/2023/04/03/Flutter%E4%B8%AD%E9%9A%90%E8%97%8F%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<blockquote>
-<p>方式一</p>
-</blockquote>
-<p>在iOS原生开发中我们可能会使用<code>textField.resignFirstResponder() </code>或者<code>endEditing</code>来隐藏键盘。</p>
-<p>而在Flutter中我们可以使用获取<code>Focus</code>，然后调用<code>unfocus</code>的方式取消键盘。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScopeNode currentFocus = FocusScope.of(context);</span><br><span class="line">if(!currentFocus.hasPrimaryFocus) &#123;</span><br><span class="line">    currentFocus.unfocus();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>方式二</p>
-</blockquote>
-<p>当然在获取控制器困难的时候，在iOS原生开发中我们可以使用下面的方法取消键盘。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>而Flutter中也可以使用同样的方法，如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScope.of(context).requestFocus(FocusNode());</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>知识点</tag>
       </tags>
   </entry>
   <entry>
@@ -1430,6 +1402,29 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>Flutter全面屏适配</title>
+    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
+<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
+<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Flutter介绍与配置</title>
     <url>/2022/04/15/Flutter%E4%BB%8B%E7%BB%8D%E4%B8%8E%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>关于<a href="https://flutter.cn/docs">Flutter</a>的介绍和具体配置，建议查看官网或者是<a href="https://book.flutterchina.club/preface.html#%E7%AC%AC%E4%BA%8C%E7%89%88%E5%8F%98%E5%8C%96">Flutter实战·第二版</a>中的相关文档。</p>
@@ -1469,26 +1464,31 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>Flutter全面屏适配</title>
-    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
-<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
-<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+    <title>Flutter中隐藏键盘操作</title>
+    <url>/2023/04/03/Flutter%E4%B8%AD%E9%9A%90%E8%97%8F%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<blockquote>
+<p>方式一</p>
+</blockquote>
+<p>在iOS原生开发中我们可能会使用<code>textField.resignFirstResponder() </code>或者<code>endEditing</code>来隐藏键盘。</p>
+<p>而在Flutter中我们可以使用获取<code>Focus</code>，然后调用<code>unfocus</code>的方式取消键盘。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScopeNode currentFocus = FocusScope.of(context);</span><br><span class="line">if(!currentFocus.hasPrimaryFocus) &#123;</span><br><span class="line">    currentFocus.unfocus();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>方式二</p>
+</blockquote>
+<p>当然在获取控制器困难的时候，在iOS原生开发中我们可以使用下面的方法取消键盘。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>而Flutter中也可以使用同样的方法，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScope.of(context).requestFocus(FocusNode());</span><br></pre></td></tr></table></figure>
 
 
-<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Flutter</category>
       </categories>
       <tags>
-        <tag>Flutter</tag>
+        <tag>知识点</tag>
       </tags>
   </entry>
   <entry>
@@ -3458,7 +3458,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be">The art of Lotte Reineger</a></p>
 <h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
 <p>如果你想添加更多的JSON文件，请随时这样做！</p>
-<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#x72;&#x61;&#x6e;&#100;&#111;&#110;&#46;&#x77;&#x69;&#116;&#104;&#114;&#111;&#119;&#64;&#97;&#x69;&#x72;&#98;&#110;&#98;&#x2e;&#99;&#x6f;&#109;">&#x62;&#x72;&#x61;&#x6e;&#100;&#111;&#110;&#46;&#x77;&#x69;&#116;&#104;&#114;&#111;&#119;&#64;&#97;&#x69;&#x72;&#98;&#110;&#98;&#x2e;&#99;&#x6f;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#114;&#x61;&#110;&#100;&#111;&#110;&#x2e;&#119;&#x69;&#116;&#x68;&#x72;&#x6f;&#x77;&#x40;&#x61;&#105;&#114;&#x62;&#x6e;&#x62;&#46;&#99;&#x6f;&#x6d;">&#x62;&#114;&#x61;&#110;&#100;&#111;&#110;&#x2e;&#119;&#x69;&#116;&#x68;&#x72;&#x6f;&#x77;&#x40;&#x61;&#105;&#114;&#x62;&#x6e;&#x62;&#46;&#99;&#x6f;&#x6d;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
 <h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
 <li>添加对交互式动画过渡的支持</li>
 </ul>
@@ -3620,6 +3620,120 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于fmt中的格式化站位符</title>
+    <url>/2024/04/22/%E5%85%B3%E4%BA%8Efmt%E4%B8%AD%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%AB%99%E4%BD%8D%E7%AC%A6/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在学习Go语言的时候发现<code>fmt</code>包提供了丰富的格式化占位符，这些占位符允许我们我们使用不同的格式输出各种类型的数据。</p>
+<p>为了便于记忆特在此记录，便于后期翻阅加深记忆。</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th>类型</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%d</td>
+<td>整数</td>
+<td>十进制整数</td>
+<td>fmt.Printf(“%d”, 42)</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>整数</td>
+<td>二进制整数</td>
+<td>fmt.Printf(“%b”, 10)</td>
+</tr>
+<tr>
+<td>%o</td>
+<td>整数</td>
+<td>八进制整数</td>
+<td>fmt.Printf(“%o”, 8)</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>整数</td>
+<td>小写十六进制整数</td>
+<td>fmt.Printf(“%x”, 255)</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>整数</td>
+<td>大写十六进制整数</td>
+<td>fmt.Printf(“%X”, 255)</td>
+</tr>
+<tr>
+<td>%f</td>
+<td>浮点数</td>
+<td>小数点表示的浮点数</td>
+<td>fmt.Printf(“%f”, 3.1415926)</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>浮点数</td>
+<td>科学计数法表示的浮点数（小写e）</td>
+<td>fmt.Printf(“%e”, 123456)</td>
+</tr>
+<tr>
+<td>%E</td>
+<td>浮点数</td>
+<td>科学计数法表示的浮点数（大写E）</td>
+<td>fmt.Printf(“%E”, 123456)</td>
+</tr>
+<tr>
+<td>%g</td>
+<td>浮点数</td>
+<td>自动选择%e或%f格式，无尾随零</td>
+<td>fmt.Printf(“%g”, 123.456)</td>
+</tr>
+<tr>
+<td>%G</td>
+<td>浮点数</td>
+<td>自动选择%E或%f格式，无尾随零</td>
+<td>fmt.Printf(“%G”, 123.456)</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>字符串</td>
+<td>字符串本身</td>
+<td>fmt.Printf(“%s”, “Hello”)</td>
+</tr>
+<tr>
+<td>%t</td>
+<td>布尔值</td>
+<td>布尔值：true或false</td>
+<td>fmt.Printf(“%t”, true)</td>
+</tr>
+<tr>
+<td>%v</td>
+<td>任意类型</td>
+<td>值的默认格式</td>
+<td>fmt.Printf(“%v”, []int{1, 2, 3})</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>百分号</td>
+<td>输出一个百分号</td>
+<td>fmt.Printf(“%%”,)</td>
+</tr>
+</tbody></table>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://go.dev/">go.dev</a></li>
+<li><a href="https://github.com/golang/go">go</a></li>
+<li><a href="https://draveness.me/golang/">Go语言设计与实现</a></li>
+<li><a href="https://go.timpaik.top/directory.html">Go入门指南</a></li>
+<li><a href="https://www.topgoer.com/">Go语言学习</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Golang</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
       </tags>
   </entry>
   <entry>
@@ -4197,6 +4311,38 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>如何提交takedown,删除泄漏源码的仓库和Fork</title>
+    <url>/2019/04/27/%E5%A6%82%E4%BD%95%E6%8F%90%E4%BA%A4takedown,%E5%88%A0%E9%99%A4%E6%B3%84%E6%BC%8F%E6%BA%90%E7%A0%81%E7%9A%84%E4%BB%93%E5%BA%93%E5%92%8CFork/</url>
+    <content><![CDATA[<h3 id="1、-GitHub-Submit-a-DMCA-takedown-notice"><a href="#1、-GitHub-Submit-a-DMCA-takedown-notice" class="headerlink" title="1、 GitHub: Submit a DMCA takedown notice"></a>1、 GitHub: Submit a DMCA takedown notice</h3><p>在昨天听到某网站后台源码泄露后，除了感到不可思议外，同时也在思考：如果自己公司的源码被恶意地泄漏到GitHub，我们应该怎么做才能及时止损？</p>
+<p>说到这里，我们脑海中冒出的第一个词就是<code>takedown</code>.</p>
+<p>为了保护机构、公司代码资产，如果我们公司代码出现了泄漏，我们可以提交<code>takedown</code>来申请删除泄漏的代码。</p>
+<p>然而，对于这种特殊事件，时间极其宝贵(毕竟对于平常的我们来说，谁没事会提takedown呢)。如何快速进入相应网页入口，提交takedown就成为了重中之重。</p>
+<h5 id="1-1、第一步：进入提交页面"><a href="#1-1、第一步：进入提交页面" class="headerlink" title="1.1、第一步：进入提交页面"></a>1.1、第一步：进入提交页面</h5><p>从<a href="https://help.github.com/en">帮助页面</a>进入<a href="https://github.com/contact/dmca">提交takedown页面</a>,选择左侧的<code>Copyright claims(DMCA)</code>,然后点击<code>Submit a takedown notice</code>按钮即可跳转到提交页面。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E5%A6%82%E4%BD%95%E6%8F%90%E4%BA%A4takedown%2C%E5%88%A0%E9%99%A4%E6%B3%84%E6%BC%8F%E6%BA%90%E7%A0%81%E7%9A%84%E4%BB%93%E5%BA%93%E5%92%8CFork/dmca.jpg" alt="dmca"></p>
+<h5 id="1-2、第二步：提交相应信息"><a href="#1-2、第二步：提交相应信息" class="headerlink" title="1.2、第二步：提交相应信息"></a>1.2、第二步：提交相应信息</h5><p>填写相应信息Name、Email、Subject,同时要回答相应问题（回答的问题中包含：泄漏代码仓库的URL、Fork分支的URL、想要的解决方法、还有个人声明、联系方式等）。<br><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E5%A6%82%E4%BD%95%E6%8F%90%E4%BA%A4takedown%2C%E5%88%A0%E9%99%A4%E6%B3%84%E6%BC%8F%E6%BA%90%E7%A0%81%E7%9A%84%E4%BB%93%E5%BA%93%E5%92%8CFork/dmca-notice.jpg" alt="dmca-notice"></p>
+<p>需要提交的信息包含以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//**您是版权所有者还是被授权代表版权所有者行事？**</span><br><span class="line">**Are you the copyright owner or authorized to act on the copyright owner’s behalf?**</span><br><span class="line">//**请提供据称被侵权的原始版权作品的详细说明。如果可能，请提供在线发布地址的URL。**</span><br><span class="line">**Please provide a detailed description of the original copyrighted work that has allegedly been infringed. If possible, include a URL to where it is posted online.**</span><br><span class="line">//**应删除哪些文件？请为每个文件提供URL，或者如果是整个存储库，则提供存储库的URL：**</span><br><span class="line">**What files should be taken down? Please provide URLs for each file, or if the entire repository, the repository’s URL:**</span><br><span class="line">//**您是否搜索过涉嫌侵权的文件或存储库的任何分支？每个分支都是一个独立的存储库，如果您认为它是侵权并希望将其删除，则必须单独识别。**</span><br><span class="line">**Have you searched for any forks of the allegedly infringing files or repositories? Each fork is a distinct repository and must be identified separately if you believe it is infringing and wish to have it taken down.**</span><br><span class="line">//**作品是否根据开源许可证获得许可？如果是这样，哪个开源许可证？涉嫌侵权的文件是否在开源许可下使用，或者是否违反了许可？**</span><br><span class="line">**Is the work licensed under an open source license? If so, which open source license? Are the allegedly infringing files being used under the open source license, or are they in violation of the license?**</span><br><span class="line">//**涉嫌侵权的最佳解决方案是什么？除了删除之外，其他人是否可以进行具体更改？可以将存储库设为私有吗？**</span><br><span class="line">**What would be the best solution for the alleged infringement? Are there specific changes the other person can make other than removal? Can the repository be made private?**</span><br><span class="line">//**您是否拥有涉嫌侵权人的联系信息？如果是，请提供：**</span><br><span class="line">**Do you have the alleged infringer’s contact information? If so, please provide it:**</span><br><span class="line">//**输入（或复制并粘贴）以下声明：“我确信在侵权网页上使用上述受版权保护的材料未经版权所有者或其代理人或法律授权。我考虑到合理使用。“**</span><br><span class="line">**Type (or copy and paste) the following statement: &quot;I have a good faith belief that use of the copyrighted materials described above on the infringing web pages is not authorized by the copyright owner, or its agent, or the law. I have taken fair use into consideration.&quot;**</span><br><span class="line">//**输入（或复制并粘贴）以下声明：“我发誓，根据伪证处罚，本通知中的信息准确无误，且我是版权所有者，或有权代表所有者行事，涉嫌侵权的专有权。“**</span><br><span class="line">**Type (or copy and paste) the following statement: &quot;I swear, under penalty of perjury, that the information in this notification is accurate and that I am the copyright owner, or am authorized to act on behalf of the owner, of an exclusive right that is allegedly infringed.&quot;**</span><br><span class="line">//**请确认您已阅读我们的提交DMCA删除通知指南：https：//help.github.com/articles/guide-to-submitting-a-dmca-takedown-notice/**</span><br><span class="line">**Please confirm that you have you have read our Guide to Submitting a DMCA Takedown Notice: https://help.github.com/articles/guide-to-submitting-a-dmca-takedown-notice/**</span><br><span class="line">//**我们可以回复您，请提供您的电话号码或实际地址：**</span><br><span class="line">**So that we can get back to you, please provide either your telephone number or physical address:**</span><br><span class="line">//**请在下面输入您的完整法定名称以签署此请求：**</span><br><span class="line">**Please type your full legal name below to sign this request:**</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>1.3 参考范文</p>
+<p>关于书写格式我们可以到<a href="https://github.com/github/dmca">GitHub的dmcak仓库</a>进行查看别的公司是如何写的。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Hello Dear Github:</span><br><span class="line"></span><br><span class="line">We Are:</span><br><span class="line"></span><br><span class="line">Bilibili Security Group.It is nice to be able to yse Github such a professional and effcient platform,and mpw we have a need to be very hopefully able to get Github&#x27;s support and resolution.I sent the mail yesterday and the mail attachments is the my signature!!</span><br><span class="line"></span><br><span class="line">We have read and understand GitHub&#x27;s Guide to Filling a DMCA Notice</span><br><span class="line"></span><br><span class="line">Some one created a Repository called &#x27;openbilibili/go-common&#x27; two hours ago and many people forked it or clone it and reupload the repository,which contained too much sensitive information,such as secret key,database address,very important api key and so on.If these information are found by other people in Github,our company will be left out of pocket.</span><br><span class="line"></span><br><span class="line">The following is Github&#x27;s URL and Screenshots about this Repository:</span><br><span class="line"></span><br><span class="line">[private]</span><br><span class="line"></span><br><span class="line">Since the reupload repositories and the contains our company&#x27;s important source code,algorithm and system configuration,,so we hope Giuhub as soon as possible to help us completely remove the reupload repositories and thank you very much</span><br><span class="line"></span><br><span class="line">The following is our contact information:</span><br><span class="line"></span><br><span class="line">Company Name : Bilibili</span><br><span class="line">My e-mail Address: [private]</span><br><span class="line">Cellphone: [private]</span><br><span class="line">Company Address: [private]</span><br><span class="line">Website: https://www.bilibili.com/</span><br><span class="line">I have a good faith belief that use of the copyrighted materials described above on the infringing web pages is not authorized by the copyright owner, or its agent, or the law. I have taken fair use into consideration.</span><br><span class="line"></span><br><span class="line">I swear, under penalty of perjury, that the information in this notification is accurate and that I am the copyright owner, or am authorized to act on behalf of the owner, of an exclusive right that is allegedly infringed.</span><br><span class="line"></span><br><span class="line">Hoping for your response and thanks again.</span><br><span class="line">Please help us!!!</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://github.com/contact/dmca">提交takedown</a></li>
+<li><a href="https://github.com/github/dmca">github&#x2F;dmca</a></li>
+<li><a href="https://help.github.com/en/articles/dmca-takedown-policy">DMCA takedown policy</a></li>
+<li><a href="https://github.com/github/dmca/blob/master/2019/04/2019-04-23-bilibili.md">BiliBili-dmca-2019&#x2F;04&#x2F;23</a></li>
+<li><a href="https://linux.cn/article-9374-1.html">你的 Github 仓库被 DMCA Takedown 后怎么办？</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>知识总结</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何编译iOS版OpenCV动态库</title>
     <url>/2020/05/11/%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91iOS%E7%89%88OpenCV%E5%8A%A8%E6%80%81%E5%BA%93/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>将<code>OpenCV</code>的编译动态库单独拎出来写这篇博客，主要是因为根据官方的教程编译出来的动态库将可执行程序内部的<code>install Name</code>写死了，导致动态库无法链接到，报<code>dyld: Library not loaded:</code>错误。</p>
@@ -4310,38 +4456,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>Framework</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何提交takedown,删除泄漏源码的仓库和Fork</title>
-    <url>/2019/04/27/%E5%A6%82%E4%BD%95%E6%8F%90%E4%BA%A4takedown,%E5%88%A0%E9%99%A4%E6%B3%84%E6%BC%8F%E6%BA%90%E7%A0%81%E7%9A%84%E4%BB%93%E5%BA%93%E5%92%8CFork/</url>
-    <content><![CDATA[<h3 id="1、-GitHub-Submit-a-DMCA-takedown-notice"><a href="#1、-GitHub-Submit-a-DMCA-takedown-notice" class="headerlink" title="1、 GitHub: Submit a DMCA takedown notice"></a>1、 GitHub: Submit a DMCA takedown notice</h3><p>在昨天听到某网站后台源码泄露后，除了感到不可思议外，同时也在思考：如果自己公司的源码被恶意地泄漏到GitHub，我们应该怎么做才能及时止损？</p>
-<p>说到这里，我们脑海中冒出的第一个词就是<code>takedown</code>.</p>
-<p>为了保护机构、公司代码资产，如果我们公司代码出现了泄漏，我们可以提交<code>takedown</code>来申请删除泄漏的代码。</p>
-<p>然而，对于这种特殊事件，时间极其宝贵(毕竟对于平常的我们来说，谁没事会提takedown呢)。如何快速进入相应网页入口，提交takedown就成为了重中之重。</p>
-<h5 id="1-1、第一步：进入提交页面"><a href="#1-1、第一步：进入提交页面" class="headerlink" title="1.1、第一步：进入提交页面"></a>1.1、第一步：进入提交页面</h5><p>从<a href="https://help.github.com/en">帮助页面</a>进入<a href="https://github.com/contact/dmca">提交takedown页面</a>,选择左侧的<code>Copyright claims(DMCA)</code>,然后点击<code>Submit a takedown notice</code>按钮即可跳转到提交页面。</p>
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E5%A6%82%E4%BD%95%E6%8F%90%E4%BA%A4takedown%2C%E5%88%A0%E9%99%A4%E6%B3%84%E6%BC%8F%E6%BA%90%E7%A0%81%E7%9A%84%E4%BB%93%E5%BA%93%E5%92%8CFork/dmca.jpg" alt="dmca"></p>
-<h5 id="1-2、第二步：提交相应信息"><a href="#1-2、第二步：提交相应信息" class="headerlink" title="1.2、第二步：提交相应信息"></a>1.2、第二步：提交相应信息</h5><p>填写相应信息Name、Email、Subject,同时要回答相应问题（回答的问题中包含：泄漏代码仓库的URL、Fork分支的URL、想要的解决方法、还有个人声明、联系方式等）。<br><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E5%A6%82%E4%BD%95%E6%8F%90%E4%BA%A4takedown%2C%E5%88%A0%E9%99%A4%E6%B3%84%E6%BC%8F%E6%BA%90%E7%A0%81%E7%9A%84%E4%BB%93%E5%BA%93%E5%92%8CFork/dmca-notice.jpg" alt="dmca-notice"></p>
-<p>需要提交的信息包含以下内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//**您是版权所有者还是被授权代表版权所有者行事？**</span><br><span class="line">**Are you the copyright owner or authorized to act on the copyright owner’s behalf?**</span><br><span class="line">//**请提供据称被侵权的原始版权作品的详细说明。如果可能，请提供在线发布地址的URL。**</span><br><span class="line">**Please provide a detailed description of the original copyrighted work that has allegedly been infringed. If possible, include a URL to where it is posted online.**</span><br><span class="line">//**应删除哪些文件？请为每个文件提供URL，或者如果是整个存储库，则提供存储库的URL：**</span><br><span class="line">**What files should be taken down? Please provide URLs for each file, or if the entire repository, the repository’s URL:**</span><br><span class="line">//**您是否搜索过涉嫌侵权的文件或存储库的任何分支？每个分支都是一个独立的存储库，如果您认为它是侵权并希望将其删除，则必须单独识别。**</span><br><span class="line">**Have you searched for any forks of the allegedly infringing files or repositories? Each fork is a distinct repository and must be identified separately if you believe it is infringing and wish to have it taken down.**</span><br><span class="line">//**作品是否根据开源许可证获得许可？如果是这样，哪个开源许可证？涉嫌侵权的文件是否在开源许可下使用，或者是否违反了许可？**</span><br><span class="line">**Is the work licensed under an open source license? If so, which open source license? Are the allegedly infringing files being used under the open source license, or are they in violation of the license?**</span><br><span class="line">//**涉嫌侵权的最佳解决方案是什么？除了删除之外，其他人是否可以进行具体更改？可以将存储库设为私有吗？**</span><br><span class="line">**What would be the best solution for the alleged infringement? Are there specific changes the other person can make other than removal? Can the repository be made private?**</span><br><span class="line">//**您是否拥有涉嫌侵权人的联系信息？如果是，请提供：**</span><br><span class="line">**Do you have the alleged infringer’s contact information? If so, please provide it:**</span><br><span class="line">//**输入（或复制并粘贴）以下声明：“我确信在侵权网页上使用上述受版权保护的材料未经版权所有者或其代理人或法律授权。我考虑到合理使用。“**</span><br><span class="line">**Type (or copy and paste) the following statement: &quot;I have a good faith belief that use of the copyrighted materials described above on the infringing web pages is not authorized by the copyright owner, or its agent, or the law. I have taken fair use into consideration.&quot;**</span><br><span class="line">//**输入（或复制并粘贴）以下声明：“我发誓，根据伪证处罚，本通知中的信息准确无误，且我是版权所有者，或有权代表所有者行事，涉嫌侵权的专有权。“**</span><br><span class="line">**Type (or copy and paste) the following statement: &quot;I swear, under penalty of perjury, that the information in this notification is accurate and that I am the copyright owner, or am authorized to act on behalf of the owner, of an exclusive right that is allegedly infringed.&quot;**</span><br><span class="line">//**请确认您已阅读我们的提交DMCA删除通知指南：https：//help.github.com/articles/guide-to-submitting-a-dmca-takedown-notice/**</span><br><span class="line">**Please confirm that you have you have read our Guide to Submitting a DMCA Takedown Notice: https://help.github.com/articles/guide-to-submitting-a-dmca-takedown-notice/**</span><br><span class="line">//**我们可以回复您，请提供您的电话号码或实际地址：**</span><br><span class="line">**So that we can get back to you, please provide either your telephone number or physical address:**</span><br><span class="line">//**请在下面输入您的完整法定名称以签署此请求：**</span><br><span class="line">**Please type your full legal name below to sign this request:**</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>1.3 参考范文</p>
-<p>关于书写格式我们可以到<a href="https://github.com/github/dmca">GitHub的dmcak仓库</a>进行查看别的公司是如何写的。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Hello Dear Github:</span><br><span class="line"></span><br><span class="line">We Are:</span><br><span class="line"></span><br><span class="line">Bilibili Security Group.It is nice to be able to yse Github such a professional and effcient platform,and mpw we have a need to be very hopefully able to get Github&#x27;s support and resolution.I sent the mail yesterday and the mail attachments is the my signature!!</span><br><span class="line"></span><br><span class="line">We have read and understand GitHub&#x27;s Guide to Filling a DMCA Notice</span><br><span class="line"></span><br><span class="line">Some one created a Repository called &#x27;openbilibili/go-common&#x27; two hours ago and many people forked it or clone it and reupload the repository,which contained too much sensitive information,such as secret key,database address,very important api key and so on.If these information are found by other people in Github,our company will be left out of pocket.</span><br><span class="line"></span><br><span class="line">The following is Github&#x27;s URL and Screenshots about this Repository:</span><br><span class="line"></span><br><span class="line">[private]</span><br><span class="line"></span><br><span class="line">Since the reupload repositories and the contains our company&#x27;s important source code,algorithm and system configuration,,so we hope Giuhub as soon as possible to help us completely remove the reupload repositories and thank you very much</span><br><span class="line"></span><br><span class="line">The following is our contact information:</span><br><span class="line"></span><br><span class="line">Company Name : Bilibili</span><br><span class="line">My e-mail Address: [private]</span><br><span class="line">Cellphone: [private]</span><br><span class="line">Company Address: [private]</span><br><span class="line">Website: https://www.bilibili.com/</span><br><span class="line">I have a good faith belief that use of the copyrighted materials described above on the infringing web pages is not authorized by the copyright owner, or its agent, or the law. I have taken fair use into consideration.</span><br><span class="line"></span><br><span class="line">I swear, under penalty of perjury, that the information in this notification is accurate and that I am the copyright owner, or am authorized to act on behalf of the owner, of an exclusive right that is allegedly infringed.</span><br><span class="line"></span><br><span class="line">Hoping for your response and thanks again.</span><br><span class="line">Please help us!!!</span><br></pre></td></tr></table></figure>
-<hr>
-<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="https://github.com/contact/dmca">提交takedown</a></li>
-<li><a href="https://github.com/github/dmca">github&#x2F;dmca</a></li>
-<li><a href="https://help.github.com/en/articles/dmca-takedown-policy">DMCA takedown policy</a></li>
-<li><a href="https://github.com/github/dmca/blob/master/2019/04/2019-04-23-bilibili.md">BiliBili-dmca-2019&#x2F;04&#x2F;23</a></li>
-<li><a href="https://linux.cn/article-9374-1.html">你的 Github 仓库被 DMCA Takedown 后怎么办？</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>知识总结</tag>
       </tags>
   </entry>
   <entry>
