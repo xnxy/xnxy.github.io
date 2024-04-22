@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="将&#96;OpenCV&#96;的编译动态库单独拎出来写这篇博客，主要是因为根据官方的教程编译出来的动态库将可执行程序内部的&#96;install Name&#96;写死了，导致动态库……。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何编译iOS版OpenCV动态库">
+<meta property="og:url" content="https://xnxy.github.io/2020/05/11/%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91iOS%E7%89%88OpenCV%E5%8A%A8%E6%80%81%E5%BA%93/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="将&#96;OpenCV&#96;的编译动态库单独拎出来写这篇博客，主要是因为根据官方的教程编译出来的动态库将可执行程序内部的&#96;install Name&#96;写死了，导致动态库……。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-05-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-10T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="Framework">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://xnxy.github.io/2020/05/11/%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91iOS%E7%89%88OpenCV%E5%8A%A8%E6%80%81%E5%BA%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2020/05/11/%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91iOS%E7%89%88OpenCV%E5%8A%A8%E6%80%81%E5%BA%93/","path":"2020/05/11/如何编译iOS版OpenCV动态库/","title":"如何编译iOS版OpenCV动态库"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何编译iOS版OpenCV动态库 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">拿根针尖对麦芒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8EOpencv"><span class="nav-number">1.1.</span> <span class="nav-text">关于Opencv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8ECmake"><span class="nav-number">1.2.</span> <span class="nav-text">关于Cmake</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%9F%A5%E7%9C%8B%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85Cmake"><span class="nav-number">1.2.1.</span> <span class="nav-text">第一步：查看是否安装Cmake</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E7%BC%96%E8%AF%91OpenCV%E5%8A%A8%E6%80%81%E5%BA%93"><span class="nav-number">1.2.2.</span> <span class="nav-text">第二步：编译OpenCV动态库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E4%BF%AE%E6%94%B9OpenCV%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E9%93%BE%E6%8E%A5%E5%9C%B0%E5%9D%80"><span class="nav-number">1.2.3.</span> <span class="nav-text">第三步：修改OpenCV二进制文件中的链接地址</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-number">2.</span> <span class="nav-text">写在最后</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-rpath%E3%80%81-loader-path%E3%80%81-executable-path"><span class="nav-number">2.1.</span> <span class="nav-text">关于@rpath、@loader_path、@executable_path</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install-Name"><span class="nav-number">2.1.1.</span> <span class="nav-text">install Name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rpath"><span class="nav-number">2.1.2.</span> <span class="nav-text">@rpath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loader-path"><span class="nav-number">2.1.3.</span> <span class="nav-text">@loader_path</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#executable-path"><span class="nav-number">2.1.4.</span> <span class="nav-text">@executable_path</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="拿根针尖对麦芒"
+      src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+  <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+  <div class="site-description" itemprop="description">修行ing</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xnxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xnxy" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2303400083@.qq.com" title="E-Mail → mailto:2303400083@.qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/022a5e92c62c" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;022a5e92c62c" rel="noopener me" target="_blank">简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/xnxyonly1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;xnxyonly1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://jewsaten.github.io/" title="https:&#x2F;&#x2F;jewsaten.github.io" rel="noopener" target="_blank">「蒋·先生」</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.wangquanwei.com/" title="http:&#x2F;&#x2F;www.wangquanwei.com" rel="noopener" target="_blank">王权伟</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://guyueyang.github.io/" title="https:&#x2F;&#x2F;guyueyang.github.io" rel="noopener" target="_blank">晓平</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2020/05/11/%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91iOS%E7%89%88OpenCV%E5%8A%A8%E6%80%81%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何编译iOS版OpenCV动态库 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="将`OpenCV`的编译动态库单独拎出来写这篇博客，主要是因为根据官方的教程编译出来的动态库将可执行程序内部的`install Name`写死了，导致动态库……。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何编译iOS版OpenCV动态库
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-11 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-11T00:00:00+08:00">2020-05-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">记录</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">将`OpenCV`的编译动态库单独拎出来写这篇博客，主要是因为根据官方的教程编译出来的动态库将可执行程序内部的`install Name`写死了，导致动态库……。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>将<code>OpenCV</code>的编译动态库单独拎出来写这篇博客，主要是因为根据官方的教程编译出来的动态库将可执行程序内部的<code>install Name</code>写死了，导致动态库无法链接到，报<code>dyld: Library not loaded:</code>错误。</p>
+<p>在<code>GitHub</code>上<code>OpenCV</code>库的<code>issues</code>上也有人提，但并没有得到解决。</p>
+<p>而它打包用的是<code>cmake</code>,自己也不想去修改他的<code>Python脚本</code>和<code>cmake文件</code>,于是使用了<code>install_name_tool</code>工具修改<code>OpenCV</code>二进制文件中的链接路径，完美地解决了该问题。</p>
+<p>于是将其记录下来，以便后期查阅。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">使用脚本直接打包OpenCV动态库，添加到项目中会报下方错误：</span><br><span class="line"></span><br><span class="line">dyld: Library not loaded: /Users/cntp/Documents/opencv-4.1.0/platforms/ios/ios/build/build-iphonesimulator/lib/Release/opencv2.framework/opencv2</span><br><span class="line"></span><br><span class="line">  Referenced from: /private/var/containers/Bundle/Application/UUID/MyApp.app/Frameworks/MyApp.framework/MyApp</span><br><span class="line">  Reason: image not found</span><br><span class="line"></span><br><span class="line">使用otool工具查看，会发现二进制文件中将链接路径写成固定路径：</span><br><span class="line"></span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro opencv2.framework % otool -L opencv2</span><br><span class="line">opencv2:</span><br><span class="line">	/Users/cntp/Documents/opencv-4.1.0/platforms/ios/ios/build/build-iphonesimulator/lib/Release/opencv2.framework/opencv2 (compatibility version 4.1.0, current version 4.1.0)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="关于Opencv"><a href="#关于Opencv" class="headerlink" title="关于Opencv"></a>关于<code>Opencv</code></h2><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/OpenCV">OpenCV</a>的全称是Open Source Computer Vision Library，是一个跨平台的计算机视觉库。OpenCV是由英特尔公司发起并参与开发，以BSD许可证授权发行，可以在商业和研究领域中免费使用。OpenCV可用于开发实时的图像处理、计算机视觉以及模式识别程序。该程序库也可以使用英特尔公司的IPP进行加速处理。</p>
+<blockquote>
+<p>主要模块分为以下几种：</p>
+</blockquote>
+<ul>
+<li>core：简洁核心模块，基本函数，基本数据结构；</li>
+<li>imgproc：图像处理模块，线性和非线性图像滤波，几何图像转换，颜色空间转换，直方图等；</li>
+<li>video：视频分析模块，运动估计，背景消除，物体跟踪算法；</li>
+<li>calib3d：基本多视角几何算法，单体和立体相机的标定，对象姿势估计，双目立体匹配算法和元素的三维重建；</li>
+<li>features2d：包含了显著特征检测算法，描述算子和算子匹配算法；</li>
+<li>objdetect：物体检测和一些预定义的物体的检测（如人脸，眼睛，杯子，人，汽车等）；</li>
+<li>ml：多种机器学习算法，如K均值，支持向量机和神经网络；</li>
+<li>highgui：简单易用接口，有视频捕捉，图像和视频编码功能，简单UI接口，iOS的是其中一个子集；</li>
+<li>gpu：GPU加速算法，iOS不可用；</li>
+<li>ocl：OpenCL通用算法，iOS不可用；</li>
+<li>其它，辅助、算法等。</li>
+</ul>
+<blockquote>
+<p>OpenCV可用于解决如下领域问题：</p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%93%B4%E5%A2%9E%E5%AF%A6%E5%A2%83">增强现实</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB">人脸识别</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB">手势识别</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92">人机交互</a></li>
+<li>动作识别</li>
+<li>运动跟踪</li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%89%A9%E4%BD%93%E8%AF%86%E5%88%AB">物体识别</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2">图像分割</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9C%BA%E5%99%A8%E4%BA%BA">机器人</a></li>
+</ul>
+<h2 id="关于Cmake"><a href="#关于Cmake" class="headerlink" title="关于Cmake"></a>关于<code>Cmake</code></h2><p><code>OpenCV</code>使用<code>Cmake</code>工具进行编译的，所以在打包Framework之前我们也需要了解<code>Cmake</code>。</p>
+<p><code>CMake</code>是一个跨平台的安装（编译）工具，可以用简单的语句来描述所有平台的安装(编译过程)。具体内容可以查看<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/cmake/7138032?fr=aladdin">百度百科关于Cmake的介绍</a></p>
+<p>同时也可以查看<a target="_blank" rel="noopener" href="https://cmake.org/">CMake官网</a>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CMake是旨在构建，测试和打包软件的开源，跨平台工具系列。</span><br><span class="line">CMake用于使用简单平台和独立于编译器的配置文件来控制软件编译过程，并生成可在您选择的编译器环境中使用的本机makefile和工作区。</span><br><span class="line">CMake工具套件是由Kitware创建的，旨在满足ITK和VTK等开源项目对功能强大的跨平台构建环境的需求。</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">CMake is an open-source, cross-platform family of tools designed to build, test and package software. </span><br><span class="line">CMake is used to control the software compilation process using simple platform and compiler independent configuration files, and generate native makefiles and workspaces that can be used in the compiler environment of your choice.</span><br><span class="line">The suite of CMake tools were created by Kitware in response to the need for a powerful, cross-platform build environment for open-source projects such as ITK and VTK.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="第一步：查看是否安装Cmake"><a href="#第一步：查看是否安装Cmake" class="headerlink" title="第一步：查看是否安装Cmake"></a>第一步：查看是否安装<code>Cmake</code></h3><p>如果想在Mac上编译OpenCV，需要检测Mac中是否安装过<code>Cmake</code>。</p>
+<p>对于如何查看，我们可以直接在终端输入<code>cmake --version</code>,如果有相应版本会出现下方内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cntp@TPL-0000-161520deMacBook-Pro ~ % Cmake --version</span><br><span class="line">cmake version 3.17.1</span><br><span class="line"></span><br><span class="line">CMake suite maintained and supported by Kitware (kitware.com/cmake).</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果出现<code>-bash: cmake: command not found</code>则代表电脑中并没有安装<code>Cmake</code>。</p>
+<p>如果没有安装<code>Cmake</code>可以通过<code>Homebrew</code>进行安装，具体命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install cmake</span><br></pre></td></tr></table></figure>
+<p>其中<code>Homebrew</code>是Mac OS平台下的软件包管理工具，大家应该都不陌生，具体的使用可以查看<a target="_blank" rel="noopener" href="https://brew.sh/index_zh-cn">Homebrew官网</a>。</p>
+<p>安装完成后即可编译OpenCV动态库</p>
+<h3 id="第二步：编译OpenCV动态库"><a href="#第二步：编译OpenCV动态库" class="headerlink" title="第二步：编译OpenCV动态库"></a>第二步：编译<code>OpenCV</code>动态库</h3><p>下载相应版本的<code>OpenCV</code>，<code>cd</code>到<code>~/platforms/ios</code>目录，我们可以看到其打包的脚本<code>build_framework.py</code>，语言是<code>Python</code>并不是常用的<code>Shell</code>脚本,不过语言很简单。</p>
+<p>如果项目中需要静态库，可以直接到<a target="_blank" rel="noopener" href="https://opencv.org/">opencv官网</a>下载，或者直接使用<code>python build_framework.py ios</code>，其中<code>ios</code>为编译文件的路径，最后会在<code>ios</code>下看到<code>opencv2.framework</code>。</p>
+<p>如果需要编译动态库需要在后面添加<code>--dynamic</code>，或者到<code>python</code>脚本中将<code>parser.add_argument(&#39;--dynamic&#39;, default=False, action=&#39;store_true&#39;, help=&#39;build dynamic framework (default is &quot;False&quot; - builds static framework)&#39;)</code>中的<code>default</code>改为<code>true</code>。</p>
+<p>打包动态库的命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /Users/cntp/Documents/opencv-4.1.0/platforms/ios </span><br><span class="line"></span><br><span class="line">python build_framework.py ios --dynamic</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>编译时间会比较长，结束后会在<code>/Users/cntp/Documents/opencv-4.1.0/platforms/ios/ios</code>目录下得到相应的<code>opencv2.framework</code>。</p>
+<p>ps:不用吐槽<code>ios</code>不是<code>iOS</code>,它那边文档就是这样写的，也就这样用了。</p>
+<h3 id="第三步：修改OpenCV二进制文件中的链接地址"><a href="#第三步：修改OpenCV二进制文件中的链接地址" class="headerlink" title="第三步：修改OpenCV二进制文件中的链接地址"></a>第三步：修改<code>OpenCV</code>二进制文件中的链接地址</h3><p>理论上到这一步就可以了，直接将<code>opencv2.framework</code>添加到外面工程中，修改<code>Embed</code>为<code>Embed&amp;Sign</code>就可以。</p>
+<p>但当在运行时加载<code>opencv.framework</code>时，它会直接报错，由终端的打印日志可以看出app链接的路径为打包存放的默认路径，也就是<code>/Users/cntp/Documents/opencv-4.1.0/platforms/ios/ios</code>。</p>
+<p>我们可以使用<code>otool</code>工具进行查看,命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cntp@TPL-0000-161520deMacBook-Pro opencv2.framework % otool -L opencv2</span><br><span class="line">opencv2:</span><br><span class="line">	/Users/cntp/Documents/opencv-4.1.0/platforms/ios/ios/build/build-iphonesimulator/lib/Release/opencv2.framework/opencv2 (compatibility version 4.1.0, current version 4.1.0)</span><br><span class="line">	/System/Library/Frameworks/Accelerate.framework/Accelerate (compatibility version 1.0.0, current version 4.0.0)</span><br><span class="line">	/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1251.12.0)</span><br><span class="line">	/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)</span><br><span class="line">	/System/Library/Frameworks/AssetsLibrary.framework/AssetsLibrary (compatibility version 1.0.0, current version 1.0.0)</span><br><span class="line">	/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 61000.0.0)</span><br><span class="line">	/System/Library/Frameworks/AVFoundation.framework/AVFoundation (compatibility version 1.0.0, current version 2.0.0)</span><br><span class="line">	/System/Library/Frameworks/CoreImage.framework/CoreImage (compatibility version 1.0.0, current version 5.0.0)</span><br><span class="line">	/System/Library/Frameworks/CoreMedia.framework/CoreMedia (compatibility version 1.0.0, current version 1.0.0)</span><br><span class="line">	/System/Library/Frameworks/CoreVideo.framework/CoreVideo (compatibility version 1.2.0, current version 1.5.0)</span><br><span class="line">	/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1570.15.0)</span><br><span class="line">	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)</span><br><span class="line">	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 400.9.4)</span><br><span class="line">	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1252.250.1)</span><br><span class="line">	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1570.15.0)</span><br><span class="line">	/usr/lib/libc++abi.dylib (compatibility version 1.0.0, current version 400.17.0)</span><br></pre></td></tr></table></figure>
+<p>我们可以看到链接<code>opencv2.framework/opencv2</code>的路径(install Name)是写死的。</p>
+<p>而正确的动态库的链接路径(install Name)应该是<code>@rpath/opencv2.framework/opencv2</code>。</p>
+<p>知道这一点后我们使用<code>install_name_tool</code>工具修改它的链接路径即可，我们可以将它写死的链接路径(install Name)修改成<code>@rpath/opencv2.framework/opencv2</code>，具体操作如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">cntp@TPL-0000-161520deMacBook-Pro opencv2.framework % install_name_tool h</span><br><span class="line">Usage: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/install_name_tool [-change old new] ... [-rpath old new] ... [-add_rpath new] ... [-delete_rpath old] ... [-id name] input</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro opencv2.framework % install_name_tool -id @rpath/opencv2.framework/opencv2 opencv2</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro opencv2.framework % otool -L opencv2</span><br><span class="line">opencv2:</span><br><span class="line">	@rpath/opencv2.framework/opencv2 (compatibility version 4.1.0, current version 4.1.0)</span><br><span class="line">	/System/Library/Frameworks/Accelerate.framework/Accelerate (compatibility version 1.0.0, current version 4.0.0)</span><br><span class="line">	/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1251.12.0)</span><br><span class="line">	/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)</span><br><span class="line">	/System/Library/Frameworks/AssetsLibrary.framework/AssetsLibrary (compatibility version 1.0.0, current version 1.0.0)</span><br><span class="line">	/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 61000.0.0)</span><br><span class="line">	/System/Library/Frameworks/AVFoundation.framework/AVFoundation (compatibility version 1.0.0, current version 2.0.0)</span><br><span class="line">	/System/Library/Frameworks/CoreImage.framework/CoreImage (compatibility version 1.0.0, current version 5.0.0)</span><br><span class="line">	/System/Library/Frameworks/CoreMedia.framework/CoreMedia (compatibility version 1.0.0, current version 1.0.0)</span><br><span class="line">	/System/Library/Frameworks/CoreVideo.framework/CoreVideo (compatibility version 1.2.0, current version 1.5.0)</span><br><span class="line">	/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1570.15.0)</span><br><span class="line">	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)</span><br><span class="line">	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 400.9.4)</span><br><span class="line">	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1252.250.1)</span><br><span class="line">	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1570.15.0)</span><br><span class="line">	/usr/lib/libc++abi.dylib (compatibility version 1.0.0, current version 400.17.0)</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro opencv2.framework % </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用<code>install_name_tool h</code>查看所有指令，根据提示使用<code>install_name_tool -id @rpath/opencv2.framework/opencv2 opencv2</code>修改其链接路径(install Name)。</p>
+<p>可以再使用<code>otool</code>工具验证一下,发现没有问题，然后再将其添加到项目中，因为是动态库，修改<code>Embed</code>为<code>Embed&amp;Sign</code>运行、使用同样没有问题。</p>
+<p>至此问题完美解决。</p>
+<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><h2 id="关于-rpath、-loader-path、-executable-path"><a href="#关于-rpath、-loader-path、-executable-path" class="headerlink" title="关于@rpath、@loader_path、@executable_path"></a>关于@rpath、@loader_path、@executable_path</h2><p>在<code>Framework</code>工程的<code>TARGETS</code>-&gt;<code>Build Settings</code>中的<code>Linking</code>可以看到<code>Dynamic Library Install Name</code>、<code>Dynamic Library Install Name Base</code>、<code>Runpath Search Paths</code>等配置，根据其名称可以大致了解其含义。</p>
+<p>这里先梳理下几个单词的概念。</p>
+<h3 id="install-Name"><a href="#install-Name" class="headerlink" title="install Name"></a>install Name</h3><p><code>install Name</code>可以理解为安装名称，本质上是一个相对路径，主要是告诉链接器(linker synthesized)在运行时从哪调用需要的库。</p>
+<p>就比如刚刚编译的动态库<code>opencv2.framework</code>，在编译的时候会被拷贝到应用程序（**.app）下的<code>Frameworks</code>目录下，其二进制文件的绝对路径地址大致为<code>~/-.app/Frameworks/opencv2.framework/opencv2</code>，其中<code>install Name</code>就是<code>@rpath/opencv2.framework/opencv2</code>。</p>
+<p>当动态链接器需要<code>opencv2.framework</code>的时候，它就会从应用程序中根据<code>install Name</code>找到<code>opencv2.framework</code>。</p>
+<h3 id="rpath"><a href="#rpath" class="headerlink" title="@rpath"></a>@rpath</h3><p>在维基百科中有关于<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Rpath">rpath</a>的介绍:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">In computing, rpath designates the run-time search path hard-coded in an executable file or library. Dynamic linking loaders use the rpath to find required libraries.</span><br><span class="line"></span><br><span class="line">Specifically, it encodes a path to shared libraries into the header of an executable (or another shared library). This RPATH header value (so named in the Executable and Linkable Format header standards) may either override or supplement the system default dynamic linking search paths.</span><br></pre></td></tr></table></figure>
+<p>翻译过来就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在计算中 rpath指定在可执行文件或库中硬编码的运行时 搜索路径。动态链接加载程序时使用rpath查找所需的库。</span><br><span class="line"></span><br><span class="line">具体来说，它将共享库的路径编码为可执行文件（或另一个共享库）的标头。此RPATH标头值（在“ 可执行文件和链接格式”标头标准中如此命名）可以替代或补充系统默认的动态链接搜索路径。</span><br></pre></td></tr></table></figure>
+<p>其解释已经十分详细了，我们可以理解为<code>@rpath</code>就是一个相对路径。</p>
+<p>其中<code>@rpath/opencv2.framework/opencv2</code>就相当于我们项目下动态库所在的位置<code>~/**.app/Frameworks/opencv2.framework/opencv2</code>。</p>
+<h3 id="loader-path"><a href="#loader-path" class="headerlink" title="@loader_path"></a>@loader_path</h3><p><code>@loader_path</code>是<code>Framework</code>工程中<code>TARGETS -&gt; Build Settings -&gt; Linking -&gt; Runpath Search Paths</code>的一项配置,字面上的意思是加载路径。</p>
+<p>其实也就是<code>Framework</code>加载的路径，比如<code>app</code>下的动态库<code>opencv2.framework</code>其<code>@loader_path</code>则相当于<code>~/**.app/Frameworks/opencv2.framework</code>。</p>
+<h3 id="executable-path"><a href="#executable-path" class="headerlink" title="@executable_path"></a>@executable_path</h3><p><code>@executable_path</code>是<code>Framework</code>工程中<code>TARGETS -&gt; Build Settings -&gt; Linking -&gt; Runpath Search Paths</code>的一项配置,字面上的意思是可执行文件路径。</p>
+<p>跟<code>@loader_path</code>不同的是<code>@executable_path</code>代表的是可执行文件(mach-o)的路径。还以<code>app</code>下加载动态库<code>opencv2.framework</code>为例，其<code>@executable_path</code>则相当于<code>~/**.app/Frameworks/opencv2.framework/opencv2</code></p>
+<p>ps：写完<code>关于@rpath、@loader_path、@executable_path</code>本来还想将程序如何链接动态库、静态库写一下，最后还是决定单独拎出来写。</p>
+<p>同时准备将动、静态库相互依赖；编译打包动、静态库；等注意事项整理下。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/opencv/opencv">opencv源码</a></li>
+<li><a target="_blank" rel="noopener" href="https://opencv.org/">opencv官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/OpenCV">OpenCV-维基百科</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.opencv.org/2.4/doc/tutorials/introduction/ios_install/ios_install.html#ios-installation">Installation in iOS</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/cmake/7138032?fr=aladdin">关于Cmake</a></li>
+<li><a target="_blank" rel="noopener" href="https://cmake.org/">CMake官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://brew.sh/index_zh-cn">Homebrew官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://clang.llvm.org/docs/ClangCommandLineReference.html#cmdoption-clang-fdebug-prefix-map">Clang命令行参数参考</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Rpath">rpath</a></li>
+<li><a target="_blank" rel="noopener" href="https://matthew-brett.github.io/docosx/mac_runtime_link.html">Runtime linking on Mac</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/cd614e080078">Xcode中的链接路径问题</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/">Apple Developer Documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/000-Introduction/Introduction.html#//apple_ref/doc/uid/TP40001908-SW1">Dynamic Library Programming Topics</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/navigation/">Documentation Archive</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Framework/" rel="tag"># Framework</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/04/29/shell%E8%84%9A%E6%9C%AC%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%95%B4%E7%90%86/" rel="prev" title="shell脚本的使用及整理">
+                  <i class="fa fa-chevron-left"></i> shell脚本的使用及整理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/06/16/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" rel="next" title="常用命令整理">
+                  常用命令整理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
