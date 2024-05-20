@@ -20,25 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="修行ing">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拿根针尖对麦芒">
-<meta property="og:url" content="https://xnxy.github.io/archives/2019/08/index.html">
+    <meta name="description" content="目前项目升级到3.22.0,项目也早早添加了隐私清单,这也就意味着项目运行&#x2F;编译需要在Xcode15上进行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xcode14运行Flutter3.22.0的折中方式">
+<meta property="og:url" content="https://xnxy.github.io/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="拿根针尖对麦芒">
-<meta property="og:description" content="修行ing">
+<meta property="og:description" content="目前项目升级到3.22.0,项目也早早添加了隐私清单,这也就意味着项目运行&#x2F;编译需要在Xcode15上进行">
 <meta property="og:locale">
+<meta property="article:published_time" content="2024-05-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-05-19T16:00:00.000Z">
 <meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://xnxy.github.io/archives/2019/08/">
+<link rel="canonical" href="https://xnxy.github.io/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-Hans","comments":"","permalink":"","path":"archives/2019/08/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/","path":"2024/05/20/Xcode14运行Flutter3.22.0的折中方式/","title":"Xcode14运行Flutter3.22.0的折中方式"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>归档 | 拿根针尖对麦芒</title>
+<title>Xcode14运行Flutter3.22.0的折中方式 | 拿根针尖对麦芒</title>
   
 
 
@@ -71,7 +74,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">拿根针尖对麦芒</h1>
+      <p class="site-title">拿根针尖对麦芒</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
@@ -125,7 +128,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -138,6 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E9%9A%90%E7%A7%81%E6%B8%85%E5%8D%95%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">移除隐私清单文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%97%ADImpeller%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E"><span class="nav-number">1.2.</span> <span class="nav-text">关闭Impeller渲染引擎</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -211,90 +215,121 @@
 
     </div>
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Xcode14运行Flutter3.22.0的折中方式 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="目前项目升级到3.22.0,项目也早早添加了隐私清单,这也就意味着项目运行/编译需要在Xcode15上进行">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Xcode14运行Flutter3.22.0的折中方式
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-05-20 00:00:00" itemprop="dateCreated datePublished" datetime="2024-05-20T00:00:00+08:00">2024-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">目前项目升级到3.22.0,项目也早早添加了隐私清单,这也就意味着项目运行/编译需要在Xcode15上进行</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>目前项目升级到<code>3.22.0</code>,项目也早早添加了隐私清单,这也就意味着项目运行&#x2F;编译需要在<code>Xcode15</code>上进行。</p>
+<p>但有的时候仍需要在家中排查问题，虽然家中有个<code>pro</code>和<code>air</code>,但有的时候老婆也需要用<code>pro</code>搞些设计。而且<code>air</code>目前已经无法升级到最新的系统，相应地到<code>Xcode</code>也无法升级到<code>Xcode15</code>。</p>
+<p>所以也需要修改项目，让其在Xcode14上运行，便于后期忘记，在此记录。</p>
+<h2 id="移除隐私清单文件"><a href="#移除隐私清单文件" class="headerlink" title="移除隐私清单文件"></a>移除隐私清单文件</h2><p>首先需要在移除壳工程中的<code>PrivacyInfo.xcprivacy</code>。</p>
+<p>不需要直接删除，需要在<code>TARGETS</code>-&gt;<code>Build Phases</code>-&gt;<code>Copy Bundle Resources</code>中将其移除。</p>
+<h2 id="关闭Impeller渲染引擎"><a href="#关闭Impeller渲染引擎" class="headerlink" title="关闭Impeller渲染引擎"></a>关闭<code>Impeller</code>渲染引擎</h2><p>如果不关闭在运行的时候会报以下错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[FATAL:flutter/shell/platform/darwin/ios/ios_context.mm(29)] Check failed: backend != IOSRenderingBackend::kImpeller. Software rendering is incompatible with Impeller. Software rendering may have been automatically selected when running on a simulator in an environment that does not support Metal. Enabling GPU pass through in your environment may fix this. If that is not possible, then disable Impeller.</span><br></pre></td></tr></table></figure>
+
+<p>原因是因为在<code>Flutter3.22.0</code>渲染引擎默认被自动选择为<code>Impeller</code>，而<code>Xcode14</code>渲染与<code>Impeller</code>渲染引擎不兼容。</p>
+<p>为了解决这个问题，为了解决这个问题我们可以在运行<code>Flutter</code>项目中添加<code>--no-enable-impeller</code>参数来禁用Impeller。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter run --no-enable-impeller</span><br></pre></td></tr></table></figure>
+
+<p>这样做将强制<code>Flutter</code>使用旧的Skia渲染引擎，而不是<code>Impeller</code>。</p>
+<p>当前我们也可以在壳工程的<code>info.plist</code>文件中添加以下键值来告诉<code>Flutter</code>在构建时禁用<code>Impeller</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;FLTEnableImpeller&lt;/key&gt;</span><br><span class="line">&lt;false/&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>最后：这些代码修改不要提交到git上！！！</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
         
-        <span class="collection-header">不错! 目前共计 58 篇日志。 继续努力。</span>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2019</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2019-08-29T00:00:00+08:00"
-              content="2019-08-29">
-          08-29
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2019/08/29/Podfile%E8%AF%AD%E6%B3%95%E5%8F%82%E8%80%83(%E7%BF%BB%E8%AF%91)/" itemprop="url">
-            <span itemprop="name">Podfile语法参考(翻译)</span>
-          </a>
-      </div>
-
-      
-    </header>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/04/28/%E5%85%B3%E4%BA%8E%E5%B0%8F%E7%B1%B3%E8%AE%BE%E5%A4%87%E9%9A%90%E7%A7%81%E6%94%B6%E9%9B%86%E8%8E%B7%E5%8F%96/" rel="prev" title="关于小米设备隐私收集获取">
+                  <i class="fa fa-chevron-left"></i> 关于小米设备隐私收集获取
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2019-08-29T00:00:00+08:00"
-              content="2019-08-29">
-          08-29
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2019/08/29/Podspec%E8%AF%AD%E6%B3%95%E5%8F%82%E8%80%83(%E7%BF%BB%E8%AF%91)/" itemprop="url">
-            <span itemprop="name">Podspec语法参考(翻译)</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2019-08-28T00:00:00+08:00"
-              content="2019-08-28">
-          08-28
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2019/08/28/Command-line%E5%8F%82%E8%80%83(%E7%BF%BB%E8%AF%91)/" itemprop="url">
-            <span itemprop="name">Command-line参考(翻译)</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
 
 </div>
   </main>

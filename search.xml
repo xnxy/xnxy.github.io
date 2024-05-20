@@ -1302,7 +1302,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="关于使用"><a href="#关于使用" class="headerlink" title="关于使用"></a>关于使用</h2><p>进入首页选择拍照识别（相册识别）-&gt; 调整角度（右上角裁剪）-&gt;点击识别按钮-&gt;进入识别结果页面，将内容复制剪贴板（右上角复制全部内容到剪切板）</p>
 <h2 id="关于帮助"><a href="#关于帮助" class="headerlink" title="关于帮助"></a>关于帮助</h2><p>感谢您使用EasyOCR，在使用过程中如果有任何问题可以通过以下方式联系我寻求帮助：</p>
 <ol>
-<li>个人邮箱：<a href="mailto:&#x32;&#51;&#x30;&#51;&#x34;&#x30;&#48;&#x30;&#56;&#x33;&#64;&#x71;&#113;&#46;&#x63;&#111;&#109;">&#x32;&#51;&#x30;&#51;&#x34;&#x30;&#48;&#x30;&#56;&#x33;&#64;&#x71;&#113;&#46;&#x63;&#111;&#109;</a></li>
+<li>个人邮箱：<a href="mailto:&#x32;&#51;&#x30;&#51;&#52;&#48;&#x30;&#48;&#56;&#x33;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#x32;&#51;&#x30;&#51;&#52;&#48;&#x30;&#48;&#56;&#x33;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;</a></li>
 <li>微信公众号：拿根针尖对麦芒（ZhouWeiTalk）</li>
 </ol>
 ]]></content>
@@ -1469,29 +1469,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>Flutter全面屏适配</title>
-    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
-<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
-<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>Flutter</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Flutter如何适配鸿蒙Next系统并打HAP安装包</title>
     <url>/2023/11/16/Flutter%E5%A6%82%E4%BD%95%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next%E7%B3%BB%E7%BB%9F%E5%B9%B6%E6%89%93HAP%E5%AE%89%E8%A3%85%E5%8C%85/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>因最近有媒体报道后期鸿蒙Next系统不支持安卓应用的安装，虽然不清楚真假，但作为开发我们也需要为此做准备。</p>
@@ -1528,6 +1505,29 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>鸿蒙</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flutter全面屏适配</title>
+    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
+<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
+<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Flutter</tag>
       </tags>
   </entry>
   <entry>
@@ -1603,6 +1603,112 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <categories>
         <category>iOS</category>
         <category>iOS性能调优</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LLVM编译流程等相关知识整理</title>
+    <url>/2020/10/07/LLVM%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>整理这篇博客主要是了解iOS编译的过程，了解其相关知识，丰富自己的知识体系。</p>
+<p>在写这篇博客之前查看了<a href="https://ke.qq.com/mobilev2/courseDetail.html?_bid=167&_wv=3&course_id=322016&from=share#from=iosapp">李明杰在腾讯课堂的关于LLVM的付费课程</a>,<a href="http://www.hzcourse.com/web/teachRes/detail/4635/231">《LLVM编译器实战教程》</a>相关书籍，还有网络上一些博客，在此向他们致敬！</p>
+<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/LLVM.png" alt="LLVM"></p>
+<h2 id="什么是LLVM"><a href="#什么是LLVM" class="headerlink" title="什么是LLVM"></a>什么是LLVM</h2><p><code>LLVM</code>项目是模块化、可重用的<code>编译器</code>以及<code>工具链</code>技术的集合。</p>
+<p><code>LLVM</code>跟传统的静态编译器一样使用了经典三段式的结构设计，如下图所示，分别为前端、优化器和后端。</p>
+<blockquote>
+<p>传统编译器架构</p>
+</blockquote>
+<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/LLVM%E6%9E%B6%E6%9E%84.jpg" alt="传统编译器架构"></p>
+<ul>
+<li><code>Frontend（编译器前端）</code>：进行词法分析、语法分析、语义分析、生成中间代码<code>（IR）</code>。</li>
+<li><code>Optimizer（优化器）</code>：中间代码优化。</li>
+<li><code>Backend（后端）</code>:生成机器码</li>
+</ul>
+<p><code>LLVM</code>编译器如这篇文章的头图所示。这样做的优点如下：</p>
+<ul>
+<li>如果需要支持一种新的编程语言，只需要实现一种新的编译器前端即可。</li>
+<li>如果需要支持一种新的硬件设备，只需要实现一个新的后端即可。</li>
+<li>优化阶段是一个通用的阶段，它针对的是统一的<code>LLVM IR</code>,不论是支持新的编程语言，还是支持新的硬件设备，都不需要对优化阶段进行修改。</li>
+</ul>
+<h2 id="什么是Clang"><a href="#什么是Clang" class="headerlink" title="什么是Clang"></a>什么是Clang</h2><p><code>Clang</code>是<code>LLVM项目</code>的一个<code>子项目</code>，是基于<code>LLVM</code>架构的<code>C/C++/Objective-C</code>编译器<code>前端</code>。</p>
+<h2 id="Clang常用指令"><a href="#Clang常用指令" class="headerlink" title="Clang常用指令"></a><code>Clang</code>常用指令</h2><p><code>Clang</code>工具可以再<code>Xcode</code>中查看，具体路径为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang</span><br></pre></td></tr></table></figure>
+<p>可以再终端输入<code>Clang -help</code>查看所有指令。</p>
+<p>常用的指令如下所示：</p>
+<ul>
+<li>生成可执行文件:<code>clang main.o -o main</code></li>
+<li>查看编译过程：<code>clang -ccc-print-phases main.m</code></li>
+<li>查看预处理结果：<code>clang -E main.m</code></li>
+<li>语法分析,生成Token:<code>clang -fmodules -E -Xclang -dump-tokens main.m</code></li>
+<li>生成语法树(AST):<code>clang -fmodules -fsyntax-only -Xclang -ast-dump main.m</code></li>
+<li>LLVM中间表示层(LLVM IR)：<code>clang -S -fobjc-arc -emit-llvm main.m -o main.ll</code></li>
+<li>生成汇编：<code>clang -S -fobjc-arc main.m -o main.s</code></li>
+<li>生成目标文件：<code>clang -fmodules -c main.m -o main.o</code></li>
+</ul>
+<h2 id="swiftc常用指令"><a href="#swiftc常用指令" class="headerlink" title="swiftc常用指令"></a><code>swiftc</code>常用指令</h2><p><code>swiftc</code>工具可以在<code>Xcode</code>中查看,具体路径为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc</span><br></pre></td></tr></table></figure>
+<p>可以在终端输入<code>swiftc -help </code>查看相关指令。</p>
+<p>常用的指令如下所示：</p>
+<ul>
+<li>生成可执行文件:<code>swiftc -o main.out main.swift</code></li>
+<li>生成抽象语法树（AST）:<code>swiftc main.swift -dump-ast</code></li>
+<li>生成中间语言(SIL)：<code>swiftc main.swift -emit-sil</code></li>
+<li>LLVM中间表示层(LLVM IR)：<code>swiftc main.swift -emit -ir</code></li>
+<li>生成汇编:<code>swiftc main.swift -emit-assembly</code></li>
+</ul>
+<h2 id="App编译过程"><a href="#App编译过程" class="headerlink" title="App编译过程"></a>App编译过程</h2><ol>
+<li>编译信息写入辅助文件，创建文件架构 .app 文件</li>
+<li>处理文件打包信息</li>
+<li>执行 CocoaPod 编译前脚本，checkPods Manifest.lock</li>
+<li>编译.m文件，使用 CompileC 和 clang 命令</li>
+<li>链接需要的 Framework</li>
+<li>编译 xib</li>
+<li>拷贝 xib ，资源文件</li>
+<li>编译 ImageAssets</li>
+<li>处理 info.plist</li>
+<li>执行 CocoaPod 脚本</li>
+<li>拷贝标准库</li>
+<li>创建 .app 文件和签名</li>
+</ol>
+<h2 id="Swift语言编译过程"><a href="#Swift语言编译过程" class="headerlink" title="Swift语言编译过程"></a>Swift语言编译过程</h2><p>Swift编译前端使用的是<code>swiftc</code>,其中<code>Swift</code>前端会多出<code>SIL optimizer</code>，它会将<code>*.swift</code>生成的中间代码<code>*.sil</code>设置成<code>High-Level IR</code>。</p>
+<p>因为<code>swift</code>在编译时就完成了方法绑定直接通过地址调用，属于强类型语言。方法调用也不像OC那样进行消息转发，这样编译就可以获得更多的信息用在后端的优化上。</p>
+<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/Swift%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B.jpg" alt="Swift编译过程"></p>
+<h2 id="关于LinkMap"><a href="#关于LinkMap" class="headerlink" title="关于LinkMap"></a>关于<code>LinkMap</code></h2><p><code>Link Map File</code>其实就是链接的映射文件，它是在Xcode生成可执行文件的同时生成的链接信息文件，用于描述可执行文件的构造部分，包含了代码段和数据段的分布情况。</p>
+<blockquote>
+<p>Object files</p>
+</blockquote>
+<p>这个部分的内容都是 .m 文件编译后的 .o 和需要 link 的 .a 文件。前面是文件编号，后面是文件路径。</p>
+<blockquote>
+<p>Sections</p>
+</blockquote>
+<p>这里描述的是每个 Section在可执行文件中的位置和大小。每个 Section 的 Segment 的类型分为<code>__TEXT</code>代码段和<code> __DATA</code> 数据段两种。</p>
+<blockquote>
+<p>Symbols</p>
+</blockquote>
+<p><code>Symbols</code>是对<code>Sections</code>进行了再划分。这里会描述所有的<code>methods</code>，<code>ivar</code>和字符串，及它们对应的地址，大小，文件编号信息。</p>
+<h2 id="关于符号表dSYM"><a href="#关于符号表dSYM" class="headerlink" title="关于符号表dSYM"></a>关于符号表<code>dSYM</code></h2><p>符号表是内存地址与函数名、文件名、行号的映射表。符号表的元素如下所示：</p>
+<p><code>&lt;起始地址&gt;&lt;结束地址&gt;&lt;函数&gt;[&lt;文件名：行号&gt;]</code></p>
+<p>一般打包完成后会保存符号表文件，后期可以通过<code>堆栈</code>进行解析和还原，来定位用户APP发生<code>Crash</code>的代码位置。</p>
+<blockquote>
+<p>可以参考<a href="https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20180119105842">Bugly相关文档</a></p>
+</blockquote>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://llvm.org/">LLVM官网</a></li>
+<li><a href="http://clang.llvm.org/">Clang官网</a></li>
+<li><a href="http://www.hzcourse.com/web/teachRes/detail/4635/231">《LLVM编译器实战教程》</a></li>
+<li><a href="https://llvm.comptechs.cn/">LLVM中文网</a></li>
+<li><a href="https://developer.aliyun.com/article/727296">带你读《LLVM编译器实战教程》之一：构建和安装LLVM</a></li>
+<li><a href="https://developer.aliyun.com/article/727298">带你读《LLVM编译器实战教程》之二：外部项目</a></li>
+<li><a href="https://developer.aliyun.com/article/727299">带你读《LLVM编译器实战教程》之三：工具和设计</a></li>
+<li><a href="https://releases.llvm.org/">llvm</a></li>
+<li><a href="https://blog.csdn.net/snsn1984/category_9263298.html">深入研究Clang</a></li>
+<li><a href="https://www.oschina.net/p/llvm?hmsr=aladdin1e1">LLVM编译器架构</a></li>
+<li><a href="https://www.jianshu.com/p/9fc7776cce9b">深入剖析iOS编译Clang&#x2F;LLVM</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>整理</category>
       </categories>
       <tags>
         <tag>iOS</tag>
@@ -2027,112 +2133,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>cocoapods</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LLVM编译流程等相关知识整理</title>
-    <url>/2020/10/07/LLVM%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>整理这篇博客主要是了解iOS编译的过程，了解其相关知识，丰富自己的知识体系。</p>
-<p>在写这篇博客之前查看了<a href="https://ke.qq.com/mobilev2/courseDetail.html?_bid=167&_wv=3&course_id=322016&from=share#from=iosapp">李明杰在腾讯课堂的关于LLVM的付费课程</a>,<a href="http://www.hzcourse.com/web/teachRes/detail/4635/231">《LLVM编译器实战教程》</a>相关书籍，还有网络上一些博客，在此向他们致敬！</p>
-<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/LLVM.png" alt="LLVM"></p>
-<h2 id="什么是LLVM"><a href="#什么是LLVM" class="headerlink" title="什么是LLVM"></a>什么是LLVM</h2><p><code>LLVM</code>项目是模块化、可重用的<code>编译器</code>以及<code>工具链</code>技术的集合。</p>
-<p><code>LLVM</code>跟传统的静态编译器一样使用了经典三段式的结构设计，如下图所示，分别为前端、优化器和后端。</p>
-<blockquote>
-<p>传统编译器架构</p>
-</blockquote>
-<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/LLVM%E6%9E%B6%E6%9E%84.jpg" alt="传统编译器架构"></p>
-<ul>
-<li><code>Frontend（编译器前端）</code>：进行词法分析、语法分析、语义分析、生成中间代码<code>（IR）</code>。</li>
-<li><code>Optimizer（优化器）</code>：中间代码优化。</li>
-<li><code>Backend（后端）</code>:生成机器码</li>
-</ul>
-<p><code>LLVM</code>编译器如这篇文章的头图所示。这样做的优点如下：</p>
-<ul>
-<li>如果需要支持一种新的编程语言，只需要实现一种新的编译器前端即可。</li>
-<li>如果需要支持一种新的硬件设备，只需要实现一个新的后端即可。</li>
-<li>优化阶段是一个通用的阶段，它针对的是统一的<code>LLVM IR</code>,不论是支持新的编程语言，还是支持新的硬件设备，都不需要对优化阶段进行修改。</li>
-</ul>
-<h2 id="什么是Clang"><a href="#什么是Clang" class="headerlink" title="什么是Clang"></a>什么是Clang</h2><p><code>Clang</code>是<code>LLVM项目</code>的一个<code>子项目</code>，是基于<code>LLVM</code>架构的<code>C/C++/Objective-C</code>编译器<code>前端</code>。</p>
-<h2 id="Clang常用指令"><a href="#Clang常用指令" class="headerlink" title="Clang常用指令"></a><code>Clang</code>常用指令</h2><p><code>Clang</code>工具可以再<code>Xcode</code>中查看，具体路径为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang</span><br></pre></td></tr></table></figure>
-<p>可以再终端输入<code>Clang -help</code>查看所有指令。</p>
-<p>常用的指令如下所示：</p>
-<ul>
-<li>生成可执行文件:<code>clang main.o -o main</code></li>
-<li>查看编译过程：<code>clang -ccc-print-phases main.m</code></li>
-<li>查看预处理结果：<code>clang -E main.m</code></li>
-<li>语法分析,生成Token:<code>clang -fmodules -E -Xclang -dump-tokens main.m</code></li>
-<li>生成语法树(AST):<code>clang -fmodules -fsyntax-only -Xclang -ast-dump main.m</code></li>
-<li>LLVM中间表示层(LLVM IR)：<code>clang -S -fobjc-arc -emit-llvm main.m -o main.ll</code></li>
-<li>生成汇编：<code>clang -S -fobjc-arc main.m -o main.s</code></li>
-<li>生成目标文件：<code>clang -fmodules -c main.m -o main.o</code></li>
-</ul>
-<h2 id="swiftc常用指令"><a href="#swiftc常用指令" class="headerlink" title="swiftc常用指令"></a><code>swiftc</code>常用指令</h2><p><code>swiftc</code>工具可以在<code>Xcode</code>中查看,具体路径为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc</span><br></pre></td></tr></table></figure>
-<p>可以在终端输入<code>swiftc -help </code>查看相关指令。</p>
-<p>常用的指令如下所示：</p>
-<ul>
-<li>生成可执行文件:<code>swiftc -o main.out main.swift</code></li>
-<li>生成抽象语法树（AST）:<code>swiftc main.swift -dump-ast</code></li>
-<li>生成中间语言(SIL)：<code>swiftc main.swift -emit-sil</code></li>
-<li>LLVM中间表示层(LLVM IR)：<code>swiftc main.swift -emit -ir</code></li>
-<li>生成汇编:<code>swiftc main.swift -emit-assembly</code></li>
-</ul>
-<h2 id="App编译过程"><a href="#App编译过程" class="headerlink" title="App编译过程"></a>App编译过程</h2><ol>
-<li>编译信息写入辅助文件，创建文件架构 .app 文件</li>
-<li>处理文件打包信息</li>
-<li>执行 CocoaPod 编译前脚本，checkPods Manifest.lock</li>
-<li>编译.m文件，使用 CompileC 和 clang 命令</li>
-<li>链接需要的 Framework</li>
-<li>编译 xib</li>
-<li>拷贝 xib ，资源文件</li>
-<li>编译 ImageAssets</li>
-<li>处理 info.plist</li>
-<li>执行 CocoaPod 脚本</li>
-<li>拷贝标准库</li>
-<li>创建 .app 文件和签名</li>
-</ol>
-<h2 id="Swift语言编译过程"><a href="#Swift语言编译过程" class="headerlink" title="Swift语言编译过程"></a>Swift语言编译过程</h2><p>Swift编译前端使用的是<code>swiftc</code>,其中<code>Swift</code>前端会多出<code>SIL optimizer</code>，它会将<code>*.swift</code>生成的中间代码<code>*.sil</code>设置成<code>High-Level IR</code>。</p>
-<p>因为<code>swift</code>在编译时就完成了方法绑定直接通过地址调用，属于强类型语言。方法调用也不像OC那样进行消息转发，这样编译就可以获得更多的信息用在后端的优化上。</p>
-<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/Swift%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B.jpg" alt="Swift编译过程"></p>
-<h2 id="关于LinkMap"><a href="#关于LinkMap" class="headerlink" title="关于LinkMap"></a>关于<code>LinkMap</code></h2><p><code>Link Map File</code>其实就是链接的映射文件，它是在Xcode生成可执行文件的同时生成的链接信息文件，用于描述可执行文件的构造部分，包含了代码段和数据段的分布情况。</p>
-<blockquote>
-<p>Object files</p>
-</blockquote>
-<p>这个部分的内容都是 .m 文件编译后的 .o 和需要 link 的 .a 文件。前面是文件编号，后面是文件路径。</p>
-<blockquote>
-<p>Sections</p>
-</blockquote>
-<p>这里描述的是每个 Section在可执行文件中的位置和大小。每个 Section 的 Segment 的类型分为<code>__TEXT</code>代码段和<code> __DATA</code> 数据段两种。</p>
-<blockquote>
-<p>Symbols</p>
-</blockquote>
-<p><code>Symbols</code>是对<code>Sections</code>进行了再划分。这里会描述所有的<code>methods</code>，<code>ivar</code>和字符串，及它们对应的地址，大小，文件编号信息。</p>
-<h2 id="关于符号表dSYM"><a href="#关于符号表dSYM" class="headerlink" title="关于符号表dSYM"></a>关于符号表<code>dSYM</code></h2><p>符号表是内存地址与函数名、文件名、行号的映射表。符号表的元素如下所示：</p>
-<p><code>&lt;起始地址&gt;&lt;结束地址&gt;&lt;函数&gt;[&lt;文件名：行号&gt;]</code></p>
-<p>一般打包完成后会保存符号表文件，后期可以通过<code>堆栈</code>进行解析和还原，来定位用户APP发生<code>Crash</code>的代码位置。</p>
-<blockquote>
-<p>可以参考<a href="https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20180119105842">Bugly相关文档</a></p>
-</blockquote>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://llvm.org/">LLVM官网</a></li>
-<li><a href="http://clang.llvm.org/">Clang官网</a></li>
-<li><a href="http://www.hzcourse.com/web/teachRes/detail/4635/231">《LLVM编译器实战教程》</a></li>
-<li><a href="https://llvm.comptechs.cn/">LLVM中文网</a></li>
-<li><a href="https://developer.aliyun.com/article/727296">带你读《LLVM编译器实战教程》之一：构建和安装LLVM</a></li>
-<li><a href="https://developer.aliyun.com/article/727298">带你读《LLVM编译器实战教程》之二：外部项目</a></li>
-<li><a href="https://developer.aliyun.com/article/727299">带你读《LLVM编译器实战教程》之三：工具和设计</a></li>
-<li><a href="https://releases.llvm.org/">llvm</a></li>
-<li><a href="https://blog.csdn.net/snsn1984/category_9263298.html">深入研究Clang</a></li>
-<li><a href="https://www.oschina.net/p/llvm?hmsr=aladdin1e1">LLVM编译器架构</a></li>
-<li><a href="https://www.jianshu.com/p/9fc7776cce9b">深入剖析iOS编译Clang&#x2F;LLVM</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>整理</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
@@ -2679,6 +2679,38 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 ]]></content>
       <categories>
         <category>整理</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Xcode14运行Flutter3.22.0的折中方式</title>
+    <url>/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>目前项目升级到<code>3.22.0</code>,项目也早早添加了隐私清单,这也就意味着项目运行&#x2F;编译需要在<code>Xcode15</code>上进行。</p>
+<p>但有的时候仍需要在家中排查问题，虽然家中有个<code>pro</code>和<code>air</code>,但有的时候老婆也需要用<code>pro</code>搞些设计。而且<code>air</code>目前已经无法升级到最新的系统，相应地到<code>Xcode</code>也无法升级到<code>Xcode15</code>。</p>
+<p>所以也需要修改项目，让其在Xcode14上运行，便于后期忘记，在此记录。</p>
+<h2 id="移除隐私清单文件"><a href="#移除隐私清单文件" class="headerlink" title="移除隐私清单文件"></a>移除隐私清单文件</h2><p>首先需要在移除壳工程中的<code>PrivacyInfo.xcprivacy</code>。</p>
+<p>不需要直接删除，需要在<code>TARGETS</code>-&gt;<code>Build Phases</code>-&gt;<code>Copy Bundle Resources</code>中将其移除。</p>
+<h2 id="关闭Impeller渲染引擎"><a href="#关闭Impeller渲染引擎" class="headerlink" title="关闭Impeller渲染引擎"></a>关闭<code>Impeller</code>渲染引擎</h2><p>如果不关闭在运行的时候会报以下错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[FATAL:flutter/shell/platform/darwin/ios/ios_context.mm(29)] Check failed: backend != IOSRenderingBackend::kImpeller. Software rendering is incompatible with Impeller. Software rendering may have been automatically selected when running on a simulator in an environment that does not support Metal. Enabling GPU pass through in your environment may fix this. If that is not possible, then disable Impeller.</span><br></pre></td></tr></table></figure>
+
+<p>原因是因为在<code>Flutter3.22.0</code>渲染引擎默认被自动选择为<code>Impeller</code>，而<code>Xcode14</code>渲染与<code>Impeller</code>渲染引擎不兼容。</p>
+<p>为了解决这个问题，为了解决这个问题我们可以在运行<code>Flutter</code>项目中添加<code>--no-enable-impeller</code>参数来禁用Impeller。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">flutter run --no-enable-impeller</span><br></pre></td></tr></table></figure>
+
+<p>这样做将强制<code>Flutter</code>使用旧的Skia渲染引擎，而不是<code>Impeller</code>。</p>
+<p>当前我们也可以在壳工程的<code>info.plist</code>文件中添加以下键值来告诉<code>Flutter</code>在构建时禁用<code>Impeller</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;FLTEnableImpeller&lt;/key&gt;</span><br><span class="line">&lt;false/&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>最后：这些代码修改不要提交到git上！！！</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Flutter</category>
       </categories>
       <tags>
         <tag>iOS</tag>
@@ -3458,7 +3490,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be">The art of Lotte Reineger</a></p>
 <h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
 <p>如果你想添加更多的JSON文件，请随时这样做！</p>
-<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#98;&#x72;&#97;&#110;&#100;&#x6f;&#x6e;&#x2e;&#x77;&#x69;&#116;&#104;&#x72;&#x6f;&#x77;&#x40;&#97;&#105;&#114;&#98;&#110;&#98;&#46;&#99;&#111;&#109;">&#98;&#x72;&#97;&#110;&#100;&#x6f;&#x6e;&#x2e;&#x77;&#x69;&#116;&#104;&#x72;&#x6f;&#x77;&#x40;&#97;&#105;&#114;&#98;&#110;&#98;&#46;&#99;&#111;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#x72;&#97;&#x6e;&#100;&#x6f;&#110;&#x2e;&#119;&#x69;&#116;&#x68;&#x72;&#x6f;&#119;&#64;&#97;&#x69;&#114;&#x62;&#x6e;&#x62;&#46;&#99;&#x6f;&#109;">&#x62;&#x72;&#97;&#x6e;&#100;&#x6f;&#110;&#x2e;&#119;&#x69;&#116;&#x68;&#x72;&#x6f;&#119;&#64;&#97;&#x69;&#114;&#x62;&#x6e;&#x62;&#46;&#99;&#x6f;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
 <h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
 <li>添加对交互式动画过渡的支持</li>
 </ul>
@@ -3469,120 +3501,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>iOS</tag>
         <tag>翻译</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于fmt中的格式化站位符</title>
-    <url>/2024/04/22/%E5%85%B3%E4%BA%8Efmt%E4%B8%AD%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%AB%99%E4%BD%8D%E7%AC%A6/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在学习Go语言的时候发现<code>fmt</code>包提供了丰富的格式化占位符，这些占位符允许我们我们使用不同的格式输出各种类型的数据。</p>
-<p>为了便于记忆特在此记录，便于后期翻阅加深记忆。</p>
-<table>
-<thead>
-<tr>
-<th>占位符</th>
-<th>类型</th>
-<th>描述</th>
-<th>示例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>%d</td>
-<td>整数</td>
-<td>十进制整数</td>
-<td>fmt.Printf(“%d”, 42)</td>
-</tr>
-<tr>
-<td>%b</td>
-<td>整数</td>
-<td>二进制整数</td>
-<td>fmt.Printf(“%b”, 10)</td>
-</tr>
-<tr>
-<td>%o</td>
-<td>整数</td>
-<td>八进制整数</td>
-<td>fmt.Printf(“%o”, 8)</td>
-</tr>
-<tr>
-<td>%x</td>
-<td>整数</td>
-<td>小写十六进制整数</td>
-<td>fmt.Printf(“%x”, 255)</td>
-</tr>
-<tr>
-<td>%X</td>
-<td>整数</td>
-<td>大写十六进制整数</td>
-<td>fmt.Printf(“%X”, 255)</td>
-</tr>
-<tr>
-<td>%f</td>
-<td>浮点数</td>
-<td>小数点表示的浮点数</td>
-<td>fmt.Printf(“%f”, 3.1415926)</td>
-</tr>
-<tr>
-<td>%e</td>
-<td>浮点数</td>
-<td>科学计数法表示的浮点数（小写e）</td>
-<td>fmt.Printf(“%e”, 123456)</td>
-</tr>
-<tr>
-<td>%E</td>
-<td>浮点数</td>
-<td>科学计数法表示的浮点数（大写E）</td>
-<td>fmt.Printf(“%E”, 123456)</td>
-</tr>
-<tr>
-<td>%g</td>
-<td>浮点数</td>
-<td>自动选择%e或%f格式，无尾随零</td>
-<td>fmt.Printf(“%g”, 123.456)</td>
-</tr>
-<tr>
-<td>%G</td>
-<td>浮点数</td>
-<td>自动选择%E或%f格式，无尾随零</td>
-<td>fmt.Printf(“%G”, 123.456)</td>
-</tr>
-<tr>
-<td>%s</td>
-<td>字符串</td>
-<td>字符串本身</td>
-<td>fmt.Printf(“%s”, “Hello”)</td>
-</tr>
-<tr>
-<td>%t</td>
-<td>布尔值</td>
-<td>布尔值：true或false</td>
-<td>fmt.Printf(“%t”, true)</td>
-</tr>
-<tr>
-<td>%v</td>
-<td>任意类型</td>
-<td>值的默认格式</td>
-<td>fmt.Printf(“%v”, []int{1, 2, 3})</td>
-</tr>
-<tr>
-<td>%%</td>
-<td>百分号</td>
-<td>输出一个百分号</td>
-<td>fmt.Printf(“%%”,)</td>
-</tr>
-</tbody></table>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://go.dev/">go.dev</a></li>
-<li><a href="https://github.com/golang/go">go</a></li>
-<li><a href="https://draveness.me/golang/">Go语言设计与实现</a></li>
-<li><a href="https://go.timpaik.top/directory.html">Go入门指南</a></li>
-<li><a href="https://www.topgoer.com/">Go语言学习</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Golang</category>
-      </categories>
-      <tags>
-        <tag>Go</tag>
       </tags>
   </entry>
   <entry>
@@ -3711,6 +3629,170 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>关于HMAC签名相关</title>
+    <url>/2020/11/04/%E5%85%B3%E4%BA%8EHMAC%E7%AD%BE%E5%90%8D%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>节后有个项目使用到腾讯云的<a href="https://cloud.tencent.com/document/product/1007/35330">活体检测</a>，其实功能也不是很复杂，但在对接腾讯云的时候被他的<a href="https://cloud.tencent.com/document/api/1007/31325">签名</a>方式耽误了一些时间，但好在它的文档写的很详细，仔细地阅读了官方文档，最后也在很快的时间内对接成功。</p>
+<p>这里主要记录<code>HMAC-SHA1</code>在iOS中的代码，便于后期查阅。</p>
+<blockquote>
+<p>引入头文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;CommonCrypto/CommonDigest.h&gt;</span><br><span class="line">#include &lt;CommonCrypto/CommonHMAC.h&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> <code>HMAC-SHA1</code>算法签名,<code>Base64</code>进行编码</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (NSString *)hmacsha1:(NSString *)obj key:(NSString *)key &#123;</span><br><span class="line">    const char *cKey  = [key cStringUsingEncoding:NSASCIIStringEncoding];</span><br><span class="line">    const char *cData = [obj cStringUsingEncoding:NSASCIIStringEncoding];</span><br><span class="line">    unsigned char cHMAC[CC_SHA1_DIGEST_LENGTH];</span><br><span class="line"></span><br><span class="line">    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);</span><br><span class="line">    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC</span><br><span class="line">                                          length:sizeof(cHMAC)];</span><br><span class="line"></span><br><span class="line">    NSString *hash = [HMAC base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];</span><br><span class="line"></span><br><span class="line">    return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://baike.baidu.com/item/hmac">hmac-百度百科</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于fmt中的格式化站位符</title>
+    <url>/2024/04/22/%E5%85%B3%E4%BA%8Efmt%E4%B8%AD%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%AB%99%E4%BD%8D%E7%AC%A6/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在学习Go语言的时候发现<code>fmt</code>包提供了丰富的格式化占位符，这些占位符允许我们我们使用不同的格式输出各种类型的数据。</p>
+<p>为了便于记忆特在此记录，便于后期翻阅加深记忆。</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th>类型</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%d</td>
+<td>整数</td>
+<td>十进制整数</td>
+<td>fmt.Printf(“%d”, 42)</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>整数</td>
+<td>二进制整数</td>
+<td>fmt.Printf(“%b”, 10)</td>
+</tr>
+<tr>
+<td>%o</td>
+<td>整数</td>
+<td>八进制整数</td>
+<td>fmt.Printf(“%o”, 8)</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>整数</td>
+<td>小写十六进制整数</td>
+<td>fmt.Printf(“%x”, 255)</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>整数</td>
+<td>大写十六进制整数</td>
+<td>fmt.Printf(“%X”, 255)</td>
+</tr>
+<tr>
+<td>%f</td>
+<td>浮点数</td>
+<td>小数点表示的浮点数</td>
+<td>fmt.Printf(“%f”, 3.1415926)</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>浮点数</td>
+<td>科学计数法表示的浮点数（小写e）</td>
+<td>fmt.Printf(“%e”, 123456)</td>
+</tr>
+<tr>
+<td>%E</td>
+<td>浮点数</td>
+<td>科学计数法表示的浮点数（大写E）</td>
+<td>fmt.Printf(“%E”, 123456)</td>
+</tr>
+<tr>
+<td>%g</td>
+<td>浮点数</td>
+<td>自动选择%e或%f格式，无尾随零</td>
+<td>fmt.Printf(“%g”, 123.456)</td>
+</tr>
+<tr>
+<td>%G</td>
+<td>浮点数</td>
+<td>自动选择%E或%f格式，无尾随零</td>
+<td>fmt.Printf(“%G”, 123.456)</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>字符串</td>
+<td>字符串本身</td>
+<td>fmt.Printf(“%s”, “Hello”)</td>
+</tr>
+<tr>
+<td>%t</td>
+<td>布尔值</td>
+<td>布尔值：true或false</td>
+<td>fmt.Printf(“%t”, true)</td>
+</tr>
+<tr>
+<td>%v</td>
+<td>任意类型</td>
+<td>值的默认格式</td>
+<td>fmt.Printf(“%v”, []int{1, 2, 3})</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>百分号</td>
+<td>输出一个百分号</td>
+<td>fmt.Printf(“%%”,)</td>
+</tr>
+</tbody></table>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://go.dev/">go.dev</a></li>
+<li><a href="https://github.com/golang/go">go</a></li>
+<li><a href="https://draveness.me/golang/">Go语言设计与实现</a></li>
+<li><a href="https://go.timpaik.top/directory.html">Go入门指南</a></li>
+<li><a href="https://www.topgoer.com/">Go语言学习</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Golang</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于iOS &amp; iPadOS 16 beta 6相关API废弃</title>
+    <url>/2022/08/19/%E5%85%B3%E4%BA%8EiOS%20&amp;%20iPadOS%2016%20beta%206%E7%9B%B8%E5%85%B3API%E5%BA%9F%E5%BC%83/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在查看<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a>中发现在iOS 16 beta 6版本中将<code>shouldAutorotate</code>方法弃用。</p>
+<p>在此记录一下，后面适配iOS16时看是否需要修改。</p>
+<h1 id="官网介绍"><a href="#官网介绍" class="headerlink" title="官网介绍"></a>官网介绍</h1><p><code>UIKit</code><br><code>Deprecations</code></p>
+<p><code>[UIViewController shouldAutorotate]</code>不再支持已弃用。<br>已弃用并替换为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController attemptRotationToDeviceOrientation]</span><br><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：如果支持的方向发生变化，可以使用下面方法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
+
+<p>详细内容可查阅<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于iOS动态库</title>
     <url>/2020/02/28/%E5%85%B3%E4%BA%8EiOS%E5%8A%A8%E6%80%81%E5%BA%93/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><h1 id="动态库概述"><a href="#动态库概述" class="headerlink" title="动态库概述"></a>动态库概述</h1><p>决定应用程序性能的两个重要因素是它们启动时间和它们的内存占用量。减少应用程序可执行文件的大小，并在启动后最大程度地减少其内存使用量，使该应用程序启动熟读更快，并在启动后使用较少的内存。使用动态库而不是静态库可减少应用程序的可执行文件大小。他们还允许应用程序仅在需要时而不是在启动时才延迟具有特殊功能的库加载。此功能进一步有助于缩短启动时间和有效使用内存。</p>
@@ -3758,56 +3840,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>Framework</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于HMAC签名相关</title>
-    <url>/2020/11/04/%E5%85%B3%E4%BA%8EHMAC%E7%AD%BE%E5%90%8D%E7%9B%B8%E5%85%B3/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>节后有个项目使用到腾讯云的<a href="https://cloud.tencent.com/document/product/1007/35330">活体检测</a>，其实功能也不是很复杂，但在对接腾讯云的时候被他的<a href="https://cloud.tencent.com/document/api/1007/31325">签名</a>方式耽误了一些时间，但好在它的文档写的很详细，仔细地阅读了官方文档，最后也在很快的时间内对接成功。</p>
-<p>这里主要记录<code>HMAC-SHA1</code>在iOS中的代码，便于后期查阅。</p>
-<blockquote>
-<p>引入头文件</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;CommonCrypto/CommonDigest.h&gt;</span><br><span class="line">#include &lt;CommonCrypto/CommonHMAC.h&gt;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p> <code>HMAC-SHA1</code>算法签名,<code>Base64</code>进行编码</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (NSString *)hmacsha1:(NSString *)obj key:(NSString *)key &#123;</span><br><span class="line">    const char *cKey  = [key cStringUsingEncoding:NSASCIIStringEncoding];</span><br><span class="line">    const char *cData = [obj cStringUsingEncoding:NSASCIIStringEncoding];</span><br><span class="line">    unsigned char cHMAC[CC_SHA1_DIGEST_LENGTH];</span><br><span class="line"></span><br><span class="line">    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);</span><br><span class="line">    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC</span><br><span class="line">                                          length:sizeof(cHMAC)];</span><br><span class="line"></span><br><span class="line">    NSString *hash = [HMAC base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];</span><br><span class="line"></span><br><span class="line">    return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://baike.baidu.com/item/hmac">hmac-百度百科</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>整理</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于iOS &amp; iPadOS 16 beta 6相关API废弃</title>
-    <url>/2022/08/19/%E5%85%B3%E4%BA%8EiOS%20&amp;%20iPadOS%2016%20beta%206%E7%9B%B8%E5%85%B3API%E5%BA%9F%E5%BC%83/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在查看<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a>中发现在iOS 16 beta 6版本中将<code>shouldAutorotate</code>方法弃用。</p>
-<p>在此记录一下，后面适配iOS16时看是否需要修改。</p>
-<h1 id="官网介绍"><a href="#官网介绍" class="headerlink" title="官网介绍"></a>官网介绍</h1><p><code>UIKit</code><br><code>Deprecations</code></p>
-<p><code>[UIViewController shouldAutorotate]</code>不再支持已弃用。<br>已弃用并替换为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController attemptRotationToDeviceOrientation]</span><br><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
-
-<p>解决方法：如果支持的方向发生变化，可以使用下面方法</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
-
-<p>详细内容可查阅<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
@@ -4374,122 +4406,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>常用命令整理</title>
-    <url>/2020/06/16/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>这篇文章主要是将常用的指令整理一下，便于后期的查阅。</p>
-<p>这篇文章会不定时更新……</p>
-<h2 id="部署Framework到cocoapods"><a href="#部署Framework到cocoapods" class="headerlink" title="部署Framework到cocoapods"></a>部署Framework到cocoapods</h2><blockquote>
-<p>创建podsepc文件</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd &lt;工程目录&gt;</span><br><span class="line"></span><br><span class="line">pod spec create MyFramework</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>编写podsepc文件</p>
-</blockquote>
-<p>可以参考<a href="https://xnxy.github.io/xnxy.github.io/2020/05/29/Podspec%E8%AF%AD%E6%B3%95%E5%8F%82%E8%80%83(%E7%BF%BB%E8%AF%91)/">Podspec语法</a>进行编写。</p>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Pod::Spec.new do |spec|</span><br><span class="line"></span><br><span class="line">  spec.name         = &quot;ZVDynamicClipImage&quot;</span><br><span class="line">  spec.version      = &quot;0.0.1&quot;</span><br><span class="line">  spec.summary      = &quot;动态区域裁剪图片的iOS库&quot;</span><br><span class="line">  spec.homepage     = &quot;https://github.com/xnxy/ZVDynamicClipImage.git&quot;</span><br><span class="line">  spec.license      = &#123; :type =&gt; &quot;MIT&quot;, :file =&gt; &quot;LICENSE&quot; &#125;</span><br><span class="line">  spec.author             = &#123; &quot;拿根针尖对麦芒&quot; =&gt; &quot;1661583063@qq.com&quot; &#125;</span><br><span class="line">  spec.social_media_url   = &quot;https://xnxy.github.io&quot;</span><br><span class="line">  spec.platform     = :ios, &quot;8.0&quot;</span><br><span class="line">  spec.source       = &#123; :git =&gt; &quot;https://github.com/xnxy/ZVDynamicClipImage.git&quot;, :tag =&gt; &quot;#&#123;spec.version&#125;&quot; &#125;</span><br><span class="line">  spec.source_files  = &quot;ZVDynamicClipImage/ZVDynamicClipImage/ZVDynamicClipImage.h&quot;</span><br><span class="line"></span><br><span class="line">  spec.subspec &#x27;Private&#x27; do |specB|</span><br><span class="line">    specB.source_files = &quot;ZVDynamicClipImage/ZVDynamicClipImage/Private/*&quot;</span><br><span class="line">  end</span><br><span class="line">  </span><br><span class="line">  spec.subspec &#x27;Public&#x27; do |specC|</span><br><span class="line">    specC.source_files = &quot;ZVDynamicClipImage/ZVDynamicClipImage/Public/*&quot;</span><br><span class="line">    specC.dependency &#x27;ZVDynamicClipImage/Private&#x27;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>验证<code>podspec</code>格式是否正确</p>
-</blockquote>
-<p>使用<code>pod lib lint</code>验证<code>podspec</code>文件格式是否正确。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod lib lint MyFramework.podspec --verbose --allow-warnings</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>提交<code>podspec</code>文件</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk push MyFramework.podspec</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="管理trunk账号"><a href="#管理trunk账号" class="headerlink" title="管理trunk账号"></a>管理trunk账号</h2><blockquote>
-<p>注册trunk账号</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk register 你的邮箱 &#x27;用户名&#x27; --description=&#x27;描述内容&#x27; （邮箱参数是必须的，用户名和--description参数可省略）</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>查看注册信息</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk me</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>提交podspec文件</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk push 文件名.podspec</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>将公共库的podspec文件部署到自己的私有库中</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod repo push REPO 文件名.podspec # REPO 私有索引库名</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>添加他人共同维护某库</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk add-owner 公共库名 已注册trunk的邮箱地址</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>移除某个维护人员</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk remove-owner 公共库名 已注册trunk的邮箱地址</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>移除已发的某个版本对应的工程信息</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk delete 工程名 版本号</span><br></pre></td></tr></table></figure>
-
-<h2 id="其他常用命令"><a href="#其他常用命令" class="headerlink" title="其他常用命令"></a>其他常用命令</h2><blockquote>
-<p>查看pod版本及环境信息</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod env</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>引用某个私有库</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">source &#x27;https://gitee.com/xnxyonly1/ZVPrivate.git&#x27;</span><br><span class="line">platform :ios, &#x27;9.0&#x27;</span><br><span class="line">inhibit_all_warnings!</span><br><span class="line"></span><br><span class="line">target &#x27;ZVPrivateDemo&#x27; do</span><br><span class="line"></span><br><span class="line"> 	pod &#x27;ZVPrivate&#x27;, :git =&gt; &#x27;https://gitee.com/xnxyonly1/ZVPrivate.git&#x27;, :tag =&gt; &#x27;0.0.1&#x27;</span><br><span class="line"> 	</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>更新本地缓存</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod cache clean --all</span><br><span class="line">rm -rf ~/Library/Caches/CocoaPods</span><br><span class="line">pod repo update</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Mac软件无法安装时，可以对其重签名</p>
-</blockquote>
-<p>有的软件安装到电脑上时会提示“……将对您的电脑造成伤害，您应该将它移到废纸篓”的提示。</p>
-<p>可以对其进行重签名，先判断是否安装命令行工具<code>xcode-select --version</code></p>
-<p>如果未安装，使用<code>xcode-select --install</code>指令进行安装，安装成功后执行下方指令对其进行重签名。</p>
-<p>签名成功后重新打开即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">codesign -f -s - --deep /Applications/软件名.app</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>安装与卸载cocoapods</p>
-</blockquote>
-<p>VPN如果自动模式不行的话，切换都全局模式，选择美国的节点。</p>
-<p>安装cocoapods：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo gem install cocoapods</span><br></pre></td></tr></table></figure>
-
-<p>指定安装cocoapods:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo gem install cocoapods -v 1.6.1</span><br></pre></td></tr></table></figure>
-
-<p>查看当前cocoapods版本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod --version</span><br><span class="line">或</span><br><span class="line">gem list</span><br></pre></td></tr></table></figure>
-
-<p>移除程序包：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo gem uninstall cocoapods</span><br><span class="line">或指定某版本：</span><br><span class="line">sudo gem uninstall cocoapods -v 1.9.1</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="https://blog.cocoapods.org/CocoaPods-Trunk/">CocoaPods Trunk</a></li>
-<li><a href="https://guides.cocoapods.org/syntax/podspec.html">Podspec Syntax Reference v1.9.0</a></li>
-<li><a href="https://guides.cocoapods.org/syntax/podfile.html">Podfile Syntax Reference</a></li>
-<li><a href="https://guides.cocoapods.org/terminal/commands.html">Command-line Reference</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>整理</category>
-      </categories>
-      <tags>
-        <tag>cocoapods</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何编译iOS版OpenCV动态库</title>
     <url>/2020/05/11/%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91iOS%E7%89%88OpenCV%E5%8A%A8%E6%80%81%E5%BA%93/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>将<code>OpenCV</code>的编译动态库单独拎出来写这篇博客，主要是因为根据官方的教程编译出来的动态库将可执行程序内部的<code>install Name</code>写死了，导致动态库无法链接到，报<code>dyld: Library not loaded:</code>错误。</p>
@@ -4606,19 +4522,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>批量更改文件名</title>
-    <url>/2024/04/06/%E6%89%B9%E9%87%8F%E6%9B%B4%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近下了一些学习的教学视频，但教学视频中加了很多前缀导致文件名会比较长，每次用播放器选择视频的时候都看不太清。</p>
-<p>所以写了个脚本方便更改文件名。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># 指定要替换的字符串</span><br><span class="line">search_string=&quot;要替换的字符串&quot;</span><br><span class="line"># 要替换成的字符串</span><br><span class="line">replace_string=&quot;&quot;</span><br><span class="line"></span><br><span class="line"># 循环处理当前文件夹下的所有文件</span><br><span class="line">for file in *; do</span><br><span class="line">    # 检查文件是否是普通文件</span><br><span class="line">    if [ -f &quot;$file&quot; ]; then</span><br><span class="line">        # 获取文件名</span><br><span class="line">        filename=$(basename &quot;$file&quot;)</span><br><span class="line">        # 进行字符串替换</span><br><span class="line">        new_filename=&quot;$&#123;filename//$search_string/$replace_string&#125;&quot;</span><br><span class="line">        # 如果文件名有变化，则重命名文件</span><br><span class="line">        if [ &quot;$filename&quot; != &quot;$new_filename&quot; ]; then</span><br><span class="line">            mv &quot;$filename&quot; &quot;$new_filename&quot;</span><br><span class="line">            echo &quot;已将文件 &#x27;$filename&#x27; 重命名为 &#x27;$new_filename&#x27;&quot;</span><br><span class="line">        fi</span><br><span class="line">    fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;替换完成！&quot;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>shell</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如果获取项目的工程结构</title>
     <url>/2023/06/08/%E5%A6%82%E6%9E%9C%E8%8E%B7%E5%8F%96%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B7%A5%E7%A8%8B%E7%BB%93%E6%9E%84/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>接收新项目的时候，我们需要快速搭建相关开发环境外也需要快速了解项目的工程结构，熟悉代码逻辑，所以我们就需要用到<code>tree</code>，使工程结构一目了然。</p>
@@ -4633,6 +4536,135 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用命令整理</title>
+    <url>/2020/06/16/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>这篇文章主要是将常用的指令整理一下，便于后期的查阅。</p>
+<p>这篇文章会不定时更新……</p>
+<h2 id="部署Framework到cocoapods"><a href="#部署Framework到cocoapods" class="headerlink" title="部署Framework到cocoapods"></a>部署Framework到cocoapods</h2><blockquote>
+<p>创建podsepc文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd &lt;工程目录&gt;</span><br><span class="line"></span><br><span class="line">pod spec create MyFramework</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>编写podsepc文件</p>
+</blockquote>
+<p>可以参考<a href="https://xnxy.github.io/xnxy.github.io/2020/05/29/Podspec%E8%AF%AD%E6%B3%95%E5%8F%82%E8%80%83(%E7%BF%BB%E8%AF%91)/">Podspec语法</a>进行编写。</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Pod::Spec.new do |spec|</span><br><span class="line"></span><br><span class="line">  spec.name         = &quot;ZVDynamicClipImage&quot;</span><br><span class="line">  spec.version      = &quot;0.0.1&quot;</span><br><span class="line">  spec.summary      = &quot;动态区域裁剪图片的iOS库&quot;</span><br><span class="line">  spec.homepage     = &quot;https://github.com/xnxy/ZVDynamicClipImage.git&quot;</span><br><span class="line">  spec.license      = &#123; :type =&gt; &quot;MIT&quot;, :file =&gt; &quot;LICENSE&quot; &#125;</span><br><span class="line">  spec.author             = &#123; &quot;拿根针尖对麦芒&quot; =&gt; &quot;1661583063@qq.com&quot; &#125;</span><br><span class="line">  spec.social_media_url   = &quot;https://xnxy.github.io&quot;</span><br><span class="line">  spec.platform     = :ios, &quot;8.0&quot;</span><br><span class="line">  spec.source       = &#123; :git =&gt; &quot;https://github.com/xnxy/ZVDynamicClipImage.git&quot;, :tag =&gt; &quot;#&#123;spec.version&#125;&quot; &#125;</span><br><span class="line">  spec.source_files  = &quot;ZVDynamicClipImage/ZVDynamicClipImage/ZVDynamicClipImage.h&quot;</span><br><span class="line"></span><br><span class="line">  spec.subspec &#x27;Private&#x27; do |specB|</span><br><span class="line">    specB.source_files = &quot;ZVDynamicClipImage/ZVDynamicClipImage/Private/*&quot;</span><br><span class="line">  end</span><br><span class="line">  </span><br><span class="line">  spec.subspec &#x27;Public&#x27; do |specC|</span><br><span class="line">    specC.source_files = &quot;ZVDynamicClipImage/ZVDynamicClipImage/Public/*&quot;</span><br><span class="line">    specC.dependency &#x27;ZVDynamicClipImage/Private&#x27;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>验证<code>podspec</code>格式是否正确</p>
+</blockquote>
+<p>使用<code>pod lib lint</code>验证<code>podspec</code>文件格式是否正确。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod lib lint MyFramework.podspec --verbose --allow-warnings</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>提交<code>podspec</code>文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk push MyFramework.podspec</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="管理trunk账号"><a href="#管理trunk账号" class="headerlink" title="管理trunk账号"></a>管理trunk账号</h2><blockquote>
+<p>注册trunk账号</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk register 你的邮箱 &#x27;用户名&#x27; --description=&#x27;描述内容&#x27; （邮箱参数是必须的，用户名和--description参数可省略）</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>查看注册信息</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk me</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>提交podspec文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk push 文件名.podspec</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>将公共库的podspec文件部署到自己的私有库中</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod repo push REPO 文件名.podspec # REPO 私有索引库名</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>添加他人共同维护某库</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk add-owner 公共库名 已注册trunk的邮箱地址</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>移除某个维护人员</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk remove-owner 公共库名 已注册trunk的邮箱地址</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>移除已发的某个版本对应的工程信息</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod trunk delete 工程名 版本号</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他常用命令"><a href="#其他常用命令" class="headerlink" title="其他常用命令"></a>其他常用命令</h2><blockquote>
+<p>查看pod版本及环境信息</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod env</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>引用某个私有库</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">source &#x27;https://gitee.com/xnxyonly1/ZVPrivate.git&#x27;</span><br><span class="line">platform :ios, &#x27;9.0&#x27;</span><br><span class="line">inhibit_all_warnings!</span><br><span class="line"></span><br><span class="line">target &#x27;ZVPrivateDemo&#x27; do</span><br><span class="line"></span><br><span class="line"> 	pod &#x27;ZVPrivate&#x27;, :git =&gt; &#x27;https://gitee.com/xnxyonly1/ZVPrivate.git&#x27;, :tag =&gt; &#x27;0.0.1&#x27;</span><br><span class="line"> 	</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更新本地缓存</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod cache clean --all</span><br><span class="line">rm -rf ~/Library/Caches/CocoaPods</span><br><span class="line">pod repo update</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Mac软件无法安装时，可以对其重签名</p>
+</blockquote>
+<p>有的软件安装到电脑上时会提示“……将对您的电脑造成伤害，您应该将它移到废纸篓”的提示。</p>
+<p>可以对其进行重签名，先判断是否安装命令行工具<code>xcode-select --version</code></p>
+<p>如果未安装，使用<code>xcode-select --install</code>指令进行安装，安装成功后执行下方指令对其进行重签名。</p>
+<p>签名成功后重新打开即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">codesign -f -s - --deep /Applications/软件名.app</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>安装与卸载cocoapods</p>
+</blockquote>
+<p>VPN如果自动模式不行的话，切换都全局模式，选择美国的节点。</p>
+<p>安装cocoapods：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo gem install cocoapods</span><br></pre></td></tr></table></figure>
+
+<p>指定安装cocoapods:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo gem install cocoapods -v 1.6.1</span><br></pre></td></tr></table></figure>
+
+<p>查看当前cocoapods版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pod --version</span><br><span class="line">或</span><br><span class="line">gem list</span><br></pre></td></tr></table></figure>
+
+<p>移除程序包：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo gem uninstall cocoapods</span><br><span class="line">或指定某版本：</span><br><span class="line">sudo gem uninstall cocoapods -v 1.9.1</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://blog.cocoapods.org/CocoaPods-Trunk/">CocoaPods Trunk</a></li>
+<li><a href="https://guides.cocoapods.org/syntax/podspec.html">Podspec Syntax Reference v1.9.0</a></li>
+<li><a href="https://guides.cocoapods.org/syntax/podfile.html">Podfile Syntax Reference</a></li>
+<li><a href="https://guides.cocoapods.org/terminal/commands.html">Command-line Reference</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>cocoapods</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>批量更改文件名</title>
+    <url>/2024/04/06/%E6%89%B9%E9%87%8F%E6%9B%B4%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近下了一些学习的教学视频，但教学视频中加了很多前缀导致文件名会比较长，每次用播放器选择视频的时候都看不太清。</p>
+<p>所以写了个脚本方便更改文件名。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># 指定要替换的字符串</span><br><span class="line">search_string=&quot;要替换的字符串&quot;</span><br><span class="line"># 要替换成的字符串</span><br><span class="line">replace_string=&quot;&quot;</span><br><span class="line"></span><br><span class="line"># 循环处理当前文件夹下的所有文件</span><br><span class="line">for file in *; do</span><br><span class="line">    # 检查文件是否是普通文件</span><br><span class="line">    if [ -f &quot;$file&quot; ]; then</span><br><span class="line">        # 获取文件名</span><br><span class="line">        filename=$(basename &quot;$file&quot;)</span><br><span class="line">        # 进行字符串替换</span><br><span class="line">        new_filename=&quot;$&#123;filename//$search_string/$replace_string&#125;&quot;</span><br><span class="line">        # 如果文件名有变化，则重命名文件</span><br><span class="line">        if [ &quot;$filename&quot; != &quot;$new_filename&quot; ]; then</span><br><span class="line">            mv &quot;$filename&quot; &quot;$new_filename&quot;</span><br><span class="line">            echo &quot;已将文件 &#x27;$filename&#x27; 重命名为 &#x27;$new_filename&#x27;&quot;</span><br><span class="line">        fi</span><br><span class="line">    fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;替换完成！&quot;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>shell</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
       </tags>
   </entry>
   <entry>
