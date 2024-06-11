@@ -523,67 +523,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Objective-C Runtime的介绍及在工程中的使用</title>
-    <url>/2018/04/12/2018-04-12/</url>
-    <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-12/class-diagram.jpg" alt="class-diagram"></p>
-<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>在项目的开发过程中，一些功能使用了Runtime去实现。于是在闲暇之余决定对Runtime在项目中使用的一些案例进行整理。毕竟好记性不如烂笔头，下次使用的时候不可能去一点点翻看之前项目中的源码。</p>
-<h3 id="关于Runtime"><a href="#关于Runtime" class="headerlink" title="关于Runtime"></a>关于Runtime</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">The Objective-C language defers as many decisions as it can from compile time and link time to runtime. Whenever possible, it does things dynamically. This means that the language requires not just a compiler, but also a runtime system to execute the compiled code. The runtime system acts as a kind of operating system for the Objective-C language; it’s what makes the language work.</span><br><span class="line"></span><br><span class="line">This document looks at the NSObject class and how Objective-C programs interact with the runtime system. In particular, it examines the paradigms for dynamically loading new classes at runtime, and forwarding messages to other objects. It also provides information about how you can find information about objects while your program is running.</span><br><span class="line"></span><br><span class="line">You should read this document to gain an understanding of how the Objective-C runtime system works and how you can take advantage of it. Typically, though, there should be little reason for you to need to know and understand this material to write a Cocoa application.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<p>关于Runtime的介绍在<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html">Objective-C Runtime Programming Guide</a>中也有详细的介绍，我摘录了一些放到上面。</p>
-<p>Objective-C动态语言，将静态语言再编译和链接时做的决策推迟到运行时，这样它就会动态地完成任务。这就意味着Objective-C不仅需要编译器，还需要运行时系统来执行编译后的代码。而这个运行时系统就是Runtime。</p>
-<p>在写这篇博客之前也查找了一些资料，在<a href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</a>里可以看到。一些博客中也有关于isa、SEL、IMP、Method的介绍。如果要详细地了解Runtime，可以先明白isa、SEL、IMP、Method这些名词的概念，然后再使用Runtime实现开发中的一些功能。</p>
-<p>为了便于后期的查阅，所以这里摘录了其他资料、博客中关于这些名词的解释，如下：</p>
-<pre><code>isa:OC中，类和类的实例在本质上没有区别，都是对象，任何对象都有isa指针，它指向类或元类。
-
-SEL:SEL（选择器）是方法的selector的指针。方法的selector表示运行时方法的名字。OC在编译时，会依据每一个方法的名字、参数，生成一个唯一的整型标识(Int类型的地址)，这个标识就是SEL。
-
-IMP:IMP是一个函数指针，指向方法最终实现的首地址。SEL就是为了查找方法的最终实现IMP。
-
-Method:用于表示类定义中的方法，它的结构体中包含一个SEL和IMP，相当于在SEL和IMP之间作了一个映射。
-</code></pre>
-<h3 id="关于Runtime的使用"><a href="#关于Runtime的使用" class="headerlink" title="关于Runtime的使用"></a>关于Runtime的使用</h3><p>在公司的几个项目中，使用Runtime实现的功能并不多。</p>
-<p>一个就是在接收到推送的时候。需要跳转到某个ViewController并对这个ViewController的某个属性进行赋值。我实现的方法是先获取这个对象（ViewController）的属性列表，然后判断是否有服务端推送消息中包含的那个属性，如果有就使用KVC进行赋值，然后跳转。</p>
-<p>还有一个就是处理数组和字典的时候。我们都知道如果数组不进行越界处理等等等，很容易因为数据的原因而出现问题。所以在项目中使用了IMP指针替换了系统的原生方法，对一些可能导致问题的方法进行处理。</p>
-<p>下面是整理的一些关于Runtime的使用，代码存放再<a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/RuntimeDemo">GitHub</a>可以直接使用。而关于字典和数组的处理代码同样存放再<a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/SafeAryAndDic">GitHub</a>。</p>
-<h3 id="Runtime的使用01：获取某个实例的属性列表"><a href="#Runtime的使用01：获取某个实例的属性列表" class="headerlink" title="Runtime的使用01：获取某个实例的属性列表"></a>Runtime的使用01：获取某个实例的属性列表</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark ---</span><br><span class="line">#pragma mark --- 获取某个实例的属性列表 ---</span><br><span class="line">+ (NSMutableArray *)propertiesInfoWithInstance:(id)instance&#123;</span><br><span class="line">    </span><br><span class="line">    NSMutableArray *propertieAry = [NSMutableArray array];</span><br><span class="line">    </span><br><span class="line">    unsigned int outCount, i;</span><br><span class="line">    // 获取对象里的属性列表</span><br><span class="line">    objc_property_t * properties = class_copyPropertyList([instance class], &amp;outCount);</span><br><span class="line">    for (i = 0; i &lt; outCount; i++) &#123;</span><br><span class="line">        objc_property_t property =properties[i];</span><br><span class="line">        //  属性名转成字符串</span><br><span class="line">        NSString *propertyName = [[NSString alloc] initWithCString:property_getName(property) encoding:NSUTF8StringEncoding];</span><br><span class="line">        </span><br><span class="line">        [propertieAry addObject:propertyName];</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    free(properties);</span><br><span class="line">    </span><br><span class="line">    return propertieAry;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Runtime的使用02：获取某个类的成员变量列表"><a href="#Runtime的使用02：获取某个类的成员变量列表" class="headerlink" title="Runtime的使用02：获取某个类的成员变量列表"></a>Runtime的使用02：获取某个类的成员变量列表</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark ---</span><br><span class="line">#pragma mark --- 获取某个类的成员变量列表 ---</span><br><span class="line">+ (NSMutableArray *)ivarInfoWithInstance:(id)instance&#123;</span><br><span class="line">    </span><br><span class="line">    NSMutableArray *ivarInfoAry = [NSMutableArray array];</span><br><span class="line">    unsigned int count, i;</span><br><span class="line">    </span><br><span class="line">    Ivar *ivars = class_copyIvarList([instance class], &amp;count);</span><br><span class="line">    for (i = 0 ; i &lt; count ; i ++ ) &#123;</span><br><span class="line"></span><br><span class="line">        NSString *name = [NSString stringWithCString:ivar_getName(ivars[i]) encoding:NSUTF8StringEncoding];</span><br><span class="line">        [ivarInfoAry addObject:name];</span><br><span class="line">    &#125;</span><br><span class="line">    free(ivars);</span><br><span class="line">    return ivarInfoAry;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Runtime的使用03：获取某个类的方法列表"><a href="#Runtime的使用03：获取某个类的方法列表" class="headerlink" title="Runtime的使用03：获取某个类的方法列表"></a>Runtime的使用03：获取某个类的方法列表</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark ---</span><br><span class="line">#pragma mark --- 获取某个类的方法列表 ---</span><br><span class="line">+ (NSMutableArray *)methodListWithInstance:(id)instance&#123;</span><br><span class="line">    </span><br><span class="line">    NSMutableArray *methodListAry = [NSMutableArray array];</span><br><span class="line">    unsigned int count, i;</span><br><span class="line">    </span><br><span class="line">    Method *methods = class_copyMethodList([instance class], &amp;count);</span><br><span class="line">    for (i = 0 ; i &lt; count; i ++) &#123;</span><br><span class="line">        SEL name = method_getName(methods[i]);</span><br><span class="line">        NSString *methodStr = [NSString stringWithCString:sel_getName(name) encoding:NSUTF8StringEncoding];</span><br><span class="line">        [methodListAry addObject:methodStr];</span><br><span class="line">    &#125;</span><br><span class="line">    free(methods);</span><br><span class="line">    return methodListAry;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Runtime的使用04：检测对象的某个属性是否存在"><a href="#Runtime的使用04：检测对象的某个属性是否存在" class="headerlink" title="Runtime的使用04：检测对象的某个属性是否存在"></a>Runtime的使用04：检测对象的某个属性是否存在</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark -</span><br><span class="line">#pragma mark --- 检测对象的某个属性是否存在 ---</span><br><span class="line">+ (BOOL)checkIsExistPropertyWithInstance:(id)instance verifyPropertyName:(NSString *)verifyPropertyName</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int outCount, i;</span><br><span class="line">    // 获取对象里的属性列表</span><br><span class="line">    objc_property_t * properties = class_copyPropertyList([instance class], &amp;outCount);</span><br><span class="line">    </span><br><span class="line">    for (i = 0; i &lt; outCount; i++) &#123;</span><br><span class="line">        objc_property_t property =properties[i];</span><br><span class="line">        //  属性名转成字符串</span><br><span class="line">        NSString *propertyName = [[NSString alloc] initWithCString:property_getName(property) encoding:NSUTF8StringEncoding];</span><br><span class="line">        // 判断该属性是否存在</span><br><span class="line">        if ([propertyName isEqualToString:verifyPropertyName]) &#123;</span><br><span class="line">            free(properties);</span><br><span class="line">            return YES;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    free(properties);</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Runtime的使用05：IMP指针替换系统方法"><a href="#Runtime的使用05：IMP指针替换系统方法" class="headerlink" title="Runtime的使用05：IMP指针替换系统方法"></a>Runtime的使用05：IMP指针替换系统方法</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark ---</span><br><span class="line">#pragma mark --- IMP指针替换系统方法 ---</span><br><span class="line">+ (void)SwizzlingMethod:(NSString *)systemMethodString systemClassString:(NSString *)systemClassString toSafeMethodString:(NSString *)safeMethodString targetClassString:(NSString *)targetClassString&#123;</span><br><span class="line">    //获取系统方法IMP</span><br><span class="line">    Method sysMethod = class_getInstanceMethod(NSClassFromString(systemClassString), NSSelectorFromString(systemMethodString));</span><br><span class="line">    //自定义方法的IMP</span><br><span class="line">    Method safeMethod = class_getInstanceMethod(NSClassFromString(targetClassString), NSSelectorFromString(safeMethodString));</span><br><span class="line">    //IMP相互交换，方法的实现也就互相交换了</span><br><span class="line">    method_exchangeImplementations(safeMethod,sysMethod);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Runtime的使用06：给系统类动态添加属性"><a href="#Runtime的使用06：给系统类动态添加属性" class="headerlink" title="Runtime的使用06：给系统类动态添加属性"></a>Runtime的使用06：给系统类动态添加属性</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark ---</span><br><span class="line">#pragma mark --- 给系统类动态添加属性 ---</span><br><span class="line"></span><br><span class="line">- (void)setName:(NSString *)name&#123;</span><br><span class="line">    /*</span><br><span class="line">     objc_setAssociatedObject 将某个值跟某个对象关联起来，将某个值存储到某个对象中。</span><br><span class="line">     object: 给哪个对象添加属性</span><br><span class="line">     key:属性的名称</span><br><span class="line">     value: 属性值</span><br><span class="line">     policy:保存策略</span><br><span class="line">     */</span><br><span class="line">//    objc_setAssociatedObject(&lt;#id  _Nonnull object#&gt;, &lt;#const void * _Nonnull key#&gt;, &lt;#id  _Nullable value#&gt;, &lt;#objc_AssociationPolicy policy#&gt;)</span><br><span class="line">    objc_setAssociatedObject(self, @&quot;name&quot;, name, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString *)name&#123;</span><br><span class="line">    /*</span><br><span class="line">     object:对象</span><br><span class="line">     key:属性的名称</span><br><span class="line">     */</span><br><span class="line">//    objc_getAssociatedObject(&lt;#id  _Nonnull object#&gt;, &lt;#const void * _Nonnull key#&gt;)</span><br><span class="line">    return objc_getAssociatedObject(self, @&quot;name&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="https://github.com/RetVal/objc-runtime">objc-runtime</a></li>
-<li><a href="https://developer.apple.com/documentation/objectivec/objective_c_runtime?language=objc">Objective-C Runtime Reference</a></li>
-<li><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048?language=objc">Objective-C Runtime Programming Guide</a></li>
-<li><a href="http://www.cocoachina.com/ios/20170301/18804.html">iOS开发之Runtime常用示例总结</a></li>
-<li><a href="https://www.jianshu.com/p/d6a68575ce10">runtime运行时 isa指针 SEL方法选择器 IMP函数指针 Method方法 runtime消息机制 runtime的使用</a></li>
-<li><a href="http://blog.csdn.net/zy_flyway/article/details/75370404">iOS Runtime Method IMP指针详解</a></li>
-<li><a href="http://www.cnblogs.com/CoderAlex/p/6741943.html">iOS—runtime之IMP指针,isa指针</a></li>
-<li><a href="http://southpeak.github.io/categories/objectivec/">Objective-C Runtime 运行时</a></li>
-<li><a href="http://blog.devtang.com/2013/10/15/objective-c-object-model/">Objective-C对象模型及应用</a></li>
-<li><a href="https://juejin.im/entry/587d887f1b69e60058486a71">iOS Runtime 之一：Class 和 meta-class</a></li>
-<li><a href="https://www.jianshu.com/p/ab966e8a82e2">OC最实用的runtime总结，面试、工作你看我就足够了！</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>知识整理</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>关于开发者中心出现的update the mobile phone number associated with your Apple ID</title>
     <url>/2018/04/24/2018-04-24/</url>
     <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-24/%E6%9B%B4%E6%96%B0%E5%8D%8F%E8%AE%AE.png" alt="更新协议"></p>
@@ -696,28 +635,64 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>Dart线程管理详解</title>
-    <url>/2023/12/14/Dart%E7%BA%BF%E7%A8%8B%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><iframe src="https://dartpad.cn/?" width="800" height="300"></iframe>
+    <title>Objective-C Runtime的介绍及在工程中的使用</title>
+    <url>/2018/04/12/2018-04-12/</url>
+    <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2018-04-12/class-diagram.jpg" alt="class-diagram"></p>
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>在项目的开发过程中，一些功能使用了Runtime去实现。于是在闲暇之余决定对Runtime在项目中使用的一些案例进行整理。毕竟好记性不如烂笔头，下次使用的时候不可能去一点点翻看之前项目中的源码。</p>
+<h3 id="关于Runtime"><a href="#关于Runtime" class="headerlink" title="关于Runtime"></a>关于Runtime</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">The Objective-C language defers as many decisions as it can from compile time and link time to runtime. Whenever possible, it does things dynamically. This means that the language requires not just a compiler, but also a runtime system to execute the compiled code. The runtime system acts as a kind of operating system for the Objective-C language; it’s what makes the language work.</span><br><span class="line"></span><br><span class="line">This document looks at the NSObject class and how Objective-C programs interact with the runtime system. In particular, it examines the paradigms for dynamically loading new classes at runtime, and forwarding messages to other objects. It also provides information about how you can find information about objects while your program is running.</span><br><span class="line"></span><br><span class="line">You should read this document to gain an understanding of how the Objective-C runtime system works and how you can take advantage of it. Typically, though, there should be little reason for you to need to know and understand this material to write a Cocoa application.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><a href="">Dart</a>是一个优秀的编程语言，它提供了对多线程的支持。尤其是在<a href="">Flutter</a>框架中，Dart线程管理尤为重要。</p>
-<p>而在<a href="">Flutter</a>中，线程管理主要涉及到两个方面：一个是<a href="">Flutter 引擎</a>的线程管理，另一个是<a href="">Dart</a>本身的线程管理。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://dart.cn/">Dart中文文档</a></li>
-<li><a href="https://medium.com/dartlang">dartlang</a></li>
-<li><a href="https://dart.dev/#try-dart">try-dart</a></li>
-<li><a href="https://dartpad.cn/">dartpad</a></li>
-<li><a href="https://pub.dev/documentation/thread/latest/">Flutter-documentation-thread</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/40069285?utm_id=0">聊一聊Flutter线程管理与Dart Isolate机制</a></li>
-<li><a href="https://juejin.cn/post/7130915241344368671">详解 Flutter engine多线程、Dart isolate和异步</a></li>
-<li><a href="https://cloud.tencent.com/developer/article/2305626?areaId=106001">《深入浅出Dart》事件循环和协程机制</a></li>
+
+<p>关于Runtime的介绍在<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html">Objective-C Runtime Programming Guide</a>中也有详细的介绍，我摘录了一些放到上面。</p>
+<p>Objective-C动态语言，将静态语言再编译和链接时做的决策推迟到运行时，这样它就会动态地完成任务。这就意味着Objective-C不仅需要编译器，还需要运行时系统来执行编译后的代码。而这个运行时系统就是Runtime。</p>
+<p>在写这篇博客之前也查找了一些资料，在<a href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</a>里可以看到。一些博客中也有关于isa、SEL、IMP、Method的介绍。如果要详细地了解Runtime，可以先明白isa、SEL、IMP、Method这些名词的概念，然后再使用Runtime实现开发中的一些功能。</p>
+<p>为了便于后期的查阅，所以这里摘录了其他资料、博客中关于这些名词的解释，如下：</p>
+<pre><code>isa:OC中，类和类的实例在本质上没有区别，都是对象，任何对象都有isa指针，它指向类或元类。
+
+SEL:SEL（选择器）是方法的selector的指针。方法的selector表示运行时方法的名字。OC在编译时，会依据每一个方法的名字、参数，生成一个唯一的整型标识(Int类型的地址)，这个标识就是SEL。
+
+IMP:IMP是一个函数指针，指向方法最终实现的首地址。SEL就是为了查找方法的最终实现IMP。
+
+Method:用于表示类定义中的方法，它的结构体中包含一个SEL和IMP，相当于在SEL和IMP之间作了一个映射。
+</code></pre>
+<h3 id="关于Runtime的使用"><a href="#关于Runtime的使用" class="headerlink" title="关于Runtime的使用"></a>关于Runtime的使用</h3><p>在公司的几个项目中，使用Runtime实现的功能并不多。</p>
+<p>一个就是在接收到推送的时候。需要跳转到某个ViewController并对这个ViewController的某个属性进行赋值。我实现的方法是先获取这个对象（ViewController）的属性列表，然后判断是否有服务端推送消息中包含的那个属性，如果有就使用KVC进行赋值，然后跳转。</p>
+<p>还有一个就是处理数组和字典的时候。我们都知道如果数组不进行越界处理等等等，很容易因为数据的原因而出现问题。所以在项目中使用了IMP指针替换了系统的原生方法，对一些可能导致问题的方法进行处理。</p>
+<p>下面是整理的一些关于Runtime的使用，代码存放再<a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/RuntimeDemo">GitHub</a>可以直接使用。而关于字典和数组的处理代码同样存放再<a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/SafeAryAndDic">GitHub</a>。</p>
+<h3 id="Runtime的使用01：获取某个实例的属性列表"><a href="#Runtime的使用01：获取某个实例的属性列表" class="headerlink" title="Runtime的使用01：获取某个实例的属性列表"></a>Runtime的使用01：获取某个实例的属性列表</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark ---</span><br><span class="line">#pragma mark --- 获取某个实例的属性列表 ---</span><br><span class="line">+ (NSMutableArray *)propertiesInfoWithInstance:(id)instance&#123;</span><br><span class="line">    </span><br><span class="line">    NSMutableArray *propertieAry = [NSMutableArray array];</span><br><span class="line">    </span><br><span class="line">    unsigned int outCount, i;</span><br><span class="line">    // 获取对象里的属性列表</span><br><span class="line">    objc_property_t * properties = class_copyPropertyList([instance class], &amp;outCount);</span><br><span class="line">    for (i = 0; i &lt; outCount; i++) &#123;</span><br><span class="line">        objc_property_t property =properties[i];</span><br><span class="line">        //  属性名转成字符串</span><br><span class="line">        NSString *propertyName = [[NSString alloc] initWithCString:property_getName(property) encoding:NSUTF8StringEncoding];</span><br><span class="line">        </span><br><span class="line">        [propertieAry addObject:propertyName];</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    free(properties);</span><br><span class="line">    </span><br><span class="line">    return propertieAry;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Runtime的使用02：获取某个类的成员变量列表"><a href="#Runtime的使用02：获取某个类的成员变量列表" class="headerlink" title="Runtime的使用02：获取某个类的成员变量列表"></a>Runtime的使用02：获取某个类的成员变量列表</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark ---</span><br><span class="line">#pragma mark --- 获取某个类的成员变量列表 ---</span><br><span class="line">+ (NSMutableArray *)ivarInfoWithInstance:(id)instance&#123;</span><br><span class="line">    </span><br><span class="line">    NSMutableArray *ivarInfoAry = [NSMutableArray array];</span><br><span class="line">    unsigned int count, i;</span><br><span class="line">    </span><br><span class="line">    Ivar *ivars = class_copyIvarList([instance class], &amp;count);</span><br><span class="line">    for (i = 0 ; i &lt; count ; i ++ ) &#123;</span><br><span class="line"></span><br><span class="line">        NSString *name = [NSString stringWithCString:ivar_getName(ivars[i]) encoding:NSUTF8StringEncoding];</span><br><span class="line">        [ivarInfoAry addObject:name];</span><br><span class="line">    &#125;</span><br><span class="line">    free(ivars);</span><br><span class="line">    return ivarInfoAry;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Runtime的使用03：获取某个类的方法列表"><a href="#Runtime的使用03：获取某个类的方法列表" class="headerlink" title="Runtime的使用03：获取某个类的方法列表"></a>Runtime的使用03：获取某个类的方法列表</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark ---</span><br><span class="line">#pragma mark --- 获取某个类的方法列表 ---</span><br><span class="line">+ (NSMutableArray *)methodListWithInstance:(id)instance&#123;</span><br><span class="line">    </span><br><span class="line">    NSMutableArray *methodListAry = [NSMutableArray array];</span><br><span class="line">    unsigned int count, i;</span><br><span class="line">    </span><br><span class="line">    Method *methods = class_copyMethodList([instance class], &amp;count);</span><br><span class="line">    for (i = 0 ; i &lt; count; i ++) &#123;</span><br><span class="line">        SEL name = method_getName(methods[i]);</span><br><span class="line">        NSString *methodStr = [NSString stringWithCString:sel_getName(name) encoding:NSUTF8StringEncoding];</span><br><span class="line">        [methodListAry addObject:methodStr];</span><br><span class="line">    &#125;</span><br><span class="line">    free(methods);</span><br><span class="line">    return methodListAry;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Runtime的使用04：检测对象的某个属性是否存在"><a href="#Runtime的使用04：检测对象的某个属性是否存在" class="headerlink" title="Runtime的使用04：检测对象的某个属性是否存在"></a>Runtime的使用04：检测对象的某个属性是否存在</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark -</span><br><span class="line">#pragma mark --- 检测对象的某个属性是否存在 ---</span><br><span class="line">+ (BOOL)checkIsExistPropertyWithInstance:(id)instance verifyPropertyName:(NSString *)verifyPropertyName</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int outCount, i;</span><br><span class="line">    // 获取对象里的属性列表</span><br><span class="line">    objc_property_t * properties = class_copyPropertyList([instance class], &amp;outCount);</span><br><span class="line">    </span><br><span class="line">    for (i = 0; i &lt; outCount; i++) &#123;</span><br><span class="line">        objc_property_t property =properties[i];</span><br><span class="line">        //  属性名转成字符串</span><br><span class="line">        NSString *propertyName = [[NSString alloc] initWithCString:property_getName(property) encoding:NSUTF8StringEncoding];</span><br><span class="line">        // 判断该属性是否存在</span><br><span class="line">        if ([propertyName isEqualToString:verifyPropertyName]) &#123;</span><br><span class="line">            free(properties);</span><br><span class="line">            return YES;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    free(properties);</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Runtime的使用05：IMP指针替换系统方法"><a href="#Runtime的使用05：IMP指针替换系统方法" class="headerlink" title="Runtime的使用05：IMP指针替换系统方法"></a>Runtime的使用05：IMP指针替换系统方法</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark ---</span><br><span class="line">#pragma mark --- IMP指针替换系统方法 ---</span><br><span class="line">+ (void)SwizzlingMethod:(NSString *)systemMethodString systemClassString:(NSString *)systemClassString toSafeMethodString:(NSString *)safeMethodString targetClassString:(NSString *)targetClassString&#123;</span><br><span class="line">    //获取系统方法IMP</span><br><span class="line">    Method sysMethod = class_getInstanceMethod(NSClassFromString(systemClassString), NSSelectorFromString(systemMethodString));</span><br><span class="line">    //自定义方法的IMP</span><br><span class="line">    Method safeMethod = class_getInstanceMethod(NSClassFromString(targetClassString), NSSelectorFromString(safeMethodString));</span><br><span class="line">    //IMP相互交换，方法的实现也就互相交换了</span><br><span class="line">    method_exchangeImplementations(safeMethod,sysMethod);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Runtime的使用06：给系统类动态添加属性"><a href="#Runtime的使用06：给系统类动态添加属性" class="headerlink" title="Runtime的使用06：给系统类动态添加属性"></a>Runtime的使用06：给系统类动态添加属性</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark ---</span><br><span class="line">#pragma mark --- 给系统类动态添加属性 ---</span><br><span class="line"></span><br><span class="line">- (void)setName:(NSString *)name&#123;</span><br><span class="line">    /*</span><br><span class="line">     objc_setAssociatedObject 将某个值跟某个对象关联起来，将某个值存储到某个对象中。</span><br><span class="line">     object: 给哪个对象添加属性</span><br><span class="line">     key:属性的名称</span><br><span class="line">     value: 属性值</span><br><span class="line">     policy:保存策略</span><br><span class="line">     */</span><br><span class="line">//    objc_setAssociatedObject(&lt;#id  _Nonnull object#&gt;, &lt;#const void * _Nonnull key#&gt;, &lt;#id  _Nullable value#&gt;, &lt;#objc_AssociationPolicy policy#&gt;)</span><br><span class="line">    objc_setAssociatedObject(self, @&quot;name&quot;, name, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString *)name&#123;</span><br><span class="line">    /*</span><br><span class="line">     object:对象</span><br><span class="line">     key:属性的名称</span><br><span class="line">     */</span><br><span class="line">//    objc_getAssociatedObject(&lt;#id  _Nonnull object#&gt;, &lt;#const void * _Nonnull key#&gt;)</span><br><span class="line">    return objc_getAssociatedObject(self, @&quot;name&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://github.com/RetVal/objc-runtime">objc-runtime</a></li>
+<li><a href="https://developer.apple.com/documentation/objectivec/objective_c_runtime?language=objc">Objective-C Runtime Reference</a></li>
+<li><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048?language=objc">Objective-C Runtime Programming Guide</a></li>
+<li><a href="http://www.cocoachina.com/ios/20170301/18804.html">iOS开发之Runtime常用示例总结</a></li>
+<li><a href="https://www.jianshu.com/p/d6a68575ce10">runtime运行时 isa指针 SEL方法选择器 IMP函数指针 Method方法 runtime消息机制 runtime的使用</a></li>
+<li><a href="http://blog.csdn.net/zy_flyway/article/details/75370404">iOS Runtime Method IMP指针详解</a></li>
+<li><a href="http://www.cnblogs.com/CoderAlex/p/6741943.html">iOS—runtime之IMP指针,isa指针</a></li>
+<li><a href="http://southpeak.github.io/categories/objectivec/">Objective-C Runtime 运行时</a></li>
+<li><a href="http://blog.devtang.com/2013/10/15/objective-c-object-model/">Objective-C对象模型及应用</a></li>
+<li><a href="https://juejin.im/entry/587d887f1b69e60058486a71">iOS Runtime 之一：Class 和 meta-class</a></li>
+<li><a href="https://www.jianshu.com/p/ab966e8a82e2">OC最实用的runtime总结，面试、工作你看我就足够了！</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>Flutter</category>
+        <category>iOS</category>
       </categories>
       <tags>
-        <tag>Dart</tag>
+        <tag>iOS</tag>
+        <tag>知识整理</tag>
       </tags>
   </entry>
   <entry>
@@ -1293,24 +1268,28 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>EasyOCR技术支持</title>
-    <url>/2020/11/04/EasyOCR%E6%8A%80%E6%9C%AF%E6%94%AF%E6%8C%81/</url>
-    <content><![CDATA[<h2 id="产品简介"><a href="#产品简介" class="headerlink" title="产品简介"></a>产品简介</h2><p>EasyOCR是一款专业的本地OCR图片文字识别APP。</p>
-<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/EasyOCR/001.png" alt="首页"><br><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/EasyOCR/002.png" alt="调整角度"><br><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/EasyOCR/004.png" alt="裁剪图片"><br><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/EasyOCR/003.png" alt="识别结果"></p>
-<h2 id="关于隐私"><a href="#关于隐私" class="headerlink" title="关于隐私"></a>关于隐私</h2><p>EasyOCR完全进行本地识别，不会将图片上传服务器，不会保存任何信息，不会泄露个人隐私。</p>
-<h2 id="关于EasyOCR"><a href="#关于EasyOCR" class="headerlink" title="关于EasyOCR"></a>关于EasyOCR</h2><p>EasyOCR底层基于PaddleOCR训练的模型，识别速度高，目前支持中英文数字组合识别、竖排文本识别、长文本识别。</p>
-<h2 id="关于使用"><a href="#关于使用" class="headerlink" title="关于使用"></a>关于使用</h2><p>进入首页选择拍照识别（相册识别）-&gt; 调整角度（右上角裁剪）-&gt;点击识别按钮-&gt;进入识别结果页面，将内容复制剪贴板（右上角复制全部内容到剪切板）</p>
-<h2 id="关于帮助"><a href="#关于帮助" class="headerlink" title="关于帮助"></a>关于帮助</h2><p>感谢您使用EasyOCR，在使用过程中如果有任何问题可以通过以下方式联系我寻求帮助：</p>
-<ol>
-<li>个人邮箱：<a href="mailto:&#50;&#51;&#x30;&#51;&#52;&#x30;&#48;&#x30;&#56;&#51;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#x6d;">&#50;&#51;&#x30;&#51;&#52;&#x30;&#48;&#x30;&#56;&#51;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#x6d;</a></li>
-<li>微信公众号：拿根针尖对麦芒（ZhouWeiTalk）</li>
-</ol>
+    <title>Dart线程管理详解</title>
+    <url>/2023/12/14/Dart%E7%BA%BF%E7%A8%8B%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><iframe src="https://dartpad.cn/?" width="800" height="300"></iframe>
+
+<p><a href="">Dart</a>是一个优秀的编程语言，它提供了对多线程的支持。尤其是在<a href="">Flutter</a>框架中，Dart线程管理尤为重要。</p>
+<p>而在<a href="">Flutter</a>中，线程管理主要涉及到两个方面：一个是<a href="">Flutter 引擎</a>的线程管理，另一个是<a href="">Dart</a>本身的线程管理。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://dart.cn/">Dart中文文档</a></li>
+<li><a href="https://medium.com/dartlang">dartlang</a></li>
+<li><a href="https://dart.dev/#try-dart">try-dart</a></li>
+<li><a href="https://dartpad.cn/">dartpad</a></li>
+<li><a href="https://pub.dev/documentation/thread/latest/">Flutter-documentation-thread</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/40069285?utm_id=0">聊一聊Flutter线程管理与Dart Isolate机制</a></li>
+<li><a href="https://juejin.cn/post/7130915241344368671">详解 Flutter engine多线程、Dart isolate和异步</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2305626?areaId=106001">《深入浅出Dart》事件循环和协程机制</a></li>
+</ul>
 ]]></content>
       <categories>
-        <category>个人项目</category>
+        <category>Flutter</category>
       </categories>
       <tags>
-        <tag>iOS</tag>
+        <tag>Dart</tag>
       </tags>
   </entry>
   <entry>
@@ -1331,6 +1310,27 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <blockquote>
 <p>更新日期：2020年11月04日</p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>个人项目</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>EasyOCR技术支持</title>
+    <url>/2020/11/04/EasyOCR%E6%8A%80%E6%9C%AF%E6%94%AF%E6%8C%81/</url>
+    <content><![CDATA[<h2 id="产品简介"><a href="#产品简介" class="headerlink" title="产品简介"></a>产品简介</h2><p>EasyOCR是一款专业的本地OCR图片文字识别APP。</p>
+<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/EasyOCR/001.png" alt="首页"><br><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/EasyOCR/002.png" alt="调整角度"><br><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/EasyOCR/004.png" alt="裁剪图片"><br><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/EasyOCR/003.png" alt="识别结果"></p>
+<h2 id="关于隐私"><a href="#关于隐私" class="headerlink" title="关于隐私"></a>关于隐私</h2><p>EasyOCR完全进行本地识别，不会将图片上传服务器，不会保存任何信息，不会泄露个人隐私。</p>
+<h2 id="关于EasyOCR"><a href="#关于EasyOCR" class="headerlink" title="关于EasyOCR"></a>关于EasyOCR</h2><p>EasyOCR底层基于PaddleOCR训练的模型，识别速度高，目前支持中英文数字组合识别、竖排文本识别、长文本识别。</p>
+<h2 id="关于使用"><a href="#关于使用" class="headerlink" title="关于使用"></a>关于使用</h2><p>进入首页选择拍照识别（相册识别）-&gt; 调整角度（右上角裁剪）-&gt;点击识别按钮-&gt;进入识别结果页面，将内容复制剪贴板（右上角复制全部内容到剪切板）</p>
+<h2 id="关于帮助"><a href="#关于帮助" class="headerlink" title="关于帮助"></a>关于帮助</h2><p>感谢您使用EasyOCR，在使用过程中如果有任何问题可以通过以下方式联系我寻求帮助：</p>
+<ol>
+<li>个人邮箱：<a href="mailto:&#50;&#x33;&#x30;&#51;&#52;&#x30;&#x30;&#48;&#x38;&#51;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;">&#50;&#x33;&#x30;&#51;&#52;&#x30;&#x30;&#48;&#x38;&#51;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;</a></li>
+<li>微信公众号：拿根针尖对麦芒（ZhouWeiTalk）</li>
+</ol>
 ]]></content>
       <categories>
         <category>个人项目</category>
@@ -1574,141 +1574,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 ]]></content>
       <categories>
         <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Instruments工具集</title>
-    <url>/2018/01/02/Instruments%E5%B7%A5%E5%85%B7%E9%9B%86/</url>
-    <content><![CDATA[<h3 id="Blank"><a href="#Blank" class="headerlink" title="Blank"></a>Blank</h3><p>A blank trace document that can be customized with instruments from the Library.</p>
-<h3 id="Activity-Monitor"><a href="#Activity-Monitor" class="headerlink" title="Activity Monitor"></a>Activity Monitor</h3><p>Monitors CPU, memory, disk,and network usage statistics for processes and the system.</p>
-<h3 id="Allocations"><a href="#Allocations" class="headerlink" title="Allocations"></a>Allocations</h3><p>Tracks a process’ anonymous virtual memory and heap, providing class names and optionally retain&#x2F;release histories for objects.</p>
-<h3 id="Cocoa-Layout"><a href="#Cocoa-Layout" class="headerlink" title="Cocoa Layout"></a>Cocoa Layout</h3><p>Observes changes to NSLayoutConstraint objects to help determine when and where a layout constraint went awry.</p>
-<h3 id="Core-Animation"><a href="#Core-Animation" class="headerlink" title="Core Animation"></a>Core Animation</h3><p>This template measures application graphics performance as well as CPU usage of a process via time profiling.</p>
-<h3 id="Core-Data"><a href="#Core-Data" class="headerlink" title="Core Data"></a>Core Data</h3><p>This template traces Core Data filesystem activity, including fetches,cache misses, and saves.</p>
-<h3 id="Counters"><a href="#Counters" class="headerlink" title="Counters"></a>Counters</h3><p>Collects performance monitor counter(PMC) events using time or event based sampling methods.</p>
-<h3 id="Energy-Log"><a href="#Energy-Log" class="headerlink" title="Energy Log"></a>Energy Log</h3><p>This template provides diagnostics regarding energy usage as well as basic on&#x2F;off state of major device components.</p>
-<h3 id="File-Activity"><a href="#File-Activity" class="headerlink" title="File Activity"></a>File Activity</h3><p>This template monitors file and directory activity, including file open&#x2F;close calls, file permission modifications,directory creation, file moves,etc.</p>
-<h3 id="Leaks"><a href="#Leaks" class="headerlink" title="Leaks"></a>Leaks</h3><p>Measures general memory usage,checks for leaked memory,and provides statistics on object allocations by class as well as memory address histories for all active allocations and leaked blocks.</p>
-<h3 id="Metal-System-Trace"><a href="#Metal-System-Trace" class="headerlink" title="Metal System Trace"></a>Metal System Trace</h3><p>Metal System Trace profiles the performance of iOS,tvOS and macOS  Metal applications by providing tracing information from the application,driver,and GPU layers.</p>
-<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><p>Analyze how your applications are using TCP&#x2F;IP connections using the Connections instrument.</p>
-<h3 id="SceneKit"><a href="#SceneKit" class="headerlink" title="SceneKit"></a>SceneKit</h3><p>Profiles an application’s use of SceneKit.Determines the type of work going into each frame, such as animations, physics,scene culling,and rendering.</p>
-<h3 id="System-Trace"><a href="#System-Trace" class="headerlink" title="System Trace"></a>System Trace</h3><p>A comprehensive view of what’s happening in the operationg system. See how threads are being scheduled across CPUs and understand how system calls and virtual memory faults anr affectiong your application’s Performance.</p>
-<h3 id="System-Usage"><a href="#System-Usage" class="headerlink" title="System Usage"></a>System Usage</h3><p>This template records I&#x2F;O system activity related to files, sockets,and shared memory for a single process launched via instruments, Inputs, outputs,duration,backtrace,calltree,etc.is provided for each call.</p>
-<h3 id="Time-Profiler"><a href="#Time-Profiler" class="headerlink" title="Time Profiler"></a>Time Profiler</h3><p>Performs low-overhead time -based sampling of processes runing on the system’s CPUs.</p>
-<h3 id="Zombies"><a href="#Zombies" class="headerlink" title="Zombies"></a>Zombies</h3><p>Measures general memory usage while focusing on the delection of over - released “zombie” objects. Also statistics on object allocations by class as well as memory address histories for all active allocations.</p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-        <category>iOS性能调优</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LLVM编译流程等相关知识整理</title>
-    <url>/2020/10/07/LLVM%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>整理这篇博客主要是了解iOS编译的过程，了解其相关知识，丰富自己的知识体系。</p>
-<p>在写这篇博客之前查看了<a href="https://ke.qq.com/mobilev2/courseDetail.html?_bid=167&_wv=3&course_id=322016&from=share#from=iosapp">李明杰在腾讯课堂的关于LLVM的付费课程</a>,<a href="http://www.hzcourse.com/web/teachRes/detail/4635/231">《LLVM编译器实战教程》</a>相关书籍，还有网络上一些博客，在此向他们致敬！</p>
-<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/LLVM.png" alt="LLVM"></p>
-<h2 id="什么是LLVM"><a href="#什么是LLVM" class="headerlink" title="什么是LLVM"></a>什么是LLVM</h2><p><code>LLVM</code>项目是模块化、可重用的<code>编译器</code>以及<code>工具链</code>技术的集合。</p>
-<p><code>LLVM</code>跟传统的静态编译器一样使用了经典三段式的结构设计，如下图所示，分别为前端、优化器和后端。</p>
-<blockquote>
-<p>传统编译器架构</p>
-</blockquote>
-<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/LLVM%E6%9E%B6%E6%9E%84.jpg" alt="传统编译器架构"></p>
-<ul>
-<li><code>Frontend（编译器前端）</code>：进行词法分析、语法分析、语义分析、生成中间代码<code>（IR）</code>。</li>
-<li><code>Optimizer（优化器）</code>：中间代码优化。</li>
-<li><code>Backend（后端）</code>:生成机器码</li>
-</ul>
-<p><code>LLVM</code>编译器如这篇文章的头图所示。这样做的优点如下：</p>
-<ul>
-<li>如果需要支持一种新的编程语言，只需要实现一种新的编译器前端即可。</li>
-<li>如果需要支持一种新的硬件设备，只需要实现一个新的后端即可。</li>
-<li>优化阶段是一个通用的阶段，它针对的是统一的<code>LLVM IR</code>,不论是支持新的编程语言，还是支持新的硬件设备，都不需要对优化阶段进行修改。</li>
-</ul>
-<h2 id="什么是Clang"><a href="#什么是Clang" class="headerlink" title="什么是Clang"></a>什么是Clang</h2><p><code>Clang</code>是<code>LLVM项目</code>的一个<code>子项目</code>，是基于<code>LLVM</code>架构的<code>C/C++/Objective-C</code>编译器<code>前端</code>。</p>
-<h2 id="Clang常用指令"><a href="#Clang常用指令" class="headerlink" title="Clang常用指令"></a><code>Clang</code>常用指令</h2><p><code>Clang</code>工具可以再<code>Xcode</code>中查看，具体路径为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang</span><br></pre></td></tr></table></figure>
-<p>可以再终端输入<code>Clang -help</code>查看所有指令。</p>
-<p>常用的指令如下所示：</p>
-<ul>
-<li>生成可执行文件:<code>clang main.o -o main</code></li>
-<li>查看编译过程：<code>clang -ccc-print-phases main.m</code></li>
-<li>查看预处理结果：<code>clang -E main.m</code></li>
-<li>语法分析,生成Token:<code>clang -fmodules -E -Xclang -dump-tokens main.m</code></li>
-<li>生成语法树(AST):<code>clang -fmodules -fsyntax-only -Xclang -ast-dump main.m</code></li>
-<li>LLVM中间表示层(LLVM IR)：<code>clang -S -fobjc-arc -emit-llvm main.m -o main.ll</code></li>
-<li>生成汇编：<code>clang -S -fobjc-arc main.m -o main.s</code></li>
-<li>生成目标文件：<code>clang -fmodules -c main.m -o main.o</code></li>
-</ul>
-<h2 id="swiftc常用指令"><a href="#swiftc常用指令" class="headerlink" title="swiftc常用指令"></a><code>swiftc</code>常用指令</h2><p><code>swiftc</code>工具可以在<code>Xcode</code>中查看,具体路径为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc</span><br></pre></td></tr></table></figure>
-<p>可以在终端输入<code>swiftc -help </code>查看相关指令。</p>
-<p>常用的指令如下所示：</p>
-<ul>
-<li>生成可执行文件:<code>swiftc -o main.out main.swift</code></li>
-<li>生成抽象语法树（AST）:<code>swiftc main.swift -dump-ast</code></li>
-<li>生成中间语言(SIL)：<code>swiftc main.swift -emit-sil</code></li>
-<li>LLVM中间表示层(LLVM IR)：<code>swiftc main.swift -emit -ir</code></li>
-<li>生成汇编:<code>swiftc main.swift -emit-assembly</code></li>
-</ul>
-<h2 id="App编译过程"><a href="#App编译过程" class="headerlink" title="App编译过程"></a>App编译过程</h2><ol>
-<li>编译信息写入辅助文件，创建文件架构 .app 文件</li>
-<li>处理文件打包信息</li>
-<li>执行 CocoaPod 编译前脚本，checkPods Manifest.lock</li>
-<li>编译.m文件，使用 CompileC 和 clang 命令</li>
-<li>链接需要的 Framework</li>
-<li>编译 xib</li>
-<li>拷贝 xib ，资源文件</li>
-<li>编译 ImageAssets</li>
-<li>处理 info.plist</li>
-<li>执行 CocoaPod 脚本</li>
-<li>拷贝标准库</li>
-<li>创建 .app 文件和签名</li>
-</ol>
-<h2 id="Swift语言编译过程"><a href="#Swift语言编译过程" class="headerlink" title="Swift语言编译过程"></a>Swift语言编译过程</h2><p>Swift编译前端使用的是<code>swiftc</code>,其中<code>Swift</code>前端会多出<code>SIL optimizer</code>，它会将<code>*.swift</code>生成的中间代码<code>*.sil</code>设置成<code>High-Level IR</code>。</p>
-<p>因为<code>swift</code>在编译时就完成了方法绑定直接通过地址调用，属于强类型语言。方法调用也不像OC那样进行消息转发，这样编译就可以获得更多的信息用在后端的优化上。</p>
-<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/Swift%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B.jpg" alt="Swift编译过程"></p>
-<h2 id="关于LinkMap"><a href="#关于LinkMap" class="headerlink" title="关于LinkMap"></a>关于<code>LinkMap</code></h2><p><code>Link Map File</code>其实就是链接的映射文件，它是在Xcode生成可执行文件的同时生成的链接信息文件，用于描述可执行文件的构造部分，包含了代码段和数据段的分布情况。</p>
-<blockquote>
-<p>Object files</p>
-</blockquote>
-<p>这个部分的内容都是 .m 文件编译后的 .o 和需要 link 的 .a 文件。前面是文件编号，后面是文件路径。</p>
-<blockquote>
-<p>Sections</p>
-</blockquote>
-<p>这里描述的是每个 Section在可执行文件中的位置和大小。每个 Section 的 Segment 的类型分为<code>__TEXT</code>代码段和<code> __DATA</code> 数据段两种。</p>
-<blockquote>
-<p>Symbols</p>
-</blockquote>
-<p><code>Symbols</code>是对<code>Sections</code>进行了再划分。这里会描述所有的<code>methods</code>，<code>ivar</code>和字符串，及它们对应的地址，大小，文件编号信息。</p>
-<h2 id="关于符号表dSYM"><a href="#关于符号表dSYM" class="headerlink" title="关于符号表dSYM"></a>关于符号表<code>dSYM</code></h2><p>符号表是内存地址与函数名、文件名、行号的映射表。符号表的元素如下所示：</p>
-<p><code>&lt;起始地址&gt;&lt;结束地址&gt;&lt;函数&gt;[&lt;文件名：行号&gt;]</code></p>
-<p>一般打包完成后会保存符号表文件，后期可以通过<code>堆栈</code>进行解析和还原，来定位用户APP发生<code>Crash</code>的代码位置。</p>
-<blockquote>
-<p>可以参考<a href="https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20180119105842">Bugly相关文档</a></p>
-</blockquote>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://llvm.org/">LLVM官网</a></li>
-<li><a href="http://clang.llvm.org/">Clang官网</a></li>
-<li><a href="http://www.hzcourse.com/web/teachRes/detail/4635/231">《LLVM编译器实战教程》</a></li>
-<li><a href="https://llvm.comptechs.cn/">LLVM中文网</a></li>
-<li><a href="https://developer.aliyun.com/article/727296">带你读《LLVM编译器实战教程》之一：构建和安装LLVM</a></li>
-<li><a href="https://developer.aliyun.com/article/727298">带你读《LLVM编译器实战教程》之二：外部项目</a></li>
-<li><a href="https://developer.aliyun.com/article/727299">带你读《LLVM编译器实战教程》之三：工具和设计</a></li>
-<li><a href="https://releases.llvm.org/">llvm</a></li>
-<li><a href="https://blog.csdn.net/snsn1984/category_9263298.html">深入研究Clang</a></li>
-<li><a href="https://www.oschina.net/p/llvm?hmsr=aladdin1e1">LLVM编译器架构</a></li>
-<li><a href="https://www.jianshu.com/p/9fc7776cce9b">深入剖析iOS编译Clang&#x2F;LLVM</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>整理</category>
       </categories>
       <tags>
         <tag>iOS</tag>
@@ -2651,6 +2516,141 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>Instruments工具集</title>
+    <url>/2018/01/02/Instruments%E5%B7%A5%E5%85%B7%E9%9B%86/</url>
+    <content><![CDATA[<h3 id="Blank"><a href="#Blank" class="headerlink" title="Blank"></a>Blank</h3><p>A blank trace document that can be customized with instruments from the Library.</p>
+<h3 id="Activity-Monitor"><a href="#Activity-Monitor" class="headerlink" title="Activity Monitor"></a>Activity Monitor</h3><p>Monitors CPU, memory, disk,and network usage statistics for processes and the system.</p>
+<h3 id="Allocations"><a href="#Allocations" class="headerlink" title="Allocations"></a>Allocations</h3><p>Tracks a process’ anonymous virtual memory and heap, providing class names and optionally retain&#x2F;release histories for objects.</p>
+<h3 id="Cocoa-Layout"><a href="#Cocoa-Layout" class="headerlink" title="Cocoa Layout"></a>Cocoa Layout</h3><p>Observes changes to NSLayoutConstraint objects to help determine when and where a layout constraint went awry.</p>
+<h3 id="Core-Animation"><a href="#Core-Animation" class="headerlink" title="Core Animation"></a>Core Animation</h3><p>This template measures application graphics performance as well as CPU usage of a process via time profiling.</p>
+<h3 id="Core-Data"><a href="#Core-Data" class="headerlink" title="Core Data"></a>Core Data</h3><p>This template traces Core Data filesystem activity, including fetches,cache misses, and saves.</p>
+<h3 id="Counters"><a href="#Counters" class="headerlink" title="Counters"></a>Counters</h3><p>Collects performance monitor counter(PMC) events using time or event based sampling methods.</p>
+<h3 id="Energy-Log"><a href="#Energy-Log" class="headerlink" title="Energy Log"></a>Energy Log</h3><p>This template provides diagnostics regarding energy usage as well as basic on&#x2F;off state of major device components.</p>
+<h3 id="File-Activity"><a href="#File-Activity" class="headerlink" title="File Activity"></a>File Activity</h3><p>This template monitors file and directory activity, including file open&#x2F;close calls, file permission modifications,directory creation, file moves,etc.</p>
+<h3 id="Leaks"><a href="#Leaks" class="headerlink" title="Leaks"></a>Leaks</h3><p>Measures general memory usage,checks for leaked memory,and provides statistics on object allocations by class as well as memory address histories for all active allocations and leaked blocks.</p>
+<h3 id="Metal-System-Trace"><a href="#Metal-System-Trace" class="headerlink" title="Metal System Trace"></a>Metal System Trace</h3><p>Metal System Trace profiles the performance of iOS,tvOS and macOS  Metal applications by providing tracing information from the application,driver,and GPU layers.</p>
+<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><p>Analyze how your applications are using TCP&#x2F;IP connections using the Connections instrument.</p>
+<h3 id="SceneKit"><a href="#SceneKit" class="headerlink" title="SceneKit"></a>SceneKit</h3><p>Profiles an application’s use of SceneKit.Determines the type of work going into each frame, such as animations, physics,scene culling,and rendering.</p>
+<h3 id="System-Trace"><a href="#System-Trace" class="headerlink" title="System Trace"></a>System Trace</h3><p>A comprehensive view of what’s happening in the operationg system. See how threads are being scheduled across CPUs and understand how system calls and virtual memory faults anr affectiong your application’s Performance.</p>
+<h3 id="System-Usage"><a href="#System-Usage" class="headerlink" title="System Usage"></a>System Usage</h3><p>This template records I&#x2F;O system activity related to files, sockets,and shared memory for a single process launched via instruments, Inputs, outputs,duration,backtrace,calltree,etc.is provided for each call.</p>
+<h3 id="Time-Profiler"><a href="#Time-Profiler" class="headerlink" title="Time Profiler"></a>Time Profiler</h3><p>Performs low-overhead time -based sampling of processes runing on the system’s CPUs.</p>
+<h3 id="Zombies"><a href="#Zombies" class="headerlink" title="Zombies"></a>Zombies</h3><p>Measures general memory usage while focusing on the delection of over - released “zombie” objects. Also statistics on object allocations by class as well as memory address histories for all active allocations.</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+        <category>iOS性能调优</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LLVM编译流程等相关知识整理</title>
+    <url>/2020/10/07/LLVM%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>整理这篇博客主要是了解iOS编译的过程，了解其相关知识，丰富自己的知识体系。</p>
+<p>在写这篇博客之前查看了<a href="https://ke.qq.com/mobilev2/courseDetail.html?_bid=167&_wv=3&course_id=322016&from=share#from=iosapp">李明杰在腾讯课堂的关于LLVM的付费课程</a>,<a href="http://www.hzcourse.com/web/teachRes/detail/4635/231">《LLVM编译器实战教程》</a>相关书籍，还有网络上一些博客，在此向他们致敬！</p>
+<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/LLVM.png" alt="LLVM"></p>
+<h2 id="什么是LLVM"><a href="#什么是LLVM" class="headerlink" title="什么是LLVM"></a>什么是LLVM</h2><p><code>LLVM</code>项目是模块化、可重用的<code>编译器</code>以及<code>工具链</code>技术的集合。</p>
+<p><code>LLVM</code>跟传统的静态编译器一样使用了经典三段式的结构设计，如下图所示，分别为前端、优化器和后端。</p>
+<blockquote>
+<p>传统编译器架构</p>
+</blockquote>
+<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/LLVM%E6%9E%B6%E6%9E%84.jpg" alt="传统编译器架构"></p>
+<ul>
+<li><code>Frontend（编译器前端）</code>：进行词法分析、语法分析、语义分析、生成中间代码<code>（IR）</code>。</li>
+<li><code>Optimizer（优化器）</code>：中间代码优化。</li>
+<li><code>Backend（后端）</code>:生成机器码</li>
+</ul>
+<p><code>LLVM</code>编译器如这篇文章的头图所示。这样做的优点如下：</p>
+<ul>
+<li>如果需要支持一种新的编程语言，只需要实现一种新的编译器前端即可。</li>
+<li>如果需要支持一种新的硬件设备，只需要实现一个新的后端即可。</li>
+<li>优化阶段是一个通用的阶段，它针对的是统一的<code>LLVM IR</code>,不论是支持新的编程语言，还是支持新的硬件设备，都不需要对优化阶段进行修改。</li>
+</ul>
+<h2 id="什么是Clang"><a href="#什么是Clang" class="headerlink" title="什么是Clang"></a>什么是Clang</h2><p><code>Clang</code>是<code>LLVM项目</code>的一个<code>子项目</code>，是基于<code>LLVM</code>架构的<code>C/C++/Objective-C</code>编译器<code>前端</code>。</p>
+<h2 id="Clang常用指令"><a href="#Clang常用指令" class="headerlink" title="Clang常用指令"></a><code>Clang</code>常用指令</h2><p><code>Clang</code>工具可以再<code>Xcode</code>中查看，具体路径为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang</span><br></pre></td></tr></table></figure>
+<p>可以再终端输入<code>Clang -help</code>查看所有指令。</p>
+<p>常用的指令如下所示：</p>
+<ul>
+<li>生成可执行文件:<code>clang main.o -o main</code></li>
+<li>查看编译过程：<code>clang -ccc-print-phases main.m</code></li>
+<li>查看预处理结果：<code>clang -E main.m</code></li>
+<li>语法分析,生成Token:<code>clang -fmodules -E -Xclang -dump-tokens main.m</code></li>
+<li>生成语法树(AST):<code>clang -fmodules -fsyntax-only -Xclang -ast-dump main.m</code></li>
+<li>LLVM中间表示层(LLVM IR)：<code>clang -S -fobjc-arc -emit-llvm main.m -o main.ll</code></li>
+<li>生成汇编：<code>clang -S -fobjc-arc main.m -o main.s</code></li>
+<li>生成目标文件：<code>clang -fmodules -c main.m -o main.o</code></li>
+</ul>
+<h2 id="swiftc常用指令"><a href="#swiftc常用指令" class="headerlink" title="swiftc常用指令"></a><code>swiftc</code>常用指令</h2><p><code>swiftc</code>工具可以在<code>Xcode</code>中查看,具体路径为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc</span><br></pre></td></tr></table></figure>
+<p>可以在终端输入<code>swiftc -help </code>查看相关指令。</p>
+<p>常用的指令如下所示：</p>
+<ul>
+<li>生成可执行文件:<code>swiftc -o main.out main.swift</code></li>
+<li>生成抽象语法树（AST）:<code>swiftc main.swift -dump-ast</code></li>
+<li>生成中间语言(SIL)：<code>swiftc main.swift -emit-sil</code></li>
+<li>LLVM中间表示层(LLVM IR)：<code>swiftc main.swift -emit -ir</code></li>
+<li>生成汇编:<code>swiftc main.swift -emit-assembly</code></li>
+</ul>
+<h2 id="App编译过程"><a href="#App编译过程" class="headerlink" title="App编译过程"></a>App编译过程</h2><ol>
+<li>编译信息写入辅助文件，创建文件架构 .app 文件</li>
+<li>处理文件打包信息</li>
+<li>执行 CocoaPod 编译前脚本，checkPods Manifest.lock</li>
+<li>编译.m文件，使用 CompileC 和 clang 命令</li>
+<li>链接需要的 Framework</li>
+<li>编译 xib</li>
+<li>拷贝 xib ，资源文件</li>
+<li>编译 ImageAssets</li>
+<li>处理 info.plist</li>
+<li>执行 CocoaPod 脚本</li>
+<li>拷贝标准库</li>
+<li>创建 .app 文件和签名</li>
+</ol>
+<h2 id="Swift语言编译过程"><a href="#Swift语言编译过程" class="headerlink" title="Swift语言编译过程"></a>Swift语言编译过程</h2><p>Swift编译前端使用的是<code>swiftc</code>,其中<code>Swift</code>前端会多出<code>SIL optimizer</code>，它会将<code>*.swift</code>生成的中间代码<code>*.sil</code>设置成<code>High-Level IR</code>。</p>
+<p>因为<code>swift</code>在编译时就完成了方法绑定直接通过地址调用，属于强类型语言。方法调用也不像OC那样进行消息转发，这样编译就可以获得更多的信息用在后端的优化上。</p>
+<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/LLVM%E7%BC%96%E8%AF%91%E5%99%A8%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/Swift%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B.jpg" alt="Swift编译过程"></p>
+<h2 id="关于LinkMap"><a href="#关于LinkMap" class="headerlink" title="关于LinkMap"></a>关于<code>LinkMap</code></h2><p><code>Link Map File</code>其实就是链接的映射文件，它是在Xcode生成可执行文件的同时生成的链接信息文件，用于描述可执行文件的构造部分，包含了代码段和数据段的分布情况。</p>
+<blockquote>
+<p>Object files</p>
+</blockquote>
+<p>这个部分的内容都是 .m 文件编译后的 .o 和需要 link 的 .a 文件。前面是文件编号，后面是文件路径。</p>
+<blockquote>
+<p>Sections</p>
+</blockquote>
+<p>这里描述的是每个 Section在可执行文件中的位置和大小。每个 Section 的 Segment 的类型分为<code>__TEXT</code>代码段和<code> __DATA</code> 数据段两种。</p>
+<blockquote>
+<p>Symbols</p>
+</blockquote>
+<p><code>Symbols</code>是对<code>Sections</code>进行了再划分。这里会描述所有的<code>methods</code>，<code>ivar</code>和字符串，及它们对应的地址，大小，文件编号信息。</p>
+<h2 id="关于符号表dSYM"><a href="#关于符号表dSYM" class="headerlink" title="关于符号表dSYM"></a>关于符号表<code>dSYM</code></h2><p>符号表是内存地址与函数名、文件名、行号的映射表。符号表的元素如下所示：</p>
+<p><code>&lt;起始地址&gt;&lt;结束地址&gt;&lt;函数&gt;[&lt;文件名：行号&gt;]</code></p>
+<p>一般打包完成后会保存符号表文件，后期可以通过<code>堆栈</code>进行解析和还原，来定位用户APP发生<code>Crash</code>的代码位置。</p>
+<blockquote>
+<p>可以参考<a href="https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20180119105842">Bugly相关文档</a></p>
+</blockquote>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://llvm.org/">LLVM官网</a></li>
+<li><a href="http://clang.llvm.org/">Clang官网</a></li>
+<li><a href="http://www.hzcourse.com/web/teachRes/detail/4635/231">《LLVM编译器实战教程》</a></li>
+<li><a href="https://llvm.comptechs.cn/">LLVM中文网</a></li>
+<li><a href="https://developer.aliyun.com/article/727296">带你读《LLVM编译器实战教程》之一：构建和安装LLVM</a></li>
+<li><a href="https://developer.aliyun.com/article/727298">带你读《LLVM编译器实战教程》之二：外部项目</a></li>
+<li><a href="https://developer.aliyun.com/article/727299">带你读《LLVM编译器实战教程》之三：工具和设计</a></li>
+<li><a href="https://releases.llvm.org/">llvm</a></li>
+<li><a href="https://blog.csdn.net/snsn1984/category_9263298.html">深入研究Clang</a></li>
+<li><a href="https://www.oschina.net/p/llvm?hmsr=aladdin1e1">LLVM编译器架构</a></li>
+<li><a href="https://www.jianshu.com/p/9fc7776cce9b">深入剖析iOS编译Clang&#x2F;LLVM</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Xcode12项目适配</title>
     <url>/2020/09/24/Xcode12%E9%A1%B9%E7%9B%AE%E9%80%82%E9%85%8D/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近更新Xcode12，发现编译有的项目的时候会出现些问题，然后一个个解决所有项目完美编译通过。</p>
@@ -2925,31 +2925,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>iOS审核-因需要访问相机权限被拒</title>
-    <url>/2018/07/04/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/</url>
-    <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E4%B9%8B%E5%89%8D%E7%9A%84%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="之前的权限描述.png"></p>
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E8%A2%AB%E6%8B%92%E5%8E%9F%E5%9B%A0.png" alt="被拒原因.png"></p>
-<h4 id="关于被拒"><a href="#关于被拒" class="headerlink" title="关于被拒"></a>关于被拒</h4><p>收到邮件发现应用审核被拒了，而审核被拒的原因竟然是因为权限描述的问题。</p>
-<p>当时有些费解，毕竟获取相机权限这个功能已经写了很久。没想到突然因为这个原因被拒，通过阅读邮件和查阅<a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a>发现，现在使用权限，需要说明使用的原因。</p>
-<h4 id="更改"><a href="#更改" class="headerlink" title="更改"></a>更改</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E6%9B%B4%E6%94%B9%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="更改权限描述.png"></p>
-<p>于是更改后在周一下班前提交，今天早晨查看邮件，发现已审核通过。</p>
-<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><ul>
-<li>1、在App Store 审核指南更新的时候，要重新阅读一遍审核指南，同时注意修改的部分，避免下次提交时审核被拒。</li>
-<li>2、最近发现从开始审核（in Review）到审核完毕时间缩短了好多……</li>
-</ul>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>知识整理</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>iOS应用审核被拒的原因及提交应用的注意事项。</title>
     <url>/2017/10/13/iOS%E5%BA%94%E7%94%A8%E5%AE%A1%E6%A0%B8%E8%A2%AB%E6%8B%92%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E6%8F%90%E4%BA%A4%E5%BA%94%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</url>
     <content><![CDATA[<p>&amp;emsp;&amp;emsp;前段时候准备整理‘提交应用审核的一些注意事项’，但因为iPhone X、iPhone8等的发布搁浅了。因为新产品的发布，所以我们开始着手公司应用适配iOS11、iPhone X的工作。遇到了些坑，但总体的工作量并不是很大。如果想了解如何适配iOS11、iPhone X，可以查看我的上篇博客<a href="https://xnxy.github.io/xnxy.github.io/2017/09/28/iOS%E5%BC%80%E5%8F%91%E9%80%82%E9%85%8DiOS11&iPhone%20X%20%E3%80%81Xcode9%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/">iOS开发适配iOS11&amp;iPhone X 、Xcode9遇到的坑</a> 。</p>
@@ -3072,6 +3047,31 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS审核-因需要访问相机权限被拒</title>
+    <url>/2018/07/04/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/</url>
+    <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E4%B9%8B%E5%89%8D%E7%9A%84%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="之前的权限描述.png"></p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E8%A2%AB%E6%8B%92%E5%8E%9F%E5%9B%A0.png" alt="被拒原因.png"></p>
+<h4 id="关于被拒"><a href="#关于被拒" class="headerlink" title="关于被拒"></a>关于被拒</h4><p>收到邮件发现应用审核被拒了，而审核被拒的原因竟然是因为权限描述的问题。</p>
+<p>当时有些费解，毕竟获取相机权限这个功能已经写了很久。没想到突然因为这个原因被拒，通过阅读邮件和查阅<a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a>发现，现在使用权限，需要说明使用的原因。</p>
+<h4 id="更改"><a href="#更改" class="headerlink" title="更改"></a>更改</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E6%9B%B4%E6%94%B9%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="更改权限描述.png"></p>
+<p>于是更改后在周一下班前提交，今天早晨查看邮件，发现已审核通过。</p>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><ul>
+<li>1、在App Store 审核指南更新的时候，要重新阅读一遍审核指南，同时注意修改的部分，避免下次提交时审核被拒。</li>
+<li>2、最近发现从开始审核（in Review）到审核完毕时间缩短了好多……</li>
+</ul>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>知识整理</tag>
       </tags>
   </entry>
   <entry>
@@ -3490,7 +3490,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be">The art of Lotte Reineger</a></p>
 <h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
 <p>如果你想添加更多的JSON文件，请随时这样做！</p>
-<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#x72;&#x61;&#x6e;&#100;&#x6f;&#110;&#x2e;&#119;&#105;&#116;&#x68;&#114;&#x6f;&#119;&#64;&#x61;&#105;&#x72;&#98;&#110;&#x62;&#46;&#x63;&#x6f;&#109;">&#x62;&#x72;&#x61;&#x6e;&#100;&#x6f;&#110;&#x2e;&#119;&#105;&#116;&#x68;&#114;&#x6f;&#119;&#64;&#x61;&#105;&#x72;&#98;&#110;&#x62;&#46;&#x63;&#x6f;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#98;&#x72;&#x61;&#x6e;&#100;&#x6f;&#110;&#46;&#119;&#x69;&#x74;&#104;&#x72;&#111;&#x77;&#64;&#97;&#x69;&#114;&#98;&#110;&#x62;&#46;&#99;&#111;&#x6d;">&#98;&#x72;&#x61;&#x6e;&#100;&#x6f;&#110;&#46;&#119;&#x69;&#x74;&#104;&#x72;&#111;&#x77;&#64;&#97;&#x69;&#114;&#98;&#110;&#x62;&#46;&#99;&#111;&#x6d;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
 <h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
 <li>添加对交互式动画过渡的支持</li>
 </ul>
@@ -3935,6 +3935,31 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>关于小米《位置权限申请标准》的公告</title>
+    <url>/2024/04/03/%E5%85%B3%E4%BA%8E%E5%B0%8F%E7%B1%B3%E3%80%8A%E4%BD%8D%E7%BD%AE%E6%9D%83%E9%99%90%E7%94%B3%E8%AF%B7%E6%A0%87%E5%87%86%E3%80%8B%E7%9A%84%E5%85%AC%E5%91%8A/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>小米在2024年6月6日正式施行《位置权限申请标准》,后面要准备相关资料，因为时间跨度比较长，为避免后面忘记特在次进行记录。</p>
+<p>记录备份：</p>
+<blockquote>
+<p>备份一：如何提交&#x2F;填写审核材料，有指南吗？</p>
+</blockquote>
+<p>A：预计4月底，小米应用商店将会同步审核材料提交入口以及填写指南，届时，将会及时通知大家。</p>
+<blockquote>
+<p>备份二：什么时候需要按照“审核材料要求”提交材料？</p>
+</blockquote>
+<p>A：5月6日起。自2024年5月6日起至2024年6月5日，将设定为材料提交的适应期。在此期间，若您的应用已申请位置权限并计划于适应期内进行上架或更新，您需依照既定要求提交相应的审核材料。然而，适应期内，相关审核工作将仅针对解决在审核材料提交过程中所遇到的问题，并不根据“位置权限”申请的标准进行审核。自2024年6月6日起，将进入审核执行期。届时，小米应用商店将正式启动上述审核标准。一旦发现存在风险问题的应用，将依照规定进行违规处理。</p>
+<blockquote>
+<p>相关链接：</p>
+</blockquote>
+<p><a href="https://dev.mi.com/distribute/doc/details?pId=1809">https://dev.mi.com/distribute/doc/details?pId=1809</a><br><a href="https://dev.mi.com/distribute/doc/details?pId=1816">https://dev.mi.com/distribute/doc/details?pId=1816</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">尊敬的开发者：</span><br><span class="line">您好！</span><br><span class="line">为了更好地平衡用户的隐私权益和应用的功能需求，小米应用商店新增位置权限申请标准，以下是标准的具体内容：https://dev.mi.com/distribute/doc/details?pId=1809</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一、本标准修订案已于2024年4月1日予以发布，并设定公示期为30天，2024年5月6日至6月5日为材料提交适应期。在公示期及材料提交适应期内，将不会进行任何审核工作。</span><br><span class="line">二、本标准将于2024年6月6日正式施行，故敬请广大开发者及时关注并充分了解相关内容。</span><br><span class="line">三、公示期间，若您发现有任何位置权限申请场景未被本标准所涵盖，或在执行标准过程中遇到任何疑问，可通过开发者站客服入口，与我们取得联系，我们将认真评估您的反馈意见。感谢您对我们工作的支持与配合！</span><br><span class="line">在线客服反馈地址：https://www.sobot.com/chat/pc/v2/index.html?sysnum=5d7e332c4f994cf295cbfb0e81851038</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">小米应用商店</span><br><span class="line">2024年4月1日</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于多线程编程与GCD相关知识点整理</title>
     <url>/2020/12/02/%E5%85%B3%E4%BA%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E4%B8%8EGCD%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近重新阅读了<a href="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/Objective-C%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8BiOS%E4%B8%8EOS%20X%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/Objective-C%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%20iOS%E4%B8%8EOS%20X%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.pdf">《Objective-C高级编程iOS与OS X 多线程和内存管理》</a>，于是决定将<code>GCD</code>相关知识整理下，便于后期查阅。</p>
@@ -4203,31 +4228,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于小米《位置权限申请标准》的公告</title>
-    <url>/2024/04/03/%E5%85%B3%E4%BA%8E%E5%B0%8F%E7%B1%B3%E3%80%8A%E4%BD%8D%E7%BD%AE%E6%9D%83%E9%99%90%E7%94%B3%E8%AF%B7%E6%A0%87%E5%87%86%E3%80%8B%E7%9A%84%E5%85%AC%E5%91%8A/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>小米在2024年6月6日正式施行《位置权限申请标准》,后面要准备相关资料，因为时间跨度比较长，为避免后面忘记特在次进行记录。</p>
-<p>记录备份：</p>
-<blockquote>
-<p>备份一：如何提交&#x2F;填写审核材料，有指南吗？</p>
-</blockquote>
-<p>A：预计4月底，小米应用商店将会同步审核材料提交入口以及填写指南，届时，将会及时通知大家。</p>
-<blockquote>
-<p>备份二：什么时候需要按照“审核材料要求”提交材料？</p>
-</blockquote>
-<p>A：5月6日起。自2024年5月6日起至2024年6月5日，将设定为材料提交的适应期。在此期间，若您的应用已申请位置权限并计划于适应期内进行上架或更新，您需依照既定要求提交相应的审核材料。然而，适应期内，相关审核工作将仅针对解决在审核材料提交过程中所遇到的问题，并不根据“位置权限”申请的标准进行审核。自2024年6月6日起，将进入审核执行期。届时，小米应用商店将正式启动上述审核标准。一旦发现存在风险问题的应用，将依照规定进行违规处理。</p>
-<blockquote>
-<p>相关链接：</p>
-</blockquote>
-<p><a href="https://dev.mi.com/distribute/doc/details?pId=1809">https://dev.mi.com/distribute/doc/details?pId=1809</a><br><a href="https://dev.mi.com/distribute/doc/details?pId=1816">https://dev.mi.com/distribute/doc/details?pId=1816</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">尊敬的开发者：</span><br><span class="line">您好！</span><br><span class="line">为了更好地平衡用户的隐私权益和应用的功能需求，小米应用商店新增位置权限申请标准，以下是标准的具体内容：https://dev.mi.com/distribute/doc/details?pId=1809</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一、本标准修订案已于2024年4月1日予以发布，并设定公示期为30天，2024年5月6日至6月5日为材料提交适应期。在公示期及材料提交适应期内，将不会进行任何审核工作。</span><br><span class="line">二、本标准将于2024年6月6日正式施行，故敬请广大开发者及时关注并充分了解相关内容。</span><br><span class="line">三、公示期间，若您发现有任何位置权限申请场景未被本标准所涵盖，或在执行标准过程中遇到任何疑问，可通过开发者站客服入口，与我们取得联系，我们将认真评估您的反馈意见。感谢您对我们工作的支持与配合！</span><br><span class="line">在线客服反馈地址：https://www.sobot.com/chat/pc/v2/index.html?sysnum=5d7e332c4f994cf295cbfb0e81851038</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">小米应用商店</span><br><span class="line">2024年4月1日</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Android</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
       </tags>
   </entry>
   <entry>
@@ -4697,6 +4697,23 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>如果获取项目的工程结构</title>
+    <url>/2023/06/08/%E5%A6%82%E6%9E%9C%E8%8E%B7%E5%8F%96%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B7%A5%E7%A8%8B%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>接收新项目的时候，我们需要快速搭建相关开发环境外也需要快速了解项目的工程结构，熟悉代码逻辑，所以我们就需要用到<code>tree</code>，使工程结构一目了然。</p>
+<h2 id="1-安装tree"><a href="#1-安装tree" class="headerlink" title="1.安装tree"></a>1.安装tree</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install tree</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-执行下方命令"><a href="#2-执行下方命令" class="headerlink" title="2.执行下方命令"></a>2.执行下方命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tree -I &#x27;test|build|Pods|fastlane/*|*.framework/*|bean/*.dart|*.ttf|*.txt|*.xcodeproj|*.xcworkspace|*.lproj|*.zip|*.ipa|*.lock|*.md|*.png|*.xml|*.mp3|*.jpg|*.gif|*.plist|*.xcconfig|*.sh|*.json&#x27; 项目文件夹</span><br></pre></td></tr></table></figure>
+
+<p>最后关于<code>tree</code>常用命令如下所示:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-a 显示所有文件和目录。</span><br><span class="line">-A 使用ASNI绘图字符显示树状图而非以ASCII字符组合。</span><br><span class="line">-C 在文件和目录清单加上色彩，便于区分各种类型。</span><br><span class="line">-d 显示目录名称而非内容。</span><br><span class="line">-D 列出文件或目录的更改时间。</span><br><span class="line">-f 在每个文件或目录之前，显示完整的相对路径名称。</span><br><span class="line">-F 在执行文件，目录，Socket，符号连接，管道名称名称，各自加上&quot;*&quot;,&quot;/&quot;,&quot;=&quot;,&quot;@&quot;,&quot;|&quot;号。</span><br><span class="line">-g 列出文件或目录的所属群组名称，没有对应的名称时，则显示群组识别码。</span><br><span class="line">-i 不以阶梯状列出文件或目录名称。</span><br><span class="line">-I 不显示符合范本样式的文件或目录名称。</span><br><span class="line">-l 如遇到性质为符号连接的目录，直接列出该连接所指向的原始目录。</span><br><span class="line">-n 不在文件和目录清单加上色彩。</span><br><span class="line">-N 直接列出文件和目录名称，包括控制字符。</span><br><span class="line">-p 列出权限标示。</span><br><span class="line">-P 只显示符合范本样式的文件或目录名称。</span><br><span class="line">-q 用&quot;?&quot;号取代控制字符，列出文件和目录名称。</span><br><span class="line">-s 列出文件或目录大小。</span><br><span class="line">-t 用文件和目录的更改时间排序。</span><br><span class="line">-u 列出文件或目录的拥有者名称，没有对应的名称时，则显示用户识别码。</span><br><span class="line">-x 将范围局限在现行的文件系统中，若指定目录下的某些子目录，其存放于另一个文件系统上，则将该子目录予以排除在寻找范围外。</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何编译iOS版OpenCV动态库</title>
     <url>/2020/05/11/%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91iOS%E7%89%88OpenCV%E5%8A%A8%E6%80%81%E5%BA%93/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>将<code>OpenCV</code>的编译动态库单独拎出来写这篇博客，主要是因为根据官方的教程编译出来的动态库将可执行程序内部的<code>install Name</code>写死了，导致动态库无法链接到，报<code>dyld: Library not loaded:</code>错误。</p>
@@ -4810,23 +4827,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>Framework</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如果获取项目的工程结构</title>
-    <url>/2023/06/08/%E5%A6%82%E6%9E%9C%E8%8E%B7%E5%8F%96%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B7%A5%E7%A8%8B%E7%BB%93%E6%9E%84/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>接收新项目的时候，我们需要快速搭建相关开发环境外也需要快速了解项目的工程结构，熟悉代码逻辑，所以我们就需要用到<code>tree</code>，使工程结构一目了然。</p>
-<h2 id="1-安装tree"><a href="#1-安装tree" class="headerlink" title="1.安装tree"></a>1.安装tree</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install tree</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-执行下方命令"><a href="#2-执行下方命令" class="headerlink" title="2.执行下方命令"></a>2.执行下方命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tree -I &#x27;test|build|Pods|fastlane/*|*.framework/*|bean/*.dart|*.ttf|*.txt|*.xcodeproj|*.xcworkspace|*.lproj|*.zip|*.ipa|*.lock|*.md|*.png|*.xml|*.mp3|*.jpg|*.gif|*.plist|*.xcconfig|*.sh|*.json&#x27; 项目文件夹</span><br></pre></td></tr></table></figure>
-
-<p>最后关于<code>tree</code>常用命令如下所示:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-a 显示所有文件和目录。</span><br><span class="line">-A 使用ASNI绘图字符显示树状图而非以ASCII字符组合。</span><br><span class="line">-C 在文件和目录清单加上色彩，便于区分各种类型。</span><br><span class="line">-d 显示目录名称而非内容。</span><br><span class="line">-D 列出文件或目录的更改时间。</span><br><span class="line">-f 在每个文件或目录之前，显示完整的相对路径名称。</span><br><span class="line">-F 在执行文件，目录，Socket，符号连接，管道名称名称，各自加上&quot;*&quot;,&quot;/&quot;,&quot;=&quot;,&quot;@&quot;,&quot;|&quot;号。</span><br><span class="line">-g 列出文件或目录的所属群组名称，没有对应的名称时，则显示群组识别码。</span><br><span class="line">-i 不以阶梯状列出文件或目录名称。</span><br><span class="line">-I 不显示符合范本样式的文件或目录名称。</span><br><span class="line">-l 如遇到性质为符号连接的目录，直接列出该连接所指向的原始目录。</span><br><span class="line">-n 不在文件和目录清单加上色彩。</span><br><span class="line">-N 直接列出文件和目录名称，包括控制字符。</span><br><span class="line">-p 列出权限标示。</span><br><span class="line">-P 只显示符合范本样式的文件或目录名称。</span><br><span class="line">-q 用&quot;?&quot;号取代控制字符，列出文件和目录名称。</span><br><span class="line">-s 列出文件或目录大小。</span><br><span class="line">-t 用文件和目录的更改时间排序。</span><br><span class="line">-u 列出文件或目录的拥有者名称，没有对应的名称时，则显示用户识别码。</span><br><span class="line">-x 将范围局限在现行的文件系统中，若指定目录下的某些子目录，其存放于另一个文件系统上，则将该子目录予以排除在寻找范围外。</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>Flutter</tag>
       </tags>
   </entry>
   <entry>
