@@ -20,28 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="目前项目升级到3.22.0,项目也早早添加了隐私清单,这也就意味着项目运行&#x2F;编译需要在Xcode15上进行">
+    <meta name="description" content="最近创建了个组织EasyHM，主要用来存储适配鸿蒙版Flutter插件和相关资料">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Xcode14运行Flutter3.22.0的折中方式">
-<meta property="og:url" content="https://xnxy.github.io/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/index.html">
+<meta property="og:title" content="鸿蒙版Flutter插件相关">
+<meta property="og:url" content="https://xnxy.github.io/2024/11/05/%E9%B8%BF%E8%92%99%E7%89%88Flutter%E6%8F%92%E4%BB%B6%E7%9B%B8%E5%85%B3/index.html">
 <meta property="og:site_name" content="拿根针尖对麦芒">
-<meta property="og:description" content="目前项目升级到3.22.0,项目也早早添加了隐私清单,这也就意味着项目运行&#x2F;编译需要在Xcode15上进行">
+<meta property="og:description" content="最近创建了个组织EasyHM，主要用来存储适配鸿蒙版Flutter插件和相关资料">
 <meta property="og:locale">
-<meta property="article:published_time" content="2024-05-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-05-19T16:00:00.000Z">
+<meta property="article:published_time" content="2024-11-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-11-04T16:00:00.000Z">
 <meta property="article:author" content="拿根针尖对麦芒">
-<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="鸿蒙">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://xnxy.github.io/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/">
+<link rel="canonical" href="https://xnxy.github.io/2024/11/05/%E9%B8%BF%E8%92%99%E7%89%88Flutter%E6%8F%92%E4%BB%B6%E7%9B%B8%E5%85%B3/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/","path":"2024/05/20/Xcode14运行Flutter3.22.0的折中方式/","title":"Xcode14运行Flutter3.22.0的折中方式"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2024/11/05/%E9%B8%BF%E8%92%99%E7%89%88Flutter%E6%8F%92%E4%BB%B6%E7%9B%B8%E5%85%B3/","path":"2024/11/05/鸿蒙版Flutter插件相关/","title":"鸿蒙版Flutter插件相关"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Xcode14运行Flutter3.22.0的折中方式 | 拿根针尖对麦芒</title>
+<title>鸿蒙版Flutter插件相关 | 拿根针尖对麦芒</title>
   
 
 
@@ -141,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E9%9A%90%E7%A7%81%E6%B8%85%E5%8D%95%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">移除隐私清单文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%97%ADImpeller%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E"><span class="nav-number">1.2.</span> <span class="nav-text">关闭Impeller渲染引擎</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%96%99"><span class="nav-number">1.1.</span> <span class="nav-text">资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E"><span class="nav-number">1.2.</span> <span class="nav-text">关于</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -217,7 +217,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2024/11/05/%E9%B8%BF%E8%92%99%E7%89%88Flutter%E6%8F%92%E4%BB%B6%E7%9B%B8%E5%85%B3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
@@ -230,12 +230,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Xcode14运行Flutter3.22.0的折中方式 | 拿根针尖对麦芒">
-      <meta itemprop="description" content="目前项目升级到3.22.0,项目也早早添加了隐私清单,这也就意味着项目运行/编译需要在Xcode15上进行">
+      <meta itemprop="name" content="鸿蒙版Flutter插件相关 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="最近创建了个组织EasyHM，主要用来存储适配鸿蒙版Flutter插件和相关资料">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Xcode14运行Flutter3.22.0的折中方式
+          鸿蒙版Flutter插件相关
         </h1>
 
         <div class="post-meta-container">
@@ -246,7 +246,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2024-05-20 00:00:00" itemprop="dateCreated datePublished" datetime="2024-05-20T00:00:00+08:00">2024-05-20</time>
+      <time title="创建时间：2024-11-05 00:00:00" itemprop="dateCreated datePublished" datetime="2024-11-05T00:00:00+08:00">2024-11-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -261,7 +261,7 @@
   
 </div>
 
-            <div class="post-description">目前项目升级到3.22.0,项目也早早添加了隐私清单,这也就意味着项目运行/编译需要在Xcode15上进行</div>
+            <div class="post-description">最近创建了个组织EasyHM，主要用来存储适配鸿蒙版Flutter插件和相关资料</div>
         </div>
       </header>
 
@@ -269,27 +269,52 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>目前项目升级到<code>3.22.0</code>,项目也早早添加了隐私清单,这也就意味着项目运行&#x2F;编译需要在<code>Xcode15</code>上进行。</p>
-<p>但有的时候仍需要在家中排查问题，虽然家中有个<code>pro</code>和<code>air</code>,但有的时候老婆也需要用<code>pro</code>搞些设计。而且<code>air</code>目前已经无法升级到最新的系统，相应地到<code>Xcode</code>也无法升级到<code>Xcode15</code>。</p>
-<p>所以也需要修改项目，让其在Xcode14上运行，便于后期忘记，在此记录。</p>
-<h2 id="移除隐私清单文件"><a href="#移除隐私清单文件" class="headerlink" title="移除隐私清单文件"></a>移除隐私清单文件</h2><p>首先需要在移除壳工程中的<code>PrivacyInfo.xcprivacy</code>。</p>
-<p>不需要直接删除，需要在<code>TARGETS</code>-&gt;<code>Build Phases</code>-&gt;<code>Copy Bundle Resources</code>中将其移除。</p>
-<h2 id="关闭Impeller渲染引擎"><a href="#关闭Impeller渲染引擎" class="headerlink" title="关闭Impeller渲染引擎"></a>关闭<code>Impeller</code>渲染引擎</h2><p>如果不关闭在运行的时候会报以下错误：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[FATAL:flutter/shell/platform/darwin/ios/ios_context.mm(29)] Check failed: backend != IOSRenderingBackend::kImpeller. Software rendering is incompatible with Impeller. Software rendering may have been automatically selected when running on a simulator in an environment that does not support Metal. Enabling GPU pass through in your environment may fix this. If that is not possible, then disable Impeller.</span><br></pre></td></tr></table></figure>
-
-<p>原因是因为在<code>Flutter3.22.0</code>渲染引擎默认被自动选择为<code>Impeller</code>，而<code>Xcode14</code>渲染与<code>Impeller</code>渲染引擎不兼容。</p>
-<p>为了解决这个问题，为了解决这个问题我们可以在运行<code>Flutter</code>项目中添加<code>--no-enable-impeller</code>参数来禁用Impeller。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter run --no-enable-impeller</span><br></pre></td></tr></table></figure>
-
-<p>这样做将强制<code>Flutter</code>使用旧的Skia渲染引擎，而不是<code>Impeller</code>。</p>
-<p>当前我们也可以在壳工程的<code>info.plist</code>文件中添加以下键值来告诉<code>Flutter</code>在构建时禁用<code>Impeller</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;FLTEnableImpeller&lt;/key&gt;</span><br><span class="line">&lt;false/&gt;</span><br></pre></td></tr></table></figure>
+        <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近创建了个组织<code>EasyHM</code>，主要用来存储适配鸿蒙版的Flutter插件和相关资料</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://gitee.com/EasyHM</span><br></pre></td></tr></table></figure>
 
 
+<p>关于鸿蒙版Flutter插件开发可以查看<a target="_blank" rel="noopener" href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/07_plugin/ohos%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8Dflutter%E4%B8%89%E6%96%B9%E5%BA%93%E6%8C%87%E5%AF%BC.md">ohos平台适配flutter三方库指导</a>里面有详细的介绍，适配和开发鸿蒙版Flutter其实不难，其ArkTS和ArkUI跟Dart和Flutter很像。</p>
+<p>主要的难点是对鸿蒙Api的不了解，但借助Ai很多功能都可以快速的开发和适配。</p>
+<p>在适配的工程中整理了一些插件，有需要的可以自取，而有更多的插件则在公司的git上由于某种原因暂时并不会开源。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/03_environment/%E9%B8%BF%E8%92%99%E7%89%88Flutter%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%AF%BC.md#%E9%B8%BF%E8%92%99%E7%89%88flutter%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%AF%BC">鸿蒙版Flutter环境搭建指导</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/openharmony-sig/flutter_engine">鸿蒙版Flutter engine</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/openharmony-sig/flutter_flutter">鸿蒙版Flutter</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.qq.com/sheet/DVVJDWWt1V09zUFN2?tab=BB08J2">鸿蒙版Flutter三方库适配计划</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.qq.com/sheet/DUnljRVBYUWZKZEtF?tab=BB08J2">鸿蒙版Flutter Engine构建产物</a></li>
+<li><a target="_blank" rel="noopener" href="https://consumer.huawei.com/cn/support/harmonyos/models-next/">HarmonyOS NEXT 支持机型</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/09_specifications/flutter%E9%B8%BF%E8%92%99%E5%8C%96%E5%B7%A5%E7%A8%8B%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md">flutter鸿蒙化工程的目录结构</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/09_specifications/update_flutter_plugin_structure.md">更新Flutter插件项目结构</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/07_plugin/ohos%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8Dflutter%E4%B8%89%E6%96%B9%E5%BA%93%E6%8C%87%E5%AF%BC.md">ohos平台适配flutter三方库指导</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/openharmony-sig/flutter_samples/tree/master/ohos/docs#/openharmony-sig/flutter_samples/blob/master/ohos/docs/./04_development/README.md">鸿蒙Flutter开发文档</a></li>
+</ul>
+<h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h2><p>主要存放适配鸿蒙的flutter插件和相关资料</p>
+<ul>
+<li>Flutter version 3.7.12</li>
+<li>Dart version 2.19.6</li>
+<li>DevTools version 2.20.1</li>
+</ul>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><blockquote>
+<p>cached_network_image 3.2.3 鸿蒙版本</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cached_network_image:</span><br><span class="line">  git:</span><br><span class="line">    url: https://gitee.com/EasyHM/cached_network_image.git</span><br><span class="line">    ref: master</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>最后：这些代码修改不要提交到git上！！！</p>
+<p>flutter_localization 0.1.14 鸿蒙版本</p>
 </blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flutter_localization: </span><br><span class="line">  git:</span><br><span class="line">    url: https://gitee.com/EasyHM/flutter_localization.git</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>easy_refresh 3.3.5+1 鸿蒙版本</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">easy_refresh:</span><br><span class="line">   git:</span><br><span class="line">    url: https://gitee.com/EasyHM/flutter_easy_refresh.git</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>fluwx 3.13.1  鸿蒙版本(条件限制未测试)</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fluwx:</span><br><span class="line">   git:</span><br><span class="line">    url: https://gitee.com/EasyHM/fluwx.git</span><br></pre></td></tr></table></figure>
+
+
+
+
 
     </div>
 
@@ -299,21 +324,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E9%B8%BF%E8%92%99/" rel="tag"># 鸿蒙</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/04/28/%E5%85%B3%E4%BA%8E%E5%B0%8F%E7%B1%B3%E8%AE%BE%E5%A4%87%E9%9A%90%E7%A7%81%E6%94%B6%E9%9B%86%E8%8E%B7%E5%8F%96/" rel="prev" title="关于小米设备隐私收集获取">
-                  <i class="fa fa-chevron-left"></i> 关于小米设备隐私收集获取
+                <a href="/2024/10/31/Flutter%E4%B8%AD%E8%A1%A8%E6%83%85%E5%8C%85%E5%AF%BC%E8%87%B4%E7%9A%84UI%E6%B8%B2%E6%9F%93%E9%97%AE%E9%A2%98/" rel="prev" title="Flutter中表情包导致的UI渲染问题">
+                  <i class="fa fa-chevron-left"></i> Flutter中表情包导致的UI渲染问题
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/06/11/%E5%9B%BD%E9%99%85%E5%8C%96%E4%B8%AD%E5%B8%B8%E7%94%A8BCP-47%20Code%E5%92%8C%E8%AF%AD%E8%A8%80%E5%AF%B9%E7%85%A7%E8%A1%A8/" rel="next" title="国际化中常用BCP-47 Code和语言对照表">
-                  国际化中常用BCP-47 Code和语言对照表 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
