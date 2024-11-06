@@ -270,7 +270,7 @@
     
     <div class="post-body" itemprop="articleBody">
         <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在弄隐私协议的时候，发现放到服务器上后用浏览器打开竟然可以访问到隐私协议index.html文件的上层目录，这就有点搞了。</p>
-<p>因为个人的服务器部署的事LAMP开发环境，查了Ai修改了Apache配置解决了该问题。特在此记录，便于后期查看。</p>
+<p>因为个人的服务器部署的是LAMP开发环境，网上查了下，修改Apache配置解决了该问题。特在此记录，便于后期查看。</p>
 <h2 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h2><p>要在 Apache 服务器上设置禁止访问某个目录，同时允许访问该目录下的特定格式文件，可以通过 <code>.htaccess</code> 文件或在 Apache配置文件中进行设置。以下是两种方法的示例：</p>
 <h3 id="方法一：使用-htaccess-文件"><a href="#方法一：使用-htaccess-文件" class="headerlink" title="方法一：使用 .htaccess 文件"></a>方法一：使用 <code>.htaccess</code> 文件</h3><ol>
 <li><p><strong>创建或编辑 <code>.htaccess</code> 文件</strong>：<br>在你想要控制访问的目录下创建或编辑 <code>.htaccess</code> 文件。</p>
