@@ -667,52 +667,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>CADisplayLink介绍及其相关</title>
-    <url>/2018/03/16/CADisplayLink%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3/</url>
-    <content><![CDATA[<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>CADisplayLink其实就是一个定时器对象，是一个能让我们以和屏幕刷新率(60HZ)同步的频率将特定的内容画到屏幕上的定时器类。</p>
-<p>在<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink 文档</a>中也有相应介绍。CADisplayLink以<code>addToRunLoop: forMode:</code> 注册到runloop上，每当屏幕显示内容刷新结束，runloop就会向CADisplayLink指定的target发送消息。</p>
-<blockquote>
-<p>Your application initializes a new display link, providing a target object and a selector to be called when the screen is updated. To synchronize your display loop with the display, your application adds it to a run loop using the addToRunLoop:forMode: method</p>
-<p>Once the display link is associated with a run loop, the selector on the target is called when the screen’s contents need to be updated. The target can read the display link’s timestamp property to retrieve the time that the previous frame was displayed. For example, an application that displays movies might use the timestamp to calculate which video frame will be displayed next. An application that performs its own animations might use the timestamp to determine where and how displayed objects appear in the upcoming frame.</p>
-<p>The duration property provides the amount of time between frames at the maximumFramesPerSecond. To calculate the actual frame duration, use targetTimestamp - timestamp. You can use actual frame duration in your application to calculate the frame rate of the display, the approximate time that the next frame will be displayed, and to adjust the drawing behavior so that the next frame is prepared in time to be displayed.</p>
-<p>Your application can disable notifications by setting the paused property to YES. Also, if your application cannot provide frames in the time provided, you may want to choose a slower frame rate. An application with a slower but consistent frame rate appears smoother to the user than an application that skips frames. You can define the number of frames per second by setting the preferredFramesPerSecond property.</p>
-<p>When your application finishes with a display link, it should call invalidate to remove it from all run loops and to disassociate it from the target.</p>
-<p>CADisplayLink should not be subclassed.</p>
-</blockquote>
-<h3 id="关于CADisplayLink"><a href="#关于CADisplayLink" class="headerlink" title="关于CADisplayLink"></a>关于CADisplayLink</h3><p>无论是<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">苹果的官方文档</a>还是网上的一些资料，对DADisplayLink介绍的都很详细。</p>
-<p>我们创建个CADisplayLink对象，并将其添加到runloop中，并提供target和selector，那么在每次屏幕刷新的时候selector就会被调用（frameInterval 默认值为1）。 </p>
-<p>同时我们也可以设置CADisplayLink对象的frameInterval属性来调整每次调用selector的间隔。</p>
-<p>说白了，CADisplayLink就是一个跟屏幕刷新频率相同的定时器（60HZ）。CADisplayLink跟CoreAnimation类都属于QunartzCore.framework中API。</p>
-<h3 id="CADisplayLink的使用"><a href="#CADisplayLink的使用" class="headerlink" title="CADisplayLink的使用"></a>CADisplayLink的使用</h3><figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">self</span>.displayLink = [<span class="built_in">CADisplayLink</span> displayLinkWithTarget:<span class="keyword">self</span></span><br><span class="line">                                               selector:<span class="keyword">@selector</span>(timerRunEvent)];</span><br><span class="line"><span class="keyword">self</span>.displayLink.frameInterval = <span class="number">60</span>;</span><br><span class="line">[<span class="keyword">self</span>.displayLink addToRunLoop:[<span class="built_in">NSRunLoop</span> mainRunLoop] forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>创建CADisplayLink并将其添加到Runloop中。这样<code>timerRunEvent</code>(@selector)就会被周期调用，其中使用<code>frameInterval</code>设置调用的间隔，上方代表每秒调用一次（因为屏幕的刷新频率为60HZ，即每秒60次）。</p>
-<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[<span class="keyword">self</span>.displayLink invalidate];</span><br><span class="line"><span class="keyword">self</span>.displayLink = <span class="literal">nil</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>停止，直接执行invalidate即可，类似于NSTimer的invalidate。执行完invalidate后，CADisplayLink对象从Runloop中移除，<code>timerRunEvent</code>(@selector)调用。</p>
-<h3 id="CADisplayLink与NSTimer的不同"><a href="#CADisplayLink与NSTimer的不同" class="headerlink" title="CADisplayLink与NSTimer的不同"></a>CADisplayLink与NSTimer的不同</h3><p>在写这篇文章时，从网上搜了下，发现网上有很多关于CADisplayLink的介绍，而且比较详细。同时在CocoaChina上看到一篇关于<a href="http://www.cocoachina.com/ios/20160919/17595.html">iOS三种定时器的用法NSTimer、CADisplayLink、GCD</a>的文章。</p>
-<h5 id="关于精度"><a href="#关于精度" class="headerlink" title="关于精度"></a>关于精度</h5><p>相对于NSTimer,CADisplayLink的精度更加准确些，毕竟苹果设备的屏幕的刷新频率是固定的，都是60HZ。而CADisplayLink在每次刷新结束后都会被调用，精度会比较高。同时我们也可以根据CADisplayLink这个特性来检测屏幕是否会出现掉帧现象，如：<a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a><br>就是根据此种原理。</p>
-<h5 id="关于使用场景"><a href="#关于使用场景" class="headerlink" title="关于使用场景"></a>关于使用场景</h5><p>CADisplayLink的使用场景比较单一，适用于UI、动画的绘制与渲染。而比较著名的Facebook开源的第三方库<a href="https://github.com/facebook/pop">POP</a>就是基于CADisplayLink的，性能上比系统的CoreAnimation更加优秀。</p>
-<p>而NSTimer在使用上就会更加的广泛了，基本很多场景都可使用。不管是一次性的还是连续周期性的timer事件，都会将NSTimer对象添加到Runloop中，但当Runloop正在执行另一个任务时，timer就会出现延迟。</p>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>上面提到因为Facebook开源的动画库<a href="https://github.com/facebook/pop">POP</a>是基于CADisplayLink的，所以在开发过程中的一些定时器我们也可以使用POP来完成。比如下方的应用中经常出现的一个获取验证码的小功能，我们就可以使用POP去实现。</p>
-<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIButton</span> *btn = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];</span><br><span class="line">    <span class="keyword">self</span>.clickBtn = btn;</span><br><span class="line">    [btn setTitle:<span class="string">@&quot;获取验证码&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [btn setTitleColor:[<span class="built_in">UIColor</span> whiteColor] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    btn.backgroundColor = [<span class="built_in">UIColor</span> purpleColor];</span><br><span class="line">    [<span class="keyword">self</span>.view addSubview:btn];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//layout</span></span><br><span class="line">    [btn makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make.center.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">        make.size.equalTo(<span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">100</span>));</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//action</span></span><br><span class="line">    @weakify(<span class="keyword">self</span>)</span><br><span class="line">    [btn bk_whenTapped:^&#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>)</span><br><span class="line">        [<span class="keyword">self</span> timeAnimation];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---- Animation ---</span></span><br><span class="line">- (<span class="type">void</span>)timeAnimation&#123;</span><br><span class="line">    </span><br><span class="line">    POPBasicAnimation *basicAnimation = [POPBasicAnimation linearAnimation];</span><br><span class="line">    </span><br><span class="line">    POPAnimatableProperty *prop = [POPAnimatableProperty propertyWithName:<span class="string">@&quot;timeAnimation&quot;</span> initializer:^(POPMutableAnimatableProperty *prop) &#123;</span><br><span class="line">        </span><br><span class="line">        prop.writeBlock = ^(<span class="type">id</span> obj, <span class="keyword">const</span> <span class="built_in">CGFloat</span> *values) &#123;</span><br><span class="line">            <span class="built_in">UIButton</span> *btn = (<span class="built_in">UIButton</span> *)obj;</span><br><span class="line">            [btn setTitle:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%d&quot;</span>,(<span class="type">int</span>)values[<span class="number">0</span>]%<span class="number">60</span>] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    basicAnimation.property = prop;</span><br><span class="line">    basicAnimation.fromValue = @(<span class="number">10</span>);</span><br><span class="line">    basicAnimation.toValue = @(<span class="number">0</span>);</span><br><span class="line">    basicAnimation.duration = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.clickBtn pop_addAnimation:basicAnimation forKey:<span class="string">@&quot;timeAnimation&quot;</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//开始</span></span><br><span class="line">    basicAnimation.animationDidStartBlock = ^(POPAnimation *anim) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">NO</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//结束</span></span><br><span class="line">    basicAnimation.completionBlock = ^(POPAnimation *anim, <span class="type">BOOL</span> finished) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">YES</span>;</span><br><span class="line">        [<span class="keyword">self</span>.clickBtn setTitle:<span class="string">@&quot;重新发送&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/Stopwatch">相关Demo</a></p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink</a></li>
-<li><a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a></li>
-<li><a href="https://github.com/facebook/pop">POP</a></li>
-<li><a href="https://wiki.jikexueyuan.com/project/facebook-pop/">Facebook Pop使用指南</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Command-line参考(翻译)</title>
     <url>/2019/08/28/Command-line%E5%8F%82%E8%80%83(%E7%BF%BB%E8%AF%91)/</url>
     <content><![CDATA[<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
@@ -1285,6 +1239,52 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>CADisplayLink介绍及其相关</title>
+    <url>/2018/03/16/CADisplayLink%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>CADisplayLink其实就是一个定时器对象，是一个能让我们以和屏幕刷新率(60HZ)同步的频率将特定的内容画到屏幕上的定时器类。</p>
+<p>在<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink 文档</a>中也有相应介绍。CADisplayLink以<code>addToRunLoop: forMode:</code> 注册到runloop上，每当屏幕显示内容刷新结束，runloop就会向CADisplayLink指定的target发送消息。</p>
+<blockquote>
+<p>Your application initializes a new display link, providing a target object and a selector to be called when the screen is updated. To synchronize your display loop with the display, your application adds it to a run loop using the addToRunLoop:forMode: method</p>
+<p>Once the display link is associated with a run loop, the selector on the target is called when the screen’s contents need to be updated. The target can read the display link’s timestamp property to retrieve the time that the previous frame was displayed. For example, an application that displays movies might use the timestamp to calculate which video frame will be displayed next. An application that performs its own animations might use the timestamp to determine where and how displayed objects appear in the upcoming frame.</p>
+<p>The duration property provides the amount of time between frames at the maximumFramesPerSecond. To calculate the actual frame duration, use targetTimestamp - timestamp. You can use actual frame duration in your application to calculate the frame rate of the display, the approximate time that the next frame will be displayed, and to adjust the drawing behavior so that the next frame is prepared in time to be displayed.</p>
+<p>Your application can disable notifications by setting the paused property to YES. Also, if your application cannot provide frames in the time provided, you may want to choose a slower frame rate. An application with a slower but consistent frame rate appears smoother to the user than an application that skips frames. You can define the number of frames per second by setting the preferredFramesPerSecond property.</p>
+<p>When your application finishes with a display link, it should call invalidate to remove it from all run loops and to disassociate it from the target.</p>
+<p>CADisplayLink should not be subclassed.</p>
+</blockquote>
+<h3 id="关于CADisplayLink"><a href="#关于CADisplayLink" class="headerlink" title="关于CADisplayLink"></a>关于CADisplayLink</h3><p>无论是<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">苹果的官方文档</a>还是网上的一些资料，对DADisplayLink介绍的都很详细。</p>
+<p>我们创建个CADisplayLink对象，并将其添加到runloop中，并提供target和selector，那么在每次屏幕刷新的时候selector就会被调用（frameInterval 默认值为1）。 </p>
+<p>同时我们也可以设置CADisplayLink对象的frameInterval属性来调整每次调用selector的间隔。</p>
+<p>说白了，CADisplayLink就是一个跟屏幕刷新频率相同的定时器（60HZ）。CADisplayLink跟CoreAnimation类都属于QunartzCore.framework中API。</p>
+<h3 id="CADisplayLink的使用"><a href="#CADisplayLink的使用" class="headerlink" title="CADisplayLink的使用"></a>CADisplayLink的使用</h3><figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">self</span>.displayLink = [<span class="built_in">CADisplayLink</span> displayLinkWithTarget:<span class="keyword">self</span></span><br><span class="line">                                               selector:<span class="keyword">@selector</span>(timerRunEvent)];</span><br><span class="line"><span class="keyword">self</span>.displayLink.frameInterval = <span class="number">60</span>;</span><br><span class="line">[<span class="keyword">self</span>.displayLink addToRunLoop:[<span class="built_in">NSRunLoop</span> mainRunLoop] forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建CADisplayLink并将其添加到Runloop中。这样<code>timerRunEvent</code>(@selector)就会被周期调用，其中使用<code>frameInterval</code>设置调用的间隔，上方代表每秒调用一次（因为屏幕的刷新频率为60HZ，即每秒60次）。</p>
+<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[<span class="keyword">self</span>.displayLink invalidate];</span><br><span class="line"><span class="keyword">self</span>.displayLink = <span class="literal">nil</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>停止，直接执行invalidate即可，类似于NSTimer的invalidate。执行完invalidate后，CADisplayLink对象从Runloop中移除，<code>timerRunEvent</code>(@selector)调用。</p>
+<h3 id="CADisplayLink与NSTimer的不同"><a href="#CADisplayLink与NSTimer的不同" class="headerlink" title="CADisplayLink与NSTimer的不同"></a>CADisplayLink与NSTimer的不同</h3><p>在写这篇文章时，从网上搜了下，发现网上有很多关于CADisplayLink的介绍，而且比较详细。同时在CocoaChina上看到一篇关于<a href="http://www.cocoachina.com/ios/20160919/17595.html">iOS三种定时器的用法NSTimer、CADisplayLink、GCD</a>的文章。</p>
+<h5 id="关于精度"><a href="#关于精度" class="headerlink" title="关于精度"></a>关于精度</h5><p>相对于NSTimer,CADisplayLink的精度更加准确些，毕竟苹果设备的屏幕的刷新频率是固定的，都是60HZ。而CADisplayLink在每次刷新结束后都会被调用，精度会比较高。同时我们也可以根据CADisplayLink这个特性来检测屏幕是否会出现掉帧现象，如：<a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a><br>就是根据此种原理。</p>
+<h5 id="关于使用场景"><a href="#关于使用场景" class="headerlink" title="关于使用场景"></a>关于使用场景</h5><p>CADisplayLink的使用场景比较单一，适用于UI、动画的绘制与渲染。而比较著名的Facebook开源的第三方库<a href="https://github.com/facebook/pop">POP</a>就是基于CADisplayLink的，性能上比系统的CoreAnimation更加优秀。</p>
+<p>而NSTimer在使用上就会更加的广泛了，基本很多场景都可使用。不管是一次性的还是连续周期性的timer事件，都会将NSTimer对象添加到Runloop中，但当Runloop正在执行另一个任务时，timer就会出现延迟。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>上面提到因为Facebook开源的动画库<a href="https://github.com/facebook/pop">POP</a>是基于CADisplayLink的，所以在开发过程中的一些定时器我们也可以使用POP来完成。比如下方的应用中经常出现的一个获取验证码的小功能，我们就可以使用POP去实现。</p>
+<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIButton</span> *btn = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];</span><br><span class="line">    <span class="keyword">self</span>.clickBtn = btn;</span><br><span class="line">    [btn setTitle:<span class="string">@&quot;获取验证码&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [btn setTitleColor:[<span class="built_in">UIColor</span> whiteColor] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    btn.backgroundColor = [<span class="built_in">UIColor</span> purpleColor];</span><br><span class="line">    [<span class="keyword">self</span>.view addSubview:btn];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//layout</span></span><br><span class="line">    [btn makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make.center.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">        make.size.equalTo(<span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">100</span>));</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//action</span></span><br><span class="line">    @weakify(<span class="keyword">self</span>)</span><br><span class="line">    [btn bk_whenTapped:^&#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>)</span><br><span class="line">        [<span class="keyword">self</span> timeAnimation];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---- Animation ---</span></span><br><span class="line">- (<span class="type">void</span>)timeAnimation&#123;</span><br><span class="line">    </span><br><span class="line">    POPBasicAnimation *basicAnimation = [POPBasicAnimation linearAnimation];</span><br><span class="line">    </span><br><span class="line">    POPAnimatableProperty *prop = [POPAnimatableProperty propertyWithName:<span class="string">@&quot;timeAnimation&quot;</span> initializer:^(POPMutableAnimatableProperty *prop) &#123;</span><br><span class="line">        </span><br><span class="line">        prop.writeBlock = ^(<span class="type">id</span> obj, <span class="keyword">const</span> <span class="built_in">CGFloat</span> *values) &#123;</span><br><span class="line">            <span class="built_in">UIButton</span> *btn = (<span class="built_in">UIButton</span> *)obj;</span><br><span class="line">            [btn setTitle:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%d&quot;</span>,(<span class="type">int</span>)values[<span class="number">0</span>]%<span class="number">60</span>] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    basicAnimation.property = prop;</span><br><span class="line">    basicAnimation.fromValue = @(<span class="number">10</span>);</span><br><span class="line">    basicAnimation.toValue = @(<span class="number">0</span>);</span><br><span class="line">    basicAnimation.duration = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.clickBtn pop_addAnimation:basicAnimation forKey:<span class="string">@&quot;timeAnimation&quot;</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//开始</span></span><br><span class="line">    basicAnimation.animationDidStartBlock = ^(POPAnimation *anim) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">NO</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//结束</span></span><br><span class="line">    basicAnimation.completionBlock = ^(POPAnimation *anim, <span class="type">BOOL</span> finished) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">YES</span>;</span><br><span class="line">        [<span class="keyword">self</span>.clickBtn setTitle:<span class="string">@&quot;重新发送&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/Stopwatch">相关Demo</a></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink</a></li>
+<li><a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a></li>
+<li><a href="https://github.com/facebook/pop">POP</a></li>
+<li><a href="https://wiki.jikexueyuan.com/project/facebook-pop/">Facebook Pop使用指南</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dart线程管理详解</title>
     <url>/2023/12/14/Dart%E7%BA%BF%E7%A8%8B%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><iframe src="https://dartpad.cn/?" width="800" height="300"></iframe>
@@ -1366,33 +1366,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 ]]></content>
       <categories>
         <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>Flutter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Flutter中表情包导致的UI渲染问题</title>
-    <url>/2024/10/31/Flutter%E4%B8%AD%E8%A1%A8%E6%83%85%E5%8C%85%E5%AF%BC%E8%87%B4%E7%9A%84UI%E6%B8%B2%E6%9F%93%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>在后台发现一个UI渲染卡顿问题，之前忙其他的没太关注。</p>
-<p>最近有时间解析了日志，发现了下方有用的日志信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">======== Exception caught by rendering library ===================================================== </span><br><span class="line">The following ArgumentError was thrown during performLayout(): Invalid argument(s): string is not well-formed UTF-16</span><br></pre></td></tr></table></figure>
-
-<p>codeRevier对应类的代码后发现了类似下方的代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">final text = contentController?.text;</span><br><span class="line">final textLength = text?.length ?? 0;</span><br><span class="line">text = textLength &gt;= 12 ? text!.substring(0, 12) : text ?? &#x27;&#x27;,</span><br></pre></td></tr></table></figure>
-<p>其主要作用是当文字超出某个长度后，截取固定长度的字符串。但我们都知道表情的length是2，截取的时候就会概率出现上方的问题。</p>
-<p>所以在截取字符串的时候，我们需要用到<code>characters</code>属性来确保截取的字符串是有效的 UTF-16 编码。</p>
-<p>具体代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String truncateText(String? text, int maxLength) &#123;</span><br><span class="line">  if (text == null) return &#x27;&#x27;;</span><br><span class="line">  final characters = text.characters;</span><br><span class="line">  return characters.length &gt; maxLength ? characters.take(maxLength).toString() : text;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用</span><br><span class="line">text = truncateText(widget.contentController?.text, 12),</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>App开发</category>
       </categories>
       <tags>
         <tag>Flutter</tag>
@@ -1483,6 +1456,33 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 ]]></content>
       <categories>
         <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flutter中表情包导致的UI渲染问题</title>
+    <url>/2024/10/31/Flutter%E4%B8%AD%E8%A1%A8%E6%83%85%E5%8C%85%E5%AF%BC%E8%87%B4%E7%9A%84UI%E6%B8%B2%E6%9F%93%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>在后台发现一个UI渲染卡顿问题，之前忙其他的没太关注。</p>
+<p>最近有时间解析了日志，发现了下方有用的日志信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">======== Exception caught by rendering library ===================================================== </span><br><span class="line">The following ArgumentError was thrown during performLayout(): Invalid argument(s): string is not well-formed UTF-16</span><br></pre></td></tr></table></figure>
+
+<p>codeRevier对应类的代码后发现了类似下方的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">final text = contentController?.text;</span><br><span class="line">final textLength = text?.length ?? 0;</span><br><span class="line">text = textLength &gt;= 12 ? text!.substring(0, 12) : text ?? &#x27;&#x27;,</span><br></pre></td></tr></table></figure>
+<p>其主要作用是当文字超出某个长度后，截取固定长度的字符串。但我们都知道表情的length是2，截取的时候就会概率出现上方的问题。</p>
+<p>所以在截取字符串的时候，我们需要用到<code>characters</code>属性来确保截取的字符串是有效的 UTF-16 编码。</p>
+<p>具体代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String truncateText(String? text, int maxLength) &#123;</span><br><span class="line">  if (text == null) return &#x27;&#x27;;</span><br><span class="line">  final characters = text.characters;</span><br><span class="line">  return characters.length &gt; maxLength ? characters.take(maxLength).toString() : text;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用</span><br><span class="line">text = truncateText(widget.contentController?.text, 12),</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>App开发</category>
       </categories>
       <tags>
         <tag>Flutter</tag>
@@ -1710,6 +1710,15 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>iOS</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>MacOS Sequoia15.3系统的钥匙串位置</title>
+    <url>/2025/02/06/MacOS%20Sequoia15.3%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%92%A5%E5%8C%99%E4%B8%B2%E4%BD%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>系统升级到<code>MacOS Sequoia15.3</code>后发现<code>钥匙串</code>工具没在启动台显示，于是找了下发现挪到了系统的<code>CoreServices</code>中，特此记录下。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/System/Library/CoreServices</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
   </entry>
   <entry>
     <title>Mac15及以上系统如何创建CSR</title>
@@ -3570,7 +3579,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be">The art of Lotte Reineger</a></p>
 <h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
 <p>如果你想添加更多的JSON文件，请随时这样做！</p>
-<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#98;&#x72;&#97;&#110;&#100;&#x6f;&#x6e;&#x2e;&#x77;&#x69;&#116;&#104;&#114;&#111;&#119;&#x40;&#x61;&#105;&#x72;&#98;&#110;&#x62;&#46;&#99;&#111;&#x6d;">&#98;&#x72;&#97;&#110;&#100;&#x6f;&#x6e;&#x2e;&#x77;&#x69;&#116;&#104;&#114;&#111;&#119;&#x40;&#x61;&#105;&#x72;&#98;&#110;&#x62;&#46;&#99;&#111;&#x6d;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#x72;&#x61;&#110;&#x64;&#111;&#x6e;&#46;&#x77;&#x69;&#116;&#104;&#114;&#x6f;&#119;&#64;&#97;&#x69;&#114;&#x62;&#110;&#98;&#46;&#x63;&#111;&#x6d;">&#x62;&#x72;&#x61;&#110;&#x64;&#111;&#x6e;&#46;&#x77;&#x69;&#116;&#104;&#114;&#x6f;&#119;&#64;&#97;&#x69;&#114;&#x62;&#110;&#98;&#46;&#x63;&#111;&#x6d;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
 <h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
 <li>添加对交互式动画过渡的支持</li>
 </ul>
@@ -3686,15 +3695,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>shell</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>MacOS Sequoia15.3系统的钥匙串位置</title>
-    <url>/2025/02/06/MacOS%20Sequoia15.3%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%92%A5%E5%8C%99%E4%B8%B2%E4%BD%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>系统升级到<code>MacOS Sequoia15.3</code>后发现<code>钥匙串</code>工具没在启动台显示，于是找了下发现挪到了系统的<code>CoreServices</code>中，特此记录下。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/System/Library/CoreServices</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
   </entry>
   <entry>
     <title>关于Block的使用及注意事项</title>
@@ -3855,6 +3855,32 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于git代理设置问题记录</title>
+    <url>/2025/01/22/%E5%85%B3%E4%BA%8Egit%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>需要在<code>Clash Verge</code>将代理设置成全局。然后在设置中<code>复制环境变量类型</code>。</p>
+<p>打开终端设置代理即可。</p>
+<blockquote>
+<p>增加超时时间</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.postBuffer 524288000</span><br><span class="line">git config --global http.lowSpeedLimit 0</span><br><span class="line">git config --global http.lowSpeedTime 999999</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>设置代理</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:7897</span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:7897</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>取消代理</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>记录</category>
+      </categories>
+      <tags>
+        <tag>记录</tag>
       </tags>
   </entry>
   <entry>
@@ -4439,6 +4465,21 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>iOS</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>国内Android端隐私条款需添加SDK信息公示</title>
+    <url>/2025/02/14/%E5%9B%BD%E5%86%85Android%E7%AB%AF%E9%9A%90%E7%A7%81%E6%9D%A1%E6%AC%BE%E9%9C%80%E6%B7%BB%E5%8A%A0SDK%E4%BF%A1%E6%81%AF%E5%85%AC%E7%A4%BA/</url>
+    <content><![CDATA[<p>具体邮件如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">尊敬的开发者，您好！</span><br><span class="line"></span><br><span class="line">为进一步提升移动互联网应用服务质量，切实维护用户合法权益，依据《个人信息保护法》、《网络安全法》、《电信条例》、《电信和互联网用户个人信息保护规定》等法律法规，按照《关于进一步提升移动互联网应用服务能力的通知》（工信部信管函〔2023〕26号）工作部署，APP开发运营者需加强SDK使用管理，公开明示SDK基本信息以及个人信息处理规则。</span><br><span class="line"></span><br><span class="line">为进一步落实工作部署，依托全国 SDK 管理服务平台常态化开展行业协同联动工作，并提高应用检测、审核时效及通过率，请广大开发者对自身APP使用SDK的信息公示规范性进行自查自纠，需确保SDK信息公示完整、准确，使用安全、合规，具体要求如下：</span><br><span class="line"></span><br><span class="line">（1）SDK信息需具备完整性：APP存在使用第三方SDK 均需在隐私政策中逐一公示；</span><br><span class="line"></span><br><span class="line">（2）SDK 信息需具备准确性：APP隐私政策中明示的SDK 信息与“全国SDK 管理服务平台” 保持一致，包括但不限于：SDK 名称、开发者名称、收集信息范围、使用目的、SDK 隐私政策链接；</span><br><span class="line"></span><br><span class="line">（3）SDK 使用需安全、合规：APP不应使用风险、违规SDK（早期版本存在风险/已不再运维），如自查发现风险、违规SDK，需进行更新、更换。</span><br><span class="line"></span><br><span class="line">后续应用市场将在APP更新或上架审核过程中核查以上相关内容，为了不影响您的应用更新或上架，请您尽快前往【全国SDK管理服务平台】查询SDK的基本信息进行自主排查。</span><br><span class="line"></span><br><span class="line">APP隐私政策SDK基本信息公示-参考样例：</span><br><span class="line"></span><br><span class="line">（1）文本式：</span><br><span class="line"></span><br><span class="line">SDK名称：XXX（包名XXX）</span><br><span class="line"></span><br><span class="line">开发者名称：XXX公司</span><br><span class="line"></span><br><span class="line">收集信息范围：XXX（如IP地址）</span><br><span class="line"></span><br><span class="line">使用目的：XXX（如提供导航服务）</span><br><span class="line"></span><br><span class="line">隐私政策链接：XXX</span><br><span class="line"></span><br><span class="line">（2）表格式：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">华为开发者联盟</span><br><span class="line"></span><br><span class="line">2025年2月12日</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="查看资料"><a href="#查看资料" class="headerlink" title="查看资料"></a>查看资料</h1><ul>
+<li><a href="https://sdk.caict.ac.cn/official/#/home">全国SDK管理服务平台</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
   </entry>
   <entry>
     <title>国际化中常用BCP-47 Code和语言对照表</title>
@@ -5759,32 +5800,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>web服务器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于git代理设置问题记录</title>
-    <url>/2025/01/22/%E5%85%B3%E4%BA%8Egit%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>需要在<code>Clash Verge</code>将代理设置成全局。然后在设置中<code>复制环境变量类型</code>。</p>
-<p>打开终端设置代理即可。</p>
-<blockquote>
-<p>增加超时时间</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.postBuffer 524288000</span><br><span class="line">git config --global http.lowSpeedLimit 0</span><br><span class="line">git config --global http.lowSpeedTime 999999</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>设置代理</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:7897</span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:7897</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>取消代理</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>记录</category>
-      </categories>
-      <tags>
-        <tag>记录</tag>
       </tags>
   </entry>
   <entry>
