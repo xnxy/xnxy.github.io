@@ -1,182 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>iOS客户端UI界面设计的原则及规范</title>
-    <url>/2017/10/20/2017-10-20/</url>
-    <content><![CDATA[<p>为方便产品、UI设计师、开发人员在产品细节上达成共识，减少沟通成本，提升开发效率，特整理iOS设备的App设计规范。此规范适用于iOS平台所有App及大多数iOS端网页设计。</p>
-<h3 id="1-标准单位"><a href="#1-标准单位" class="headerlink" title="1.标准单位"></a>1.标准单位</h3><ul>
-<li>px: pixel,像素，电子屏幕上组成一幅图画或照片的最基本单元;</li>
-<li>pt: point，点，印刷行业常用单位，等于1&#x2F;72英寸;</li>
-<li>ppi: pixel per inch，每英寸像素数，该值越高，则屏幕越细腻;</li>
-<li>dpi: dot per inch，每英寸多少点，该值越高，则图片越细腻;</li>
-<li>dp: dip，Density-independent pixel, 是安卓开发用的长度单位，1dp表示在屏幕像素点密度为160ppi时1px长度;</li>
-<li>sp: scale-independent pixel，安卓开发用的字体大小单位。</li>
-</ul>
-<p>ps:具体可参考<a href="http://www.woshipm.com/pmd/176328.html">八一八那些px、pt、ppi、dpi、dp、sp之间的关系</a></p>
-<h3 id="2-应用图标"><a href="#2-应用图标" class="headerlink" title="2.应用图标"></a>2.应用图标</h3><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/AppIcon.png" alt="AppIcon.png"></p>
-<ul>
-<li>图标尺寸分别为：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">40*40</span><br><span class="line">60*60</span><br><span class="line"></span><br><span class="line">58*58</span><br><span class="line">87*87</span><br><span class="line"></span><br><span class="line">80*80</span><br><span class="line">120*120</span><br><span class="line"></span><br><span class="line">120*120</span><br><span class="line">180*180</span><br><span class="line"></span><br><span class="line">1024*1024</span><br></pre></td></tr></table></figure>
-<ul>
-<li>其格式必须为PNG或JPG，最低分辨率为72DPI，并采用RGB色彩空间。</li>
-</ul>
-<p>ps: 具体可参考<a href="https://developer.apple.com/ios/human-interface-guidelines/icons-and-images/image-size-and-resolution/">Image Size and Resolution</a></p>
-<h3 id="3-启动页"><a href="#3-启动页" class="headerlink" title="3.启动页"></a>3.启动页</h3><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/%E5%90%AF%E5%8A%A8%E9%A1%B5%E5%B0%BA%E5%AF%B8.png" alt="启动页尺寸"></p>
-<ul>
-<li>其格式必须为PNG或JPG，最低分辨率为72DPI，并采用RGB色彩空间。</li>
-<li>因项目中使用LaunchScreen.storyboard加载启动页,需要启动页的图片为：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">750px * 1334px</span><br><span class="line">1125px * 2436px</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>ps:具体可参考<a href="https://developer.apple.com/ios/human-interface-guidelines/icons-and-images/launch-screen/">Launch Screen</a></p>
-<h3 id="4-各机型尺寸比较"><a href="#4-各机型尺寸比较" class="headerlink" title="4.各机型尺寸比较"></a>4.各机型尺寸比较</h3><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/iPhone%E6%9C%BA%E5%9E%8B%E5%B0%BA%E5%AF%B8%E6%AF%94%E8%BE%83.png" alt="iPhone机型尺寸比较"></p>
-<ul>
-<li>UI出图以6&#x2F;6S&#x2F;7&#x2F;8为准，即 750 * 1334 px。从中切出的图标即为2x 图，3x图尺寸为2x图的1.5倍。</li>
-</ul>
-<p>ps:具体可参考<a href="https://www.apple.com/cn/iphone/compare/">iPhone机型比较</a></p>
-<h3 id="5-界面基本组成元素"><a href="#5-界面基本组成元素" class="headerlink" title="5.界面基本组成元素"></a>5.界面基本组成元素</h3><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/iPhone%E7%95%8C%E9%9D%A2%E5%9F%BA%E7%A1%80%E6%8E%A7%E4%BB%B6%E5%B0%BA%E5%AF%B8.png" alt="iPhone 界面基础控件尺寸"></p>
-<p>具体控件名称如下：</p>
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/%E7%95%8C%E9%9D%A2%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90%E5%85%83%E7%B4%A0.png" alt="界面基本组成元素"></p>
-<ul>
-<li>在<code>6/6S/7/8</code>中即像素尺寸为<code>750*1334 px</code>的屏幕中，其状态栏高度为<code>40px</code>(开发尺寸为<code>20pt</code>)，导航栏高度为<code>88px</code>(开发尺寸为<code>44pt</code>)，Tab Bar 高度为<code>98px</code>(开发尺寸为<code>49pt</code>)。</li>
-<li><code>6+/6S+/7+/8+</code> 的状态栏、导航栏、TabBar 高度分别为相应开发尺寸的3倍。</li>
-<li>iPhone X因有刘海儿，其状态栏的开发尺寸高度为<code>44pt</code>(像素尺寸为<code>44 X 3 px</code> )。</li>
-<li>iPhone X没有了Home键，iPhone X的底部预留给系统功能的一个区域-<code>Home Indicator</code>,开发高度<code>34pt</code>（像素尺寸高度<code>34 X 3 px</code>）。</li>
-</ul>
-<p>ps: 具体情况和其他控件尺寸可参考<a href="https://developer.apple.com/ios/human-interface-guidelines/overview/iphone-x/">Human Interface Guidelines</a></p>
-<h3 id="6-图标命名规范"><a href="#6-图标命名规范" class="headerlink" title="6.图标命名规范"></a>6.图标命名规范</h3><p>设计时可以使用6&#x2F;6S&#x2F;7&#x2F;8(像素尺寸：750px  <code>*</code>  1334px)的尺寸作为基准，切图时需要两套图分别为：2x图（750px * 1334px 的UI切片即为2x图）和3x图(尺寸为2x的1.5倍，1x图的3倍)。</p>
-<ul>
-<li>图片格式：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- 普通：image.png</span><br><span class="line">- 两倍图：image@2x.png</span><br><span class="line">- 三倍图：image@3x.png</span><br></pre></td></tr></table></figure>
-<ul>
-<li>保存：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">png-24</span><br><span class="line">保留透明度</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>尺寸：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">像素,尽量不要出现小数，从750px * 1334px 切下的即为两倍图（@2x）</span><br><span class="line">三倍图为两倍图的1.5倍，为一倍图的3倍。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>命名：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">模块_功能_控件_状态@2x.png  或 模块_功能_控件_状态@3x.png</span><br><span class="line"></span><br><span class="line">控件名需要使用英文，比如某个设置列表中的按钮：setting_list_btn_normal@2x.png</span><br><span class="line"></span><br><span class="line">当然切完图后也可以让技术自己命名。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="7-关于iPhone-X"><a href="#7-关于iPhone-X" class="headerlink" title="7.关于iPhone X"></a>7.关于iPhone X</h3><p>iPhone X增加了刘海儿（状态栏开发尺寸高度44pt）和 Home Indicator(开发尺寸高度34pt)。</p>
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/iPhoneX%E7%95%8C%E9%9D%A2%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0.png" alt="iPhone X界面基本元素"></p>
-<p>iPhone X的坐标系统以及能显示内容区域如下图：</p>
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/iPhoneX%E7%9A%84%E5%9D%90%E6%A0%87%E7%B3%BB%E7%BB%9F%E5%8F%8A%E8%83%BD%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9%E5%8C%BA%E5%9F%9F.png" alt="iPhone X的坐标系统以及能显示内容区域"></p>
-<ul>
-<li>设计过程中尽量避免控件被刘海儿和Home Indicator遮住的情况。</li>
-</ul>
-<p>ps: 具体可以参考 <a href="https://developer.apple.com/ios/human-interface-guidelines/overview/iphone-x/">苹果相应文档</a></p>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><ul>
-<li>所有页面中不要出现安卓、Android等其他设备终端的名称，提交审核会被拒。</li>
-<li>所有页面不要出现安卓设备UI控件（如状态栏等），提交审核会被拒。</li>
-<li>App图标不要跟Apple的logo风格相似，提交审核会被拒。</li>
-<li>新应用的icon也不能跟公司其他项目的icon过于相似，提交审核会被拒。</li>
-</ul>
-<p>ps: 具体详情可以参考<a href="https://developer.apple.com/design/tips/cn/">UI设计注意事项</a>和<a href="https://developer.apple.com/ios/human-interface-guidelines/overview/iphone-x/">Human InterFace Guidelines</a>。</p>
-<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="https://developer.apple.com/design/tips/cn/">UI设计注意事项</a></li>
-<li><a href="https://www.apple.com/cn/iphone/compare/">iPhone机型比较</a></li>
-<li><a href="https://developer.apple.com/ios/human-interface-guidelines/overview/iphone-x/">Human InterFace Guidelines</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>UI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>公司iOS项目MVVM架构模式设计及分析MVVM+RAC的优缺点</title>
-    <url>/2017/10/19/2017-10-19/</url>
-    <content><![CDATA[<hr>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><hr>
-<p>&amp;emsp;&amp;emsp;这篇博客主要是介绍公司的iOS项目MVVM架构模式的设计及分析MVVM+RAC的优缺点。</p>
-<hr>
-<h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVC.png" alt="MVC"></p>
-<blockquote>
-<p>Model   : 实体模型</p>
-<p>View    : UI控件，负责View的绘制及用户的交互。</p>
-<p>Controller : 业务逻辑、数据处理和UI处理</p>
-</blockquote>
-<p>MVC, Model - View - Controller,一个很古老很经典的设计模式，拥有大概50年的历史。而MVC这个架构模式的最大优点就是其概念简单，易于理解，任何一个软件工程毕业的学生都应该在大学课程中学习过。但如果开发过程中使用不当，很可能使大量的代码集中在Controller之中，使Controller变得十分臃肿。</p>
-<hr>
-<h4 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVP.png" alt="MVP"></p>
-<blockquote>
-<p>Model   :  实体模型</p>
-<p>View    ：UI控件，负责View的绘制及用户的交互。</p>
-<p>Presenter   : 负责完成View和Model之间的交互与业务逻辑。</p>
-</blockquote>
-<p>MVP, Model - View - Presenter,其实就是将MVC中Controller换成Presenter，是MVC的一个变种。其目的是完全切断View和Model之间的联系，由Presenter充当桥梁对视图和模型进行解耦。</p>
-<hr>
-<h4 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVVM.png" alt="MVVM"></p>
-<blockquote>
-<p>Model   : 实体模型。</p>
-<p>View    : UI控件，负责View的绘制及用户的交互。</p>
-<p>ViewModel :负责View和Model之间的交互，业务逻辑等。</p>
-</blockquote>
-<p>MVVM, Model - View - ViewModel, 一个从MVC模式中演化出来的设计模式。在iOS开发过程中，将原本在Controller中的业务逻辑、数据请求，数据处理 放到ViewModel中，从而有效地减少ViewController中的代码量，减轻ViewController的负担。同时将业务逻辑等放到ViewModel中也方便后期的测试与维护。</p>
-<hr>
-<h2 id="公司MVVM架构模式的设计"><a href="#公司MVVM架构模式的设计" class="headerlink" title="公司MVVM架构模式的设计"></a>公司MVVM架构模式的设计</h2><hr>
-<p>&amp;emsp;&amp;emsp;因为MVVM架构模式的方便测试、维护，复用性高和低耦合等特性，所以公司的项目采用MVVM的架构模式。同时在iOS客户端的开发过程中，我们使用了ReactiveCocoa来实现其绑定机制。</p>
-<h4 id="关于ReactiveCocoa"><a href="#关于ReactiveCocoa" class="headerlink" title="关于ReactiveCocoa"></a>关于ReactiveCocoa</h4><p>&amp;emsp;&amp;emsp; ReactiveCocoa 简称RAC，是由GitHub开源的一个应用于iOS和OS X开发的新框架。集合了函数式编程和响应式编程，所以RAC也被称为函数响应式编程框架（FRP）。</p>
-<p>&amp;emsp;&amp;emsp; 在开发过程中RAC解决了传统开发中状态之间依赖过多、Controller过于臃肿等问题。提供了统一的消息传递机制，降低了类与类之间的耦合度，提高了开发效率。具体使用方法可以参看GitHub中<a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa的详细文档</a>。</p>
-<h4 id="公司某项目目录结构"><a href="#公司某项目目录结构" class="headerlink" title="公司某项目目录结构"></a>公司某项目目录结构</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/%E5%85%AC%E5%8F%B8%E6%9F%90%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt="公司某项目目录结构"></p>
-<p>项目中的目录结构：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- 第三方sdk(应该用Frameworks)：主要存放一些暂不支持CocoaPods的第三方库。</span><br><span class="line">- Application: 程序的入口文件和配置文件</span><br><span class="line">- BaseClass： 基类、公共扩展类、公共View</span><br><span class="line">- NetWork：网络请求类（对AFNetworking的二次封装）</span><br><span class="line">- Utils: 工具类</span><br><span class="line">- ViewModels：相应模块对应的ViewModel</span><br><span class="line">- Model：实体模型(公司数据结构使用Protobuf，所以Model使用脚本直接生成)</span><br><span class="line">- Views: 相应模块的界面相关（每一个模块对应一个ViewModel）</span><br></pre></td></tr></table></figure>
-
-
-
-<p>&amp;emsp;&amp;emsp;每种语言发展到一定阶段都会出现相应的依赖管理工具，例如Java的Maven，nodejs的npm，而iOS依赖管理工具是CocoaPods。CocoaPods的出现为我们节省了集成、管理第三方库的时间，所以公司的项目同样使用了CocoaPods管理第三方库。</p>
-<p>&amp;emsp;&amp;emsp;而在数据结构方面我们使用了Google的Protocol Buffer(简称：Protobuf)。而Protobuf是google公司内部的混合语言数据标准，是一种轻便高效的结构化数据存储格式，可以用于结构化数据的序列化。</p>
-<p>&amp;emsp;&amp;emsp;使用时需要先配置开发环境，具体可以查看之前写的一篇博客<a href="http://www.jianshu.com/p/213178307bcf">《Mac 下配置protobuf（3.2.0）开发环境》</a>。如果使用的是Proto2可以查看另篇博客<a href="http://www.jianshu.com/p/8c6c009bc500">《ProtocolBuffer for Objective-C 运行环境配置及使用》</a>。</p>
-<hr>
-<h2 id="MVVM-RAC的优缺点"><a href="#MVVM-RAC的优缺点" class="headerlink" title="MVVM + RAC的优缺点"></a>MVVM + RAC的优缺点</h2><hr>
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MCVMVMV.gif" alt="MCVMVMV.gif"></p>
-<p>&amp;emsp;&amp;emsp; RAC和MVVM上面已经介绍过。现在越来越多的项目已经开始使用MVVM的架构模式，同时RAC已经成为MVVM的标配。由上图动画可以看出，对于一个简单的MVC架构的iOS应用，很容易调整到MVVM的。</p>
-<p>&amp;emsp;&amp;emsp;当然在我们享受函数响应式编程框架带来的便捷的同时，也需要承受其带来缺点。但随着自己能力的提高，这些所谓的缺点也会渐渐消失。如果有兴趣也可以查看<a href="https://tech.meituan.com/tag/ReactiveCocoa">美团点评技术团队关于RAC的研究</a>，相信你定会有所收获。</p>
-<blockquote>
-<ul>
-<li>优点：</li>
-</ul>
-<p>&amp;emsp;&amp;emsp;1. 方便测试与维护。将业务逻辑、网络请求，数据处理放到ViewModel中便于后期单元测试、维护。</p>
-<p>&amp;emsp;&amp;emsp;2. 低耦合。双向绑定，View可以根据Model的改变而进行修改，一个ViewModel可以绑定到不同的View上。</p>
-<p>&amp;emsp;&amp;emsp;3. 复用性高。可以将一些视图逻辑放到ViewModel中，让很多View重用此视图逻辑等。</p>
-<ul>
-<li>缺点：</li>
-</ul>
-<p>&amp;emsp;&amp;emsp;1. ReactiveCocoa学习成本较高。大部分人对MVVM不太熟悉，基于绑定机制进行编程需要一定的学习成本才能较好的上手。</p>
-<p>&amp;emsp;&amp;emsp;2. 数据绑定使Debug更困难。数据绑定会使程序异常传到其他位置，由上图可以看出，当View上发现bug时，有可能是ViewModel造成的，也可能是Model造成的。</p>
-</blockquote>
-<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model-View-Controller</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter">Model-View-Presenter</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel">Model-View-ViewModel</a></li>
-<li><a href="http://www.sprynthesis.com/2014/12/06/reactivecocoa-mvvm-introduction/">ReactiveCocoa and MVVM, an Introduction</a></li>
-<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a></li>
-<li><a href="http://rxmarbles.com/">RxJS Marbles</a></li>
-<li><a href="https://developers.google.com/protocol-buffers/docs/overview">ProtoBuf开发者指南</a></li>
-<li><a href="https://cocoapods.org/">CocoaPods官网</a></li>
-<li><a href="https://tech.meituan.com/tag/ReactiveCocoa">美团点评ReactiveCocoa归档</a></li>
-<li><a href="https://www.zhihu.com/question/20148405">你对MVC、MVP、MVVM 三种组合模式分别有什么样的理解？</a></li>
-<li><a href="http://yulingtianxia.com/blog/2015/05/21/ReactiveCocoa-and-MVVM-an-Introduction/">ReactiveCocoa和MVVM入门</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>架构</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>iOS开发适配iOS11&amp;iPhone X 、Xcode9遇到的坑</title>
     <url>/2017/10/12/2017-10-12/</url>
     <content><![CDATA[<h2 id="1-tableView向下偏移，部分UIScrollView布局出现混乱。"><a href="#1-tableView向下偏移，部分UIScrollView布局出现混乱。" class="headerlink" title="1.tableView向下偏移，部分UIScrollView布局出现混乱。"></a>1.<code>tableView</code>向下偏移，部分<code>UIScrollView</code>布局出现混乱。</h2><blockquote>
@@ -294,6 +118,182 @@
       <tags>
         <tag>iOS</tag>
         <tag>iPhone X</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>公司iOS项目MVVM架构模式设计及分析MVVM+RAC的优缺点</title>
+    <url>/2017/10/19/2017-10-19/</url>
+    <content><![CDATA[<hr>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><hr>
+<p>&amp;emsp;&amp;emsp;这篇博客主要是介绍公司的iOS项目MVVM架构模式的设计及分析MVVM+RAC的优缺点。</p>
+<hr>
+<h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVC.png" alt="MVC"></p>
+<blockquote>
+<p>Model   : 实体模型</p>
+<p>View    : UI控件，负责View的绘制及用户的交互。</p>
+<p>Controller : 业务逻辑、数据处理和UI处理</p>
+</blockquote>
+<p>MVC, Model - View - Controller,一个很古老很经典的设计模式，拥有大概50年的历史。而MVC这个架构模式的最大优点就是其概念简单，易于理解，任何一个软件工程毕业的学生都应该在大学课程中学习过。但如果开发过程中使用不当，很可能使大量的代码集中在Controller之中，使Controller变得十分臃肿。</p>
+<hr>
+<h4 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVP.png" alt="MVP"></p>
+<blockquote>
+<p>Model   :  实体模型</p>
+<p>View    ：UI控件，负责View的绘制及用户的交互。</p>
+<p>Presenter   : 负责完成View和Model之间的交互与业务逻辑。</p>
+</blockquote>
+<p>MVP, Model - View - Presenter,其实就是将MVC中Controller换成Presenter，是MVC的一个变种。其目的是完全切断View和Model之间的联系，由Presenter充当桥梁对视图和模型进行解耦。</p>
+<hr>
+<h4 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MVVM.png" alt="MVVM"></p>
+<blockquote>
+<p>Model   : 实体模型。</p>
+<p>View    : UI控件，负责View的绘制及用户的交互。</p>
+<p>ViewModel :负责View和Model之间的交互，业务逻辑等。</p>
+</blockquote>
+<p>MVVM, Model - View - ViewModel, 一个从MVC模式中演化出来的设计模式。在iOS开发过程中，将原本在Controller中的业务逻辑、数据请求，数据处理 放到ViewModel中，从而有效地减少ViewController中的代码量，减轻ViewController的负担。同时将业务逻辑等放到ViewModel中也方便后期的测试与维护。</p>
+<hr>
+<h2 id="公司MVVM架构模式的设计"><a href="#公司MVVM架构模式的设计" class="headerlink" title="公司MVVM架构模式的设计"></a>公司MVVM架构模式的设计</h2><hr>
+<p>&amp;emsp;&amp;emsp;因为MVVM架构模式的方便测试、维护，复用性高和低耦合等特性，所以公司的项目采用MVVM的架构模式。同时在iOS客户端的开发过程中，我们使用了ReactiveCocoa来实现其绑定机制。</p>
+<h4 id="关于ReactiveCocoa"><a href="#关于ReactiveCocoa" class="headerlink" title="关于ReactiveCocoa"></a>关于ReactiveCocoa</h4><p>&amp;emsp;&amp;emsp; ReactiveCocoa 简称RAC，是由GitHub开源的一个应用于iOS和OS X开发的新框架。集合了函数式编程和响应式编程，所以RAC也被称为函数响应式编程框架（FRP）。</p>
+<p>&amp;emsp;&amp;emsp; 在开发过程中RAC解决了传统开发中状态之间依赖过多、Controller过于臃肿等问题。提供了统一的消息传递机制，降低了类与类之间的耦合度，提高了开发效率。具体使用方法可以参看GitHub中<a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa的详细文档</a>。</p>
+<h4 id="公司某项目目录结构"><a href="#公司某项目目录结构" class="headerlink" title="公司某项目目录结构"></a>公司某项目目录结构</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/%E5%85%AC%E5%8F%B8%E6%9F%90%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt="公司某项目目录结构"></p>
+<p>项目中的目录结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- 第三方sdk(应该用Frameworks)：主要存放一些暂不支持CocoaPods的第三方库。</span><br><span class="line">- Application: 程序的入口文件和配置文件</span><br><span class="line">- BaseClass： 基类、公共扩展类、公共View</span><br><span class="line">- NetWork：网络请求类（对AFNetworking的二次封装）</span><br><span class="line">- Utils: 工具类</span><br><span class="line">- ViewModels：相应模块对应的ViewModel</span><br><span class="line">- Model：实体模型(公司数据结构使用Protobuf，所以Model使用脚本直接生成)</span><br><span class="line">- Views: 相应模块的界面相关（每一个模块对应一个ViewModel）</span><br></pre></td></tr></table></figure>
+
+
+
+<p>&amp;emsp;&amp;emsp;每种语言发展到一定阶段都会出现相应的依赖管理工具，例如Java的Maven，nodejs的npm，而iOS依赖管理工具是CocoaPods。CocoaPods的出现为我们节省了集成、管理第三方库的时间，所以公司的项目同样使用了CocoaPods管理第三方库。</p>
+<p>&amp;emsp;&amp;emsp;而在数据结构方面我们使用了Google的Protocol Buffer(简称：Protobuf)。而Protobuf是google公司内部的混合语言数据标准，是一种轻便高效的结构化数据存储格式，可以用于结构化数据的序列化。</p>
+<p>&amp;emsp;&amp;emsp;使用时需要先配置开发环境，具体可以查看之前写的一篇博客<a href="http://www.jianshu.com/p/213178307bcf">《Mac 下配置protobuf（3.2.0）开发环境》</a>。如果使用的是Proto2可以查看另篇博客<a href="http://www.jianshu.com/p/8c6c009bc500">《ProtocolBuffer for Objective-C 运行环境配置及使用》</a>。</p>
+<hr>
+<h2 id="MVVM-RAC的优缺点"><a href="#MVVM-RAC的优缺点" class="headerlink" title="MVVM + RAC的优缺点"></a>MVVM + RAC的优缺点</h2><hr>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-19/MCVMVMV.gif" alt="MCVMVMV.gif"></p>
+<p>&amp;emsp;&amp;emsp; RAC和MVVM上面已经介绍过。现在越来越多的项目已经开始使用MVVM的架构模式，同时RAC已经成为MVVM的标配。由上图动画可以看出，对于一个简单的MVC架构的iOS应用，很容易调整到MVVM的。</p>
+<p>&amp;emsp;&amp;emsp;当然在我们享受函数响应式编程框架带来的便捷的同时，也需要承受其带来缺点。但随着自己能力的提高，这些所谓的缺点也会渐渐消失。如果有兴趣也可以查看<a href="https://tech.meituan.com/tag/ReactiveCocoa">美团点评技术团队关于RAC的研究</a>，相信你定会有所收获。</p>
+<blockquote>
+<ul>
+<li>优点：</li>
+</ul>
+<p>&amp;emsp;&amp;emsp;1. 方便测试与维护。将业务逻辑、网络请求，数据处理放到ViewModel中便于后期单元测试、维护。</p>
+<p>&amp;emsp;&amp;emsp;2. 低耦合。双向绑定，View可以根据Model的改变而进行修改，一个ViewModel可以绑定到不同的View上。</p>
+<p>&amp;emsp;&amp;emsp;3. 复用性高。可以将一些视图逻辑放到ViewModel中，让很多View重用此视图逻辑等。</p>
+<ul>
+<li>缺点：</li>
+</ul>
+<p>&amp;emsp;&amp;emsp;1. ReactiveCocoa学习成本较高。大部分人对MVVM不太熟悉，基于绑定机制进行编程需要一定的学习成本才能较好的上手。</p>
+<p>&amp;emsp;&amp;emsp;2. 数据绑定使Debug更困难。数据绑定会使程序异常传到其他位置，由上图可以看出，当View上发现bug时，有可能是ViewModel造成的，也可能是Model造成的。</p>
+</blockquote>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model-View-Controller</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter">Model-View-Presenter</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel">Model-View-ViewModel</a></li>
+<li><a href="http://www.sprynthesis.com/2014/12/06/reactivecocoa-mvvm-introduction/">ReactiveCocoa and MVVM, an Introduction</a></li>
+<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a></li>
+<li><a href="http://rxmarbles.com/">RxJS Marbles</a></li>
+<li><a href="https://developers.google.com/protocol-buffers/docs/overview">ProtoBuf开发者指南</a></li>
+<li><a href="https://cocoapods.org/">CocoaPods官网</a></li>
+<li><a href="https://tech.meituan.com/tag/ReactiveCocoa">美团点评ReactiveCocoa归档</a></li>
+<li><a href="https://www.zhihu.com/question/20148405">你对MVC、MVP、MVVM 三种组合模式分别有什么样的理解？</a></li>
+<li><a href="http://yulingtianxia.com/blog/2015/05/21/ReactiveCocoa-and-MVVM-an-Introduction/">ReactiveCocoa和MVVM入门</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>架构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS客户端UI界面设计的原则及规范</title>
+    <url>/2017/10/20/2017-10-20/</url>
+    <content><![CDATA[<p>为方便产品、UI设计师、开发人员在产品细节上达成共识，减少沟通成本，提升开发效率，特整理iOS设备的App设计规范。此规范适用于iOS平台所有App及大多数iOS端网页设计。</p>
+<h3 id="1-标准单位"><a href="#1-标准单位" class="headerlink" title="1.标准单位"></a>1.标准单位</h3><ul>
+<li>px: pixel,像素，电子屏幕上组成一幅图画或照片的最基本单元;</li>
+<li>pt: point，点，印刷行业常用单位，等于1&#x2F;72英寸;</li>
+<li>ppi: pixel per inch，每英寸像素数，该值越高，则屏幕越细腻;</li>
+<li>dpi: dot per inch，每英寸多少点，该值越高，则图片越细腻;</li>
+<li>dp: dip，Density-independent pixel, 是安卓开发用的长度单位，1dp表示在屏幕像素点密度为160ppi时1px长度;</li>
+<li>sp: scale-independent pixel，安卓开发用的字体大小单位。</li>
+</ul>
+<p>ps:具体可参考<a href="http://www.woshipm.com/pmd/176328.html">八一八那些px、pt、ppi、dpi、dp、sp之间的关系</a></p>
+<h3 id="2-应用图标"><a href="#2-应用图标" class="headerlink" title="2.应用图标"></a>2.应用图标</h3><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/AppIcon.png" alt="AppIcon.png"></p>
+<ul>
+<li>图标尺寸分别为：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">40*40</span><br><span class="line">60*60</span><br><span class="line"></span><br><span class="line">58*58</span><br><span class="line">87*87</span><br><span class="line"></span><br><span class="line">80*80</span><br><span class="line">120*120</span><br><span class="line"></span><br><span class="line">120*120</span><br><span class="line">180*180</span><br><span class="line"></span><br><span class="line">1024*1024</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其格式必须为PNG或JPG，最低分辨率为72DPI，并采用RGB色彩空间。</li>
+</ul>
+<p>ps: 具体可参考<a href="https://developer.apple.com/ios/human-interface-guidelines/icons-and-images/image-size-and-resolution/">Image Size and Resolution</a></p>
+<h3 id="3-启动页"><a href="#3-启动页" class="headerlink" title="3.启动页"></a>3.启动页</h3><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/%E5%90%AF%E5%8A%A8%E9%A1%B5%E5%B0%BA%E5%AF%B8.png" alt="启动页尺寸"></p>
+<ul>
+<li>其格式必须为PNG或JPG，最低分辨率为72DPI，并采用RGB色彩空间。</li>
+<li>因项目中使用LaunchScreen.storyboard加载启动页,需要启动页的图片为：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">750px * 1334px</span><br><span class="line">1125px * 2436px</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>ps:具体可参考<a href="https://developer.apple.com/ios/human-interface-guidelines/icons-and-images/launch-screen/">Launch Screen</a></p>
+<h3 id="4-各机型尺寸比较"><a href="#4-各机型尺寸比较" class="headerlink" title="4.各机型尺寸比较"></a>4.各机型尺寸比较</h3><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/iPhone%E6%9C%BA%E5%9E%8B%E5%B0%BA%E5%AF%B8%E6%AF%94%E8%BE%83.png" alt="iPhone机型尺寸比较"></p>
+<ul>
+<li>UI出图以6&#x2F;6S&#x2F;7&#x2F;8为准，即 750 * 1334 px。从中切出的图标即为2x 图，3x图尺寸为2x图的1.5倍。</li>
+</ul>
+<p>ps:具体可参考<a href="https://www.apple.com/cn/iphone/compare/">iPhone机型比较</a></p>
+<h3 id="5-界面基本组成元素"><a href="#5-界面基本组成元素" class="headerlink" title="5.界面基本组成元素"></a>5.界面基本组成元素</h3><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/iPhone%E7%95%8C%E9%9D%A2%E5%9F%BA%E7%A1%80%E6%8E%A7%E4%BB%B6%E5%B0%BA%E5%AF%B8.png" alt="iPhone 界面基础控件尺寸"></p>
+<p>具体控件名称如下：</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/%E7%95%8C%E9%9D%A2%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90%E5%85%83%E7%B4%A0.png" alt="界面基本组成元素"></p>
+<ul>
+<li>在<code>6/6S/7/8</code>中即像素尺寸为<code>750*1334 px</code>的屏幕中，其状态栏高度为<code>40px</code>(开发尺寸为<code>20pt</code>)，导航栏高度为<code>88px</code>(开发尺寸为<code>44pt</code>)，Tab Bar 高度为<code>98px</code>(开发尺寸为<code>49pt</code>)。</li>
+<li><code>6+/6S+/7+/8+</code> 的状态栏、导航栏、TabBar 高度分别为相应开发尺寸的3倍。</li>
+<li>iPhone X因有刘海儿，其状态栏的开发尺寸高度为<code>44pt</code>(像素尺寸为<code>44 X 3 px</code> )。</li>
+<li>iPhone X没有了Home键，iPhone X的底部预留给系统功能的一个区域-<code>Home Indicator</code>,开发高度<code>34pt</code>（像素尺寸高度<code>34 X 3 px</code>）。</li>
+</ul>
+<p>ps: 具体情况和其他控件尺寸可参考<a href="https://developer.apple.com/ios/human-interface-guidelines/overview/iphone-x/">Human Interface Guidelines</a></p>
+<h3 id="6-图标命名规范"><a href="#6-图标命名规范" class="headerlink" title="6.图标命名规范"></a>6.图标命名规范</h3><p>设计时可以使用6&#x2F;6S&#x2F;7&#x2F;8(像素尺寸：750px  <code>*</code>  1334px)的尺寸作为基准，切图时需要两套图分别为：2x图（750px * 1334px 的UI切片即为2x图）和3x图(尺寸为2x的1.5倍，1x图的3倍)。</p>
+<ul>
+<li>图片格式：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- 普通：image.png</span><br><span class="line">- 两倍图：image@2x.png</span><br><span class="line">- 三倍图：image@3x.png</span><br></pre></td></tr></table></figure>
+<ul>
+<li>保存：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">png-24</span><br><span class="line">保留透明度</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>尺寸：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">像素,尽量不要出现小数，从750px * 1334px 切下的即为两倍图（@2x）</span><br><span class="line">三倍图为两倍图的1.5倍，为一倍图的3倍。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>命名：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">模块_功能_控件_状态@2x.png  或 模块_功能_控件_状态@3x.png</span><br><span class="line"></span><br><span class="line">控件名需要使用英文，比如某个设置列表中的按钮：setting_list_btn_normal@2x.png</span><br><span class="line"></span><br><span class="line">当然切完图后也可以让技术自己命名。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-关于iPhone-X"><a href="#7-关于iPhone-X" class="headerlink" title="7.关于iPhone X"></a>7.关于iPhone X</h3><p>iPhone X增加了刘海儿（状态栏开发尺寸高度44pt）和 Home Indicator(开发尺寸高度34pt)。</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/iPhoneX%E7%95%8C%E9%9D%A2%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0.png" alt="iPhone X界面基本元素"></p>
+<p>iPhone X的坐标系统以及能显示内容区域如下图：</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/2017-10-20/iPhoneX%E7%9A%84%E5%9D%90%E6%A0%87%E7%B3%BB%E7%BB%9F%E5%8F%8A%E8%83%BD%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9%E5%8C%BA%E5%9F%9F.png" alt="iPhone X的坐标系统以及能显示内容区域"></p>
+<ul>
+<li>设计过程中尽量避免控件被刘海儿和Home Indicator遮住的情况。</li>
+</ul>
+<p>ps: 具体可以参考 <a href="https://developer.apple.com/ios/human-interface-guidelines/overview/iphone-x/">苹果相应文档</a></p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><ul>
+<li>所有页面中不要出现安卓、Android等其他设备终端的名称，提交审核会被拒。</li>
+<li>所有页面不要出现安卓设备UI控件（如状态栏等），提交审核会被拒。</li>
+<li>App图标不要跟Apple的logo风格相似，提交审核会被拒。</li>
+<li>新应用的icon也不能跟公司其他项目的icon过于相似，提交审核会被拒。</li>
+</ul>
+<p>ps: 具体详情可以参考<a href="https://developer.apple.com/design/tips/cn/">UI设计注意事项</a>和<a href="https://developer.apple.com/ios/human-interface-guidelines/overview/iphone-x/">Human InterFace Guidelines</a>。</p>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://developer.apple.com/design/tips/cn/">UI设计注意事项</a></li>
+<li><a href="https://www.apple.com/cn/iphone/compare/">iPhone机型比较</a></li>
+<li><a href="https://developer.apple.com/ios/human-interface-guidelines/overview/iphone-x/">Human InterFace Guidelines</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>UI</tag>
       </tags>
   </entry>
   <entry>
@@ -1556,6 +1556,34 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>GPUImage相应类库所实现的功能</title>
+    <url>/2017/12/28/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<p>关于<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>:</p>
+<p>GPUImage是一个基于GPU的图像、视频处理的iOS框架，支持很多种图像滤镜。当然，它目前还缺乏一些图像处理的高级功能，例如面部识别。</p>
+<p>对于大规模并行操作（如处理图像或实时视频），GPU具有一些比CPU更显著的性能优势。在iPhone 4上，一个简单的图像滤镜在GPU上的执行速度可能比基于CPU的滤镜快100倍。</p>
+<p>下方是<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>的相应类库所实现的功能：</p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/GPUImage.jpg" alt="GPUImage-01.jpg"></p>
+<hr>
+<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/LearningGPUImage">部分滤镜实现(会不定期更新)</a></p>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://github.com/BradLarson/GPUImage">GPUImage</a></li>
+<li><a href="https://www.cnblogs.com/XYQ-208910/p/5859683.html">iOS：GPUImage强大的图像处理框架</a></li>
+<li><a href="http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find/">AVFoundation和 GPUImage初探</a></li>
+<li><a href="http://www.cnblogs.com/salam/p/4981276.html">GPUImage简单滤镜使用（二）</a></li>
+<li><a href="https://yq.aliyun.com/articles/55708">使用GPUImage实现视频滤镜</a></li>
+<li><a href="http://www.cnblogs.com/salam/p/5125836.html">iOS二十种超酷时尚艺术滤镜汇总【附源码】</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>源码学习</category>
+        <category>GPUImage</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>GPUImage</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Flutter如何适配鸿蒙Next系统并打HAP安装包</title>
     <url>/2023/11/16/Flutter%E5%A6%82%E4%BD%95%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next%E7%B3%BB%E7%BB%9F%E5%B9%B6%E6%89%93HAP%E5%AE%89%E8%A3%85%E5%8C%85/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>因最近有媒体报道后期鸿蒙Next系统不支持安卓应用的安装，虽然不清楚真假，但作为开发我们也需要为此做准备。</p>
@@ -1592,34 +1620,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>鸿蒙</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>GPUImage相应类库所实现的功能</title>
-    <url>/2017/12/28/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<p>关于<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>:</p>
-<p>GPUImage是一个基于GPU的图像、视频处理的iOS框架，支持很多种图像滤镜。当然，它目前还缺乏一些图像处理的高级功能，例如面部识别。</p>
-<p>对于大规模并行操作（如处理图像或实时视频），GPU具有一些比CPU更显著的性能优势。在iPhone 4上，一个简单的图像滤镜在GPU上的执行速度可能比基于CPU的滤镜快100倍。</p>
-<p>下方是<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>的相应类库所实现的功能：</p>
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/GPUImage.jpg" alt="GPUImage-01.jpg"></p>
-<hr>
-<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/LearningGPUImage">部分滤镜实现(会不定期更新)</a></p>
-<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="https://github.com/BradLarson/GPUImage">GPUImage</a></li>
-<li><a href="https://www.cnblogs.com/XYQ-208910/p/5859683.html">iOS：GPUImage强大的图像处理框架</a></li>
-<li><a href="http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find/">AVFoundation和 GPUImage初探</a></li>
-<li><a href="http://www.cnblogs.com/salam/p/4981276.html">GPUImage简单滤镜使用（二）</a></li>
-<li><a href="https://yq.aliyun.com/articles/55708">使用GPUImage实现视频滤镜</a></li>
-<li><a href="http://www.cnblogs.com/salam/p/5125836.html">iOS二十种超酷时尚艺术滤镜汇总【附源码】</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>源码学习</category>
-        <category>GPUImage</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>GPUImage</tag>
       </tags>
   </entry>
   <entry>
@@ -3646,7 +3646,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be">The art of Lotte Reineger</a></p>
 <h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
 <p>如果你想添加更多的JSON文件，请随时这样做！</p>
-<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#98;&#x72;&#97;&#110;&#x64;&#111;&#x6e;&#46;&#x77;&#105;&#116;&#104;&#x72;&#111;&#x77;&#64;&#97;&#105;&#114;&#x62;&#x6e;&#98;&#46;&#x63;&#111;&#x6d;">&#98;&#x72;&#97;&#110;&#x64;&#111;&#x6e;&#46;&#x77;&#105;&#116;&#104;&#x72;&#111;&#x77;&#64;&#97;&#105;&#114;&#x62;&#x6e;&#98;&#46;&#x63;&#111;&#x6d;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#98;&#114;&#x61;&#110;&#100;&#111;&#110;&#x2e;&#119;&#x69;&#116;&#x68;&#x72;&#x6f;&#x77;&#x40;&#97;&#105;&#x72;&#x62;&#110;&#98;&#x2e;&#x63;&#x6f;&#x6d;">&#98;&#114;&#x61;&#110;&#100;&#111;&#110;&#x2e;&#119;&#x69;&#116;&#x68;&#x72;&#x6f;&#x77;&#x40;&#97;&#105;&#x72;&#x62;&#110;&#98;&#x2e;&#x63;&#x6f;&#x6d;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
 <h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
 <li>添加对交互式动画过渡的支持</li>
 </ul>
@@ -5873,6 +5873,50 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>web服务器</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>根据TextEditingController实现原理定制响应式控制的Widget</title>
+    <url>/2025/05/21/%E6%A0%B9%E6%8D%AETextEditingController%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%AE%9A%E5%88%B6%E5%93%8D%E5%BA%94%E5%BC%8F%E6%8E%A7%E5%88%B6%E7%9A%84Widget/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近在适配iPad和安卓大屏时，发现项目中有个页面在滚动时频繁build，codeReview代码发现是该页面需要监听页面滚动更改顶部tabbar的颜色。</p>
+<p>而在每次滚动的时候都会调用<code>setState(() &#123;&#125;);</code>,导致整个页面频繁刷新。</p>
+<p>于是根据TextEditingController实现原理定制响应式控制的Widget来解决该问题，记录一下。</p>
+<p>同时让AI生成了示例，便于理解，示例也在文档中。</p>
+<h2 id="TextEditingController-实现原理"><a href="#TextEditingController-实现原理" class="headerlink" title="TextEditingController 实现原理"></a>TextEditingController 实现原理</h2><p>TextEditingController 是 Flutter 中用于控制文本输入框内容的类，其核心原理如下：</p>
+<ol>
+<li><p><strong>ValueNotifier 基础</strong>：继承自 <code>ValueNotifier&lt;TextEditingValue&gt;</code>，这意味着它是一个可观察的值，当值变化时会通知所有监听器。</p>
+</li>
+<li><p><strong>文本状态管理</strong>：维护一个 <code>TextEditingValue</code> 对象，包含：</p>
+<ul>
+<li><code>text</code>：当前文本内容</li>
+<li><code>selection</code>：文本选择范围</li>
+<li><code>composing</code>：输入法组合文本范围</li>
+</ul>
+</li>
+<li><p><strong>双向绑定</strong>：</p>
+<ul>
+<li>当用户在 TextField 中输入时，会更新 controller 的值</li>
+<li>当通过代码修改 controller 的值时，会同步更新 TextField 显示</li>
+</ul>
+</li>
+<li><p><strong>监听机制</strong>：通过 <code>addListener</code> 可以注册回调，当文本变化时执行相应操作</p>
+</li>
+</ol>
+<h2 id="实现根据-alpha-参数显隐的-Widget"><a href="#实现根据-alpha-参数显隐的-Widget" class="headerlink" title="实现根据 alpha 参数显隐的 Widget"></a>实现根据 alpha 参数显隐的 Widget</h2><p>我们可以仿照 TextField 的实现原理，创建一个基于 ValueNotifier 的可观察 Widget：</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/material.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AlphaController</span> <span class="keyword">extends</span> <span class="title">ValueNotifier</span>&lt;<span class="title">double</span>&gt; </span>&#123;</span><br><span class="line">  AlphaController(&#123;<span class="built_in">double</span> alpha = <span class="number">1.0</span>&#125;) : <span class="keyword">super</span>(alpha.clamp(<span class="number">0.0</span>, <span class="number">1.0</span>));</span><br><span class="line"></span><br><span class="line">  <span class="built_in">double</span> <span class="keyword">get</span> alpha =&gt; value;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">set</span> alpha(<span class="built_in">double</span> newAlpha) &#123;</span><br><span class="line">    value = newAlpha.clamp(<span class="number">0.0</span>, <span class="number">1.0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AlphaControlledWidget</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> AlphaController controller;</span><br><span class="line">  <span class="keyword">final</span> Widget child;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> AlphaControlledWidget(&#123;</span><br><span class="line">    Key? key,</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">this</span>.controller,</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">this</span>.child,</span><br><span class="line">  &#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _AlphaControlledWidgetState createState() =&gt; _AlphaControlledWidgetState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_AlphaControlledWidgetState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">AlphaControlledWidget</span>&gt; </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">    widget.controller.addListener(_handleAlphaChange);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> didUpdateWidget(AlphaControlledWidget oldWidget) &#123;</span><br><span class="line">    <span class="keyword">super</span>.didUpdateWidget(oldWidget);</span><br><span class="line">    <span class="keyword">if</span> (oldWidget.controller != widget.controller) &#123;</span><br><span class="line">      oldWidget.controller.removeListener(_handleAlphaChange);</span><br><span class="line">      widget.controller.addListener(_handleAlphaChange);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    widget.controller.removeListener(_handleAlphaChange);</span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> _handleAlphaChange() &#123;</span><br><span class="line">    setState(() &#123;&#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Opacity(</span><br><span class="line">      opacity: widget.controller.alpha,</span><br><span class="line">      child: widget.child,</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AlphaDemo</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _AlphaDemoState createState() =&gt; _AlphaDemoState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_AlphaDemoState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">AlphaDemo</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> AlphaController _controller = AlphaController(alpha: <span class="number">0.5</span>);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Column(</span><br><span class="line">      children: [</span><br><span class="line">        Slider(</span><br><span class="line">          value: _controller.alpha,</span><br><span class="line">          onChanged: (value) &#123;</span><br><span class="line">            _controller.alpha = value;</span><br><span class="line">          &#125;,</span><br><span class="line">        ),</span><br><span class="line">        AlphaControlledWidget(</span><br><span class="line">          controller: _controller,</span><br><span class="line">          child: Container(</span><br><span class="line">            width: <span class="number">200</span>,</span><br><span class="line">            height: <span class="number">200</span>,</span><br><span class="line">            color: Colors.blue,</span><br><span class="line">            child: Center(</span><br><span class="line">              child: Text(</span><br><span class="line">                <span class="string">&#x27;透明度控制&#x27;</span>,</span><br><span class="line">                style: TextStyle(color: Colors.white, fontSize: <span class="number">24</span>),</span><br><span class="line">              ),</span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line">        ),</span><br><span class="line">      ],</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="实现原理分析"><a href="#实现原理分析" class="headerlink" title="实现原理分析"></a>实现原理分析</h2><ol>
+<li><strong>AlphaController</strong>：类似于 TextEditingController，继承自 ValueNotifier，负责管理 alpha 值</li>
+<li><strong>AlphaControlledWidget</strong>：类似于 TextField，监听 controller 的变化并更新 UI</li>
+<li><strong>响应式更新</strong>：当 controller 的值变化时，通过 setState 触发 Widget 重建</li>
+<li><strong>生命周期管理</strong>：正确处理了 controller 的监听器添加和移除</li>
+</ol>
+<p>这种模式可以扩展到其他需要响应式控制的 Widget 属性，如大小、位置、颜色等。</p>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
   </entry>
   <entry>
     <title>根据字号对字符串进行等宽切割</title>
