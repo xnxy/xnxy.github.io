@@ -1372,162 +1372,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>Flutter中表情包导致的UI渲染问题</title>
-    <url>/2024/10/31/Flutter%E4%B8%AD%E8%A1%A8%E6%83%85%E5%8C%85%E5%AF%BC%E8%87%B4%E7%9A%84UI%E6%B8%B2%E6%9F%93%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>在后台发现一个UI渲染卡顿问题，之前忙其他的没太关注。</p>
-<p>最近有时间解析了日志，发现了下方有用的日志信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">======== Exception caught by rendering library ===================================================== </span><br><span class="line">The following ArgumentError was thrown during performLayout(): Invalid argument(s): string is not well-formed UTF-16</span><br></pre></td></tr></table></figure>
-
-<p>codeRevier对应类的代码后发现了类似下方的代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">final text = contentController?.text;</span><br><span class="line">final textLength = text?.length ?? 0;</span><br><span class="line">text = textLength &gt;= 12 ? text!.substring(0, 12) : text ?? &#x27;&#x27;,</span><br></pre></td></tr></table></figure>
-<p>其主要作用是当文字超出某个长度后，截取固定长度的字符串。但我们都知道表情的length是2，截取的时候就会概率出现上方的问题。</p>
-<p>所以在截取字符串的时候，我们需要用到<code>characters</code>属性来确保截取的字符串是有效的 UTF-16 编码。</p>
-<p>具体代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String truncateText(String? text, int maxLength) &#123;</span><br><span class="line">  if (text == null) return &#x27;&#x27;;</span><br><span class="line">  final characters = text.characters;</span><br><span class="line">  return characters.length &gt; maxLength ? characters.take(maxLength).toString() : text;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用</span><br><span class="line">text = truncateText(widget.contentController?.text, 12),</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>App开发</category>
-      </categories>
-      <tags>
-        <tag>Flutter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Flutter全面屏适配</title>
-    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
-<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
-<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>Flutter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Flutter中隐藏键盘操作</title>
-    <url>/2023/04/03/Flutter%E4%B8%AD%E9%9A%90%E8%97%8F%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<blockquote>
-<p>方式一</p>
-</blockquote>
-<p>在iOS原生开发中我们可能会使用<code>textField.resignFirstResponder() </code>或者<code>endEditing</code>来隐藏键盘。</p>
-<p>而在Flutter中我们可以使用获取<code>Focus</code>，然后调用<code>unfocus</code>的方式取消键盘。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScopeNode currentFocus = FocusScope.of(context);</span><br><span class="line">if(!currentFocus.hasPrimaryFocus) &#123;</span><br><span class="line">    currentFocus.unfocus();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>方式二</p>
-</blockquote>
-<p>当然在获取控制器困难的时候，在iOS原生开发中我们可以使用下面的方法取消键盘。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>而Flutter中也可以使用同样的方法，如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScope.of(context).requestFocus(FocusNode());</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>知识点</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Flutter如何适配鸿蒙Next系统并打HAP安装包</title>
-    <url>/2023/11/16/Flutter%E5%A6%82%E4%BD%95%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next%E7%B3%BB%E7%BB%9F%E5%B9%B6%E6%89%93HAP%E5%AE%89%E8%A3%85%E5%8C%85/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>因最近有媒体报道后期鸿蒙Next系统不支持安卓应用的安装，虽然不清楚真假，但作为开发我们也需要为此做准备。</p>
-<p>着手调研使用Flutter打适配鸿蒙Next的HAP包的技术方案后，通过分析和对比最后也确认了<a href="https://gitee.com/openharmony-sig">开源鸿蒙</a>定制<a href="https://gitee.com/openharmony-sig/flutter_flutter">Flutter</a>的方案，这种方案对于Flutter项目来说是一种开放成本最低的方式。</p>
-<h2 id="安装适配鸿蒙系统的Flutter"><a href="#安装适配鸿蒙系统的Flutter" class="headerlink" title="安装适配鸿蒙系统的Flutter"></a>安装适配鸿蒙系统的Flutter</h2><p>关于Flutter的配置可以参考<a href="https://gitee.com/openharmony-sig/flutter_flutter">开源鸿蒙适配的Flutter</a>中的文档一步步进行配置。</p>
-<p>配置成功后如下方所示：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zhouwei@FYMacBook-Air ~ % flutter doctor -v</span><br><span class="line">[!] Flutter (Channel master, 3.7.12, on macOS 12.6.9 21G726 darwin-x64, locale zh-Hans-CN)</span><br><span class="line">    • Flutter version 3.7.12 on channel master at /Users/zhouwei/Desktop/hm_flutter</span><br><span class="line">    ! Upstream repository https://gitee.com/openharmony-sig/flutter_flutter.git is not a standard</span><br><span class="line">      remote.</span><br><span class="line">      Set environment variable <span class="string">&quot;FLUTTER_GIT_URL&quot;</span> to</span><br><span class="line">      https://gitee.com/openharmony-sig/flutter_flutter.git to dismiss this error.</span><br><span class="line">    • Framework revision 198162b99b (18 hours ago), 2023-11-23 12:38:27 +0000</span><br><span class="line">    • Engine revision 1a65d409c7</span><br><span class="line">    • Dart version 2.19.6</span><br><span class="line">    • DevTools version 2.20.1</span><br><span class="line">    • Pub download mirror https://pub.flutter-io.cn</span><br><span class="line">    • Flutter download mirror https://storage.flutter-io.cn</span><br><span class="line">    • If those were intentional, you can disregard the above warnings; however it is recommended</span><br><span class="line">      to use <span class="string">&quot;git&quot;</span> directly to perform update checks and upgrades.</span><br><span class="line"></span><br><span class="line">[✓] OpenHarmony toolchain - develop <span class="keyword">for</span> OpenHarmony devices</span><br><span class="line">    • OpenHarmony Sdk location: /Users/zhouwei/Documents/sdk, available api versions has [10]</span><br><span class="line">    • hdc version 1.3.0</span><br><span class="line">    • ohpm version 1.2.0</span><br><span class="line">    • signTool location:/Users/zhouwei/Documents/developtools_hapsigner/autosign</span><br><span class="line"></span><br><span class="line">[✓] Android toolchain - develop <span class="keyword">for</span> Android devices (Android SDK version 33.0.2)</span><br><span class="line">    • Android SDK at /Users/zhouwei/Library/Android/sdk</span><br><span class="line">    • Platform android-33, build-tools 33.0.2</span><br><span class="line">    • ANDROID_HOME = /Users/zhouwei/Library/Android/sdk</span><br><span class="line">    • Java binary at: /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java</span><br><span class="line">    • Java version OpenJDK Runtime Environment (build 11.0.15+0-b2043.56-8887301)</span><br><span class="line">    • All Android licenses accepted.</span><br><span class="line"></span><br><span class="line">[✓] Xcode - develop <span class="keyword">for</span> iOS and macOS (Xcode 14.2)</span><br><span class="line">    • Xcode at /Applications/Xcode.app/Contents/Developer</span><br><span class="line">    • Build 14C18</span><br><span class="line">    • CocoaPods version 1.11.3</span><br><span class="line"></span><br><span class="line">[✓] Chrome - develop <span class="keyword">for</span> the web</span><br><span class="line">    • Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome</span><br><span class="line"></span><br><span class="line">[✓] Android Studio (version 2022.1)</span><br><span class="line">    • Android Studio at /Applications/Android Studio.app/Contents</span><br><span class="line">    • Flutter plugin can be installed from:</span><br><span class="line">      🔨 https://plugins.jetbrains.com/plugin/9212-flutter</span><br><span class="line">    • Dart plugin can be installed from:</span><br><span class="line">      🔨 https://plugins.jetbrains.com/plugin/6351-dart</span><br><span class="line">    • Java version OpenJDK Runtime Environment (build 11.0.15+0-b2043.56-8887301)</span><br><span class="line"></span><br><span class="line">[✓] VS Code (version 1.82.0)</span><br><span class="line">    • VS Code at /Applications/Visual Studio Code.app/Contents</span><br><span class="line">    • Flutter extension version 3.70.0</span><br><span class="line"></span><br><span class="line">[✓] Connected device (2 available)</span><br><span class="line">    • macOS (desktop) • macos  • darwin-x64     • macOS 12.6.9 21G726 darwin-x64</span><br><span class="line">    • Chrome (web)    • chrome • web-javascript • Google Chrome 119.0.6045.159</span><br><span class="line"></span><br><span class="line">[✓] HTTP Host Availability</span><br><span class="line">    • All required HTTP hosts are available</span><br><span class="line"></span><br><span class="line">! Doctor found issues <span class="keyword">in</span> 1 category.</span><br></pre></td></tr></table></figure>
-
-<h2 id="编译适配鸿蒙系统的Flutter-engine"><a href="#编译适配鸿蒙系统的Flutter-engine" class="headerlink" title="编译适配鸿蒙系统的Flutter engine"></a>编译适配鸿蒙系统的Flutter engine</h2><p>根据<a href="https://gitee.com/openharmony-sig/flutter_flutter">适配鸿蒙系统的Flutter版本</a>中的文档配置完后，打HAP包则需要指定<code>--local-engine</code>。</p>
-<p>如果你发现在执行完<code>flutter doctor -v</code>命令后，在<code>flutter/bin/cache/artifacts/engine</code>目录下没有发现鸿蒙的<code>engine</code>的时候，需要我们手动编译<a href="https://gitee.com/openharmony-sig/flutter_engine">可构建支持在OpenHarmony设备上运行的flutter engine程序</a>。</p>
-<p>同样我们可以查考<a href="https://gitee.com/openharmony-sig/flutter_engine">可构建支持在OpenHarmony设备上运行的flutter engine程序</a>中的文档进行编译。</p>
-<p>需要注意的是我们在编译前需要下载<a href="https://storage.googleapis.com/chrome-infra/depot_tools.zip">depot_tools</a></p>
-<p>我们可以使用下方命令进行下载（终端需要配置代理）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git</span><br></pre></td></tr></table></figure>
-
-<p>所有一切都成功后便可编译HAP包安装到模拟器或手机(Next系统)手机。</p>
-<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/Flutter%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next/%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99%E7%9A%84Flutter%E9%A1%B9%E7%9B%AE.png" alt="适配鸿蒙Next的Flutter项目"></p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul>
-<li><a href="https://gitee.com/openharmony-sig/flutter_flutter">适配鸿蒙系统的Flutter版本</a></li>
-<li><a href="https://gitee.com/openharmony-sig/flutter_engine">可构建支持在OpenHarmony设备上运行的flutter engine程序</a></li>
-<li><a href="https://tech.meituan.com/2021/01/22/flutter-in-harmonyos.html">让 Flutter 在鸿蒙系统上跑起来</a></li>
-<li><a href="https://developer.huawei.com/consumer/cn/events/hdc2020/">HarmonyOS Developer</a></li>
-<li><a href="https://developer.harmonyos.com/cn/documentation">HarmonyOS Documentation</a></li>
-<li><a href="https://docs.flutter.dev/resources/architectural-overview">Flutter architectural overview</a></li>
-<li><a href="https://github.com/flutter/flutter/wiki/Custom-Flutter-Engine-Embedders">定制Flutter引擎嵌入器</a></li>
-<li><a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/device_template-0000001053702407-V3">DevEco Studio使用指南</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/657055957">Harmony 开始支持 Flutter ，聊聊 Harmony 和 Flutter 之间的因果</a></li>
-<li><a href="https://juejin.cn/post/7281948788483489804">Flutter Love 鸿蒙</a></li>
-<li><a href="https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment">设置Engine开发环境</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>鸿蒙</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Flutter介绍与配置</title>
-    <url>/2022/04/15/Flutter%E4%BB%8B%E7%BB%8D%E4%B8%8E%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>关于<a href="https://flutter.cn/docs">Flutter</a>的介绍和具体配置，建议查看官网或者是<a href="https://book.flutterchina.club/preface.html#%E7%AC%AC%E4%BA%8C%E7%89%88%E5%8F%98%E5%8C%96">Flutter实战·第二版</a>中的相关文档。</p>
-<p>这里主要是整理自己Mac电脑上的相关配置，便于后期的查阅。</p>
-<blockquote>
-<p>1.下载以下安装包来获取最新的 stable Flutter SDK：</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://flutter.cn/docs/get-started/install/macos</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>2.配置环境变量</p>
-</blockquote>
-<p>打开终端输入<code>open $HOME</code>,找到<code>.bash_profile</code>文件并打开。</p>
-<p>然后将下方配置加入进去，其中<code>/Users/zhouwei/Documents/flutter/bin</code>为第一步下载的Flutter安装包的bin目录的位置。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export PATH=/Users/zhouwei/Documents/flutter/bin:$PATH</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>没<a href="https://order.yizhihongxing.org/aff.php?aff=4651">VPN</a>可以配置Flutter官方为中国开发者搭建的临时镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export PUB_HOSTED_URL=https://pub.flutter-io.cn</span><br><span class="line">export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>添加完后，在终端运行<code>source $HOME/.bash_profile</code>刷新当前终端窗口。</p>
-<blockquote>
-<p>3.运行<code>flutter doctor</code></p>
-</blockquote>
-<p>在终端运行<code>flutter doctor</code>看配置是否完成,出现下方提示则代表配置已完成。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zhouwei@FYMacBook-Air ~ % flutter doctor</span><br><span class="line">Doctor summary (to see all details, run flutter doctor -v):</span><br><span class="line">[✓] Flutter (Channel stable, 2.7.6, on macOS 12.6 21G115 darwin-x64, locale</span><br><span class="line">    zh-Hans-CN)</span><br><span class="line">[✓] Android toolchain - develop for Android devices (Android SDK version 33.0.2)</span><br><span class="line">[✓] Xcode - develop for iOS and macOS (Xcode 13.2)</span><br><span class="line">[✓] Chrome - develop for the web</span><br><span class="line">[✓] Android Studio (version 2022.1)</span><br><span class="line">[✓] VS Code (version 1.76.0)</span><br><span class="line">[✓] Connected device (2 available)</span><br><span class="line">[✓] HTTP Host Availability</span><br><span class="line"></span><br><span class="line">• No issues found!</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>Flutter</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Flutter中的并发与隔离（Isolates）</title>
     <url>/2025/05/16/Flutter%E4%B8%AD%E7%9A%84%E5%B9%B6%E5%8F%91%E4%B8%8E%E9%9A%94%E7%A6%BB%EF%BC%88Isolates%EF%BC%89/</url>
     <content><![CDATA[<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ol>
@@ -1595,6 +1439,162 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
   </entry>
   <entry>
+    <title>Flutter中表情包导致的UI渲染问题</title>
+    <url>/2024/10/31/Flutter%E4%B8%AD%E8%A1%A8%E6%83%85%E5%8C%85%E5%AF%BC%E8%87%B4%E7%9A%84UI%E6%B8%B2%E6%9F%93%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>在后台发现一个UI渲染卡顿问题，之前忙其他的没太关注。</p>
+<p>最近有时间解析了日志，发现了下方有用的日志信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">======== Exception caught by rendering library ===================================================== </span><br><span class="line">The following ArgumentError was thrown during performLayout(): Invalid argument(s): string is not well-formed UTF-16</span><br></pre></td></tr></table></figure>
+
+<p>codeRevier对应类的代码后发现了类似下方的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">final text = contentController?.text;</span><br><span class="line">final textLength = text?.length ?? 0;</span><br><span class="line">text = textLength &gt;= 12 ? text!.substring(0, 12) : text ?? &#x27;&#x27;,</span><br></pre></td></tr></table></figure>
+<p>其主要作用是当文字超出某个长度后，截取固定长度的字符串。但我们都知道表情的length是2，截取的时候就会概率出现上方的问题。</p>
+<p>所以在截取字符串的时候，我们需要用到<code>characters</code>属性来确保截取的字符串是有效的 UTF-16 编码。</p>
+<p>具体代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String truncateText(String? text, int maxLength) &#123;</span><br><span class="line">  if (text == null) return &#x27;&#x27;;</span><br><span class="line">  final characters = text.characters;</span><br><span class="line">  return characters.length &gt; maxLength ? characters.take(maxLength).toString() : text;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用</span><br><span class="line">text = truncateText(widget.contentController?.text, 12),</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>App开发</category>
+      </categories>
+      <tags>
+        <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flutter中隐藏键盘操作</title>
+    <url>/2023/04/03/Flutter%E4%B8%AD%E9%9A%90%E8%97%8F%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<blockquote>
+<p>方式一</p>
+</blockquote>
+<p>在iOS原生开发中我们可能会使用<code>textField.resignFirstResponder() </code>或者<code>endEditing</code>来隐藏键盘。</p>
+<p>而在Flutter中我们可以使用获取<code>Focus</code>，然后调用<code>unfocus</code>的方式取消键盘。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScopeNode currentFocus = FocusScope.of(context);</span><br><span class="line">if(!currentFocus.hasPrimaryFocus) &#123;</span><br><span class="line">    currentFocus.unfocus();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>方式二</p>
+</blockquote>
+<p>当然在获取控制器困难的时候，在iOS原生开发中我们可以使用下面的方法取消键盘。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>而Flutter中也可以使用同样的方法，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FocusScope.of(context).requestFocus(FocusNode());</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>知识点</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flutter介绍与配置</title>
+    <url>/2022/04/15/Flutter%E4%BB%8B%E7%BB%8D%E4%B8%8E%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>关于<a href="https://flutter.cn/docs">Flutter</a>的介绍和具体配置，建议查看官网或者是<a href="https://book.flutterchina.club/preface.html#%E7%AC%AC%E4%BA%8C%E7%89%88%E5%8F%98%E5%8C%96">Flutter实战·第二版</a>中的相关文档。</p>
+<p>这里主要是整理自己Mac电脑上的相关配置，便于后期的查阅。</p>
+<blockquote>
+<p>1.下载以下安装包来获取最新的 stable Flutter SDK：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://flutter.cn/docs/get-started/install/macos</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>2.配置环境变量</p>
+</blockquote>
+<p>打开终端输入<code>open $HOME</code>,找到<code>.bash_profile</code>文件并打开。</p>
+<p>然后将下方配置加入进去，其中<code>/Users/zhouwei/Documents/flutter/bin</code>为第一步下载的Flutter安装包的bin目录的位置。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export PATH=/Users/zhouwei/Documents/flutter/bin:$PATH</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>没<a href="https://order.yizhihongxing.org/aff.php?aff=4651">VPN</a>可以配置Flutter官方为中国开发者搭建的临时镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export PUB_HOSTED_URL=https://pub.flutter-io.cn</span><br><span class="line">export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>添加完后，在终端运行<code>source $HOME/.bash_profile</code>刷新当前终端窗口。</p>
+<blockquote>
+<p>3.运行<code>flutter doctor</code></p>
+</blockquote>
+<p>在终端运行<code>flutter doctor</code>看配置是否完成,出现下方提示则代表配置已完成。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zhouwei@FYMacBook-Air ~ % flutter doctor</span><br><span class="line">Doctor summary (to see all details, run flutter doctor -v):</span><br><span class="line">[✓] Flutter (Channel stable, 2.7.6, on macOS 12.6 21G115 darwin-x64, locale</span><br><span class="line">    zh-Hans-CN)</span><br><span class="line">[✓] Android toolchain - develop for Android devices (Android SDK version 33.0.2)</span><br><span class="line">[✓] Xcode - develop for iOS and macOS (Xcode 13.2)</span><br><span class="line">[✓] Chrome - develop for the web</span><br><span class="line">[✓] Android Studio (version 2022.1)</span><br><span class="line">[✓] VS Code (version 1.76.0)</span><br><span class="line">[✓] Connected device (2 available)</span><br><span class="line">[✓] HTTP Host Availability</span><br><span class="line"></span><br><span class="line">• No issues found!</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flutter全面屏适配</title>
+    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
+<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
+<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flutter如何适配鸿蒙Next系统并打HAP安装包</title>
+    <url>/2023/11/16/Flutter%E5%A6%82%E4%BD%95%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next%E7%B3%BB%E7%BB%9F%E5%B9%B6%E6%89%93HAP%E5%AE%89%E8%A3%85%E5%8C%85/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>因最近有媒体报道后期鸿蒙Next系统不支持安卓应用的安装，虽然不清楚真假，但作为开发我们也需要为此做准备。</p>
+<p>着手调研使用Flutter打适配鸿蒙Next的HAP包的技术方案后，通过分析和对比最后也确认了<a href="https://gitee.com/openharmony-sig">开源鸿蒙</a>定制<a href="https://gitee.com/openharmony-sig/flutter_flutter">Flutter</a>的方案，这种方案对于Flutter项目来说是一种开放成本最低的方式。</p>
+<h2 id="安装适配鸿蒙系统的Flutter"><a href="#安装适配鸿蒙系统的Flutter" class="headerlink" title="安装适配鸿蒙系统的Flutter"></a>安装适配鸿蒙系统的Flutter</h2><p>关于Flutter的配置可以参考<a href="https://gitee.com/openharmony-sig/flutter_flutter">开源鸿蒙适配的Flutter</a>中的文档一步步进行配置。</p>
+<p>配置成功后如下方所示：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zhouwei@FYMacBook-Air ~ % flutter doctor -v</span><br><span class="line">[!] Flutter (Channel master, 3.7.12, on macOS 12.6.9 21G726 darwin-x64, locale zh-Hans-CN)</span><br><span class="line">    • Flutter version 3.7.12 on channel master at /Users/zhouwei/Desktop/hm_flutter</span><br><span class="line">    ! Upstream repository https://gitee.com/openharmony-sig/flutter_flutter.git is not a standard</span><br><span class="line">      remote.</span><br><span class="line">      Set environment variable <span class="string">&quot;FLUTTER_GIT_URL&quot;</span> to</span><br><span class="line">      https://gitee.com/openharmony-sig/flutter_flutter.git to dismiss this error.</span><br><span class="line">    • Framework revision 198162b99b (18 hours ago), 2023-11-23 12:38:27 +0000</span><br><span class="line">    • Engine revision 1a65d409c7</span><br><span class="line">    • Dart version 2.19.6</span><br><span class="line">    • DevTools version 2.20.1</span><br><span class="line">    • Pub download mirror https://pub.flutter-io.cn</span><br><span class="line">    • Flutter download mirror https://storage.flutter-io.cn</span><br><span class="line">    • If those were intentional, you can disregard the above warnings; however it is recommended</span><br><span class="line">      to use <span class="string">&quot;git&quot;</span> directly to perform update checks and upgrades.</span><br><span class="line"></span><br><span class="line">[✓] OpenHarmony toolchain - develop <span class="keyword">for</span> OpenHarmony devices</span><br><span class="line">    • OpenHarmony Sdk location: /Users/zhouwei/Documents/sdk, available api versions has [10]</span><br><span class="line">    • hdc version 1.3.0</span><br><span class="line">    • ohpm version 1.2.0</span><br><span class="line">    • signTool location:/Users/zhouwei/Documents/developtools_hapsigner/autosign</span><br><span class="line"></span><br><span class="line">[✓] Android toolchain - develop <span class="keyword">for</span> Android devices (Android SDK version 33.0.2)</span><br><span class="line">    • Android SDK at /Users/zhouwei/Library/Android/sdk</span><br><span class="line">    • Platform android-33, build-tools 33.0.2</span><br><span class="line">    • ANDROID_HOME = /Users/zhouwei/Library/Android/sdk</span><br><span class="line">    • Java binary at: /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java</span><br><span class="line">    • Java version OpenJDK Runtime Environment (build 11.0.15+0-b2043.56-8887301)</span><br><span class="line">    • All Android licenses accepted.</span><br><span class="line"></span><br><span class="line">[✓] Xcode - develop <span class="keyword">for</span> iOS and macOS (Xcode 14.2)</span><br><span class="line">    • Xcode at /Applications/Xcode.app/Contents/Developer</span><br><span class="line">    • Build 14C18</span><br><span class="line">    • CocoaPods version 1.11.3</span><br><span class="line"></span><br><span class="line">[✓] Chrome - develop <span class="keyword">for</span> the web</span><br><span class="line">    • Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome</span><br><span class="line"></span><br><span class="line">[✓] Android Studio (version 2022.1)</span><br><span class="line">    • Android Studio at /Applications/Android Studio.app/Contents</span><br><span class="line">    • Flutter plugin can be installed from:</span><br><span class="line">      🔨 https://plugins.jetbrains.com/plugin/9212-flutter</span><br><span class="line">    • Dart plugin can be installed from:</span><br><span class="line">      🔨 https://plugins.jetbrains.com/plugin/6351-dart</span><br><span class="line">    • Java version OpenJDK Runtime Environment (build 11.0.15+0-b2043.56-8887301)</span><br><span class="line"></span><br><span class="line">[✓] VS Code (version 1.82.0)</span><br><span class="line">    • VS Code at /Applications/Visual Studio Code.app/Contents</span><br><span class="line">    • Flutter extension version 3.70.0</span><br><span class="line"></span><br><span class="line">[✓] Connected device (2 available)</span><br><span class="line">    • macOS (desktop) • macos  • darwin-x64     • macOS 12.6.9 21G726 darwin-x64</span><br><span class="line">    • Chrome (web)    • chrome • web-javascript • Google Chrome 119.0.6045.159</span><br><span class="line"></span><br><span class="line">[✓] HTTP Host Availability</span><br><span class="line">    • All required HTTP hosts are available</span><br><span class="line"></span><br><span class="line">! Doctor found issues <span class="keyword">in</span> 1 category.</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译适配鸿蒙系统的Flutter-engine"><a href="#编译适配鸿蒙系统的Flutter-engine" class="headerlink" title="编译适配鸿蒙系统的Flutter engine"></a>编译适配鸿蒙系统的Flutter engine</h2><p>根据<a href="https://gitee.com/openharmony-sig/flutter_flutter">适配鸿蒙系统的Flutter版本</a>中的文档配置完后，打HAP包则需要指定<code>--local-engine</code>。</p>
+<p>如果你发现在执行完<code>flutter doctor -v</code>命令后，在<code>flutter/bin/cache/artifacts/engine</code>目录下没有发现鸿蒙的<code>engine</code>的时候，需要我们手动编译<a href="https://gitee.com/openharmony-sig/flutter_engine">可构建支持在OpenHarmony设备上运行的flutter engine程序</a>。</p>
+<p>同样我们可以查考<a href="https://gitee.com/openharmony-sig/flutter_engine">可构建支持在OpenHarmony设备上运行的flutter engine程序</a>中的文档进行编译。</p>
+<p>需要注意的是我们在编译前需要下载<a href="https://storage.googleapis.com/chrome-infra/depot_tools.zip">depot_tools</a></p>
+<p>我们可以使用下方命令进行下载（终端需要配置代理）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git</span><br></pre></td></tr></table></figure>
+
+<p>所有一切都成功后便可编译HAP包安装到模拟器或手机(Next系统)手机。</p>
+<p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/Flutter%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next/%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99%E7%9A%84Flutter%E9%A1%B9%E7%9B%AE.png" alt="适配鸿蒙Next的Flutter项目"></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul>
+<li><a href="https://gitee.com/openharmony-sig/flutter_flutter">适配鸿蒙系统的Flutter版本</a></li>
+<li><a href="https://gitee.com/openharmony-sig/flutter_engine">可构建支持在OpenHarmony设备上运行的flutter engine程序</a></li>
+<li><a href="https://tech.meituan.com/2021/01/22/flutter-in-harmonyos.html">让 Flutter 在鸿蒙系统上跑起来</a></li>
+<li><a href="https://developer.huawei.com/consumer/cn/events/hdc2020/">HarmonyOS Developer</a></li>
+<li><a href="https://developer.harmonyos.com/cn/documentation">HarmonyOS Documentation</a></li>
+<li><a href="https://docs.flutter.dev/resources/architectural-overview">Flutter architectural overview</a></li>
+<li><a href="https://github.com/flutter/flutter/wiki/Custom-Flutter-Engine-Embedders">定制Flutter引擎嵌入器</a></li>
+<li><a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/device_template-0000001053702407-V3">DevEco Studio使用指南</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/657055957">Harmony 开始支持 Flutter ，聊聊 Harmony 和 Flutter 之间的因果</a></li>
+<li><a href="https://juejin.cn/post/7281948788483489804">Flutter Love 鸿蒙</a></li>
+<li><a href="https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment">设置Engine开发环境</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>鸿蒙</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>GPUImage相应类库所实现的功能</title>
     <url>/2017/12/28/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<p>关于<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>:</p>
@@ -1638,35 +1638,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 ]]></content>
       <categories>
         <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Instruments工具集</title>
-    <url>/2018/01/02/Instruments%E5%B7%A5%E5%85%B7%E9%9B%86/</url>
-    <content><![CDATA[<h3 id="Blank"><a href="#Blank" class="headerlink" title="Blank"></a>Blank</h3><p>A blank trace document that can be customized with instruments from the Library.</p>
-<h3 id="Activity-Monitor"><a href="#Activity-Monitor" class="headerlink" title="Activity Monitor"></a>Activity Monitor</h3><p>Monitors CPU, memory, disk,and network usage statistics for processes and the system.</p>
-<h3 id="Allocations"><a href="#Allocations" class="headerlink" title="Allocations"></a>Allocations</h3><p>Tracks a process’ anonymous virtual memory and heap, providing class names and optionally retain&#x2F;release histories for objects.</p>
-<h3 id="Cocoa-Layout"><a href="#Cocoa-Layout" class="headerlink" title="Cocoa Layout"></a>Cocoa Layout</h3><p>Observes changes to NSLayoutConstraint objects to help determine when and where a layout constraint went awry.</p>
-<h3 id="Core-Animation"><a href="#Core-Animation" class="headerlink" title="Core Animation"></a>Core Animation</h3><p>This template measures application graphics performance as well as CPU usage of a process via time profiling.</p>
-<h3 id="Core-Data"><a href="#Core-Data" class="headerlink" title="Core Data"></a>Core Data</h3><p>This template traces Core Data filesystem activity, including fetches,cache misses, and saves.</p>
-<h3 id="Counters"><a href="#Counters" class="headerlink" title="Counters"></a>Counters</h3><p>Collects performance monitor counter(PMC) events using time or event based sampling methods.</p>
-<h3 id="Energy-Log"><a href="#Energy-Log" class="headerlink" title="Energy Log"></a>Energy Log</h3><p>This template provides diagnostics regarding energy usage as well as basic on&#x2F;off state of major device components.</p>
-<h3 id="File-Activity"><a href="#File-Activity" class="headerlink" title="File Activity"></a>File Activity</h3><p>This template monitors file and directory activity, including file open&#x2F;close calls, file permission modifications,directory creation, file moves,etc.</p>
-<h3 id="Leaks"><a href="#Leaks" class="headerlink" title="Leaks"></a>Leaks</h3><p>Measures general memory usage,checks for leaked memory,and provides statistics on object allocations by class as well as memory address histories for all active allocations and leaked blocks.</p>
-<h3 id="Metal-System-Trace"><a href="#Metal-System-Trace" class="headerlink" title="Metal System Trace"></a>Metal System Trace</h3><p>Metal System Trace profiles the performance of iOS,tvOS and macOS  Metal applications by providing tracing information from the application,driver,and GPU layers.</p>
-<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><p>Analyze how your applications are using TCP&#x2F;IP connections using the Connections instrument.</p>
-<h3 id="SceneKit"><a href="#SceneKit" class="headerlink" title="SceneKit"></a>SceneKit</h3><p>Profiles an application’s use of SceneKit.Determines the type of work going into each frame, such as animations, physics,scene culling,and rendering.</p>
-<h3 id="System-Trace"><a href="#System-Trace" class="headerlink" title="System Trace"></a>System Trace</h3><p>A comprehensive view of what’s happening in the operationg system. See how threads are being scheduled across CPUs and understand how system calls and virtual memory faults anr affectiong your application’s Performance.</p>
-<h3 id="System-Usage"><a href="#System-Usage" class="headerlink" title="System Usage"></a>System Usage</h3><p>This template records I&#x2F;O system activity related to files, sockets,and shared memory for a single process launched via instruments, Inputs, outputs,duration,backtrace,calltree,etc.is provided for each call.</p>
-<h3 id="Time-Profiler"><a href="#Time-Profiler" class="headerlink" title="Time Profiler"></a>Time Profiler</h3><p>Performs low-overhead time -based sampling of processes runing on the system’s CPUs.</p>
-<h3 id="Zombies"><a href="#Zombies" class="headerlink" title="Zombies"></a>Zombies</h3><p>Measures general memory usage while focusing on the delection of over - released “zombie” objects. Also statistics on object allocations by class as well as memory address histories for all active allocations.</p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-        <category>iOS性能调优</category>
       </categories>
       <tags>
         <tag>iOS</tag>
@@ -1779,6 +1750,35 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>Instruments工具集</title>
+    <url>/2018/01/02/Instruments%E5%B7%A5%E5%85%B7%E9%9B%86/</url>
+    <content><![CDATA[<h3 id="Blank"><a href="#Blank" class="headerlink" title="Blank"></a>Blank</h3><p>A blank trace document that can be customized with instruments from the Library.</p>
+<h3 id="Activity-Monitor"><a href="#Activity-Monitor" class="headerlink" title="Activity Monitor"></a>Activity Monitor</h3><p>Monitors CPU, memory, disk,and network usage statistics for processes and the system.</p>
+<h3 id="Allocations"><a href="#Allocations" class="headerlink" title="Allocations"></a>Allocations</h3><p>Tracks a process’ anonymous virtual memory and heap, providing class names and optionally retain&#x2F;release histories for objects.</p>
+<h3 id="Cocoa-Layout"><a href="#Cocoa-Layout" class="headerlink" title="Cocoa Layout"></a>Cocoa Layout</h3><p>Observes changes to NSLayoutConstraint objects to help determine when and where a layout constraint went awry.</p>
+<h3 id="Core-Animation"><a href="#Core-Animation" class="headerlink" title="Core Animation"></a>Core Animation</h3><p>This template measures application graphics performance as well as CPU usage of a process via time profiling.</p>
+<h3 id="Core-Data"><a href="#Core-Data" class="headerlink" title="Core Data"></a>Core Data</h3><p>This template traces Core Data filesystem activity, including fetches,cache misses, and saves.</p>
+<h3 id="Counters"><a href="#Counters" class="headerlink" title="Counters"></a>Counters</h3><p>Collects performance monitor counter(PMC) events using time or event based sampling methods.</p>
+<h3 id="Energy-Log"><a href="#Energy-Log" class="headerlink" title="Energy Log"></a>Energy Log</h3><p>This template provides diagnostics regarding energy usage as well as basic on&#x2F;off state of major device components.</p>
+<h3 id="File-Activity"><a href="#File-Activity" class="headerlink" title="File Activity"></a>File Activity</h3><p>This template monitors file and directory activity, including file open&#x2F;close calls, file permission modifications,directory creation, file moves,etc.</p>
+<h3 id="Leaks"><a href="#Leaks" class="headerlink" title="Leaks"></a>Leaks</h3><p>Measures general memory usage,checks for leaked memory,and provides statistics on object allocations by class as well as memory address histories for all active allocations and leaked blocks.</p>
+<h3 id="Metal-System-Trace"><a href="#Metal-System-Trace" class="headerlink" title="Metal System Trace"></a>Metal System Trace</h3><p>Metal System Trace profiles the performance of iOS,tvOS and macOS  Metal applications by providing tracing information from the application,driver,and GPU layers.</p>
+<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><p>Analyze how your applications are using TCP&#x2F;IP connections using the Connections instrument.</p>
+<h3 id="SceneKit"><a href="#SceneKit" class="headerlink" title="SceneKit"></a>SceneKit</h3><p>Profiles an application’s use of SceneKit.Determines the type of work going into each frame, such as animations, physics,scene culling,and rendering.</p>
+<h3 id="System-Trace"><a href="#System-Trace" class="headerlink" title="System Trace"></a>System Trace</h3><p>A comprehensive view of what’s happening in the operationg system. See how threads are being scheduled across CPUs and understand how system calls and virtual memory faults anr affectiong your application’s Performance.</p>
+<h3 id="System-Usage"><a href="#System-Usage" class="headerlink" title="System Usage"></a>System Usage</h3><p>This template records I&#x2F;O system activity related to files, sockets,and shared memory for a single process launched via instruments, Inputs, outputs,duration,backtrace,calltree,etc.is provided for each call.</p>
+<h3 id="Time-Profiler"><a href="#Time-Profiler" class="headerlink" title="Time Profiler"></a>Time Profiler</h3><p>Performs low-overhead time -based sampling of processes runing on the system’s CPUs.</p>
+<h3 id="Zombies"><a href="#Zombies" class="headerlink" title="Zombies"></a>Zombies</h3><p>Measures general memory usage while focusing on the delection of over - released “zombie” objects. Also statistics on object allocations by class as well as memory address histories for all active allocations.</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+        <category>iOS性能调优</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mac15及以上系统如何创建CSR</title>
     <url>/2024/11/28/Mac15%E5%8F%8A%E4%BB%A5%E4%B8%8A%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BACSR/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近为了适配Xcode16和iOS18，将公司的一台备用机升级到了<code>macOS Sequoia``(版本15.1.1)</code>,发现在<code>其他</code>和<code>应用程序</code>目录下没发现钥匙串的程序。</p>
@@ -1807,15 +1807,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>MacOS Sequoia15.3系统的钥匙串位置</title>
-    <url>/2025/02/06/MacOS%20Sequoia15.3%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%92%A5%E5%8C%99%E4%B8%B2%E4%BD%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>系统升级到<code>MacOS Sequoia15.3</code>后发现<code>钥匙串</code>工具没在启动台显示，于是找了下发现挪到了系统的<code>CoreServices</code>中，特此记录下。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/System/Library/CoreServices</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-  </entry>
-  <entry>
     <title>OPPO新规，24年11月20日创建的应用发送消息必携带新消息分类字段</title>
     <url>/2024/11/26/OPPO%E6%96%B0%E8%A7%84%EF%BC%8C24%E5%B9%B411%E6%9C%8820%E6%97%A5%E5%88%9B%E5%BB%BA%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E5%BF%85%E6%90%BA%E5%B8%A6%E6%96%B0%E6%B6%88%E6%81%AF%E5%88%86%E7%B1%BB%E5%AD%97%E6%AE%B5/</url>
     <content><![CDATA[<p>近日收到友盟的消息提醒，根据OPPO最新的公告，<code>11月20日后新接入的应用必须携带新消息分类字段，否则无法成功下发离线消息</code>。</p>
@@ -1842,6 +1833,15 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <li><a href="https://open.oppomobile.com/new/developmentDoc/info?id=13189">OPUSH消息分类细则</a></li>
 </ul>
 ]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>MacOS Sequoia15.3系统的钥匙串位置</title>
+    <url>/2025/02/06/MacOS%20Sequoia15.3%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%92%A5%E5%8C%99%E4%B8%B2%E4%BD%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>系统升级到<code>MacOS Sequoia15.3</code>后发现<code>钥匙串</code>工具没在启动台显示，于是找了下发现挪到了系统的<code>CoreServices</code>中，特此记录下。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/System/Library/CoreServices</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>工具</category>
       </categories>
@@ -2849,30 +2849,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>iOS18SDK构建应用时间节点</title>
-    <url>/2024/09/29/iOS18SDK%E6%9E%84%E5%BB%BA%E5%BA%94%E7%94%A8%E6%97%B6%E9%97%B4%E8%8A%82%E7%82%B9/</url>
-    <content><![CDATA[<p>自<code>2025年4月</code>起，所有上传至 App Store Connect 的 iOS 和 iPadOS App 都必须使用 iOS 18 SDK 来构建。</p>
-<p>具体公告可以查看<a href="https://developer.apple.com/cn/ios/submit/">《将iOS App提交至App Store》</a>中的介绍，具体如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将 Apple 平台上的最新优势无缝集成到你的 App 中，从而提供卓越的体验。使用 Xcode 的最新版本来构建你的 App。Xcode 包含适用于 Apple 平台的 SDK。</span><br><span class="line">所有上传至 App Store Connect 的 iOS 和 iPadOS App 都必须使用 Xcode 15 和 iOS 17 SDK 或更新版本来构建。自 2025 年 4 月起，所有上传至 App Store Connect 的 iOS 和 iPadOS App 都必须使用 iOS 18 SDK 来构建。</span><br></pre></td></tr></table></figure>
-
-
-<p>具体的适配工作可以查看<a href="https://juejin.cn/post/7416166317986562088?searchId=20240927142648C42C6C9648A70E9A829B">iOS&#x2F;Flutter: Only Xcode16 Can Do (问题收集)</a>和<a href="https://www.jianshu.com/p/cca4d4d8145d">iOS 18适配问题记录(Xcode16正式版)</a>基本可以囊括所有问题。</p>
-<p>#参考资料</p>
-<ul>
-<li><a href="https://developer.apple.com/documentation/xcode-release-notes/xcode-16-release-notes/">Xcode16发布说明</a></li>
-<li><a href="https://developer.apple.com/cn/ios/submit/">将 iOS App 提交至 App Store</a></li>
-<li><a href="https://www.jianshu.com/p/cca4d4d8145d">iOS 18适配问题记录(Xcode16正式版)</a></li>
-<li><a href="https://juejin.cn/post/7416166317986562088?searchId=20240927142648C42C6C9648A70E9A829B">iOS&#x2F;Flutter: Only Xcode16 Can Do (问题收集)</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>Xcode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>iOS14隐私权限适配及其他</title>
     <url>/2020/09/14/iOS14%E9%9A%90%E7%A7%81%E6%9D%83%E9%99%90%E9%80%82%E9%85%8D%E5%8F%8A%E5%85%B6%E4%BB%96/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在<a href="https://developer.apple.com/videos/wwdc2020/">WWDC2020</a>发布会上苹果展示了新的<a href="https://developer.apple.com/cn/ios/">iOS14</a>系统。对于iOS开发工程师来说，适配iOS14其重点在于隐私权限的适配。具体内容可以观看<a href="https://developer.apple.com/videos/play/wwdc2020/10676/">WWDC2020中：建立更好的隐私信任</a>的视频进行了解。</p>
@@ -2990,6 +2966,30 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS18SDK构建应用时间节点</title>
+    <url>/2024/09/29/iOS18SDK%E6%9E%84%E5%BB%BA%E5%BA%94%E7%94%A8%E6%97%B6%E9%97%B4%E8%8A%82%E7%82%B9/</url>
+    <content><![CDATA[<p>自<code>2025年4月</code>起，所有上传至 App Store Connect 的 iOS 和 iPadOS App 都必须使用 iOS 18 SDK 来构建。</p>
+<p>具体公告可以查看<a href="https://developer.apple.com/cn/ios/submit/">《将iOS App提交至App Store》</a>中的介绍，具体如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将 Apple 平台上的最新优势无缝集成到你的 App 中，从而提供卓越的体验。使用 Xcode 的最新版本来构建你的 App。Xcode 包含适用于 Apple 平台的 SDK。</span><br><span class="line">所有上传至 App Store Connect 的 iOS 和 iPadOS App 都必须使用 Xcode 15 和 iOS 17 SDK 或更新版本来构建。自 2025 年 4 月起，所有上传至 App Store Connect 的 iOS 和 iPadOS App 都必须使用 iOS 18 SDK 来构建。</span><br></pre></td></tr></table></figure>
+
+
+<p>具体的适配工作可以查看<a href="https://juejin.cn/post/7416166317986562088?searchId=20240927142648C42C6C9648A70E9A829B">iOS&#x2F;Flutter: Only Xcode16 Can Do (问题收集)</a>和<a href="https://www.jianshu.com/p/cca4d4d8145d">iOS 18适配问题记录(Xcode16正式版)</a>基本可以囊括所有问题。</p>
+<p>#参考资料</p>
+<ul>
+<li><a href="https://developer.apple.com/documentation/xcode-release-notes/xcode-16-release-notes/">Xcode16发布说明</a></li>
+<li><a href="https://developer.apple.com/cn/ios/submit/">将 iOS App 提交至 App Store</a></li>
+<li><a href="https://www.jianshu.com/p/cca4d4d8145d">iOS 18适配问题记录(Xcode16正式版)</a></li>
+<li><a href="https://juejin.cn/post/7416166317986562088?searchId=20240927142648C42C6C9648A70E9A829B">iOS&#x2F;Flutter: Only Xcode16 Can Do (问题收集)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>Xcode</tag>
       </tags>
   </entry>
   <entry>
@@ -3395,131 +3395,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>shell脚本的使用及整理</title>
-    <url>/2020/04/29/shell%E8%84%9A%E6%9C%AC%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>这篇文章应该算对自己之前使用Jenkins、Shell脚本打包项目的总结。</p>
-<p>毕竟之前很多东西要么存到项目中，要么存在笔记中，并没有进行整理。</p>
-<h1 id="关于shell"><a href="#关于shell" class="headerlink" title="关于shell"></a>关于shell</h1><p>关于<code>shell</code>脚本的介绍，可以查看<a href="https://baike.baidu.com/item/shell/99702">百度百科</a>中的介绍。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">任何代码最终需要被‘翻译’成二进制的形式才能在计算机中执行。</span><br><span class="line"></span><br><span class="line">有的编程语言，如C/C++、Pascal、Go语言、汇编等，必须在程序运行之前将所有代码都编程成二进制形式(可执行文件),用户拿到最终生成的可执行文件，看不到源码。</span><br><span class="line"></span><br><span class="line">这个过程叫做编译（Compile），这样的编程语言叫做[编译型语言]，完成编译过程的软件叫做编译器[Compiler]。</span><br><span class="line"></span><br><span class="line">而有的编程语言，如Shell、JavaScript、Python、PHP等，需要一边执行一边翻译，不会生成任何可执行文件，用户拿到源代码才能运行程序。程序运行后会即时翻译，翻译完一部分执行一部分，不用等到所有代码都翻译完。</span><br><span class="line"></span><br><span class="line">这个过程叫做解释，这样的编程语言叫做[解释型语言]或者[脚本语言]（Script），完成解释过程的软件叫做解释器。</span><br><span class="line"></span><br><span class="line">编译型语言的优点是执行速度快、对硬件要求低、保密性好，适合开发操作系统、大型应用程序、数据库等。</span><br><span class="line"></span><br><span class="line">脚本语言的优点是使用灵活、部署容易、跨平台性好、非常适合Web开发以及小工具的制作。</span><br><span class="line"></span><br><span class="line">Shell 就是一种脚本语言，我们编写完源码后不用编译，直接运行源码即可。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="shell历史"><a href="#shell历史" class="headerlink" title="shell历史"></a>shell历史</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">由于历史原因，UNIX系统上有很多种Shell：</span><br><span class="line"></span><br><span class="line">1.sh（Bourne Shell）：由Steve Bourne开发，各种UNIX系统都配有sh。</span><br><span class="line"></span><br><span class="line">2.csh（C Shell）：由Bill Joy开发，随BSD UNIX发布，它的流程控制语句很像C语言，支持很多Bourne Shell所不支持的功能：作业控制，命令历史，命令行编辑。</span><br><span class="line"></span><br><span class="line">3.ksh（Korn Shell）：由David Korn开发，向后兼容sh的功能，并且添加了csh引入的新功能，是目前很多UNIX系统标准配置的Shell，在这些系统上/bin/sh往往是指向/bin/ksh的符号链接。</span><br><span class="line"></span><br><span class="line">4.tcsh（TENEX C Shell）：是csh的增强版本，引入了命令补全等功能，在FreeBSD、Mac OS X等系统上替代了csh。</span><br><span class="line"></span><br><span class="line">5.bash（Bourne Again Shell）：由GNU开发的Shell，主要目标是与POSIX标准保持一致，同时兼顾对sh的兼容，bash从csh和ksh借鉴了很多功能，是各种Linux发行版标准配置的Shell，在Linux系统上/bin/sh往往是指向/bin/bash的符号链接。虽然如此，bash和sh还是有很多不同的，一方面，bash扩展了一些命令和参数，另一方面，bash并不完全和sh兼容，有些行为并不一致，所以bash需要模拟sh的行为：当我们通过sh这个程序名启动bash时，bash可以假装自己是sh，不认扩展的命令，并且行为与sh保持一致。</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="术语名词"><a href="#术语名词" class="headerlink" title="术语名词"></a>术语名词</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- IDC--（Internet Data Center)互联网数据中心，主要服务包括整机租用、服务器托管、机柜租用、机房租用、专线接入和网络管理服务等。广义上的IDC业务，实际上就是数据中心所提供的一切服务。客户租用数据中心的服务器和带宽，并利用数据中心的技术力量，来实现自己对软、硬件的要求，搭建自己的互联网平台，享用数据中心所提供的一系列服务。</span><br><span class="line"></span><br><span class="line">- ISP--(Internet Service Provider)互联网服务提供商，即向广大用户综合提供互联网接入业务、信息业务、和增值业务的电信运营商。</span><br><span class="line"></span><br><span class="line">- ICP--(Internet Content Provider)互联网内容提供商，向广大用户综合提供互联网信息业务和增值业务的电信运营商。 根据中华人民共和国国务院令第292号《互联网信息服务管理办法》规定，国家对提供互联网信息服务的ICP实行许可证制度。从而，ICP证成为网站经营的许可证，经营性网站必须办理ICP证，否则就属于非法经营。因此，办理ICP证是企业网站合法经营的需要.</span><br><span class="line"></span><br><span class="line">- CDN--(Content Delivery Network)内容分发网络,依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。 CDN的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，在用户访问网站时，利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。</span><br><span class="line"></span><br><span class="line">- LVS--(Linux Virtual Server)的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。LVS集群采用IP负载均衡技术和基于内容请求分发技术。调度器具有很好的吞吐率，将请求均衡地转移到不同的服务器上执行，且调度器自动屏蔽掉服务器的故障，从而将一组服务器构成一个高性能的、高可用的虚拟服务器。整个服务器集群的结构对客户是透明的，而且无需修改客户端和服务器端的程序。为此，在设计时需要考虑系统的透明性、可伸缩性、高可用性和易管理性。</span><br><span class="line"></span><br><span class="line">- CGI--(Common Gateway Interface)通用网关接口。CGI规范允许Web服务器执行外部程序，并将它们的输出发送给Web浏览器，CGI将Web的一组简单的静态超媒体文档变成一个完整的新的交互式媒体。</span><br><span class="line"></span><br><span class="line">- GSLB--(Global Server Load Balance，全局负载均衡）作为 CDN 系统架构中最核心的部分，负责流量调度.基于DNS的GSLB 绝大部分使用负载均衡技术的应用都通过域名来访问目的主机，在用户发出任何应用连接请求时，首先必须通过DNS请求获得服务器的IP地址，基于DNS的GSLB正是在返回DNS解析结果的过程中进行智能决策，给用户返回一个最佳的服务IP。用户应用流程与没有GSLB时未发生任何变化。这也是市场上主流的GSLB技术。</span><br><span class="line"></span><br><span class="line">- BOSS--(Business &amp; Operation Support System，BOSS)是业务运营支撑系统。通常所说的BOSS分为四个部分：计费及结算系统、营业与账务系统、客户服务系统和决策支持系统。BOSS从业务层面来看就是一个框架，来承载业务系统、CRM系统、计费系统。实现统一框架中的纵向、横向管理。该系统最早由电信部门的计费系统发展演变而来，基本功能包括客户资料管理、产品管理、用户订购管理、计费、出帐、结算等，负责登记客户资料、管理用户订购服务的提供、实时的根据不同产品、套餐的资费标准计算业务（手机、固定电话用户通话时、点播收视、宽带流量与时间等）的消费金额，准实时及定期计算用户帐单，实时或定期结算用户各种消费费用。</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="常用shell命令"><a href="#常用shell命令" class="headerlink" title="常用shell命令"></a>常用shell命令</h1><h3 id="获取SDK或IPA的版本号"><a href="#获取SDK或IPA的版本号" class="headerlink" title="获取SDK或IPA的版本号"></a>获取SDK或IPA的版本号</h3><p>使用<code>shell</code>脚本获取SDK或IPA的版本号，跟我们在代码中获取IPA的版本号一样，都是解析Info.plist中的<code>CFBundleShortVersionString</code>。</p>
-<p>所以在这里就可以使用Mac自带的专门解析plist的小工具<code>PlistBuddy</code>来获取项目的版本号。</p>
-<p>使用方式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#获取Inof.plist中的版本号</span><br><span class="line">buildVersion=$(/usr/libexec/PlistBuddy -c &quot;print:CFBundleShortVersionString&quot; $&#123;projectPath&#125;../tpocr/tpocr/Info.plist)</span><br></pre></td></tr></table></figure>
-
-<p>同理我们可以将打包IPA所需的<code>scheme</code>、<code>configuration</code>……等信息存放到<code>config.plist</code>中，使用<code>PlistBuddy</code>直接读取，我们需要修改相应参数的时候可以直接修改<code>config.plist</code>，避免直接修改脚本。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#工程项目路径</span><br><span class="line">projectPath=&quot;$(pwd)&quot;</span><br><span class="line">#build配置文件</span><br><span class="line">buildConfigFile=&quot;$&#123;projectPath&#125;/Packaging/config.plist&quot;</span><br><span class="line">#打包的target名称</span><br><span class="line">buildSchemeName=$(/usr/libexec/PlistBuddy -c &quot;print:build:scheme&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#build configuration</span><br><span class="line">buildConfiguration=$(/usr/libexec/PlistBuddy -c &quot;print:build:configuration&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#export options plist</span><br><span class="line">exportOptionsPlist=&quot;$&#123;projectPath&#125;/Packaging/$(/usr/libexec/PlistBuddy -c &quot;print:build:exportPlist&quot; $&#123;buildConfigFile&#125;).plist&quot;</span><br><span class="line">#用于签名的企业开发者名称</span><br><span class="line">enterpriseDistributionSignName=$(/usr/libexec/PlistBuddy -c &quot;print:resign:enterpriseName&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#企业打包provision证书</span><br><span class="line">enterpriseProvisionFile=&quot;$&#123;projectPath&#125;/Packaging/$(/usr/libexec/PlistBuddy -c &quot;print:resign:enterpriseProvision&quot; $&#123;buildConfigFile&#125;).mobileprovision&quot;</span><br><span class="line">#Jenkins job</span><br><span class="line">jenkinsJob=$(/usr/libexec/PlistBuddy -c &quot;print:deliver:jenkinsJob&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#fir api token</span><br><span class="line">firAPIToken=$(/usr/libexec/PlistBuddy -c &quot;print:deliver:fir&quot; $&#123;buildConfigFile&#125;)</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="使用Xcodebuild指令对项目进行打包"><a href="#使用Xcodebuild指令对项目进行打包" class="headerlink" title="使用Xcodebuild指令对项目进行打包"></a>使用Xcodebuild指令对项目进行打包</h3><p>xcodebuild是命令行工具包(Command Line Tools)中的一项，是一个轻量型的、可以与Xcode分开的、在Mac上单独下载的命令行工具包。</p>
-<p>在<code>/usr/bin</code>目录下，我们可以在终端使用<code>open /usr/bin</code>查找该工具。而在<code>usr/bin</code>目录下还有很多命令工具，比如：git、make、xcrun等。</p>
-<p>在xcode9后build不指定任何签名信息，具体编译命令如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#编译IPA</span><br><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; -sdk iphoneos clean archive -archivePath $&#123;archiveFilePath&#125; | xcpretty</span><br><span class="line"></span><br><span class="line">#导出ipa文件</span><br><span class="line">xcodebuild -allowProvisioningUpdates -exportArchive -archivePath $&#123;archiveFilePath&#125; -exportPath $&#123;ipaDir&#125; -exportOptionsPlist $&#123;exportOptionsPlist&#125; | xcpretty</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>导出的文件中除了导出ipa包以外，还有dSYM文件。</p>
-<p>dSYM是符号表文件，每次打包我们需要保存好，如果后面项目出现问题，我们可以使用dSYM分析其崩溃信息。</p>
-<h3 id="使用xcodebuild指令打包Framework"><a href="#使用xcodebuild指令打包Framework" class="headerlink" title="使用xcodebuild指令打包Framework"></a>使用xcodebuild指令打包Framework</h3><p>我们手动打包Framework的时候，是先将每个指令集进行打包，然后使用<code>lipo -create</code>将其合并，使用命令打包也是这个逻辑。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">### Build simulator platform. (i386, x86_64)</span><br><span class="line">echo &quot;========== Build Simulator Platform ==========&quot;</span><br><span class="line">echo &quot;===== Build Simulator Platform: i386 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphonesimulator BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/i386&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;i386&#x27; VALID_ARCHS=&#x27;i386&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">echo &quot;===== Build Simulator Platform: x86_64 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphonesimulator BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/x86_64&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;x86_64&#x27; VALID_ARCHS=&#x27;x86_64&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">### Build device platform. (armv7, arm64)</span><br><span class="line">echo &quot;========== Build Device Platform ==========&quot;</span><br><span class="line">echo &quot;===== Build Device Platform: armv7 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphoneos BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot;  CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/armv7&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;armv7&#x27; VALID_ARCHS=&#x27;armv7&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">echo &quot;===== Build Device Platform: arm64 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphoneos BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/arm64&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;arm64&#x27;  VALID_ARCHS=&#x27;arm64&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">### Build device platform. (arm64, armv7)</span><br><span class="line">echo &quot;========== Build Universal Platform ==========&quot;</span><br><span class="line">## Copy the framework structure to the universal folder (clean it first).</span><br><span class="line">rm -rf &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;&quot;</span><br><span class="line">mkdir -p &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;&quot;</span><br><span class="line">## Copy the last product files of xcodebuild command.</span><br><span class="line">cp -R &quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/arm64/$&#123;PRODUCT_NAME&#125;.framework&quot; &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework&quot;</span><br><span class="line">echo &quot;Smash them together to combine all architectures.&quot;</span><br><span class="line">lipo -create  &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphonesimulator/i386/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphonesimulator/x86_64/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphoneos/armv7/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphoneos/arm64/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; -output &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot;</span><br><span class="line">echo &quot;Copy Framework Code Signature&quot;</span><br><span class="line">cp -R &quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/x86_64/$&#123;PRODUCT_NAME&#125;.framework/_CodeSignature&quot; &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework/&quot;</span><br></pre></td></tr></table></figure>
-
-<h3 id="关于xcpretty"><a href="#关于xcpretty" class="headerlink" title="关于xcpretty"></a>关于xcpretty</h3><p>将<code>xcpretty</code>拎出来单独说，是因为刚复工回来，更新了电脑的<code>ruby</code>然后导致了打包脚本不能使用，才注意到它。</p>
-<p><code>xcpretty</code>是一个用ruby实现的小工具，可以使用<code>gem install xcpretty</code>，作用是美化<code>xcodebuild</code>冗长的日志输入。</p>
-<p>如需使用<code>xcpretty</code>对日志进行美化只需要在<code>xcodebuild</code>命令后面加入<code> | xcpretty</code>即可。</p>
-<p>类似于下方：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; | xcpretty</span><br></pre></td></tr></table></figure>
-
-<h3 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h3><p>shell脚本的for循环结构和我们的<code>OC</code>中<code>for in</code>遍历有些类似。<br>例如下方脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#获取所有jar包并上传</span><br><span class="line">for workitem in `ls $&#123;updatePath&#125;/`; do</span><br><span class="line">workspaceDir=$&#123;updatePath&#125;&quot;/&quot;$workitem</span><br><span class="line">echo &quot;\n---jar包目录：\n$&#123;workspaceDir&#125;---\n&quot;</span><br><span class="line">java -jar /Users/apple/Desktop/build/UpdateService/jenkins-file-service.jar $&#123;workspaceDir&#125; 1 /home/verifaceops/jenkins-file/taiping_src/</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>该脚本其主要功能是遍历<code>$&#123;updatePath&#125;</code>目录下的的文件，然后将所有文件上传到公司内网的文件服务器中。</p>
-<p>这很类似于我们了解的<code>for in</code>遍历了。</p>
-<p>for循环的一般格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for var in item1 item2 ... itemN</span><br><span class="line">do</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><p><code>shll</code>中的<code>while</code>循环也跟<code>OC</code>和<code>C</code>的用法和写法类似，比如下方一个验证密码是否正确（当然在现实中并不会用到）。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#脚本内容：</span><br><span class="line">echo &quot;请输入打包密码:&quot;</span><br><span class="line">read TRY</span><br><span class="line">while [ &quot;$TRY&quot; != &quot;tplife&quot; ]; do</span><br><span class="line">  echo &quot;抱歉，密码错误！\n请重新输入：&quot;</span><br><span class="line">  read TRY</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">#终端输出：</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro Python_Project % sh build.sh</span><br><span class="line">请输入打包密码:</span><br><span class="line">123</span><br><span class="line">抱歉，密码错误！</span><br><span class="line">请重新输入：</span><br><span class="line">tplife</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro Python_Project %</span><br></pre></td></tr></table></figure>
-
-<h3 id="if判断语句"><a href="#if判断语句" class="headerlink" title="if判断语句"></a>if判断语句</h3><p><code>shell</code>的<code>if</code>语法跟<code>OC</code>类似，但感觉所有语言并没有<code>OC</code>写着优雅。</p>
-<p>if语句语法格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1 </span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN </span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<p>if else 语法格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1 </span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">else</span><br><span class="line">    command</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<p>if else-if else 语法格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition1</span><br><span class="line">then</span><br><span class="line">    command1</span><br><span class="line">elif condition2 </span><br><span class="line">then </span><br><span class="line">    command2</span><br><span class="line">else</span><br><span class="line">    commandN</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-eq           //等于</span><br><span class="line">-ne           //不等于</span><br><span class="line">-gt            //大于 （greater ）</span><br><span class="line">-lt            //小于  （less）</span><br><span class="line">-ge            //大于等于</span><br><span class="line">-le            //小于等于</span><br><span class="line"></span><br><span class="line">命令的逻辑关系：</span><br><span class="line">在linux 中 命令执行状态：0 为真，其他为假</span><br><span class="line">逻辑与： &amp;&amp;</span><br><span class="line">第一个条件为假时，第二条件不用再判断，最终结果已经有；</span><br><span class="line">第一个条件为真时，第二条件必须得判断；</span><br><span class="line">逻辑或： ||</span><br><span class="line">逻辑非： ！</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#xcode9后build不指定任何签名信息</span><br><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; -sdk iphoneos clean archive -archivePath $&#123;archiveFilePath&#125; | xcpretty</span><br><span class="line"></span><br><span class="line">EXCODE=$?</span><br><span class="line">if [ &quot;$EXCODE&quot; == &quot;0&quot; ]; then</span><br><span class="line">echo &quot;Build, Archive ----&gt; O.K&quot;</span><br><span class="line">else</span><br><span class="line">echo &quot;***********************编译失败********************************&quot;</span><br><span class="line">exit 1</span><br><span class="line">fi</span><br><span class="line">echo &quot;***********************结束build archive app文件***********************&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#将打包的apk和IPA包上传到蒲公英</span><br><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">#  update.sh</span><br><span class="line">#  </span><br><span class="line">#</span><br><span class="line">#  Created by CNTP on 2020/04/14.</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">export LANG=&quot;en_US.UTF-8&quot;</span><br><span class="line"></span><br><span class="line">updateAndroidPath=&quot;/Users/apple/Desktop/build/OCR/Android&quot;</span><br><span class="line">updateiOSPath=&quot;/Users/apple/Desktop/build/OCR/iOS&quot;</span><br><span class="line">userKey=&quot;**&quot;</span><br><span class="line">apiKey=&quot;**&quot;</span><br><span class="line"></span><br><span class="line"># ----- 上传Android apk -----</span><br><span class="line">echo &quot;\n\n----- 上传Android apk -----\n\n&quot;</span><br><span class="line"></span><br><span class="line">for workitem in `ls $&#123;updateAndroidPath&#125;`; do</span><br><span class="line">filePath=$&#123;updateAndroidPath&#125;&quot;/&quot;$workitem</span><br><span class="line">if [[ &quot;$&#123;filePath##*.&#125;&quot;x = &quot;apk&quot;x ]]; then</span><br><span class="line">echo &quot;----文件----$&#123;filePath&#125;---&quot;</span><br><span class="line">curl -F &quot;file=@$filePath&quot; \</span><br><span class="line">-F &quot;uKey=$&#123;userKey&#125;&quot; \</span><br><span class="line">-F &quot;_api_key=$&#123;apiKey&#125;&quot; \</span><br><span class="line">https://www.pgyer.com/apiv1/app/upload</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">#----- 上传iOS IPA -----</span><br><span class="line">echo &quot;\n\n----- 上传iOS IPA -----\n\n&quot;</span><br><span class="line">cd $&#123;updateiOSPath&#125;</span><br><span class="line">unzip ipa-1.0.zip</span><br><span class="line">for workitem in `ls $&#123;updateiOSPath&#125;/ipa-1.0/1.0`; do</span><br><span class="line">filePath=$&#123;updateiOSPath&#125;&quot;/ipa-1.0/1.0/&quot;$workitem</span><br><span class="line">if [[ &quot;$&#123;filePath##*.&#125;&quot;x = &quot;ipa&quot;x ]]; then</span><br><span class="line">echo &quot;----文件----$&#123;filePath&#125;---&quot;</span><br><span class="line">curl -F &quot;file=@$filePath&quot; \</span><br><span class="line">-F &quot;uKey=$&#123;userKey&#125;&quot; \</span><br><span class="line">-F &quot;_api_key=$&#123;apiKey&#125;&quot; \</span><br><span class="line">https://www.pgyer.com/apiv1/app/upload</span><br><span class="line">rm -rf $&#123;updateiOSPath&#125;/ipa-1.0</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Android打包"><a href="#Android打包" class="headerlink" title="Android打包"></a>Android打包</h3><p>Android打包是调用工程根目录下的gradlew来完成打包。</p>
-<p>cd到相应工程目录，然后执行<code>gradlew clean</code>清理缓存，然后再执行<code>gradlew assembleRelease</code>进行打包。</p>
-<p>具体命令如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gradlew clean</span><br><span class="line">gradlew assembleRelease</span><br></pre></td></tr></table></figure>
-
-<p><code>gradlew clean </code>是清理工程目录下的<code>build</code>文件夹。<br><code>gradlew assembleRelease</code>是编译并打<code>Release</code>包，同理<code>gradlew assembleDebug</code>是编译是打<code>Debug</code>包。</p>
-<p>我们也可以使用<code>gradlew build</code>命令将<code>debug</code>、<code>release</code>环境的包都打出来。</p>
-<h3 id="服务端打包"><a href="#服务端打包" class="headerlink" title="服务端打包"></a>服务端打包</h3><p>服务端那边是使用<code>Maven</code>进行自动化打包。</p>
-<p>全程也只有下方一个指令。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mvn clean install -DskipTests</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>首先使用<code>Maven</code>需要在<code>Mac</code>系统上安装和配置<code>Maven</code>环境。</p>
-<p>具体配置可以参考<a href="https://blog.csdn.net/winstonlau/article/details/95605557">Mac系统下载、安装和配置Maven环境</a>这篇文章。</p>
-<p>因还有其他逻辑，所以将所有逻辑存放在<code>build.sh</code>文件中。但在调用时发现，会报配置出错。</p>
-<p>所以需要在<code>Jenkins</code>配置的<code>Execute shell</code>中添加<code>#!/bin/bash -ilex</code>。</p>
-<p>其中<code>build.sh</code>为编译jar包的脚本。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash -ilex</span><br><span class="line">cd /Users/apple/Desktop/build/taiping_src</span><br><span class="line">sh build.sh</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="https://zh.wikipedia.org/wiki/%E6%AE%BC%E5%B1%A4">shell-维基百科</a></li>
-<li><a href="https://baike.baidu.com/item/shell/99702">shell-百度百科</a></li>
-<li><a href="https://www.runoob.com/linux/linux-shell.html">shell教程-菜鸟</a></li>
-<li><a href="http://c.biancheng.net/shell/base/">Shell基础</a></li>
-<li><a href="https://www.runoob.com/linux/linux-command-manual.html">Linux命令大全</a></li>
-<li><a href="https://www.jianshu.com/p/7248276d3bb5">Gradle与Maven的区别</a></li>
-<li><a href="https://blog.csdn.net/winstonlau/article/details/95605557">Mac系统下载、安装和配置Maven环境</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>整理</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于Block的使用及注意事项</title>
-    <url>/2017/10/09/%E5%85%B3%E4%BA%8EBlock%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</url>
-    <content><![CDATA[<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=474922552&auto=1&height=66"></iframe>
-
-<h6 id="闲暇之余整理了Block的使用方法和注意事项，仅供自己参考。"><a href="#闲暇之余整理了Block的使用方法和注意事项，仅供自己参考。" class="headerlink" title="闲暇之余整理了Block的使用方法和注意事项，仅供自己参考。"></a>闲暇之余整理了Block的使用方法和注意事项，仅供自己参考。</h6><h2 id="1-typedef-作为属性的Block"><a href="#1-typedef-作为属性的Block" class="headerlink" title="1. typedef  作为属性的Block"></a>1. typedef  作为属性的Block</h2><p><img src="http://owia6zw5f.bkt.clouddn.com/block01.png" alt="image"></p>
-<h3 id="2-作为方法的参数的Block"><a href="#2-作为方法的参数的Block" class="headerlink" title="2. 作为方法的参数的Block"></a>2. 作为方法的参数的Block</h3><p><img src="http://owia6zw5f.bkt.clouddn.com/block02.png" alt="image"></p>
-<h3 id="3-作为变量的Block"><a href="#3-作为变量的Block" class="headerlink" title="3. 作为变量的Block"></a>3. 作为变量的Block</h3><p><img src="http://owia6zw5f.bkt.clouddn.com/block03.png" alt="image"></p>
-<h3 id="4-有时间再整理……"><a href="#4-有时间再整理……" class="headerlink" title="4.有时间再整理……"></a>4.有时间再整理……</h3><h5 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h5><ul>
-<li>Block作属性时，需要使用copy进行修饰</li>
-<li>循环引用问题</li>
-</ul>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>Block</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>lottie介绍及使用相关（翻译）</title>
     <url>/2019/09/09/lottie%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/lottie%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%85%B3/Lottie.jpg" alt="Lottie.jpg"></p>
@@ -3771,7 +3646,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be">The art of Lotte Reineger</a></p>
 <h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
 <p>如果你想添加更多的JSON文件，请随时这样做！</p>
-<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#98;&#x72;&#x61;&#110;&#100;&#x6f;&#x6e;&#x2e;&#x77;&#x69;&#116;&#x68;&#114;&#x6f;&#x77;&#x40;&#x61;&#105;&#114;&#98;&#110;&#x62;&#x2e;&#x63;&#x6f;&#109;">&#98;&#x72;&#x61;&#110;&#100;&#x6f;&#x6e;&#x2e;&#x77;&#x69;&#116;&#x68;&#114;&#x6f;&#x77;&#x40;&#x61;&#105;&#114;&#98;&#110;&#x62;&#x2e;&#x63;&#x6f;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#98;&#x72;&#97;&#x6e;&#x64;&#111;&#110;&#x2e;&#119;&#105;&#x74;&#104;&#114;&#x6f;&#119;&#x40;&#97;&#x69;&#x72;&#x62;&#x6e;&#98;&#46;&#99;&#111;&#x6d;">&#98;&#x72;&#97;&#x6e;&#x64;&#111;&#110;&#x2e;&#119;&#105;&#x74;&#104;&#114;&#x6f;&#119;&#x40;&#97;&#x69;&#x72;&#x62;&#x6e;&#98;&#46;&#99;&#111;&#x6d;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
 <h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
 <li>添加对交互式动画过渡的支持</li>
 </ul>
@@ -3782,6 +3657,384 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>iOS</tag>
         <tag>翻译</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shell脚本的使用及整理</title>
+    <url>/2020/04/29/shell%E8%84%9A%E6%9C%AC%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>这篇文章应该算对自己之前使用Jenkins、Shell脚本打包项目的总结。</p>
+<p>毕竟之前很多东西要么存到项目中，要么存在笔记中，并没有进行整理。</p>
+<h1 id="关于shell"><a href="#关于shell" class="headerlink" title="关于shell"></a>关于shell</h1><p>关于<code>shell</code>脚本的介绍，可以查看<a href="https://baike.baidu.com/item/shell/99702">百度百科</a>中的介绍。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">任何代码最终需要被‘翻译’成二进制的形式才能在计算机中执行。</span><br><span class="line"></span><br><span class="line">有的编程语言，如C/C++、Pascal、Go语言、汇编等，必须在程序运行之前将所有代码都编程成二进制形式(可执行文件),用户拿到最终生成的可执行文件，看不到源码。</span><br><span class="line"></span><br><span class="line">这个过程叫做编译（Compile），这样的编程语言叫做[编译型语言]，完成编译过程的软件叫做编译器[Compiler]。</span><br><span class="line"></span><br><span class="line">而有的编程语言，如Shell、JavaScript、Python、PHP等，需要一边执行一边翻译，不会生成任何可执行文件，用户拿到源代码才能运行程序。程序运行后会即时翻译，翻译完一部分执行一部分，不用等到所有代码都翻译完。</span><br><span class="line"></span><br><span class="line">这个过程叫做解释，这样的编程语言叫做[解释型语言]或者[脚本语言]（Script），完成解释过程的软件叫做解释器。</span><br><span class="line"></span><br><span class="line">编译型语言的优点是执行速度快、对硬件要求低、保密性好，适合开发操作系统、大型应用程序、数据库等。</span><br><span class="line"></span><br><span class="line">脚本语言的优点是使用灵活、部署容易、跨平台性好、非常适合Web开发以及小工具的制作。</span><br><span class="line"></span><br><span class="line">Shell 就是一种脚本语言，我们编写完源码后不用编译，直接运行源码即可。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="shell历史"><a href="#shell历史" class="headerlink" title="shell历史"></a>shell历史</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">由于历史原因，UNIX系统上有很多种Shell：</span><br><span class="line"></span><br><span class="line">1.sh（Bourne Shell）：由Steve Bourne开发，各种UNIX系统都配有sh。</span><br><span class="line"></span><br><span class="line">2.csh（C Shell）：由Bill Joy开发，随BSD UNIX发布，它的流程控制语句很像C语言，支持很多Bourne Shell所不支持的功能：作业控制，命令历史，命令行编辑。</span><br><span class="line"></span><br><span class="line">3.ksh（Korn Shell）：由David Korn开发，向后兼容sh的功能，并且添加了csh引入的新功能，是目前很多UNIX系统标准配置的Shell，在这些系统上/bin/sh往往是指向/bin/ksh的符号链接。</span><br><span class="line"></span><br><span class="line">4.tcsh（TENEX C Shell）：是csh的增强版本，引入了命令补全等功能，在FreeBSD、Mac OS X等系统上替代了csh。</span><br><span class="line"></span><br><span class="line">5.bash（Bourne Again Shell）：由GNU开发的Shell，主要目标是与POSIX标准保持一致，同时兼顾对sh的兼容，bash从csh和ksh借鉴了很多功能，是各种Linux发行版标准配置的Shell，在Linux系统上/bin/sh往往是指向/bin/bash的符号链接。虽然如此，bash和sh还是有很多不同的，一方面，bash扩展了一些命令和参数，另一方面，bash并不完全和sh兼容，有些行为并不一致，所以bash需要模拟sh的行为：当我们通过sh这个程序名启动bash时，bash可以假装自己是sh，不认扩展的命令，并且行为与sh保持一致。</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="术语名词"><a href="#术语名词" class="headerlink" title="术语名词"></a>术语名词</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- IDC--（Internet Data Center)互联网数据中心，主要服务包括整机租用、服务器托管、机柜租用、机房租用、专线接入和网络管理服务等。广义上的IDC业务，实际上就是数据中心所提供的一切服务。客户租用数据中心的服务器和带宽，并利用数据中心的技术力量，来实现自己对软、硬件的要求，搭建自己的互联网平台，享用数据中心所提供的一系列服务。</span><br><span class="line"></span><br><span class="line">- ISP--(Internet Service Provider)互联网服务提供商，即向广大用户综合提供互联网接入业务、信息业务、和增值业务的电信运营商。</span><br><span class="line"></span><br><span class="line">- ICP--(Internet Content Provider)互联网内容提供商，向广大用户综合提供互联网信息业务和增值业务的电信运营商。 根据中华人民共和国国务院令第292号《互联网信息服务管理办法》规定，国家对提供互联网信息服务的ICP实行许可证制度。从而，ICP证成为网站经营的许可证，经营性网站必须办理ICP证，否则就属于非法经营。因此，办理ICP证是企业网站合法经营的需要.</span><br><span class="line"></span><br><span class="line">- CDN--(Content Delivery Network)内容分发网络,依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。 CDN的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，在用户访问网站时，利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。</span><br><span class="line"></span><br><span class="line">- LVS--(Linux Virtual Server)的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。LVS集群采用IP负载均衡技术和基于内容请求分发技术。调度器具有很好的吞吐率，将请求均衡地转移到不同的服务器上执行，且调度器自动屏蔽掉服务器的故障，从而将一组服务器构成一个高性能的、高可用的虚拟服务器。整个服务器集群的结构对客户是透明的，而且无需修改客户端和服务器端的程序。为此，在设计时需要考虑系统的透明性、可伸缩性、高可用性和易管理性。</span><br><span class="line"></span><br><span class="line">- CGI--(Common Gateway Interface)通用网关接口。CGI规范允许Web服务器执行外部程序，并将它们的输出发送给Web浏览器，CGI将Web的一组简单的静态超媒体文档变成一个完整的新的交互式媒体。</span><br><span class="line"></span><br><span class="line">- GSLB--(Global Server Load Balance，全局负载均衡）作为 CDN 系统架构中最核心的部分，负责流量调度.基于DNS的GSLB 绝大部分使用负载均衡技术的应用都通过域名来访问目的主机，在用户发出任何应用连接请求时，首先必须通过DNS请求获得服务器的IP地址，基于DNS的GSLB正是在返回DNS解析结果的过程中进行智能决策，给用户返回一个最佳的服务IP。用户应用流程与没有GSLB时未发生任何变化。这也是市场上主流的GSLB技术。</span><br><span class="line"></span><br><span class="line">- BOSS--(Business &amp; Operation Support System，BOSS)是业务运营支撑系统。通常所说的BOSS分为四个部分：计费及结算系统、营业与账务系统、客户服务系统和决策支持系统。BOSS从业务层面来看就是一个框架，来承载业务系统、CRM系统、计费系统。实现统一框架中的纵向、横向管理。该系统最早由电信部门的计费系统发展演变而来，基本功能包括客户资料管理、产品管理、用户订购管理、计费、出帐、结算等，负责登记客户资料、管理用户订购服务的提供、实时的根据不同产品、套餐的资费标准计算业务（手机、固定电话用户通话时、点播收视、宽带流量与时间等）的消费金额，准实时及定期计算用户帐单，实时或定期结算用户各种消费费用。</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="常用shell命令"><a href="#常用shell命令" class="headerlink" title="常用shell命令"></a>常用shell命令</h1><h3 id="获取SDK或IPA的版本号"><a href="#获取SDK或IPA的版本号" class="headerlink" title="获取SDK或IPA的版本号"></a>获取SDK或IPA的版本号</h3><p>使用<code>shell</code>脚本获取SDK或IPA的版本号，跟我们在代码中获取IPA的版本号一样，都是解析Info.plist中的<code>CFBundleShortVersionString</code>。</p>
+<p>所以在这里就可以使用Mac自带的专门解析plist的小工具<code>PlistBuddy</code>来获取项目的版本号。</p>
+<p>使用方式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#获取Inof.plist中的版本号</span><br><span class="line">buildVersion=$(/usr/libexec/PlistBuddy -c &quot;print:CFBundleShortVersionString&quot; $&#123;projectPath&#125;../tpocr/tpocr/Info.plist)</span><br></pre></td></tr></table></figure>
+
+<p>同理我们可以将打包IPA所需的<code>scheme</code>、<code>configuration</code>……等信息存放到<code>config.plist</code>中，使用<code>PlistBuddy</code>直接读取，我们需要修改相应参数的时候可以直接修改<code>config.plist</code>，避免直接修改脚本。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#工程项目路径</span><br><span class="line">projectPath=&quot;$(pwd)&quot;</span><br><span class="line">#build配置文件</span><br><span class="line">buildConfigFile=&quot;$&#123;projectPath&#125;/Packaging/config.plist&quot;</span><br><span class="line">#打包的target名称</span><br><span class="line">buildSchemeName=$(/usr/libexec/PlistBuddy -c &quot;print:build:scheme&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#build configuration</span><br><span class="line">buildConfiguration=$(/usr/libexec/PlistBuddy -c &quot;print:build:configuration&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#export options plist</span><br><span class="line">exportOptionsPlist=&quot;$&#123;projectPath&#125;/Packaging/$(/usr/libexec/PlistBuddy -c &quot;print:build:exportPlist&quot; $&#123;buildConfigFile&#125;).plist&quot;</span><br><span class="line">#用于签名的企业开发者名称</span><br><span class="line">enterpriseDistributionSignName=$(/usr/libexec/PlistBuddy -c &quot;print:resign:enterpriseName&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#企业打包provision证书</span><br><span class="line">enterpriseProvisionFile=&quot;$&#123;projectPath&#125;/Packaging/$(/usr/libexec/PlistBuddy -c &quot;print:resign:enterpriseProvision&quot; $&#123;buildConfigFile&#125;).mobileprovision&quot;</span><br><span class="line">#Jenkins job</span><br><span class="line">jenkinsJob=$(/usr/libexec/PlistBuddy -c &quot;print:deliver:jenkinsJob&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#fir api token</span><br><span class="line">firAPIToken=$(/usr/libexec/PlistBuddy -c &quot;print:deliver:fir&quot; $&#123;buildConfigFile&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="使用Xcodebuild指令对项目进行打包"><a href="#使用Xcodebuild指令对项目进行打包" class="headerlink" title="使用Xcodebuild指令对项目进行打包"></a>使用Xcodebuild指令对项目进行打包</h3><p>xcodebuild是命令行工具包(Command Line Tools)中的一项，是一个轻量型的、可以与Xcode分开的、在Mac上单独下载的命令行工具包。</p>
+<p>在<code>/usr/bin</code>目录下，我们可以在终端使用<code>open /usr/bin</code>查找该工具。而在<code>usr/bin</code>目录下还有很多命令工具，比如：git、make、xcrun等。</p>
+<p>在xcode9后build不指定任何签名信息，具体编译命令如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#编译IPA</span><br><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; -sdk iphoneos clean archive -archivePath $&#123;archiveFilePath&#125; | xcpretty</span><br><span class="line"></span><br><span class="line">#导出ipa文件</span><br><span class="line">xcodebuild -allowProvisioningUpdates -exportArchive -archivePath $&#123;archiveFilePath&#125; -exportPath $&#123;ipaDir&#125; -exportOptionsPlist $&#123;exportOptionsPlist&#125; | xcpretty</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>导出的文件中除了导出ipa包以外，还有dSYM文件。</p>
+<p>dSYM是符号表文件，每次打包我们需要保存好，如果后面项目出现问题，我们可以使用dSYM分析其崩溃信息。</p>
+<h3 id="使用xcodebuild指令打包Framework"><a href="#使用xcodebuild指令打包Framework" class="headerlink" title="使用xcodebuild指令打包Framework"></a>使用xcodebuild指令打包Framework</h3><p>我们手动打包Framework的时候，是先将每个指令集进行打包，然后使用<code>lipo -create</code>将其合并，使用命令打包也是这个逻辑。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">### Build simulator platform. (i386, x86_64)</span><br><span class="line">echo &quot;========== Build Simulator Platform ==========&quot;</span><br><span class="line">echo &quot;===== Build Simulator Platform: i386 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphonesimulator BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/i386&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;i386&#x27; VALID_ARCHS=&#x27;i386&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">echo &quot;===== Build Simulator Platform: x86_64 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphonesimulator BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/x86_64&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;x86_64&#x27; VALID_ARCHS=&#x27;x86_64&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">### Build device platform. (armv7, arm64)</span><br><span class="line">echo &quot;========== Build Device Platform ==========&quot;</span><br><span class="line">echo &quot;===== Build Device Platform: armv7 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphoneos BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot;  CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/armv7&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;armv7&#x27; VALID_ARCHS=&#x27;armv7&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">echo &quot;===== Build Device Platform: arm64 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphoneos BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/arm64&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;arm64&#x27;  VALID_ARCHS=&#x27;arm64&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">### Build device platform. (arm64, armv7)</span><br><span class="line">echo &quot;========== Build Universal Platform ==========&quot;</span><br><span class="line">## Copy the framework structure to the universal folder (clean it first).</span><br><span class="line">rm -rf &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;&quot;</span><br><span class="line">mkdir -p &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;&quot;</span><br><span class="line">## Copy the last product files of xcodebuild command.</span><br><span class="line">cp -R &quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/arm64/$&#123;PRODUCT_NAME&#125;.framework&quot; &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework&quot;</span><br><span class="line">echo &quot;Smash them together to combine all architectures.&quot;</span><br><span class="line">lipo -create  &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphonesimulator/i386/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphonesimulator/x86_64/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphoneos/armv7/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphoneos/arm64/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; -output &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot;</span><br><span class="line">echo &quot;Copy Framework Code Signature&quot;</span><br><span class="line">cp -R &quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/x86_64/$&#123;PRODUCT_NAME&#125;.framework/_CodeSignature&quot; &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework/&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="关于xcpretty"><a href="#关于xcpretty" class="headerlink" title="关于xcpretty"></a>关于xcpretty</h3><p>将<code>xcpretty</code>拎出来单独说，是因为刚复工回来，更新了电脑的<code>ruby</code>然后导致了打包脚本不能使用，才注意到它。</p>
+<p><code>xcpretty</code>是一个用ruby实现的小工具，可以使用<code>gem install xcpretty</code>，作用是美化<code>xcodebuild</code>冗长的日志输入。</p>
+<p>如需使用<code>xcpretty</code>对日志进行美化只需要在<code>xcodebuild</code>命令后面加入<code> | xcpretty</code>即可。</p>
+<p>类似于下方：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; | xcpretty</span><br></pre></td></tr></table></figure>
+
+<h3 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h3><p>shell脚本的for循环结构和我们的<code>OC</code>中<code>for in</code>遍历有些类似。<br>例如下方脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#获取所有jar包并上传</span><br><span class="line">for workitem in `ls $&#123;updatePath&#125;/`; do</span><br><span class="line">workspaceDir=$&#123;updatePath&#125;&quot;/&quot;$workitem</span><br><span class="line">echo &quot;\n---jar包目录：\n$&#123;workspaceDir&#125;---\n&quot;</span><br><span class="line">java -jar /Users/apple/Desktop/build/UpdateService/jenkins-file-service.jar $&#123;workspaceDir&#125; 1 /home/verifaceops/jenkins-file/taiping_src/</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>该脚本其主要功能是遍历<code>$&#123;updatePath&#125;</code>目录下的的文件，然后将所有文件上传到公司内网的文件服务器中。</p>
+<p>这很类似于我们了解的<code>for in</code>遍历了。</p>
+<p>for循环的一般格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for var in item1 item2 ... itemN</span><br><span class="line">do</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><p><code>shll</code>中的<code>while</code>循环也跟<code>OC</code>和<code>C</code>的用法和写法类似，比如下方一个验证密码是否正确（当然在现实中并不会用到）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#脚本内容：</span><br><span class="line">echo &quot;请输入打包密码:&quot;</span><br><span class="line">read TRY</span><br><span class="line">while [ &quot;$TRY&quot; != &quot;tplife&quot; ]; do</span><br><span class="line">  echo &quot;抱歉，密码错误！\n请重新输入：&quot;</span><br><span class="line">  read TRY</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">#终端输出：</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro Python_Project % sh build.sh</span><br><span class="line">请输入打包密码:</span><br><span class="line">123</span><br><span class="line">抱歉，密码错误！</span><br><span class="line">请重新输入：</span><br><span class="line">tplife</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro Python_Project %</span><br></pre></td></tr></table></figure>
+
+<h3 id="if判断语句"><a href="#if判断语句" class="headerlink" title="if判断语句"></a>if判断语句</h3><p><code>shell</code>的<code>if</code>语法跟<code>OC</code>类似，但感觉所有语言并没有<code>OC</code>写着优雅。</p>
+<p>if语句语法格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1 </span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN </span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>if else 语法格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1 </span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">else</span><br><span class="line">    command</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>if else-if else 语法格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition1</span><br><span class="line">then</span><br><span class="line">    command1</span><br><span class="line">elif condition2 </span><br><span class="line">then </span><br><span class="line">    command2</span><br><span class="line">else</span><br><span class="line">    commandN</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-eq           //等于</span><br><span class="line">-ne           //不等于</span><br><span class="line">-gt            //大于 （greater ）</span><br><span class="line">-lt            //小于  （less）</span><br><span class="line">-ge            //大于等于</span><br><span class="line">-le            //小于等于</span><br><span class="line"></span><br><span class="line">命令的逻辑关系：</span><br><span class="line">在linux 中 命令执行状态：0 为真，其他为假</span><br><span class="line">逻辑与： &amp;&amp;</span><br><span class="line">第一个条件为假时，第二条件不用再判断，最终结果已经有；</span><br><span class="line">第一个条件为真时，第二条件必须得判断；</span><br><span class="line">逻辑或： ||</span><br><span class="line">逻辑非： ！</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#xcode9后build不指定任何签名信息</span><br><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; -sdk iphoneos clean archive -archivePath $&#123;archiveFilePath&#125; | xcpretty</span><br><span class="line"></span><br><span class="line">EXCODE=$?</span><br><span class="line">if [ &quot;$EXCODE&quot; == &quot;0&quot; ]; then</span><br><span class="line">echo &quot;Build, Archive ----&gt; O.K&quot;</span><br><span class="line">else</span><br><span class="line">echo &quot;***********************编译失败********************************&quot;</span><br><span class="line">exit 1</span><br><span class="line">fi</span><br><span class="line">echo &quot;***********************结束build archive app文件***********************&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#将打包的apk和IPA包上传到蒲公英</span><br><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">#  update.sh</span><br><span class="line">#  </span><br><span class="line">#</span><br><span class="line">#  Created by CNTP on 2020/04/14.</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">export LANG=&quot;en_US.UTF-8&quot;</span><br><span class="line"></span><br><span class="line">updateAndroidPath=&quot;/Users/apple/Desktop/build/OCR/Android&quot;</span><br><span class="line">updateiOSPath=&quot;/Users/apple/Desktop/build/OCR/iOS&quot;</span><br><span class="line">userKey=&quot;**&quot;</span><br><span class="line">apiKey=&quot;**&quot;</span><br><span class="line"></span><br><span class="line"># ----- 上传Android apk -----</span><br><span class="line">echo &quot;\n\n----- 上传Android apk -----\n\n&quot;</span><br><span class="line"></span><br><span class="line">for workitem in `ls $&#123;updateAndroidPath&#125;`; do</span><br><span class="line">filePath=$&#123;updateAndroidPath&#125;&quot;/&quot;$workitem</span><br><span class="line">if [[ &quot;$&#123;filePath##*.&#125;&quot;x = &quot;apk&quot;x ]]; then</span><br><span class="line">echo &quot;----文件----$&#123;filePath&#125;---&quot;</span><br><span class="line">curl -F &quot;file=@$filePath&quot; \</span><br><span class="line">-F &quot;uKey=$&#123;userKey&#125;&quot; \</span><br><span class="line">-F &quot;_api_key=$&#123;apiKey&#125;&quot; \</span><br><span class="line">https://www.pgyer.com/apiv1/app/upload</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">#----- 上传iOS IPA -----</span><br><span class="line">echo &quot;\n\n----- 上传iOS IPA -----\n\n&quot;</span><br><span class="line">cd $&#123;updateiOSPath&#125;</span><br><span class="line">unzip ipa-1.0.zip</span><br><span class="line">for workitem in `ls $&#123;updateiOSPath&#125;/ipa-1.0/1.0`; do</span><br><span class="line">filePath=$&#123;updateiOSPath&#125;&quot;/ipa-1.0/1.0/&quot;$workitem</span><br><span class="line">if [[ &quot;$&#123;filePath##*.&#125;&quot;x = &quot;ipa&quot;x ]]; then</span><br><span class="line">echo &quot;----文件----$&#123;filePath&#125;---&quot;</span><br><span class="line">curl -F &quot;file=@$filePath&quot; \</span><br><span class="line">-F &quot;uKey=$&#123;userKey&#125;&quot; \</span><br><span class="line">-F &quot;_api_key=$&#123;apiKey&#125;&quot; \</span><br><span class="line">https://www.pgyer.com/apiv1/app/upload</span><br><span class="line">rm -rf $&#123;updateiOSPath&#125;/ipa-1.0</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Android打包"><a href="#Android打包" class="headerlink" title="Android打包"></a>Android打包</h3><p>Android打包是调用工程根目录下的gradlew来完成打包。</p>
+<p>cd到相应工程目录，然后执行<code>gradlew clean</code>清理缓存，然后再执行<code>gradlew assembleRelease</code>进行打包。</p>
+<p>具体命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gradlew clean</span><br><span class="line">gradlew assembleRelease</span><br></pre></td></tr></table></figure>
+
+<p><code>gradlew clean </code>是清理工程目录下的<code>build</code>文件夹。<br><code>gradlew assembleRelease</code>是编译并打<code>Release</code>包，同理<code>gradlew assembleDebug</code>是编译是打<code>Debug</code>包。</p>
+<p>我们也可以使用<code>gradlew build</code>命令将<code>debug</code>、<code>release</code>环境的包都打出来。</p>
+<h3 id="服务端打包"><a href="#服务端打包" class="headerlink" title="服务端打包"></a>服务端打包</h3><p>服务端那边是使用<code>Maven</code>进行自动化打包。</p>
+<p>全程也只有下方一个指令。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mvn clean install -DskipTests</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>首先使用<code>Maven</code>需要在<code>Mac</code>系统上安装和配置<code>Maven</code>环境。</p>
+<p>具体配置可以参考<a href="https://blog.csdn.net/winstonlau/article/details/95605557">Mac系统下载、安装和配置Maven环境</a>这篇文章。</p>
+<p>因还有其他逻辑，所以将所有逻辑存放在<code>build.sh</code>文件中。但在调用时发现，会报配置出错。</p>
+<p>所以需要在<code>Jenkins</code>配置的<code>Execute shell</code>中添加<code>#!/bin/bash -ilex</code>。</p>
+<p>其中<code>build.sh</code>为编译jar包的脚本。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash -ilex</span><br><span class="line">cd /Users/apple/Desktop/build/taiping_src</span><br><span class="line">sh build.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%AE%BC%E5%B1%A4">shell-维基百科</a></li>
+<li><a href="https://baike.baidu.com/item/shell/99702">shell-百度百科</a></li>
+<li><a href="https://www.runoob.com/linux/linux-shell.html">shell教程-菜鸟</a></li>
+<li><a href="http://c.biancheng.net/shell/base/">Shell基础</a></li>
+<li><a href="https://www.runoob.com/linux/linux-command-manual.html">Linux命令大全</a></li>
+<li><a href="https://www.jianshu.com/p/7248276d3bb5">Gradle与Maven的区别</a></li>
+<li><a href="https://blog.csdn.net/winstonlau/article/details/95605557">Mac系统下载、安装和配置Maven环境</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于Apple 针对欧盟《数字市场法》的更新公告</title>
+    <url>/2025/07/01/%E5%85%B3%E4%BA%8EApple%20%E9%92%88%E5%AF%B9%E6%AC%A7%E7%9B%9F%E3%80%8A%E6%95%B0%E5%AD%97%E5%B8%82%E5%9C%BA%E6%B3%95%E3%80%8B%E7%9A%84%E6%9B%B4%E6%96%B0%E5%85%AC%E5%91%8A__/</url>
+    <content><![CDATA[<p>最近看到苹果开发者平台更新了一则<a href="https://developer.apple.com/cn/news/?id=awedznci">欧盟App所适用的更新</a>，虽然之前美国外部支付闹的沸沸扬扬，但没太过多关注。</p>
+<p>随着欧盟苹果政策的更新，后期应该有更多的国家可能会开放外部支付渠道，于是使用Ai对相关文档进行解读和分析，整理成该篇文章便于后期查阅。</p>
+<table>
+<thead>
+<tr>
+<th><strong>地区</strong></th>
+<th><strong>外部支付</strong></th>
+<th><strong>替代应用商店</strong></th>
+<th><strong>未来趋势</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>欧盟</strong></td>
+<td>✅ 允许（但可能收 CTC）</td>
+<td>✅ 允许（iOS 18.6+）</td>
+<td>2026 年全面实施 CTC</td>
+</tr>
+<tr>
+<td><strong>美国</strong></td>
+<td>⚠️ 部分允许（27% 佣金）</td>
+<td>❌ 禁止</td>
+<td>可能因法律诉讼开放</td>
+</tr>
+<tr>
+<td><strong>韩国</strong></td>
+<td>✅ 允许（26% 佣金）</td>
+<td>❌ 禁止</td>
+<td>暂无进一步调整</td>
+</tr>
+<tr>
+<td><strong>其他地区</strong></td>
+<td>❌ 禁止</td>
+<td>❌ 禁止</td>
+<td>取决于本地立法</td>
+</tr>
+</tbody></table>
+<h3 id="关于Apple-针对欧盟《数字市场法》的更新公告的解读"><a href="#关于Apple-针对欧盟《数字市场法》的更新公告的解读" class="headerlink" title="关于Apple 针对欧盟《数字市场法》的更新公告的解读"></a>关于Apple 针对欧盟《数字市场法》的更新公告的解读</h3><h4 id="1-核心变更内容"><a href="#1-核心变更内容" class="headerlink" title="1. 核心变更内容"></a><strong>1. 核心变更内容</strong></h4><p>Apple 根据欧盟《数字市场法》（DMA）的要求，对欧盟地区的 App Store 政策进行了以下调整：</p>
+<h5 id="（1）优惠传达与推广的灵活性"><a href="#（1）优惠传达与推广的灵活性" class="headerlink" title="（1）优惠传达与推广的灵活性"></a><strong>（1）优惠传达与推广的灵活性</strong></h5><ul>
+<li><strong>允许开发者推广替代购买渠道</strong>：开发者可以在 App 内或通过外部链接（如网站、替代应用市场或其他 App）推广其数字商品或服务的优惠。</li>
+<li><strong>适用新业务条款</strong>：<ul>
+<li><strong>初始用户获取费</strong>：针对通过 App Store 获取的用户。</li>
+<li><strong>核心技术佣金（CTC）</strong>：适用于使用外部购买链接的 App，反映 Apple 提供的技术和服务价值。</li>
+<li><strong>商店服务费</strong>：继续适用于通过 App Store 分发的交易。</li>
+</ul>
+</li>
+</ul>
+<h5 id="（2）业务条款更新"><a href="#（2）业务条款更新" class="headerlink" title="（2）业务条款更新"></a><strong>（2）业务条款更新</strong></h5><ul>
+<li><strong>2026年1月1日起，统一业务模式</strong>：<ul>
+<li>从核心技术费（CTF）过渡到核心技术佣金（CTC）。</li>
+<li>CTC 将适用于所有渠道（App Store、网站分发、替代市场）的数字商品或服务交易。</li>
+<li>目前适用《Alternative Terms Addendum for Apps in the EU》的 App 仍支付 CTF，直到 2026 年完全过渡。</li>
+</ul>
+</li>
+</ul>
+<h5 id="（3）用户体验更新"><a href="#（3）用户体验更新" class="headerlink" title="（3）用户体验更新"></a><strong>（3）用户体验更新</strong></h5><ul>
+<li><strong>iOS&#x2F;iPadOS 18.6 开始</strong>：<ul>
+<li>优化欧盟用户从替代市场或开发者网站安装 App 的体验。</li>
+<li>今年晚些时候提供 API，允许开发者在 App 内启动替代分发 App 的下载。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-影响分析"><a href="#2-影响分析" class="headerlink" title="2. 影响分析"></a><strong>2. 影响分析</strong></h4><ul>
+<li><p><strong>对开发者的影响</strong>：</p>
+<ul>
+<li><strong>推广自由度提升</strong>：开发者可以绕过 App Store 支付系统推广优惠，但需支付 CTC。</li>
+<li><strong>费用结构变化</strong>：CTC 可能比现有费用更复杂，需权衡外部推广的成本与收益。</li>
+<li><strong>音乐流媒体 App 的特殊性</strong>：EEA 音乐流媒体 App 可使用特定授权方案，可能降低佣金负担。</li>
+</ul>
+</li>
+<li><p><strong>对用户的影响</strong>：</p>
+<ul>
+<li><strong>更多选择</strong>：用户可能通过外部渠道获得更优惠的价格。</li>
+<li><strong>潜在风险</strong>：非 App Store 分发的 App 可能缺乏严格审核，需注意安全性。</li>
+</ul>
+</li>
+<li><p><strong>对 Apple 的影响</strong>：</p>
+<ul>
+<li><strong>合规性</strong>：满足 DMA 要求，避免法律风险。</li>
+<li><strong>收入模式调整</strong>：CTC 可能弥补因开放外部支付导致的佣金损失。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-关键时间点"><a href="#3-关键时间点" class="headerlink" title="3. 关键时间点"></a><strong>3. 关键时间点</strong></h4><ul>
+<li><strong>2024年</strong>：iOS&#x2F;iPadOS 18.6 推出替代市场安装优化，年底发布相关 API。</li>
+<li><strong>2026年1月1日</strong>：全面过渡到 CTC，CTF 废止。</li>
+</ul>
+<h4 id="4-开发者注意事项"><a href="#4-开发者注意事项" class="headerlink" title="4. 开发者注意事项"></a><strong>4. 开发者注意事项</strong></h4><ul>
+<li>需评估新条款对盈利模式的影响。</li>
+<li>若使用外部链接，需遵守 StoreKit 外部购买链接授权附录。</li>
+<li>可预约 Apple 的 30 分钟线上沟通，获取进一步解答。</li>
+</ul>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a><strong>结论</strong></h3><p>Apple 的更新旨在平衡 DMA 合规与商业利益，赋予开发者更多自由，但通过 CTC 等机制保留部分收入控制权。开发者需审慎选择分发和支付策略，而用户需警惕非官方渠道的安全风险。长期来看，欧盟数字市场可能因 DMA 推动更开放的竞争格局。</p>
+<h3 id="Apple-欧盟新政策-vs-传统内购政策的区别"><a href="#Apple-欧盟新政策-vs-传统内购政策的区别" class="headerlink" title="Apple 欧盟新政策 vs. 传统内购政策的区别"></a><strong>Apple 欧盟新政策 vs. 传统内购政策的区别</strong></h3><p>Apple 此次针对欧盟《数字市场法》（DMA）的更新，对原有的 App Store 内购（IAP）规则进行了重大调整。以下是新旧政策的核心区别：</p>
+<hr>
+<h2 id="1-支付渠道的开放性"><a href="#1-支付渠道的开放性" class="headerlink" title="1. 支付渠道的开放性"></a><strong>1. 支付渠道的开放性</strong></h2><table>
+<thead>
+<tr>
+<th><strong>传统内购政策</strong></th>
+<th><strong>欧盟新政策</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>强制使用 Apple 的 App Store 内购系统（IAP），禁止引导用户到外部支付渠道（如网站、第三方支付）。</td>
+<td>允许开发者在 App 内或通过外部链接（网站、替代应用市场等）推广和完成支付，无需强制使用 IAP。</td>
+</tr>
+<tr>
+<td>违反规则可能导致 App 被下架。</td>
+<td>开发者可以自由选择支付方式，但需遵守新业务条款（如 CTC）。</td>
+</tr>
+</tbody></table>
+<p><strong>影响</strong>：  </p>
+<ul>
+<li><strong>开发者</strong>：可以绕过 Apple 的 15-30% 佣金，但需支付新的“核心技术佣金（CTC）”。  </li>
+<li><strong>用户</strong>：可能通过外部渠道获得更低价格（如 Spotify 直接官网订阅更便宜）。</li>
+</ul>
+<hr>
+<h2 id="2-佣金结构的变化"><a href="#2-佣金结构的变化" class="headerlink" title="2. 佣金结构的变化"></a><strong>2. 佣金结构的变化</strong></h2><table>
+<thead>
+<tr>
+<th><strong>传统内购政策</strong></th>
+<th><strong>欧盟新政策</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>所有数字商品交易（如订阅、应用内购买）需支付 15-30% 的佣金（具体比例取决于收入规模）。</td>
+<td>引入 <strong>核心技术佣金（CTC）</strong>，适用于所有数字商品交易，无论是否通过 App Store 完成。</td>
+</tr>
+<tr>
+<td>仅适用于 App Store 内交易。</td>
+<td>即使开发者使用外部支付或替代市场，仍需支付 CTC（费率未明确，但可能低于 30%）。</td>
+</tr>
+</tbody></table>
+<p><strong>影响</strong>：  </p>
+<ul>
+<li>Apple 仍然能从外部交易中抽成，但可能降低费率以保持竞争力。  </li>
+<li>2026 年后，<strong>CTF（核心技术费）将完全过渡到 CTC</strong>，意味着所有数字交易（包括网站销售）都可能被 Apple 抽成。</li>
+</ul>
+<hr>
+<h2 id="3-推广与营销限制"><a href="#3-推广与营销限制" class="headerlink" title="3. 推广与营销限制"></a><strong>3. 推广与营销限制</strong></h2><table>
+<thead>
+<tr>
+<th><strong>传统内购政策</strong></th>
+<th><strong>欧盟新政策</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>严格禁止在 App 内提及外部支付方式（如“官网更便宜”）。</td>
+<td>允许开发者在 App 内推广替代购买渠道（如网站、第三方市场）。</td>
+</tr>
+<tr>
+<td>违反规则可能导致 App 被拒绝或下架。</td>
+<td>开发者可以自由引导用户到外部支付，但需遵守新业务条款。</td>
+</tr>
+</tbody></table>
+<p><strong>影响</strong>：  </p>
+<ul>
+<li><strong>Spotify、Netflix 等公司</strong>可以明确告诉用户“官网订阅更便宜”，而不再需要隐藏外部支付选项。  </li>
+<li>但 Apple 仍可能通过 CTC 从这些交易中抽成。</li>
+</ul>
+<hr>
+<h2 id="4-应用分发方式"><a href="#4-应用分发方式" class="headerlink" title="4. 应用分发方式"></a><strong>4. 应用分发方式</strong></h2><table>
+<thead>
+<tr>
+<th><strong>传统内购政策</strong></th>
+<th><strong>欧盟新政策</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>仅允许通过 App Store 分发 App（除企业签名或 TestFlight 外）。</td>
+<td>允许 <strong>替代应用市场</strong> 和 <strong>开发者直接分发</strong>（如官网下载）。</td>
+</tr>
+<tr>
+<td>侧载（Sideloading）在 iOS 上被严格限制。</td>
+<td>欧盟用户可以直接从第三方市场或开发者网站安装 App。</td>
+</tr>
+</tbody></table>
+<p><strong>影响</strong>：  </p>
+<ul>
+<li><strong>Epic Games、AltStore 等</strong>可以推出自己的应用商店，绕过 App Store。  </li>
+<li>但 Apple 仍可能通过 <strong>核心技术佣金（CTC）</strong> 对部分交易收费。</li>
+</ul>
+<hr>
+<h2 id="5-用户体验变化"><a href="#5-用户体验变化" class="headerlink" title="5. 用户体验变化"></a><strong>5. 用户体验变化</strong></h2><table>
+<thead>
+<tr>
+<th><strong>传统内购政策</strong></th>
+<th><strong>欧盟新政策</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>所有支付流程在 App Store 内完成，统一且安全。</td>
+<td>用户可能被引导到外部网站支付，可能增加欺诈风险。</td>
+</tr>
+<tr>
+<td>更新仅通过 App Store 进行。</td>
+<td>允许替代市场和开发者直接推送更新（iOS 18.6+）。</td>
+</tr>
+</tbody></table>
+<p><strong>影响</strong>：  </p>
+<ul>
+<li><strong>用户便利性</strong>：可能需要在不同平台管理 App 更新。  </li>
+<li><strong>安全性</strong>：非 App Store 分发的 App 可能缺乏严格审核，需谨慎下载。</li>
+</ul>
+<hr>
+<h2 id="总结：Apple-欧盟新政策-vs-传统内购"><a href="#总结：Apple-欧盟新政策-vs-传统内购" class="headerlink" title="总结：Apple 欧盟新政策 vs. 传统内购"></a><strong>总结：Apple 欧盟新政策 vs. 传统内购</strong></h2><table>
+<thead>
+<tr>
+<th><strong>方面</strong></th>
+<th><strong>传统内购</strong></th>
+<th><strong>欧盟新政策</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>支付方式</strong></td>
+<td>强制 IAP</td>
+<td>允许外部支付</td>
+</tr>
+<tr>
+<td><strong>佣金</strong></td>
+<td>15-30%（仅 App Store）</td>
+<td>CTC（适用于所有数字交易）</td>
+</tr>
+<tr>
+<td><strong>推广限制</strong></td>
+<td>禁止外部支付引导</td>
+<td>允许推广替代渠道</td>
+</tr>
+<tr>
+<td><strong>分发方式</strong></td>
+<td>仅 App Store</td>
+<td>允许替代市场和官网分发</td>
+</tr>
+<tr>
+<td><strong>用户体验</strong></td>
+<td>统一、安全</td>
+<td>可能更灵活但风险增加</td>
+</tr>
+</tbody></table>
+<h3 id="关键结论"><a href="#关键结论" class="headerlink" title="关键结论"></a><strong>关键结论</strong></h3><ol>
+<li><strong>Apple 仍然控制收入</strong>：即使开放支付和分发，CTC 确保 Apple 仍能从外部交易抽成。  </li>
+<li><strong>开发者有更多选择</strong>：可以绕过 30% 佣金，但需权衡 CTC 成本。  </li>
+<li><strong>用户需谨慎</strong>：非官方渠道的 App 可能带来安全风险。  </li>
+<li><strong>2026 年后 CTC 全面生效</strong>：可能影响所有数字交易，包括网站销售。</li>
+</ol>
+<p>欧盟新政策是 Apple 在监管压力下的妥协，但仍试图通过 CTC 维持收入。开发者需计算哪种模式更划算，而用户需注意非官方渠道的安全性。</p>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>关于Block的使用及注意事项</title>
+    <url>/2017/10/09/%E5%85%B3%E4%BA%8EBlock%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</url>
+    <content><![CDATA[<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=474922552&auto=1&height=66"></iframe>
+
+<h6 id="闲暇之余整理了Block的使用方法和注意事项，仅供自己参考。"><a href="#闲暇之余整理了Block的使用方法和注意事项，仅供自己参考。" class="headerlink" title="闲暇之余整理了Block的使用方法和注意事项，仅供自己参考。"></a>闲暇之余整理了Block的使用方法和注意事项，仅供自己参考。</h6><h2 id="1-typedef-作为属性的Block"><a href="#1-typedef-作为属性的Block" class="headerlink" title="1. typedef  作为属性的Block"></a>1. typedef  作为属性的Block</h2><p><img src="http://owia6zw5f.bkt.clouddn.com/block01.png" alt="image"></p>
+<h3 id="2-作为方法的参数的Block"><a href="#2-作为方法的参数的Block" class="headerlink" title="2. 作为方法的参数的Block"></a>2. 作为方法的参数的Block</h3><p><img src="http://owia6zw5f.bkt.clouddn.com/block02.png" alt="image"></p>
+<h3 id="3-作为变量的Block"><a href="#3-作为变量的Block" class="headerlink" title="3. 作为变量的Block"></a>3. 作为变量的Block</h3><p><img src="http://owia6zw5f.bkt.clouddn.com/block03.png" alt="image"></p>
+<h3 id="4-有时间再整理……"><a href="#4-有时间再整理……" class="headerlink" title="4.有时间再整理……"></a>4.有时间再整理……</h3><h5 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h5><ul>
+<li>Block作属性时，需要使用copy进行修饰</li>
+<li>循环引用问题</li>
+</ul>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>Block</tag>
       </tags>
   </entry>
   <entry>
@@ -3816,6 +4069,32 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <categories>
         <category>Flutter</category>
       </categories>
+  </entry>
+  <entry>
+    <title>关于HMAC签名相关</title>
+    <url>/2020/11/04/%E5%85%B3%E4%BA%8EHMAC%E7%AD%BE%E5%90%8D%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>节后有个项目使用到腾讯云的<a href="https://cloud.tencent.com/document/product/1007/35330">活体检测</a>，其实功能也不是很复杂，但在对接腾讯云的时候被他的<a href="https://cloud.tencent.com/document/api/1007/31325">签名</a>方式耽误了一些时间，但好在它的文档写的很详细，仔细地阅读了官方文档，最后也在很快的时间内对接成功。</p>
+<p>这里主要记录<code>HMAC-SHA1</code>在iOS中的代码，便于后期查阅。</p>
+<blockquote>
+<p>引入头文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;CommonCrypto/CommonDigest.h&gt;</span><br><span class="line">#include &lt;CommonCrypto/CommonHMAC.h&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> <code>HMAC-SHA1</code>算法签名,<code>Base64</code>进行编码</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (NSString *)hmacsha1:(NSString *)obj key:(NSString *)key &#123;</span><br><span class="line">    const char *cKey  = [key cStringUsingEncoding:NSASCIIStringEncoding];</span><br><span class="line">    const char *cData = [obj cStringUsingEncoding:NSASCIIStringEncoding];</span><br><span class="line">    unsigned char cHMAC[CC_SHA1_DIGEST_LENGTH];</span><br><span class="line"></span><br><span class="line">    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);</span><br><span class="line">    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC</span><br><span class="line">                                          length:sizeof(cHMAC)];</span><br><span class="line"></span><br><span class="line">    NSString *hash = [HMAC base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];</span><br><span class="line"></span><br><span class="line">    return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://baike.baidu.com/item/hmac">hmac-百度百科</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
   </entry>
   <entry>
     <title>关于fmt中的格式化站位符</title>
@@ -3932,26 +4211,50 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>关于HMAC签名相关</title>
-    <url>/2020/11/04/%E5%85%B3%E4%BA%8EHMAC%E7%AD%BE%E5%90%8D%E7%9B%B8%E5%85%B3/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>节后有个项目使用到腾讯云的<a href="https://cloud.tencent.com/document/product/1007/35330">活体检测</a>，其实功能也不是很复杂，但在对接腾讯云的时候被他的<a href="https://cloud.tencent.com/document/api/1007/31325">签名</a>方式耽误了一些时间，但好在它的文档写的很详细，仔细地阅读了官方文档，最后也在很快的时间内对接成功。</p>
-<p>这里主要记录<code>HMAC-SHA1</code>在iOS中的代码，便于后期查阅。</p>
+    <title>关于git代理设置问题记录</title>
+    <url>/2025/01/22/%E5%85%B3%E4%BA%8Egit%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>需要在<code>Clash Verge</code>将代理设置成全局。然后在设置中<code>复制环境变量类型</code>。</p>
+<p>打开终端设置代理即可。</p>
 <blockquote>
-<p>引入头文件</p>
+<p>增加超时时间</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;CommonCrypto/CommonDigest.h&gt;</span><br><span class="line">#include &lt;CommonCrypto/CommonHMAC.h&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.postBuffer 524288000</span><br><span class="line">git config --global http.lowSpeedLimit 0</span><br><span class="line">git config --global http.lowSpeedTime 999999</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p> <code>HMAC-SHA1</code>算法签名,<code>Base64</code>进行编码</p>
+<p>设置代理</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (NSString *)hmacsha1:(NSString *)obj key:(NSString *)key &#123;</span><br><span class="line">    const char *cKey  = [key cStringUsingEncoding:NSASCIIStringEncoding];</span><br><span class="line">    const char *cData = [obj cStringUsingEncoding:NSASCIIStringEncoding];</span><br><span class="line">    unsigned char cHMAC[CC_SHA1_DIGEST_LENGTH];</span><br><span class="line"></span><br><span class="line">    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);</span><br><span class="line">    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC</span><br><span class="line">                                          length:sizeof(cHMAC)];</span><br><span class="line"></span><br><span class="line">    NSString *hash = [HMAC base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];</span><br><span class="line"></span><br><span class="line">    return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:7897</span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:7897</span><br></pre></td></tr></table></figure>
 
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://baike.baidu.com/item/hmac">hmac-百度百科</a></li>
+<blockquote>
+<p>取消代理</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>记录</category>
+      </categories>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于iOS &amp; iPadOS 16 beta 6相关API废弃</title>
+    <url>/2022/08/19/%E5%85%B3%E4%BA%8EiOS%20&amp;%20iPadOS%2016%20beta%206%E7%9B%B8%E5%85%B3API%E5%BA%9F%E5%BC%83/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在查看<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a>中发现在iOS 16 beta 6版本中将<code>shouldAutorotate</code>方法弃用。</p>
+<p>在此记录一下，后面适配iOS16时看是否需要修改。</p>
+<h1 id="官网介绍"><a href="#官网介绍" class="headerlink" title="官网介绍"></a>官网介绍</h1><p><code>UIKit</code><br><code>Deprecations</code></p>
+<p><code>[UIViewController shouldAutorotate]</code>不再支持已弃用。<br>已弃用并替换为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController attemptRotationToDeviceOrientation]</span><br><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：如果支持的方向发生变化，可以使用下面方法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
+
+<p>详细内容可查阅<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>整理</category>
+        <category>iOS</category>
       </categories>
       <tags>
         <tag>iOS</tag>
@@ -4372,56 +4675,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>关于git代理设置问题记录</title>
-    <url>/2025/01/22/%E5%85%B3%E4%BA%8Egit%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>需要在<code>Clash Verge</code>将代理设置成全局。然后在设置中<code>复制环境变量类型</code>。</p>
-<p>打开终端设置代理即可。</p>
-<blockquote>
-<p>增加超时时间</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.postBuffer 524288000</span><br><span class="line">git config --global http.lowSpeedLimit 0</span><br><span class="line">git config --global http.lowSpeedTime 999999</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>设置代理</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:7897</span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:7897</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>取消代理</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>记录</category>
-      </categories>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于iOS &amp; iPadOS 16 beta 6相关API废弃</title>
-    <url>/2022/08/19/%E5%85%B3%E4%BA%8EiOS%20&amp;%20iPadOS%2016%20beta%206%E7%9B%B8%E5%85%B3API%E5%BA%9F%E5%BC%83/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在查看<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a>中发现在iOS 16 beta 6版本中将<code>shouldAutorotate</code>方法弃用。</p>
-<p>在此记录一下，后面适配iOS16时看是否需要修改。</p>
-<h1 id="官网介绍"><a href="#官网介绍" class="headerlink" title="官网介绍"></a>官网介绍</h1><p><code>UIKit</code><br><code>Deprecations</code></p>
-<p><code>[UIViewController shouldAutorotate]</code>不再支持已弃用。<br>已弃用并替换为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController attemptRotationToDeviceOrientation]</span><br><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
-
-<p>解决方法：如果支持的方向发生变化，可以使用下面方法</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
-
-<p>详细内容可查阅<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>关于大屏设备应用适配</title>
     <url>/2025/05/13/%E5%85%B3%E4%BA%8E%E5%A4%A7%E5%B1%8F%E8%AE%BE%E5%A4%87%E5%BA%94%E7%94%A8%E9%80%82%E9%85%8D/</url>
     <content><![CDATA[<p>最近收到国内安卓市场关于大屏设备应用适配的邮件，具体内容大致如下方所示。</p>
@@ -4581,29 +4834,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 ]]></content>
       <categories>
         <category>整理</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何判断设备是否为iPhone X,iOS获取设备型号的方法。</title>
-    <url>/2018/03/20/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E8%AE%BE%E5%A4%87%E6%98%AF%E5%90%A6%E4%B8%BAiPhone%20X,iOS%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E5%9E%8B%E5%8F%B7%E7%9A%84%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>因为本公司的项目一直是竖屏，所以一开始的思路是根据屏幕上方的状态栏的高度进行判断，但最后考虑到手机开启WiFi共享、或者有地图类软件打开时上方会有蓝条，根据导航栏判断是否为刘海屏就不准确了。</p>
-<p>所以说起来最准确的就是根据设备的型号进行判断，因为苹果不同设备的型号不同，而我们可以获取到设备的型号，所以根据型号进行判断是最准确的。</p>
-<p>但这样判断还是有缺点的，就是如果苹果出了新的手机时，我们需要重新将刘海屏的设备型号添加进去。</p>
-<p>还有一点就是在模拟器上，获取的设备型号是i386和x86_64，所以在模拟器中我们可以根据屏幕宽高或者屏幕下方安全区域进行判断。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">+ (BOOL)isIphoneX&#123;</span><br><span class="line">    struct utsname systemInfo;</span><br><span class="line">    uname(&amp;systemInfo);</span><br><span class="line">    NSString *platform = [NSString stringWithCString:systemInfo.machine encoding:NSASCIIStringEncoding];</span><br><span class="line">    if ([platform isEqualToString:@&quot;i386&quot;] || [platform isEqualToString:@&quot;x86_64&quot;]) &#123;</span><br><span class="line">        UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];</span><br><span class="line">        // 获取底部安全区域高度，iPhone X 竖屏下为 34.0，横屏下为 21.0，其他类型设备都为 0</span><br><span class="line">        BOOL haveSafeInset;</span><br><span class="line">        if (@available(iOS 11.0, *)) &#123;</span><br><span class="line">            CGFloat bottomSafeInset = keyWindow.safeAreaInsets.bottom;</span><br><span class="line">            haveSafeInset = (bottomSafeInset == 34.0f || bottomSafeInset == 21.0f);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            haveSafeInset = NO;</span><br><span class="line">        &#125;</span><br><span class="line">        return haveSafeInset;</span><br><span class="line">    &#125;</span><br><span class="line">    BOOL isIPhoneX = [platform isEqualToString:@&quot;iPhone10,3&quot;] || [platform isEqualToString:@&quot;iPhone10,6&quot;] || [platform isEqualToString:@&quot;iPhone11,8&quot;] || [platform isEqualToString:@&quot;iPhone11,2&quot;] || [platform isEqualToString:@&quot;iPhone11,6&quot;] || [platform isEqualToString:@&quot;iPhone11,4&quot;];</span><br><span class="line">    return isIPhoneX;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>关于设备的型号，我有大致写一下，不过具体的还是建议从<a href="https://www.theiphonewiki.com/wiki/Models">苹果设备类型说明</a>里面进行查看，然后当需要更新相应设备的时候可以直接在自己代码中添加。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1388397-f3be3dce72ee1e16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".m中的代码"></p>
-<hr>
-<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="https://www.theiphonewiki.com/wiki/Models">苹果设备类型说明</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>随笔</category>
       </categories>
       <tags>
         <tag>iOS</tag>
@@ -5388,6 +5618,29 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何判断设备是否为iPhone X,iOS获取设备型号的方法。</title>
+    <url>/2018/03/20/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E8%AE%BE%E5%A4%87%E6%98%AF%E5%90%A6%E4%B8%BAiPhone%20X,iOS%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E5%9E%8B%E5%8F%B7%E7%9A%84%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>因为本公司的项目一直是竖屏，所以一开始的思路是根据屏幕上方的状态栏的高度进行判断，但最后考虑到手机开启WiFi共享、或者有地图类软件打开时上方会有蓝条，根据导航栏判断是否为刘海屏就不准确了。</p>
+<p>所以说起来最准确的就是根据设备的型号进行判断，因为苹果不同设备的型号不同，而我们可以获取到设备的型号，所以根据型号进行判断是最准确的。</p>
+<p>但这样判断还是有缺点的，就是如果苹果出了新的手机时，我们需要重新将刘海屏的设备型号添加进去。</p>
+<p>还有一点就是在模拟器上，获取的设备型号是i386和x86_64，所以在模拟器中我们可以根据屏幕宽高或者屏幕下方安全区域进行判断。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">+ (BOOL)isIphoneX&#123;</span><br><span class="line">    struct utsname systemInfo;</span><br><span class="line">    uname(&amp;systemInfo);</span><br><span class="line">    NSString *platform = [NSString stringWithCString:systemInfo.machine encoding:NSASCIIStringEncoding];</span><br><span class="line">    if ([platform isEqualToString:@&quot;i386&quot;] || [platform isEqualToString:@&quot;x86_64&quot;]) &#123;</span><br><span class="line">        UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];</span><br><span class="line">        // 获取底部安全区域高度，iPhone X 竖屏下为 34.0，横屏下为 21.0，其他类型设备都为 0</span><br><span class="line">        BOOL haveSafeInset;</span><br><span class="line">        if (@available(iOS 11.0, *)) &#123;</span><br><span class="line">            CGFloat bottomSafeInset = keyWindow.safeAreaInsets.bottom;</span><br><span class="line">            haveSafeInset = (bottomSafeInset == 34.0f || bottomSafeInset == 21.0f);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            haveSafeInset = NO;</span><br><span class="line">        &#125;</span><br><span class="line">        return haveSafeInset;</span><br><span class="line">    &#125;</span><br><span class="line">    BOOL isIPhoneX = [platform isEqualToString:@&quot;iPhone10,3&quot;] || [platform isEqualToString:@&quot;iPhone10,6&quot;] || [platform isEqualToString:@&quot;iPhone11,8&quot;] || [platform isEqualToString:@&quot;iPhone11,2&quot;] || [platform isEqualToString:@&quot;iPhone11,6&quot;] || [platform isEqualToString:@&quot;iPhone11,4&quot;];</span><br><span class="line">    return isIPhoneX;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>关于设备的型号，我有大致写一下，不过具体的还是建议从<a href="https://www.theiphonewiki.com/wiki/Models">苹果设备类型说明</a>里面进行查看，然后当需要更新相应设备的时候可以直接在自己代码中添加。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1388397-f3be3dce72ee1e16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".m中的代码"></p>
+<hr>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://www.theiphonewiki.com/wiki/Models">苹果设备类型说明</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
