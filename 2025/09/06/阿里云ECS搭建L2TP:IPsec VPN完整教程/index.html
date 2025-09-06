@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="阿里云ECS搭建L2TP&#x2F;IPsec 完整教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云ECS搭建L2TP&#x2F;IPsec VPN完整教程">
+<meta property="og:url" content="https://xnxy.github.io/2025/09/06/%E9%98%BF%E9%87%8C%E4%BA%91ECS%E6%90%AD%E5%BB%BAL2TP:IPsec%20VPN%E5%AE%8C%E6%95%B4%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="阿里云ECS搭建L2TP&#x2F;IPsec 完整教程">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-09-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-09-05T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://xnxy.github.io/2025/09/06/%E9%98%BF%E9%87%8C%E4%BA%91ECS%E6%90%AD%E5%BB%BAL2TP:IPsec%20VPN%E5%AE%8C%E6%95%B4%E6%95%99%E7%A8%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2025/09/06/%E9%98%BF%E9%87%8C%E4%BA%91ECS%E6%90%AD%E5%BB%BAL2TP:IPsec%20VPN%E5%AE%8C%E6%95%B4%E6%95%99%E7%A8%8B/","path":"2025/09/06/阿里云ECS搭建L2TP:IPsec VPN完整教程/","title":"阿里云ECS搭建L2TP/IPsec VPN完整教程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>阿里云ECS搭建L2TP/IPsec VPN完整教程 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">拿根针尖对麦芒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BF%E9%87%8C%E4%BA%91ECS%E6%90%AD%E5%BB%BAL2TP-x2F-IPsec-VPN%E5%AE%8C%E6%95%B4%E6%95%99%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">阿里云ECS搭建L2TP&#x2F;IPsec VPN完整教程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">1.1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">服务器端配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-number">1.2.1.</span> <span class="nav-text">环境准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">系统要求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%BF%E9%87%8C%E4%BA%91%E5%AE%89%E5%85%A8%E7%BB%84%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">阿里云安全组配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E8%BD%AF%E4%BB%B6"><span class="nav-number">1.2.2.</span> <span class="nav-text">安装必要软件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Ubuntu-x2F-Debian%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">Ubuntu&#x2F;Debian系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CentOS-x2F-RHEL%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">CentOS&#x2F;RHEL系统</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEIPsec"><span class="nav-number">1.2.3.</span> <span class="nav-text">配置IPsec</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%BC%96%E8%BE%91IPsec%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">1. 编辑IPsec配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E9%85%8D%E7%BD%AEIPsec%E5%AF%86%E9%92%A5"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2. 配置IPsec密钥</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEL2TP"><span class="nav-number">1.2.4.</span> <span class="nav-text">配置L2TP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%BE%91xl2tpd%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">编辑xl2tpd配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEPPP"><span class="nav-number">1.2.5.</span> <span class="nav-text">配置PPP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BAPPP%E9%80%89%E9%A1%B9%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">1. 创建PPP选项文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E9%85%8D%E7%BD%AEVPN%E7%94%A8%E6%88%B7%E8%B4%A6%E5%8F%B7"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">2. 配置VPN用户账号</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">1.2.6.</span> <span class="nav-text">配置防火墙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Ubuntu-x2F-Debian-UFW"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">Ubuntu&#x2F;Debian (UFW)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CentOS-x2F-RHEL-firewalld"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">CentOS&#x2F;RHEL (firewalld)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.2.7.</span> <span class="nav-text">启动服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">客户端配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iPhone-x2F-iPad%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.1.</span> <span class="nav-text">iPhone&#x2F;iPad配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E6%89%93%E5%BC%80%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">步骤1：打开设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E6%B7%BB%E5%8A%A0VPN%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">步骤2：添加VPN配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E8%BF%9E%E6%8E%A5VPN"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">步骤3：连接VPN</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android%E6%89%8B%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.2.</span> <span class="nav-text">Android手机配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E6%89%93%E5%BC%80%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">步骤1：打开网络设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E6%B7%BB%E5%8A%A0VPN%E9%85%8D%E7%BD%AE-1"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">步骤2：添加VPN配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E8%BF%9E%E6%8E%A5VPN-1"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">步骤3：连接VPN</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mac%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.3.</span> <span class="nav-text">Mac电脑配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E6%89%93%E5%BC%80%E7%BD%91%E7%BB%9C%E5%81%8F%E5%A5%BD%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">步骤1：打开网络偏好设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E5%88%9B%E5%BB%BAVPN%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">步骤2：创建VPN连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E9%85%8D%E7%BD%AEVPN%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">步骤3：配置VPN设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A44%EF%BC%9A%E8%BF%9E%E6%8E%A5VPN"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">步骤4：连接VPN</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="nav-number">1.4.</span> <span class="nav-text">常见问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BF%9E%E6%8E%A5%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 连接失败问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8A%B6%E6%80%81"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">检查服务器状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">检查防火墙设置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%98%BF%E9%87%8C%E4%BA%91%E7%89%B9%E6%AE%8A%E9%85%8D%E7%BD%AE"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 阿里云特殊配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9IPsec%E9%85%8D%E7%BD%AE"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">修改IPsec配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E5%86%85%E7%BD%91IP%E9%85%8D%E7%BD%AE"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">检查内网IP配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. 客户端连接问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#iOS%E8%AE%BE%E5%A4%87"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">iOS设备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Android%E8%AE%BE%E5%A4%87"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">Android设备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mac%E8%AE%BE%E5%A4%87"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">Mac设备</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">1.4.4.</span> <span class="nav-text">4. 性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E6%95%B4MTU%E5%80%BC"><span class="nav-number">1.4.4.1.</span> <span class="nav-text">调整MTU值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F"><span class="nav-number">1.4.4.2.</span> <span class="nav-text">启用硬件加速</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.5.</span> <span class="nav-text">安全建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AF%86%E7%A0%81%E5%AE%89%E5%85%A8"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 密码安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8"><span class="nav-number">1.5.3.</span> <span class="nav-text">3. 网络安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%9B%91%E6%8E%A7%E5%92%8C%E6%97%A5%E5%BF%97"><span class="nav-number">1.5.4.</span> <span class="nav-text">4. 监控和日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%A4%87%E4%BB%BD%E9%85%8D%E7%BD%AE"><span class="nav-number">1.5.5.</span> <span class="nav-text">5. 备份配置</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="拿根针尖对麦芒"
+      src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+  <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+  <div class="site-description" itemprop="description">修行ing</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xnxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xnxy" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/xnxyonly1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;xnxyonly1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://jewsaten.github.io/" title="https:&#x2F;&#x2F;jewsaten.github.io" rel="noopener" target="_blank">「蒋·先生」</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://guyueyang.github.io/" title="https:&#x2F;&#x2F;guyueyang.github.io" rel="noopener" target="_blank">晓平</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2025/09/06/%E9%98%BF%E9%87%8C%E4%BA%91ECS%E6%90%AD%E5%BB%BAL2TP:IPsec%20VPN%E5%AE%8C%E6%95%B4%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="阿里云ECS搭建L2TP/IPsec VPN完整教程 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="阿里云ECS搭建L2TP/IPsec 完整教程">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          阿里云ECS搭建L2TP/IPsec VPN完整教程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-09-06 00:00:00" itemprop="dateCreated datePublished" datetime="2025-09-06T00:00:00+08:00">2025-09-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">阿里云ECS搭建L2TP/IPsec 完整教程</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="阿里云ECS搭建L2TP-x2F-IPsec-VPN完整教程"><a href="#阿里云ECS搭建L2TP-x2F-IPsec-VPN完整教程" class="headerlink" title="阿里云ECS搭建L2TP&#x2F;IPsec VPN完整教程"></a>阿里云ECS搭建L2TP&#x2F;IPsec VPN完整教程</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E9%85%8D%E7%BD%AE">服务器端配置</a><ul>
+<li><a href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87">环境准备</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E8%BD%AF%E4%BB%B6">安装必要软件</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEipsec">配置IPsec</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEl2tp">配置L2TP</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEppp">配置PPP</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99">配置防火墙</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1">启动服务</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE">客户端配置</a><ul>
+<li><a href="#iphoneipad%E9%85%8D%E7%BD%AE">iPhone&#x2F;iPad配置</a></li>
+<li><a href="#android%E6%89%8B%E6%9C%BA%E9%85%8D%E7%BD%AE">Android手机配置</a></li>
+<li><a href="#mac%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE">Mac电脑配置</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3">常见问题解决</a></li>
+<li><a href="#%E5%AE%89%E5%85%A8%E5%BB%BA%E8%AE%AE">安全建议</a></li>
+</ul>
+<hr>
+<h2 id="服务器端配置"><a href="#服务器端配置" class="headerlink" title="服务器端配置"></a>服务器端配置</h2><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><h4 id="系统要求"><a href="#系统要求" class="headerlink" title="系统要求"></a>系统要求</h4><ul>
+<li>阿里云ECS实例（推荐Ubuntu 18.04&#x2F;20.04或CentOS 7&#x2F;8）</li>
+<li>公网IP地址</li>
+<li>至少1GB内存</li>
+<li>开放UDP 500、UDP 4500、TCP 1701端口</li>
+</ul>
+<h4 id="阿里云安全组配置"><a href="#阿里云安全组配置" class="headerlink" title="阿里云安全组配置"></a>阿里云安全组配置</h4><p>在阿里云控制台配置安全组规则，开放以下端口：</p>
+<table>
+<thead>
+<tr>
+<th>协议</th>
+<th>端口范围</th>
+<th>授权对象</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UDP</td>
+<td>500</td>
+<td>0.0.0.0&#x2F;0</td>
+<td>IPsec IKE</td>
+</tr>
+<tr>
+<td>UDP</td>
+<td>4500</td>
+<td>0.0.0.0&#x2F;0</td>
+<td>IPsec NAT-T</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>1701</td>
+<td>0.0.0.0&#x2F;0</td>
+<td>L2TP</td>
+</tr>
+</tbody></table>
+<h3 id="安装必要软件"><a href="#安装必要软件" class="headerlink" title="安装必要软件"></a>安装必要软件</h3><h4 id="Ubuntu-x2F-Debian系统"><a href="#Ubuntu-x2F-Debian系统" class="headerlink" title="Ubuntu&#x2F;Debian系统"></a>Ubuntu&#x2F;Debian系统</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新系统包</span></span><br><span class="line">sudo apt update &amp;&amp; sudo apt upgrade -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装必要软件包</span></span><br><span class="line">sudo apt install -y strongswan xl2tpd ppp lsof</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装内核模块支持（Ubuntu需要）</span></span><br><span class="line">sudo apt install -y linux-modules-extra-$(<span class="built_in">uname</span> -r)</span><br></pre></td></tr></table></figure>
+
+<h4 id="CentOS-x2F-RHEL系统"><a href="#CentOS-x2F-RHEL系统" class="headerlink" title="CentOS&#x2F;RHEL系统"></a>CentOS&#x2F;RHEL系统</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新系统包</span></span><br><span class="line">sudo yum update -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装EPEL源</span></span><br><span class="line">sudo yum install -y epel-release</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装必要软件包</span></span><br><span class="line">sudo yum install -y strongswan xl2tpd ppp lsof</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置IPsec"><a href="#配置IPsec" class="headerlink" title="配置IPsec"></a>配置IPsec</h3><h4 id="1-编辑IPsec配置文件"><a href="#1-编辑IPsec配置文件" class="headerlink" title="1. 编辑IPsec配置文件"></a>1. 编辑IPsec配置文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/ipsec.conf</span><br></pre></td></tr></table></figure>
+
+<p>添加以下内容：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /etc/ipsec.conf - strongSwan IPsec configuration file</span></span><br><span class="line"></span><br><span class="line">config setup</span><br><span class="line">    <span class="attr">charondebug</span>=<span class="string">&quot;ike 1, knl 1, cfg 0&quot;</span></span><br><span class="line">    <span class="attr">uniqueids</span>=<span class="literal">no</span></span><br><span class="line"></span><br><span class="line">conn L2TP-PSK</span><br><span class="line">    <span class="attr">authby</span>=secret</span><br><span class="line">    <span class="attr">pfs</span>=<span class="literal">no</span></span><br><span class="line">    <span class="attr">auto</span>=add</span><br><span class="line">    <span class="attr">keyingtries</span>=<span class="number">3</span></span><br><span class="line">    <span class="attr">rekey</span>=<span class="literal">no</span></span><br><span class="line">    <span class="attr">ikelifetime</span>=<span class="number">8</span>h</span><br><span class="line">    <span class="attr">keylife</span>=<span class="number">1</span>h</span><br><span class="line">    <span class="attr">type</span>=transport</span><br><span class="line">    <span class="attr">left</span>=%defaultroute</span><br><span class="line">    <span class="attr">leftid</span>=YOUR_SERVER_PUBLIC_IP</span><br><span class="line">    <span class="attr">leftprotoport</span>=<span class="number">17</span>/<span class="number">1701</span></span><br><span class="line">    <span class="attr">right</span>=%any</span><br><span class="line">    <span class="attr">rightprotoport</span>=<span class="number">17</span>/%any</span><br><span class="line">    <span class="attr">dpddelay</span>=<span class="number">40</span></span><br><span class="line">    <span class="attr">dpdtimeout</span>=<span class="number">130</span></span><br><span class="line">    <span class="attr">dpdaction</span>=clear</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 将 <code>YOUR_SERVER_PUBLIC_IP</code> 替换为你的阿里云ECS公网IP地址。</p>
+<h4 id="2-配置IPsec密钥"><a href="#2-配置IPsec密钥" class="headerlink" title="2. 配置IPsec密钥"></a>2. 配置IPsec密钥</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/ipsec.secrets</span><br></pre></td></tr></table></figure>
+
+<p>添加以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># /etc/ipsec.secrets - strongSwan IPsec secrets file</span><br><span class="line">YOUR_SERVER_PUBLIC_IP %any : PSK &quot;YOUR_IPSEC_PSK&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> </p>
+<ul>
+<li>将 <code>YOUR_SERVER_PUBLIC_IP</code> 替换为你的公网IP</li>
+<li>将 <code>YOUR_IPSEC_PSK</code> 替换为一个强密码（建议16位以上随机字符）</li>
+</ul>
+<h3 id="配置L2TP"><a href="#配置L2TP" class="headerlink" title="配置L2TP"></a>配置L2TP</h3><h4 id="编辑xl2tpd配置文件"><a href="#编辑xl2tpd配置文件" class="headerlink" title="编辑xl2tpd配置文件"></a>编辑xl2tpd配置文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/xl2tpd/xl2tpd.conf</span><br></pre></td></tr></table></figure>
+
+<p>添加以下内容：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[global]</span></span><br><span class="line">ipsec <span class="attr">saref</span> = <span class="literal">yes</span></span><br><span class="line">saref <span class="attr">refinfo</span> = <span class="number">30</span></span><br><span class="line"></span><br><span class="line"><span class="section">[lns default]</span></span><br><span class="line">ip <span class="attr">range</span> = <span class="number">192.168</span>.<span class="number">42.10</span>-<span class="number">192.168</span>.<span class="number">42.250</span></span><br><span class="line">local <span class="attr">ip</span> = <span class="number">192.168</span>.<span class="number">42.1</span></span><br><span class="line">require <span class="attr">chap</span> = <span class="literal">yes</span></span><br><span class="line">refuse <span class="attr">pap</span> = <span class="literal">yes</span></span><br><span class="line">require <span class="attr">authentication</span> = <span class="literal">yes</span></span><br><span class="line"><span class="attr">name</span> = l2tpd</span><br><span class="line">ppp <span class="attr">debug</span> = <span class="literal">yes</span></span><br><span class="line"><span class="attr">pppoptfile</span> = /etc/ppp/options.xl2tpd</span><br><span class="line">length <span class="attr">bit</span> = <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置PPP"><a href="#配置PPP" class="headerlink" title="配置PPP"></a>配置PPP</h3><h4 id="1-创建PPP选项文件"><a href="#1-创建PPP选项文件" class="headerlink" title="1. 创建PPP选项文件"></a>1. 创建PPP选项文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/ppp/options.xl2tpd</span><br></pre></td></tr></table></figure>
+
+<p>添加以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ipcp-accept-local</span><br><span class="line">ipcp-accept-remote</span><br><span class="line">ms-dns 8.8.8.8</span><br><span class="line">ms-dns 114.114.114.114</span><br><span class="line">noccp</span><br><span class="line">auth</span><br><span class="line">crtscts</span><br><span class="line">idle 1800</span><br><span class="line">mtu 1410</span><br><span class="line">mru 1410</span><br><span class="line">nodefaultroute</span><br><span class="line">debug</span><br><span class="line">proxyarp</span><br><span class="line">connect-delay 5000</span><br><span class="line">refuse-pap</span><br><span class="line">refuse-chap</span><br><span class="line">refuse-mschap</span><br><span class="line">require-mschap-v2</span><br><span class="line">persist</span><br><span class="line">logfile /var/log/xl2tpd.log</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-配置VPN用户账号"><a href="#2-配置VPN用户账号" class="headerlink" title="2. 配置VPN用户账号"></a>2. 配置VPN用户账号</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/ppp/chap-secrets</span><br></pre></td></tr></table></figure>
+
+<p>添加用户账号（格式：用户名 服务名 密码 IP地址）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Secrets for authentication using CHAP</span><br><span class="line"># client    server    secret    IP addresses</span><br><span class="line">vpnuser1    l2tpd     password123    *</span><br><span class="line">vpnuser2    l2tpd     password456    *</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h3><h4 id="Ubuntu-x2F-Debian-UFW"><a href="#Ubuntu-x2F-Debian-UFW" class="headerlink" title="Ubuntu&#x2F;Debian (UFW)"></a>Ubuntu&#x2F;Debian (UFW)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用IP转发</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.ip_forward = 1&#x27;</span> | sudo <span class="built_in">tee</span> -a /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.conf.all.accept_redirects = 0&#x27;</span> | sudo <span class="built_in">tee</span> -a /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.conf.all.send_redirects = 0&#x27;</span> | sudo <span class="built_in">tee</span> -a /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.conf.default.rp_filter = 0&#x27;</span> | sudo <span class="built_in">tee</span> -a /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.conf.default.accept_source_route = 0&#x27;</span> | sudo <span class="built_in">tee</span> -a /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.conf.default.send_redirects = 0&#x27;</span> | sudo <span class="built_in">tee</span> -a /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.icmp_ignore_bogus_error_responses = 1&#x27;</span> | sudo <span class="built_in">tee</span> -a /etc/sysctl.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 应用sysctl设置</span></span><br><span class="line">sudo sysctl -p</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置iptables规则</span></span><br><span class="line">sudo iptables -t nat -A POSTROUTING -s 192.168.42.0/24 -o eth0 -j MASQUERADE</span><br><span class="line">sudo iptables -A FORWARD -s 192.168.42.0/24 -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD -d 192.168.42.0/24 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存iptables规则</span></span><br><span class="line">sudo apt install -y iptables-persistent</span><br><span class="line">sudo netfilter-persistent save</span><br></pre></td></tr></table></figure>
+
+<h4 id="CentOS-x2F-RHEL-firewalld"><a href="#CentOS-x2F-RHEL-firewalld" class="headerlink" title="CentOS&#x2F;RHEL (firewalld)"></a>CentOS&#x2F;RHEL (firewalld)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用IP转发</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.ip_forward = 1&#x27;</span> | sudo <span class="built_in">tee</span> -a /etc/sysctl.conf</span><br><span class="line">sudo sysctl -p</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置firewalld</span></span><br><span class="line">sudo firewall-cmd --permanent --add-service=ipsec</span><br><span class="line">sudo firewall-cmd --permanent --add-port=1701/tcp</span><br><span class="line">sudo firewall-cmd --permanent --add-port=500/udp</span><br><span class="line">sudo firewall-cmd --permanent --add-port=4500/udp</span><br><span class="line">sudo firewall-cmd --permanent --add-masquerade</span><br><span class="line">sudo firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动并设置开机自启</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> strongswan</span><br><span class="line">sudo systemctl start strongswan</span><br><span class="line"></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> xl2tpd</span><br><span class="line">sudo systemctl start xl2tpd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查服务状态</span></span><br><span class="line">sudo systemctl status strongswan</span><br><span class="line">sudo systemctl status xl2tpd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查端口监听</span></span><br><span class="line">sudo netstat -tulpn | grep -E <span class="string">&#x27;:(500|4500|1701)&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h2><h3 id="iPhone-x2F-iPad配置"><a href="#iPhone-x2F-iPad配置" class="headerlink" title="iPhone&#x2F;iPad配置"></a>iPhone&#x2F;iPad配置</h3><h4 id="步骤1：打开设置"><a href="#步骤1：打开设置" class="headerlink" title="步骤1：打开设置"></a>步骤1：打开设置</h4><ol>
+<li>在iPhone&#x2F;iPad上打开「设置」应用</li>
+<li>点击「通用」</li>
+<li>点击「VPN与设备管理」或「VPN」</li>
+</ol>
+<h4 id="步骤2：添加VPN配置"><a href="#步骤2：添加VPN配置" class="headerlink" title="步骤2：添加VPN配置"></a>步骤2：添加VPN配置</h4><ol>
+<li>点击「添加VPN配置…」</li>
+<li>选择「L2TP」类型</li>
+<li>填写以下信息：<ul>
+<li><strong>描述</strong>：自定义名称（如：我的VPN）</li>
+<li><strong>服务器</strong>：你的阿里云ECS公网IP</li>
+<li><strong>账户</strong>：在chap-secrets中配置的用户名</li>
+<li><strong>密码</strong>：对应的用户密码</li>
+<li><strong>密钥</strong>：IPsec预共享密钥（YOUR_IPSEC_PSK）</li>
+</ul>
+</li>
+<li>点击「完成」</li>
+</ol>
+<h4 id="步骤3：连接VPN"><a href="#步骤3：连接VPN" class="headerlink" title="步骤3：连接VPN"></a>步骤3：连接VPN</h4><ol>
+<li>在VPN设置页面，打开VPN开关</li>
+<li>选择刚才创建的VPN配置</li>
+<li>等待连接成功</li>
+</ol>
+<h3 id="Android手机配置"><a href="#Android手机配置" class="headerlink" title="Android手机配置"></a>Android手机配置</h3><h4 id="步骤1：打开网络设置"><a href="#步骤1：打开网络设置" class="headerlink" title="步骤1：打开网络设置"></a>步骤1：打开网络设置</h4><ol>
+<li>打开「设置」应用</li>
+<li>点击「网络和互联网」或「连接」</li>
+<li>点击「VPN」</li>
+</ol>
+<h4 id="步骤2：添加VPN配置-1"><a href="#步骤2：添加VPN配置-1" class="headerlink" title="步骤2：添加VPN配置"></a>步骤2：添加VPN配置</h4><ol>
+<li>点击「+」或「添加VPN配置文件」</li>
+<li>填写以下信息：<ul>
+<li><strong>名称</strong>：自定义名称</li>
+<li><strong>类型</strong>：选择「L2TP&#x2F;IPSec PSK」</li>
+<li><strong>服务器地址</strong>：你的阿里云ECS公网IP</li>
+<li><strong>L2TP密钥</strong>：留空（可选）</li>
+<li><strong>IPSec标识符</strong>：留空</li>
+<li><strong>IPSec预共享密钥</strong>：YOUR_IPSEC_PSK</li>
+</ul>
+</li>
+<li>点击「保存」</li>
+</ol>
+<h4 id="步骤3：连接VPN-1"><a href="#步骤3：连接VPN-1" class="headerlink" title="步骤3：连接VPN"></a>步骤3：连接VPN</h4><ol>
+<li>在VPN列表中点击刚创建的配置</li>
+<li>输入用户名和密码</li>
+<li>点击「连接」</li>
+</ol>
+<h3 id="Mac电脑配置"><a href="#Mac电脑配置" class="headerlink" title="Mac电脑配置"></a>Mac电脑配置</h3><h4 id="步骤1：打开网络偏好设置"><a href="#步骤1：打开网络偏好设置" class="headerlink" title="步骤1：打开网络偏好设置"></a>步骤1：打开网络偏好设置</h4><ol>
+<li>点击屏幕左上角的苹果菜单</li>
+<li>选择「系统偏好设置」</li>
+<li>点击「网络」</li>
+</ol>
+<h4 id="步骤2：创建VPN连接"><a href="#步骤2：创建VPN连接" class="headerlink" title="步骤2：创建VPN连接"></a>步骤2：创建VPN连接</h4><ol>
+<li>点击左下角的「+」号</li>
+<li>在弹出窗口中选择：<ul>
+<li><strong>接口</strong>：VPN</li>
+<li><strong>VPN类型</strong>：IPSec上的L2TP</li>
+<li><strong>服务名称</strong>：自定义名称</li>
+</ul>
+</li>
+<li>点击「创建」</li>
+</ol>
+<h4 id="步骤3：配置VPN设置"><a href="#步骤3：配置VPN设置" class="headerlink" title="步骤3：配置VPN设置"></a>步骤3：配置VPN设置</h4><ol>
+<li>填写以下信息：<ul>
+<li><strong>服务器地址</strong>：你的阿里云ECS公网IP</li>
+<li><strong>账户名称</strong>：chap-secrets中的用户名</li>
+</ul>
+</li>
+<li>点击「鉴定设置」</li>
+<li>在弹出窗口中填写：<ul>
+<li><strong>密码</strong>：用户密码</li>
+<li><strong>共享的密钥</strong>：IPsec预共享密钥</li>
+</ul>
+</li>
+<li>点击「好」</li>
+<li>点击「应用」</li>
+</ol>
+<h4 id="步骤4：连接VPN"><a href="#步骤4：连接VPN" class="headerlink" title="步骤4：连接VPN"></a>步骤4：连接VPN</h4><ol>
+<li>点击「连接」按钮</li>
+<li>等待连接成功，状态显示为「已连接」</li>
+</ol>
+<hr>
+<h2 id="常见问题解决"><a href="#常见问题解决" class="headerlink" title="常见问题解决"></a>常见问题解决</h2><h3 id="1-连接失败问题"><a href="#1-连接失败问题" class="headerlink" title="1. 连接失败问题"></a>1. 连接失败问题</h3><h4 id="检查服务器状态"><a href="#检查服务器状态" class="headerlink" title="检查服务器状态"></a>检查服务器状态</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查服务运行状态</span></span><br><span class="line">sudo systemctl status strongswan xl2tpd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查端口监听</span></span><br><span class="line">sudo netstat -tulpn | grep -E <span class="string">&#x27;:(500|4500|1701)&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看日志</span></span><br><span class="line">sudo <span class="built_in">tail</span> -f /var/log/syslog</span><br><span class="line">sudo <span class="built_in">tail</span> -f /var/log/xl2tpd.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="检查防火墙设置"><a href="#检查防火墙设置" class="headerlink" title="检查防火墙设置"></a>检查防火墙设置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ubuntu/Debian</span></span><br><span class="line">sudo ufw status</span><br><span class="line">sudo iptables -L -n</span><br><span class="line"></span><br><span class="line"><span class="comment"># CentOS/RHEL</span></span><br><span class="line">sudo firewall-cmd --list-all</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-阿里云特殊配置"><a href="#2-阿里云特殊配置" class="headerlink" title="2. 阿里云特殊配置"></a>2. 阿里云特殊配置</h3><p>由于阿里云的网络环境特殊性，可能需要额外配置：</p>
+<h4 id="修改IPsec配置"><a href="#修改IPsec配置" class="headerlink" title="修改IPsec配置"></a>修改IPsec配置</h4><p>在 <code>/etc/ipsec.conf</code> 中添加：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">conn L2TP-PSK</span><br><span class="line">    <span class="comment"># ... 其他配置 ...</span></span><br><span class="line">    <span class="attr">leftsubnet</span>=<span class="number">0.0</span>.<span class="number">0.0</span>/<span class="number">0</span></span><br><span class="line">    <span class="attr">rightsubnet</span>=<span class="number">0.0</span>.<span class="number">0.0</span>/<span class="number">0</span></span><br><span class="line">    <span class="attr">forceencaps</span>=<span class="literal">yes</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="检查内网IP配置"><a href="#检查内网IP配置" class="headerlink" title="检查内网IP配置"></a>检查内网IP配置</h4><p>确保xl2tpd.conf中的local ip设置正确：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看内网IP</span></span><br><span class="line">ip addr show</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据实际内网IP修改xl2tpd.conf中的local ip</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-客户端连接问题"><a href="#3-客户端连接问题" class="headerlink" title="3. 客户端连接问题"></a>3. 客户端连接问题</h3><h4 id="iOS设备"><a href="#iOS设备" class="headerlink" title="iOS设备"></a>iOS设备</h4><ul>
+<li><strong>错误809</strong>：通常是IPsec配置问题，检查预共享密钥</li>
+<li><strong>自动断开</strong>：iOS设备在锁屏后会断开WiFi，这是正常行为</li>
+</ul>
+<h4 id="Android设备"><a href="#Android设备" class="headerlink" title="Android设备"></a>Android设备</h4><ul>
+<li><strong>认证失败</strong>：检查用户名密码是否正确</li>
+<li><strong>连接超时</strong>：尝试重启VPN服务</li>
+</ul>
+<h4 id="Mac设备"><a href="#Mac设备" class="headerlink" title="Mac设备"></a>Mac设备</h4><ul>
+<li><strong>连接失败</strong>：检查系统防火墙设置</li>
+<li><strong>DNS问题</strong>：手动设置DNS服务器</li>
+</ul>
+<h3 id="4-性能优化"><a href="#4-性能优化" class="headerlink" title="4. 性能优化"></a>4. 性能优化</h3><h4 id="调整MTU值"><a href="#调整MTU值" class="headerlink" title="调整MTU值"></a>调整MTU值</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在/etc/ppp/options.xl2tpd中调整</span></span><br><span class="line">mtu 1410</span><br><span class="line">mru 1410</span><br></pre></td></tr></table></figure>
+
+<h4 id="启用硬件加速"><a href="#启用硬件加速" class="headerlink" title="启用硬件加速"></a>启用硬件加速</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查是否支持硬件加速</span></span><br><span class="line">lsmod | grep -E <span class="string">&#x27;(aes|crypto)&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在/etc/ipsec.conf中添加</span></span><br><span class="line">conn L2TP-PSK</span><br><span class="line">    <span class="comment"># ... 其他配置 ...</span></span><br><span class="line">    esp=aes128-sha1-modp2048!</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="安全建议"><a href="#安全建议" class="headerlink" title="安全建议"></a>安全建议</h2><h3 id="1-密码安全"><a href="#1-密码安全" class="headerlink" title="1. 密码安全"></a>1. 密码安全</h3><ul>
+<li>使用强密码（至少16位，包含大小写字母、数字、特殊字符）</li>
+<li>定期更换密码</li>
+<li>不同用户使用不同密码</li>
+</ul>
+<h3 id="2-访问控制"><a href="#2-访问控制" class="headerlink" title="2. 访问控制"></a>2. 访问控制</h3><ul>
+<li>限制VPN用户数量</li>
+<li>定期审查用户账号</li>
+<li>监控连接日志</li>
+</ul>
+<h3 id="3-网络安全"><a href="#3-网络安全" class="headerlink" title="3. 网络安全"></a>3. 网络安全</h3><ul>
+<li>定期更新系统和软件包</li>
+<li>配置fail2ban防止暴力破解</li>
+<li>使用证书认证替代密码认证（高级配置）</li>
+</ul>
+<h3 id="4-监控和日志"><a href="#4-监控和日志" class="headerlink" title="4. 监控和日志"></a>4. 监控和日志</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看连接日志</span></span><br><span class="line">sudo <span class="built_in">tail</span> -f /var/log/syslog | grep -E <span class="string">&#x27;(xl2tpd|pluto|charon)&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看认证日志</span></span><br><span class="line">sudo <span class="built_in">tail</span> -f /var/log/auth.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监控连接状态</span></span><br><span class="line">sudo ipsec status</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-备份配置"><a href="#5-备份配置" class="headerlink" title="5. 备份配置"></a>5. 备份配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 备份重要配置文件</span></span><br><span class="line">sudo tar -czf vpn-config-backup.tar.gz \</span><br><span class="line">    /etc/ipsec.conf \</span><br><span class="line">    /etc/ipsec.secrets \</span><br><span class="line">    /etc/xl2tpd/xl2tpd.conf \</span><br><span class="line">    /etc/ppp/options.xl2tpd \</span><br><span class="line">    /etc/ppp/chap-secrets</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/08/14/%E6%96%87%E5%AD%97%E5%86%85%E5%AE%B9%E7%94%9F%E6%88%90%E7%B2%BE%E7%BE%8E%E7%BD%91%E9%A1%B5%E4%BF%A1%E6%81%AF%E9%A3%8E%E6%A0%BC%E6%8F%90%E7%A4%BA%E8%AF%8D/" rel="prev" title="文字内容生成精美网页信息风格提示词">
+                  <i class="fa fa-chevron-left"></i> 文字内容生成精美网页信息风格提示词
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
