@@ -667,52 +667,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>CADisplayLink介绍及其相关</title>
-    <url>/2018/03/16/CADisplayLink%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3/</url>
-    <content><![CDATA[<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>CADisplayLink其实就是一个定时器对象，是一个能让我们以和屏幕刷新率(60HZ)同步的频率将特定的内容画到屏幕上的定时器类。</p>
-<p>在<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink 文档</a>中也有相应介绍。CADisplayLink以<code>addToRunLoop: forMode:</code> 注册到runloop上，每当屏幕显示内容刷新结束，runloop就会向CADisplayLink指定的target发送消息。</p>
-<blockquote>
-<p>Your application initializes a new display link, providing a target object and a selector to be called when the screen is updated. To synchronize your display loop with the display, your application adds it to a run loop using the addToRunLoop:forMode: method</p>
-<p>Once the display link is associated with a run loop, the selector on the target is called when the screen’s contents need to be updated. The target can read the display link’s timestamp property to retrieve the time that the previous frame was displayed. For example, an application that displays movies might use the timestamp to calculate which video frame will be displayed next. An application that performs its own animations might use the timestamp to determine where and how displayed objects appear in the upcoming frame.</p>
-<p>The duration property provides the amount of time between frames at the maximumFramesPerSecond. To calculate the actual frame duration, use targetTimestamp - timestamp. You can use actual frame duration in your application to calculate the frame rate of the display, the approximate time that the next frame will be displayed, and to adjust the drawing behavior so that the next frame is prepared in time to be displayed.</p>
-<p>Your application can disable notifications by setting the paused property to YES. Also, if your application cannot provide frames in the time provided, you may want to choose a slower frame rate. An application with a slower but consistent frame rate appears smoother to the user than an application that skips frames. You can define the number of frames per second by setting the preferredFramesPerSecond property.</p>
-<p>When your application finishes with a display link, it should call invalidate to remove it from all run loops and to disassociate it from the target.</p>
-<p>CADisplayLink should not be subclassed.</p>
-</blockquote>
-<h3 id="关于CADisplayLink"><a href="#关于CADisplayLink" class="headerlink" title="关于CADisplayLink"></a>关于CADisplayLink</h3><p>无论是<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">苹果的官方文档</a>还是网上的一些资料，对DADisplayLink介绍的都很详细。</p>
-<p>我们创建个CADisplayLink对象，并将其添加到runloop中，并提供target和selector，那么在每次屏幕刷新的时候selector就会被调用（frameInterval 默认值为1）。 </p>
-<p>同时我们也可以设置CADisplayLink对象的frameInterval属性来调整每次调用selector的间隔。</p>
-<p>说白了，CADisplayLink就是一个跟屏幕刷新频率相同的定时器（60HZ）。CADisplayLink跟CoreAnimation类都属于QunartzCore.framework中API。</p>
-<h3 id="CADisplayLink的使用"><a href="#CADisplayLink的使用" class="headerlink" title="CADisplayLink的使用"></a>CADisplayLink的使用</h3><figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">self</span>.displayLink = [<span class="built_in">CADisplayLink</span> displayLinkWithTarget:<span class="keyword">self</span></span><br><span class="line">                                               selector:<span class="keyword">@selector</span>(timerRunEvent)];</span><br><span class="line"><span class="keyword">self</span>.displayLink.frameInterval = <span class="number">60</span>;</span><br><span class="line">[<span class="keyword">self</span>.displayLink addToRunLoop:[<span class="built_in">NSRunLoop</span> mainRunLoop] forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>创建CADisplayLink并将其添加到Runloop中。这样<code>timerRunEvent</code>(@selector)就会被周期调用，其中使用<code>frameInterval</code>设置调用的间隔，上方代表每秒调用一次（因为屏幕的刷新频率为60HZ，即每秒60次）。</p>
-<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[<span class="keyword">self</span>.displayLink invalidate];</span><br><span class="line"><span class="keyword">self</span>.displayLink = <span class="literal">nil</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>停止，直接执行invalidate即可，类似于NSTimer的invalidate。执行完invalidate后，CADisplayLink对象从Runloop中移除，<code>timerRunEvent</code>(@selector)调用。</p>
-<h3 id="CADisplayLink与NSTimer的不同"><a href="#CADisplayLink与NSTimer的不同" class="headerlink" title="CADisplayLink与NSTimer的不同"></a>CADisplayLink与NSTimer的不同</h3><p>在写这篇文章时，从网上搜了下，发现网上有很多关于CADisplayLink的介绍，而且比较详细。同时在CocoaChina上看到一篇关于<a href="http://www.cocoachina.com/ios/20160919/17595.html">iOS三种定时器的用法NSTimer、CADisplayLink、GCD</a>的文章。</p>
-<h5 id="关于精度"><a href="#关于精度" class="headerlink" title="关于精度"></a>关于精度</h5><p>相对于NSTimer,CADisplayLink的精度更加准确些，毕竟苹果设备的屏幕的刷新频率是固定的，都是60HZ。而CADisplayLink在每次刷新结束后都会被调用，精度会比较高。同时我们也可以根据CADisplayLink这个特性来检测屏幕是否会出现掉帧现象，如：<a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a><br>就是根据此种原理。</p>
-<h5 id="关于使用场景"><a href="#关于使用场景" class="headerlink" title="关于使用场景"></a>关于使用场景</h5><p>CADisplayLink的使用场景比较单一，适用于UI、动画的绘制与渲染。而比较著名的Facebook开源的第三方库<a href="https://github.com/facebook/pop">POP</a>就是基于CADisplayLink的，性能上比系统的CoreAnimation更加优秀。</p>
-<p>而NSTimer在使用上就会更加的广泛了，基本很多场景都可使用。不管是一次性的还是连续周期性的timer事件，都会将NSTimer对象添加到Runloop中，但当Runloop正在执行另一个任务时，timer就会出现延迟。</p>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>上面提到因为Facebook开源的动画库<a href="https://github.com/facebook/pop">POP</a>是基于CADisplayLink的，所以在开发过程中的一些定时器我们也可以使用POP来完成。比如下方的应用中经常出现的一个获取验证码的小功能，我们就可以使用POP去实现。</p>
-<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIButton</span> *btn = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];</span><br><span class="line">    <span class="keyword">self</span>.clickBtn = btn;</span><br><span class="line">    [btn setTitle:<span class="string">@&quot;获取验证码&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [btn setTitleColor:[<span class="built_in">UIColor</span> whiteColor] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    btn.backgroundColor = [<span class="built_in">UIColor</span> purpleColor];</span><br><span class="line">    [<span class="keyword">self</span>.view addSubview:btn];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//layout</span></span><br><span class="line">    [btn makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make.center.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">        make.size.equalTo(<span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">100</span>));</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//action</span></span><br><span class="line">    @weakify(<span class="keyword">self</span>)</span><br><span class="line">    [btn bk_whenTapped:^&#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>)</span><br><span class="line">        [<span class="keyword">self</span> timeAnimation];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---- Animation ---</span></span><br><span class="line">- (<span class="type">void</span>)timeAnimation&#123;</span><br><span class="line">    </span><br><span class="line">    POPBasicAnimation *basicAnimation = [POPBasicAnimation linearAnimation];</span><br><span class="line">    </span><br><span class="line">    POPAnimatableProperty *prop = [POPAnimatableProperty propertyWithName:<span class="string">@&quot;timeAnimation&quot;</span> initializer:^(POPMutableAnimatableProperty *prop) &#123;</span><br><span class="line">        </span><br><span class="line">        prop.writeBlock = ^(<span class="type">id</span> obj, <span class="keyword">const</span> <span class="built_in">CGFloat</span> *values) &#123;</span><br><span class="line">            <span class="built_in">UIButton</span> *btn = (<span class="built_in">UIButton</span> *)obj;</span><br><span class="line">            [btn setTitle:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%d&quot;</span>,(<span class="type">int</span>)values[<span class="number">0</span>]%<span class="number">60</span>] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    basicAnimation.property = prop;</span><br><span class="line">    basicAnimation.fromValue = @(<span class="number">10</span>);</span><br><span class="line">    basicAnimation.toValue = @(<span class="number">0</span>);</span><br><span class="line">    basicAnimation.duration = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.clickBtn pop_addAnimation:basicAnimation forKey:<span class="string">@&quot;timeAnimation&quot;</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//开始</span></span><br><span class="line">    basicAnimation.animationDidStartBlock = ^(POPAnimation *anim) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">NO</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//结束</span></span><br><span class="line">    basicAnimation.completionBlock = ^(POPAnimation *anim, <span class="type">BOOL</span> finished) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">YES</span>;</span><br><span class="line">        [<span class="keyword">self</span>.clickBtn setTitle:<span class="string">@&quot;重新发送&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/Stopwatch">相关Demo</a></p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink</a></li>
-<li><a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a></li>
-<li><a href="https://github.com/facebook/pop">POP</a></li>
-<li><a href="https://wiki.jikexueyuan.com/project/facebook-pop/">Facebook Pop使用指南</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Command-line参考(翻译)</title>
     <url>/2019/08/28/Command-line%E5%8F%82%E8%80%83(%E7%BF%BB%E8%AF%91)/</url>
     <content><![CDATA[<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
@@ -1310,6 +1264,52 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>CADisplayLink介绍及其相关</title>
+    <url>/2018/03/16/CADisplayLink%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>CADisplayLink其实就是一个定时器对象，是一个能让我们以和屏幕刷新率(60HZ)同步的频率将特定的内容画到屏幕上的定时器类。</p>
+<p>在<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink 文档</a>中也有相应介绍。CADisplayLink以<code>addToRunLoop: forMode:</code> 注册到runloop上，每当屏幕显示内容刷新结束，runloop就会向CADisplayLink指定的target发送消息。</p>
+<blockquote>
+<p>Your application initializes a new display link, providing a target object and a selector to be called when the screen is updated. To synchronize your display loop with the display, your application adds it to a run loop using the addToRunLoop:forMode: method</p>
+<p>Once the display link is associated with a run loop, the selector on the target is called when the screen’s contents need to be updated. The target can read the display link’s timestamp property to retrieve the time that the previous frame was displayed. For example, an application that displays movies might use the timestamp to calculate which video frame will be displayed next. An application that performs its own animations might use the timestamp to determine where and how displayed objects appear in the upcoming frame.</p>
+<p>The duration property provides the amount of time between frames at the maximumFramesPerSecond. To calculate the actual frame duration, use targetTimestamp - timestamp. You can use actual frame duration in your application to calculate the frame rate of the display, the approximate time that the next frame will be displayed, and to adjust the drawing behavior so that the next frame is prepared in time to be displayed.</p>
+<p>Your application can disable notifications by setting the paused property to YES. Also, if your application cannot provide frames in the time provided, you may want to choose a slower frame rate. An application with a slower but consistent frame rate appears smoother to the user than an application that skips frames. You can define the number of frames per second by setting the preferredFramesPerSecond property.</p>
+<p>When your application finishes with a display link, it should call invalidate to remove it from all run loops and to disassociate it from the target.</p>
+<p>CADisplayLink should not be subclassed.</p>
+</blockquote>
+<h3 id="关于CADisplayLink"><a href="#关于CADisplayLink" class="headerlink" title="关于CADisplayLink"></a>关于CADisplayLink</h3><p>无论是<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">苹果的官方文档</a>还是网上的一些资料，对DADisplayLink介绍的都很详细。</p>
+<p>我们创建个CADisplayLink对象，并将其添加到runloop中，并提供target和selector，那么在每次屏幕刷新的时候selector就会被调用（frameInterval 默认值为1）。 </p>
+<p>同时我们也可以设置CADisplayLink对象的frameInterval属性来调整每次调用selector的间隔。</p>
+<p>说白了，CADisplayLink就是一个跟屏幕刷新频率相同的定时器（60HZ）。CADisplayLink跟CoreAnimation类都属于QunartzCore.framework中API。</p>
+<h3 id="CADisplayLink的使用"><a href="#CADisplayLink的使用" class="headerlink" title="CADisplayLink的使用"></a>CADisplayLink的使用</h3><figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">self</span>.displayLink = [<span class="built_in">CADisplayLink</span> displayLinkWithTarget:<span class="keyword">self</span></span><br><span class="line">                                               selector:<span class="keyword">@selector</span>(timerRunEvent)];</span><br><span class="line"><span class="keyword">self</span>.displayLink.frameInterval = <span class="number">60</span>;</span><br><span class="line">[<span class="keyword">self</span>.displayLink addToRunLoop:[<span class="built_in">NSRunLoop</span> mainRunLoop] forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建CADisplayLink并将其添加到Runloop中。这样<code>timerRunEvent</code>(@selector)就会被周期调用，其中使用<code>frameInterval</code>设置调用的间隔，上方代表每秒调用一次（因为屏幕的刷新频率为60HZ，即每秒60次）。</p>
+<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[<span class="keyword">self</span>.displayLink invalidate];</span><br><span class="line"><span class="keyword">self</span>.displayLink = <span class="literal">nil</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>停止，直接执行invalidate即可，类似于NSTimer的invalidate。执行完invalidate后，CADisplayLink对象从Runloop中移除，<code>timerRunEvent</code>(@selector)调用。</p>
+<h3 id="CADisplayLink与NSTimer的不同"><a href="#CADisplayLink与NSTimer的不同" class="headerlink" title="CADisplayLink与NSTimer的不同"></a>CADisplayLink与NSTimer的不同</h3><p>在写这篇文章时，从网上搜了下，发现网上有很多关于CADisplayLink的介绍，而且比较详细。同时在CocoaChina上看到一篇关于<a href="http://www.cocoachina.com/ios/20160919/17595.html">iOS三种定时器的用法NSTimer、CADisplayLink、GCD</a>的文章。</p>
+<h5 id="关于精度"><a href="#关于精度" class="headerlink" title="关于精度"></a>关于精度</h5><p>相对于NSTimer,CADisplayLink的精度更加准确些，毕竟苹果设备的屏幕的刷新频率是固定的，都是60HZ。而CADisplayLink在每次刷新结束后都会被调用，精度会比较高。同时我们也可以根据CADisplayLink这个特性来检测屏幕是否会出现掉帧现象，如：<a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a><br>就是根据此种原理。</p>
+<h5 id="关于使用场景"><a href="#关于使用场景" class="headerlink" title="关于使用场景"></a>关于使用场景</h5><p>CADisplayLink的使用场景比较单一，适用于UI、动画的绘制与渲染。而比较著名的Facebook开源的第三方库<a href="https://github.com/facebook/pop">POP</a>就是基于CADisplayLink的，性能上比系统的CoreAnimation更加优秀。</p>
+<p>而NSTimer在使用上就会更加的广泛了，基本很多场景都可使用。不管是一次性的还是连续周期性的timer事件，都会将NSTimer对象添加到Runloop中，但当Runloop正在执行另一个任务时，timer就会出现延迟。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>上面提到因为Facebook开源的动画库<a href="https://github.com/facebook/pop">POP</a>是基于CADisplayLink的，所以在开发过程中的一些定时器我们也可以使用POP来完成。比如下方的应用中经常出现的一个获取验证码的小功能，我们就可以使用POP去实现。</p>
+<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIButton</span> *btn = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];</span><br><span class="line">    <span class="keyword">self</span>.clickBtn = btn;</span><br><span class="line">    [btn setTitle:<span class="string">@&quot;获取验证码&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [btn setTitleColor:[<span class="built_in">UIColor</span> whiteColor] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    btn.backgroundColor = [<span class="built_in">UIColor</span> purpleColor];</span><br><span class="line">    [<span class="keyword">self</span>.view addSubview:btn];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//layout</span></span><br><span class="line">    [btn makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make.center.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">        make.size.equalTo(<span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">100</span>));</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//action</span></span><br><span class="line">    @weakify(<span class="keyword">self</span>)</span><br><span class="line">    [btn bk_whenTapped:^&#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>)</span><br><span class="line">        [<span class="keyword">self</span> timeAnimation];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---- Animation ---</span></span><br><span class="line">- (<span class="type">void</span>)timeAnimation&#123;</span><br><span class="line">    </span><br><span class="line">    POPBasicAnimation *basicAnimation = [POPBasicAnimation linearAnimation];</span><br><span class="line">    </span><br><span class="line">    POPAnimatableProperty *prop = [POPAnimatableProperty propertyWithName:<span class="string">@&quot;timeAnimation&quot;</span> initializer:^(POPMutableAnimatableProperty *prop) &#123;</span><br><span class="line">        </span><br><span class="line">        prop.writeBlock = ^(<span class="type">id</span> obj, <span class="keyword">const</span> <span class="built_in">CGFloat</span> *values) &#123;</span><br><span class="line">            <span class="built_in">UIButton</span> *btn = (<span class="built_in">UIButton</span> *)obj;</span><br><span class="line">            [btn setTitle:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%d&quot;</span>,(<span class="type">int</span>)values[<span class="number">0</span>]%<span class="number">60</span>] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    basicAnimation.property = prop;</span><br><span class="line">    basicAnimation.fromValue = @(<span class="number">10</span>);</span><br><span class="line">    basicAnimation.toValue = @(<span class="number">0</span>);</span><br><span class="line">    basicAnimation.duration = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.clickBtn pop_addAnimation:basicAnimation forKey:<span class="string">@&quot;timeAnimation&quot;</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//开始</span></span><br><span class="line">    basicAnimation.animationDidStartBlock = ^(POPAnimation *anim) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">NO</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//结束</span></span><br><span class="line">    basicAnimation.completionBlock = ^(POPAnimation *anim, <span class="type">BOOL</span> finished) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">YES</span>;</span><br><span class="line">        [<span class="keyword">self</span>.clickBtn setTitle:<span class="string">@&quot;重新发送&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/Stopwatch">相关Demo</a></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink</a></li>
+<li><a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a></li>
+<li><a href="https://github.com/facebook/pop">POP</a></li>
+<li><a href="https://wiki.jikexueyuan.com/project/facebook-pop/">Facebook Pop使用指南</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Flutter与原生交互</title>
     <url>/2022/04/16/Flutter%E4%B8%8E%E5%8E%9F%E7%94%9F%E4%BA%A4%E4%BA%92/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>Flutter-Native 消息通道一共有以下三种，在日常开发的过程中我们可能使用的<code>MethodChannel</code>相对比较多一些。</p>
@@ -1533,6 +1533,29 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>Flutter全面屏适配</title>
+    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
+<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
+<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Flutter如何适配鸿蒙Next系统并打HAP安装包</title>
     <url>/2023/11/16/Flutter%E5%A6%82%E4%BD%95%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next%E7%B3%BB%E7%BB%9F%E5%B9%B6%E6%89%93HAP%E5%AE%89%E8%A3%85%E5%8C%85/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>因最近有媒体报道后期鸿蒙Next系统不支持安卓应用的安装，虽然不清楚真假，但作为开发我们也需要为此做准备。</p>
@@ -1702,50 +1725,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
   </entry>
   <entry>
-    <title>Flutter全面屏适配</title>
-    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
-<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
-<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>Flutter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>IPA签名检查-iOS15</title>
-    <url>/2021/06/16/IPA%E7%AD%BE%E5%90%8D%E6%A3%80%E6%9F%A5-iOS15/</url>
-    <content><![CDATA[<p>具体内容可以查看官方文档：<a href="https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format">Using the Latest Code Signature Format</a></p>
-<h1 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h1><p>从 iOS 14.2 beta 2 开始，系统会检查新的、更安全的签名格式。启动使用旧格式签名的应用程序的用户会收到警告，提示必须使用新格式重新签名该应用程序。在未来的版本中，新格式将成为强制性的，并且系统不会启动具有旧签名格式的应用程序。</p>
-<p>所以对于开发来说，我们要检测自己打包的IPA的签名是否为新格式签名。</p>
-<h2 id="打包机版本"><a href="#打包机版本" class="headerlink" title="打包机版本"></a>打包机版本</h2><p> 如果打包机的系统为macOS 10.14 或更高版本上打包的程序，理论上是没什么问题，不过为了保险起见，最好还是检测下打包的IPA包。</p>
-<h2 id="检测IPA包是否需要重签名"><a href="#检测IPA包是否需要重签名" class="headerlink" title="检测IPA包是否需要重签名"></a>检测IPA包是否需要重签名</h2><p>在终端中执行下放命令，查找像CodeDirectory v&#x3D;20500这样的字符串。对于任何v小于20400的值，您需要重新签署您的应用程序。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">codesign -dv /path/to/MyApp.app</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format#Overview">Using the Latest Code Signature Format</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>GPUImage相应类库所实现的功能</title>
     <url>/2017/12/28/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<p>关于<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>:</p>
@@ -1771,6 +1750,27 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>iOS</tag>
         <tag>GPUImage</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IPA签名检查-iOS15</title>
+    <url>/2021/06/16/IPA%E7%AD%BE%E5%90%8D%E6%A3%80%E6%9F%A5-iOS15/</url>
+    <content><![CDATA[<p>具体内容可以查看官方文档：<a href="https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format">Using the Latest Code Signature Format</a></p>
+<h1 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h1><p>从 iOS 14.2 beta 2 开始，系统会检查新的、更安全的签名格式。启动使用旧格式签名的应用程序的用户会收到警告，提示必须使用新格式重新签名该应用程序。在未来的版本中，新格式将成为强制性的，并且系统不会启动具有旧签名格式的应用程序。</p>
+<p>所以对于开发来说，我们要检测自己打包的IPA的签名是否为新格式签名。</p>
+<h2 id="打包机版本"><a href="#打包机版本" class="headerlink" title="打包机版本"></a>打包机版本</h2><p> 如果打包机的系统为macOS 10.14 或更高版本上打包的程序，理论上是没什么问题，不过为了保险起见，最好还是检测下打包的IPA包。</p>
+<h2 id="检测IPA包是否需要重签名"><a href="#检测IPA包是否需要重签名" class="headerlink" title="检测IPA包是否需要重签名"></a>检测IPA包是否需要重签名</h2><p>在终端中执行下放命令，查找像CodeDirectory v&#x3D;20500这样的字符串。对于任何v小于20400的值，您需要重新签署您的应用程序。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">codesign -dv /path/to/MyApp.app</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format#Overview">Using the Latest Code Signature Format</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
@@ -3448,6 +3448,31 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>iOS审核-因需要访问相机权限被拒</title>
+    <url>/2018/07/04/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/</url>
+    <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E4%B9%8B%E5%89%8D%E7%9A%84%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="之前的权限描述.png"></p>
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E8%A2%AB%E6%8B%92%E5%8E%9F%E5%9B%A0.png" alt="被拒原因.png"></p>
+<h4 id="关于被拒"><a href="#关于被拒" class="headerlink" title="关于被拒"></a>关于被拒</h4><p>收到邮件发现应用审核被拒了，而审核被拒的原因竟然是因为权限描述的问题。</p>
+<p>当时有些费解，毕竟获取相机权限这个功能已经写了很久。没想到突然因为这个原因被拒，通过阅读邮件和查阅<a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a>发现，现在使用权限，需要说明使用的原因。</p>
+<h4 id="更改"><a href="#更改" class="headerlink" title="更改"></a>更改</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E6%9B%B4%E6%94%B9%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="更改权限描述.png"></p>
+<p>于是更改后在周一下班前提交，今天早晨查看邮件，发现已审核通过。</p>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><ul>
+<li>1、在App Store 审核指南更新的时候，要重新阅读一遍审核指南，同时注意修改的部分，避免下次提交时审核被拒。</li>
+<li>2、最近发现从开始审核（in Review）到审核完毕时间缩短了好多……</li>
+</ul>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>知识整理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>iOS应用审核被拒的原因及提交应用的注意事项。</title>
     <url>/2017/10/13/iOS%E5%BA%94%E7%94%A8%E5%AE%A1%E6%A0%B8%E8%A2%AB%E6%8B%92%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E6%8F%90%E4%BA%A4%E5%BA%94%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</url>
     <content><![CDATA[<p>&amp;emsp;&amp;emsp;前段时候准备整理‘提交应用审核的一些注意事项’，但因为iPhone X、iPhone8等的发布搁浅了。因为新产品的发布，所以我们开始着手公司应用适配iOS11、iPhone X的工作。遇到了些坑，但总体的工作量并不是很大。如果想了解如何适配iOS11、iPhone X，可以查看我的上篇博客<a href="https://xnxy.github.io/xnxy.github.io/2017/09/28/iOS%E5%BC%80%E5%8F%91%E9%80%82%E9%85%8DiOS11&iPhone%20X%20%E3%80%81Xcode9%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/">iOS开发适配iOS11&amp;iPhone X 、Xcode9遇到的坑</a> 。</p>
@@ -3570,31 +3595,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS审核-因需要访问相机权限被拒</title>
-    <url>/2018/07/04/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/</url>
-    <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E4%B9%8B%E5%89%8D%E7%9A%84%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="之前的权限描述.png"></p>
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E8%A2%AB%E6%8B%92%E5%8E%9F%E5%9B%A0.png" alt="被拒原因.png"></p>
-<h4 id="关于被拒"><a href="#关于被拒" class="headerlink" title="关于被拒"></a>关于被拒</h4><p>收到邮件发现应用审核被拒了，而审核被拒的原因竟然是因为权限描述的问题。</p>
-<p>当时有些费解，毕竟获取相机权限这个功能已经写了很久。没想到突然因为这个原因被拒，通过阅读邮件和查阅<a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a>发现，现在使用权限，需要说明使用的原因。</p>
-<h4 id="更改"><a href="#更改" class="headerlink" title="更改"></a>更改</h4><p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/iOS%E5%AE%A1%E6%A0%B8-%E5%9B%A0%E9%9C%80%E8%A6%81%E8%AE%BF%E9%97%AE%E7%9B%B8%E6%9C%BA%E6%9D%83%E9%99%90%E8%A2%AB%E6%8B%92/%E6%9B%B4%E6%94%B9%E6%9D%83%E9%99%90%E6%8F%8F%E8%BF%B0.png" alt="更改权限描述.png"></p>
-<p>于是更改后在周一下班前提交，今天早晨查看邮件，发现已审核通过。</p>
-<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><ul>
-<li>1、在App Store 审核指南更新的时候，要重新阅读一遍审核指南，同时注意修改的部分，避免下次提交时审核被拒。</li>
-<li>2、最近发现从开始审核（in Review）到审核完毕时间缩短了好多……</li>
-</ul>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="https://developer.apple.com/cn/app-store/review/guidelines/#data-collection-and-storage">App Store审核指南</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>知识整理</tag>
       </tags>
   </entry>
   <entry>
@@ -4013,7 +4013,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be">The art of Lotte Reineger</a></p>
 <h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
 <p>如果你想添加更多的JSON文件，请随时这样做！</p>
-<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#114;&#97;&#x6e;&#x64;&#x6f;&#110;&#x2e;&#119;&#105;&#x74;&#x68;&#114;&#x6f;&#119;&#x40;&#97;&#105;&#x72;&#x62;&#x6e;&#98;&#46;&#99;&#111;&#109;">&#x62;&#114;&#97;&#x6e;&#x64;&#x6f;&#110;&#x2e;&#119;&#105;&#x74;&#x68;&#114;&#x6f;&#119;&#x40;&#97;&#105;&#x72;&#x62;&#x6e;&#98;&#46;&#99;&#111;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#x72;&#x61;&#x6e;&#100;&#111;&#x6e;&#x2e;&#x77;&#x69;&#x74;&#x68;&#114;&#111;&#119;&#64;&#x61;&#x69;&#114;&#x62;&#x6e;&#98;&#46;&#99;&#111;&#x6d;">&#x62;&#x72;&#x61;&#x6e;&#100;&#111;&#x6e;&#x2e;&#x77;&#x69;&#x74;&#x68;&#114;&#111;&#119;&#64;&#x61;&#x69;&#114;&#x62;&#x6e;&#98;&#46;&#99;&#111;&#x6d;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
 <h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
 <li>添加对交互式动画过渡的支持</li>
 </ul>
@@ -4129,6 +4129,690 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>shell</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>使用Certimate申请Let&#39;s Encrypt免费SSL证书完整指南</title>
+    <url>/2025/09/13/%E4%BD%BF%E7%94%A8Certimate%E7%94%B3%E8%AF%B7Let&#39;s%20Encrypt%E5%85%8D%E8%B4%B9SSL%E8%AF%81%E4%B9%A6%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h1 id="使用Certimate申请Let’s-Encrypt免费SSL证书完整指南"><a href="#使用Certimate申请Let’s-Encrypt免费SSL证书完整指南" class="headerlink" title="使用Certimate申请Let’s Encrypt免费SSL证书完整指南"></a>使用Certimate申请Let’s Encrypt免费SSL证书完整指南</h1><h2 id="📋-目录"><a href="#📋-目录" class="headerlink" title="📋 目录"></a>📋 目录</h2><ul>
+<li><a href="#1-certimate%E7%AE%80%E4%BB%8B">1. Certimate简介</a><ul>
+<li><a href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7">核心特性</a></li>
+</ul>
+</li>
+<li><a href="#2-%E5%85%8D%E8%B4%B9ssl%E8%AF%81%E4%B9%A6%E6%9C%8D%E5%8A%A1%E5%95%86%E5%AF%B9%E6%AF%94">2. 免费SSL证书服务商对比</a><ul>
+<li><a href="#%E4%B8%BB%E6%B5%81%E5%85%8D%E8%B4%B9ssl%E8%AF%81%E4%B9%A6%E9%A2%81%E5%8F%91%E6%9C%BA%E6%9E%84">主流免费SSL证书颁发机构</a></li>
+<li><a href="#%E6%8E%A8%E8%8D%90%E9%80%89%E6%8B%A9">推荐选择</a></li>
+</ul>
+</li>
+<li><a href="#3-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B">3. 快速开始</a><ul>
+<li><a href="#31-%E5%AE%89%E8%A3%85certimate">3.1 安装Certimate</a></li>
+<li><a href="#32-%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82">3.2 系统要求</a></li>
+</ul>
+</li>
+<li><a href="#4-dns%E6%8F%90%E4%BE%9B%E5%95%86%E9%85%8D%E7%BD%AE">4. DNS提供商配置</a><ul>
+<li><a href="#41-%E9%98%BF%E9%87%8C%E4%BA%91dns%E9%85%8D%E7%BD%AE">4.1 阿里云DNS配置</a></li>
+<li><a href="#42-%E5%85%B6%E4%BB%96dns%E6%8F%90%E4%BE%9B%E5%95%86">4.2 其他DNS提供商</a></li>
+</ul>
+</li>
+<li><a href="#5-%E7%94%B3%E8%AF%B7%E5%85%8D%E8%B4%B9ssl%E8%AF%81%E4%B9%A6">5. 申请免费SSL证书</a><ul>
+<li><a href="#51-lets-encrypt-%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE">5.1 Let’s Encrypt 证书配置</a></li>
+<li><a href="#52-%E9%85%8D%E7%BD%AEdns%E6%8F%90%E4%BE%9B%E5%95%86">5.2 配置DNS提供商</a></li>
+<li><a href="#53-%E6%B7%BB%E5%8A%A0%E5%9F%9F%E5%90%8D%E5%92%8C%E7%94%B3%E8%AF%B7%E8%AF%81%E4%B9%A6">5.3 添加域名和申请证书</a></li>
+<li><a href="#54-%E8%AF%81%E4%B9%A6%E7%B1%BB%E5%9E%8B%E9%80%89%E6%8B%A9">5.4 证书类型选择</a></li>
+<li><a href="#55-%E9%AA%8C%E8%AF%81%E6%96%B9%E5%BC%8F%E9%80%89%E6%8B%A9">5.5 验证方式选择</a></li>
+</ul>
+</li>
+<li><a href="#6-%E8%AF%81%E4%B9%A6%E9%83%A8%E7%BD%B2">6. 证书部署</a><ul>
+<li><a href="#61-%E4%BA%91%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2">6.1 云服务部署</a></li>
+<li><a href="#62-web%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2">6.2 Web服务器部署</a></li>
+<li><a href="#63-%E5%85%B6%E4%BB%96%E9%83%A8%E7%BD%B2%E7%9B%AE%E6%A0%87">6.3 其他部署目标</a></li>
+</ul>
+</li>
+<li><a href="#7-%E5%A4%9A%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AF%81%E4%B9%A6%E5%90%8C%E6%AD%A5">7. 多服务器证书同步</a><ul>
+<li><a href="#71-%E5%8D%95%E7%82%B9%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88%E6%8E%A8%E8%8D%90">7.1 单点管理方案（推荐）</a></li>
+<li><a href="#72-%E8%AF%81%E4%B9%A6%E5%88%86%E5%8F%91%E8%84%9A%E6%9C%AC">7.2 证书分发脚本</a></li>
+<li><a href="#73-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%99%A8%E6%96%B9%E6%A1%88">7.3 负载均衡器方案</a></li>
+<li><a href="#74-%E5%AE%B9%E5%99%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%90%8C%E6%AD%A5">7.4 容器化部署同步</a></li>
+<li><a href="#75-%E7%9B%91%E6%8E%A7%E5%92%8C%E5%91%8A%E8%AD%A6">7.5 监控和告警</a></li>
+</ul>
+</li>
+<li><a href="#8-%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4">8. 故障排除</a><ul>
+<li><a href="#81-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98">8.1 常见问题</a></li>
+<li><a href="#82-%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90">8.2 日志分析</a></li>
+<li><a href="#83-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">8.3 性能优化</a></li>
+</ul>
+</li>
+<li><a href="#9-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">9. 最佳实践</a><ul>
+<li><a href="#91-%E5%AE%89%E5%85%A8%E5%BB%BA%E8%AE%AE">9.1 安全建议</a></li>
+<li><a href="#92-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">9.2 性能优化</a></li>
+<li><a href="#93-%E5%A4%87%E4%BB%BD%E7%AD%96%E7%95%A5">9.3 备份策略</a></li>
+</ul>
+</li>
+<li><a href="#10-%E6%80%BB%E7%BB%93">10. 总结</a></li>
+<li><a href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5">相关链接</a></li>
+</ul>
+<hr>
+<h2 id="1-Certimate简介"><a href="#1-Certimate简介" class="headerlink" title="1. Certimate简介"></a>1. Certimate简介</h2><p><a href="https://docs.certimate.me/docs/introduction/">Certimate</a>是一款开源的SSL证书管理工具，专门用于自动申请、部署和续期Let’s Encrypt等免费SSL证书。通过Certimate，您可以轻松管理多个域名的SSL证书，实现完全自动化的证书生命周期管理。</p>
+<h3 id="核心特性"><a href="#核心特性" class="headerlink" title="核心特性"></a>核心特性</h3><ul>
+<li><strong>完全自动化</strong>：从证书申请到部署的全流程自动化</li>
+<li><strong>多种证书类型</strong>：支持单域名、多域名、泛域名证书</li>
+<li><strong>多种验证方式</strong>：支持DNS-01和HTTP-01两种质询方式</li>
+<li><strong>广泛兼容</strong>：支持40+域名托管商，包括阿里云、腾讯云、Cloudflare等</li>
+<li><strong>灵活部署</strong>：支持100+部署目标，如CDN、负载均衡、Kubernetes等</li>
+<li><strong>自动续期</strong>：证书到期前自动续期，无需人工干预</li>
+</ul>
+<h2 id="2-免费SSL证书服务商对比"><a href="#2-免费SSL证书服务商对比" class="headerlink" title="2. 免费SSL证书服务商对比"></a>2. 免费SSL证书服务商对比</h2><h3 id="主流免费SSL证书颁发机构"><a href="#主流免费SSL证书颁发机构" class="headerlink" title="主流免费SSL证书颁发机构"></a>主流免费SSL证书颁发机构</h3><table>
+<thead>
+<tr>
+<th>服务商</th>
+<th>证书有效期</th>
+<th>域名类型支持</th>
+<th>申请限制</th>
+<th>特点</th>
+<th>推荐指数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Let’s Encrypt</strong></td>
+<td>90天</td>
+<td>单域名、多域名、泛域名</td>
+<td>每周50个证书&#x2F;域名</td>
+<td>通过Certimate自动申请，完全免费，支持自动续期</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>ZeroSSL</strong></td>
+<td>90天</td>
+<td>单域名、多域名、泛域名</td>
+<td>需要注册账号，每月3个免费证书</td>
+<td>企业级支持，界面友好 <mcreference link="https://zerossl.com" index="2">2</mcreference></td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>阿里云SSL</strong></td>
+<td>90天</td>
+<td>单域名</td>
+<td>每年20张免费证书</td>
+<td>DigiCert品牌，国内访问快 <mcreference link="https://aliyunfuwuqi.com/mianfeissl/" index="2">2</mcreference></td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>腾讯云SSL</strong></td>
+<td>90天</td>
+<td>单域名</td>
+<td>每年20张免费证书</td>
+<td>TrustAsia品牌，一键部署 <mcreference link="https://cloud.tencent.com/product/ssl" index="1">1</mcreference></td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>华为云SSL</strong></td>
+<td>365天</td>
+<td>单域名</td>
+<td>每年20张免费证书</td>
+<td>DigiCert品牌，有效期1年 <mcreference link="https://www.cnblogs.com/osfipin/p/15952888.html" index="2">2</mcreference></td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>百度云SSL</strong></td>
+<td>365天</td>
+<td>单域名</td>
+<td>需要注册，限制较多</td>
+<td>TrustAsia品牌，有效期1年 <mcreference link="https://zhuanlan.zhihu.com/p/174755007" index="3">3</mcreference></td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Google Trust Services</strong></td>
+<td>90天</td>
+<td>单域名、多域名、泛域名</td>
+<td>无明确限制</td>
+<td>谷歌背书，兼容性好 <mcreference link="https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs" index="4">4</mcreference></td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Buypass Go SSL</strong></td>
+<td>180天</td>
+<td>单域名、多域名、泛域名</td>
+<td>每个域名5个证书&#x2F;月</td>
+<td>挪威公司，有效期更长 <mcreference link="https://technocript.com/free-ssl-certificates-alternatives-to-lets-encrypt/" index="1">1</mcreference></td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>SSL.com</strong></td>
+<td>90天</td>
+<td>单域名</td>
+<td>需要注册，限制较多</td>
+<td>提供多种付费选项</td>
+<td>⭐⭐</td>
+</tr>
+</tbody></table>
+<h3 id="推荐选择"><a href="#推荐选择" class="headerlink" title="推荐选择"></a>推荐选择</h3><p><strong>国外用户推荐：</strong> Let’s Encrypt</p>
+<ul>
+<li>完全免费，无需注册</li>
+<li>生态最完善，支持最广泛</li>
+<li>Certimate默认推荐</li>
+</ul>
+<p><strong>国内用户推荐：</strong> 华为云SSL证书</p>
+<ul>
+<li>有效期1年，续期频率低</li>
+<li>国内访问速度快</li>
+<li>DigiCert权威品牌</li>
+</ul>
+<p><strong>企业用户推荐：</strong> 阿里云SSL证书 或 腾讯云SSL证书</p>
+<ul>
+<li>与云服务深度集成</li>
+<li>一键部署到CDN、负载均衡等</li>
+<li>本土化技术支持</li>
+</ul>
+<p><strong>开发测试推荐：</strong> Let’s Encrypt 或 ZeroSSL</p>
+<ul>
+<li>支持泛域名证书</li>
+<li>自动化程度高</li>
+<li>适合频繁测试场景</li>
+</ul>
+<p><strong>Google Cloud用户推荐：</strong> Google Trust Services</p>
+<ul>
+<li>与GCP服务无缝集成</li>
+<li>性能和稳定性有保障</li>
+</ul>
+<h2 id="3-快速开始"><a href="#3-快速开始" class="headerlink" title="3. 快速开始"></a>3. 快速开始</h2><h3 id="3-1-安装Certimate"><a href="#3-1-安装Certimate" class="headerlink" title="3.1 安装Certimate"></a>3.1 安装Certimate</h3><h4 id="方式一：二进制部署（推荐）"><a href="#方式一：二进制部署（推荐）" class="headerlink" title="方式一：二进制部署（推荐）"></a>方式一：二进制部署（推荐）</h4><ol>
+<li>从<a href="https://github.com/certimate-go/certimate/releases">GitHub Releases</a>下载最新版本</li>
+<li>解压并运行：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载并解压</span></span><br><span class="line">wget https://github.com/certimate-go/certimate/releases/latest/download/certimate-linux-amd64.tar.gz</span><br><span class="line">tar -xzf certimate-linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行服务</span></span><br><span class="line">./certimate serve</span><br></pre></td></tr></table></figure></li>
+<li>浏览器访问 <a href="http://127.0.0.1:8090/">http://127.0.0.1:8090</a></li>
+<li>使用默认账号登录：<ul>
+<li>账号：<a href="mailto:&#97;&#x64;&#109;&#x69;&#110;&#x40;&#99;&#x65;&#114;&#x74;&#x69;&#x6d;&#97;&#116;&#101;&#x2e;&#x66;&#117;&#110;">&#97;&#x64;&#109;&#x69;&#110;&#x40;&#99;&#x65;&#114;&#x74;&#x69;&#x6d;&#97;&#116;&#101;&#x2e;&#x66;&#117;&#110;</a></li>
+<li>密码：1234567890</li>
+</ul>
+</li>
+</ol>
+<h4 id="方式二：Docker部署"><a href="#方式二：Docker部署" class="headerlink" title="方式二：Docker部署"></a>方式二：Docker部署</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用Docker运行</span></span><br><span class="line">docker run -d \</span><br><span class="line">  --name certimate \</span><br><span class="line">  -p 8090:8090 \</span><br><span class="line">  -v certimate_data:/app/data \</span><br><span class="line">  certimate/certimate:latest</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-系统要求"><a href="#3-2-系统要求" class="headerlink" title="3.2 系统要求"></a>3.2 系统要求</h3><p><strong>最低要求：</strong></p>
+<ul>
+<li>操作系统：Linux、Windows、macOS</li>
+<li>内存：512MB RAM</li>
+<li>存储：100MB 可用空间</li>
+<li>网络：能够访问互联网</li>
+</ul>
+<p><strong>网络访问要求：</strong></p>
+<ul>
+<li>ACME服务器端点（各证书颁发机构）</li>
+<li>阿里云API端点：<code>https://alidns.aliyuncs.com</code></li>
+<li>如使用HTTP-01验证：需开放80端口</li>
+</ul>
+<h2 id="4-DNS提供商配置"><a href="#4-DNS提供商配置" class="headerlink" title="4. DNS提供商配置"></a>4. DNS提供商配置</h2><p>Certimate支持40+种DNS提供商，用于DNS-01验证方式申请Let’s Encrypt证书。以下以阿里云DNS为例说明配置过程：</p>
+<h3 id="4-1-阿里云DNS配置"><a href="#4-1-阿里云DNS配置" class="headerlink" title="4.1 阿里云DNS配置"></a>4.1 阿里云DNS配置</h3><h4 id="4-1-1-创建RAM用户"><a href="#4-1-1-创建RAM用户" class="headerlink" title="4.1.1 创建RAM用户"></a>4.1.1 创建RAM用户</h4><p>为安全起见，建议创建专用的RAM用户：</p>
+<ol>
+<li>登录阿里云控制台</li>
+<li>进入”访问控制(RAM)”服务</li>
+<li>创建新的RAM用户</li>
+<li>生成AccessKey ID和AccessKey Secret</li>
+</ol>
+<h4 id="4-1-2-配置权限策略"><a href="#4-1-2-配置权限策略" class="headerlink" title="4.1.2 配置权限策略"></a>4.1.2 配置权限策略</h4><p>为RAM用户分配DNS管理权限：</p>
+<p><strong>使用系统策略（推荐）：</strong></p>
+<ul>
+<li><code>AliyunDNSFullAccess</code></li>
+</ul>
+<p><strong>或使用自定义策略：</strong></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;Version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;Statement&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Effect&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Allow&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Action&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;alidns:DescribeDomains&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;alidns:DescribeDomainRecords&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;alidns:AddDomainRecord&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;alidns:UpdateDomainRecord&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;alidns:DeleteDomainRecord&quot;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Resource&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-其他DNS提供商"><a href="#4-2-其他DNS提供商" class="headerlink" title="4.2 其他DNS提供商"></a>4.2 其他DNS提供商</h3><p>Certimate还支持以下主流DNS提供商：</p>
+<p><strong>国外提供商：</strong></p>
+<ul>
+<li>Cloudflare：全球最大的DNS服务商，免费且功能强大</li>
+<li>AWS Route 53：亚马逊云DNS服务，企业级可靠性</li>
+<li>Google Cloud DNS：谷歌云DNS服务，性能优异</li>
+<li>DigitalOcean：简单易用，适合个人开发者</li>
+</ul>
+<p><strong>国内提供商：</strong></p>
+<ul>
+<li>腾讯云DNS：与腾讯云服务深度集成</li>
+<li>华为云DNS：企业级DNS解析服务</li>
+<li>百度云DNS：百度智能云DNS服务</li>
+</ul>
+<p><strong>配置要点：</strong></p>
+<ul>
+<li>确保API密钥具有DNS记录管理权限</li>
+<li>建议使用子账号而非主账号密钥</li>
+<li>定期轮换API密钥以提高安全性</li>
+</ul>
+<h2 id="5-申请免费SSL证书"><a href="#5-申请免费SSL证书" class="headerlink" title="5. 申请免费SSL证书"></a>5. 申请免费SSL证书</h2><h3 id="5-1-Let’s-Encrypt-证书配置"><a href="#5-1-Let’s-Encrypt-证书配置" class="headerlink" title="5.1 Let’s Encrypt 证书配置"></a>5.1 Let’s Encrypt 证书配置</h3><h4 id="5-1-1-基础配置"><a href="#5-1-1-基础配置" class="headerlink" title="5.1.1 基础配置"></a>5.1.1 基础配置</h4><p>Let’s Encrypt是全球最受信任的免费SSL证书颁发机构，Certimate已内置完整的Let’s Encrypt支持，用户只需简单配置即可自动申请和续期证书。</p>
+<p><strong>快速配置步骤：</strong></p>
+<ol>
+<li><strong>选择证书颁发机构</strong>：在Certimate中选择”Let’s Encrypt”</li>
+<li><strong>填写邮箱地址</strong>：用于接收重要通知（如证书即将到期）</li>
+<li><strong>选择验证方式</strong>：DNS验证（推荐）或HTTP验证</li>
+<li><strong>配置域名</strong>：单域名、多域名或通配符域名</li>
+</ol>
+<p><strong>推荐配置：</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 生产环境推荐配置</span></span><br><span class="line"><span class="string">证书颁发机构:</span> <span class="string">Let&#x27;s</span> <span class="string">Encrypt</span> <span class="string">(生产环境)</span></span><br><span class="line"><span class="string">邮箱地址:</span> <span class="string">admin@yourdomain.com</span></span><br><span class="line"><span class="string">密钥类型:</span> <span class="string">RSA</span> <span class="number">2048</span><span class="string">位</span> <span class="string">(推荐)</span></span><br><span class="line"><span class="string">验证方式:</span> <span class="string">DNS-01</span> <span class="string">(支持通配符)</span></span><br><span class="line"><span class="string">自动续期:</span> <span class="string">开启</span> <span class="string">(证书到期前30天自动续期)</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-1-2-域名验证方式"><a href="#5-1-2-域名验证方式" class="headerlink" title="5.1.2 域名验证方式"></a>5.1.2 域名验证方式</h4><p>Certimate支持两种Let’s Encrypt域名验证方式，根据您的需求选择合适的验证方法：</p>
+<p><strong>DNS-01验证（推荐）：</strong></p>
+<ul>
+<li>✅ 支持通配符证书（*.example.com）</li>
+<li>✅ 无需开放80&#x2F;443端口</li>
+<li>✅ 适合内网服务器</li>
+<li>✅ 安全性更高</li>
+</ul>
+<p><strong>配置步骤：</strong></p>
+<ol>
+<li>选择验证方式：DNS-01</li>
+<li>选择DNS提供商：如阿里云DNS、Cloudflare等</li>
+<li>填入DNS API密钥</li>
+<li>Certimate自动添加TXT记录完成验证</li>
+</ol>
+<p><strong>HTTP-01验证：</strong></p>
+<ul>
+<li>✅ 配置简单，无需DNS API</li>
+<li>✅ 适合单域名证书</li>
+<li>❌ 不支持通配符证书</li>
+<li>❌ 需要开放80端口</li>
+</ul>
+<p><strong>配置步骤：</strong></p>
+<ol>
+<li>选择验证方式：HTTP-01</li>
+<li>确保域名解析到服务器</li>
+<li>确保80端口可访问</li>
+<li>Certimate自动在网站根目录创建验证文件</li>
+</ol>
+<h4 id="5-1-3-证书类型选择"><a href="#5-1-3-证书类型选择" class="headerlink" title="5.1.3 证书类型选择"></a>5.1.3 证书类型选择</h4><p>根据您的域名需求，选择合适的证书类型：</p>
+<p><strong>单域名证书：</strong></p>
+<ul>
+<li>适用场景：单个域名（如 example.com）</li>
+<li>配置示例：<code>example.com</code></li>
+<li>推荐用途：简单网站、API服务</li>
+</ul>
+<p><strong>多域名证书（SAN）：</strong></p>
+<ul>
+<li>适用场景：多个不同域名</li>
+<li>配置示例：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">主域名：example.com</span><br><span class="line">附加域名：</span><br><span class="line">  - www.example.com</span><br><span class="line">  - api.example.com</span><br><span class="line">  - admin.example.com</span><br></pre></td></tr></table></figure></li>
+<li>推荐用途：多服务架构、微服务</li>
+</ul>
+<p><strong>通配符证书（推荐）：</strong></p>
+<ul>
+<li>适用场景：所有子域名（如 *.example.com）</li>
+<li>配置示例：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">通配符域名：*.example.com</span><br><span class="line">根域名：example.com</span><br></pre></td></tr></table></figure></li>
+<li>验证要求：必须使用DNS-01验证</li>
+<li>推荐用途：SaaS平台、多租户应用</li>
+</ul>
+<h4 id="5-1-4-最佳实践建议"><a href="#5-1-4-最佳实践建议" class="headerlink" title="5.1.4 最佳实践建议"></a>5.1.4 最佳实践建议</h4><p><strong>证书密钥类型选择：</strong></p>
+<ul>
+<li>🔧 <strong>RSA 2048位</strong>：兼容性最佳，推荐生产环境使用</li>
+<li>🔧 <strong>ECDSA P-256</strong>：性能更优，文件更小，现代应用推荐</li>
+</ul>
+<p><strong>自动续期配置：</strong></p>
+<ul>
+<li>⏰ 续期时间：证书到期前30天自动续期</li>
+<li>🔄 检查频率：每天检查一次证书状态</li>
+<li>📧 通知设置：续期成功&#x2F;失败邮件通知</li>
+</ul>
+<p><strong>安全注意事项：</strong></p>
+<ul>
+<li>🔐 定期备份证书私钥</li>
+<li>🔐 使用强密码保护Certimate管理界面</li>
+<li>🔐 限制API密钥权限范围</li>
+<li>🔐 启用操作日志审计</li>
+</ul>
+<p><strong>性能优化建议：</strong></p>
+<ul>
+<li>📈 使用CDN加速证书分发</li>
+<li>📈 启用OCSP Stapling提升握手速度</li>
+<li>📈 配置HTTP&#x2F;2提升传输效率</li>
+</ul>
+<p><strong>备用链：</strong></p>
+<ul>
+<li>根证书：DST Root CA X3（已过期，但某些旧设备仍需要）</li>
+<li>使用场景：需要支持Android 7.1.1以下设备</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">certificate_chain:</span></span><br><span class="line">  <span class="attr">prefer_chain:</span> <span class="string">&quot;ISRG Root X1&quot;</span>  <span class="comment"># 或 &quot;DST Root CA X3&quot;</span></span><br><span class="line">  <span class="attr">include_root:</span> <span class="literal">false</span>  <span class="comment"># 通常不包含根证书</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-配置DNS提供商"><a href="#5-2-配置DNS提供商" class="headerlink" title="5.2 配置DNS提供商"></a>5.2 配置DNS提供商</h3><p>在Certimate中配置DNS提供商，用于DNS-01验证方式：</p>
+<h4 id="5-2-1-添加DNS提供商"><a href="#5-2-1-添加DNS提供商" class="headerlink" title="5.2.1 添加DNS提供商"></a>5.2.1 添加DNS提供商</h4><ol>
+<li>登录Certimate管理界面</li>
+<li>进入”DNS提供商”页面</li>
+<li>点击”添加DNS提供商”</li>
+<li>根据您的DNS服务商选择对应类型</li>
+</ol>
+<h4 id="5-2-2-常用DNS提供商配置"><a href="#5-2-2-常用DNS提供商配置" class="headerlink" title="5.2.2 常用DNS提供商配置"></a>5.2.2 常用DNS提供商配置</h4><p><strong>阿里云DNS配置：</strong></p>
+<ul>
+<li>类型：选择”阿里云”</li>
+<li>名称：阿里云DNS（自定义名称）</li>
+<li>AccessKey ID：您的AccessKey ID</li>
+<li>AccessKey Secret：您的AccessKey Secret</li>
+<li>区域：cn-hangzhou（可选）</li>
+</ul>
+<p><strong>Cloudflare配置：</strong></p>
+<ul>
+<li>类型：选择”Cloudflare”</li>
+<li>名称：Cloudflare DNS</li>
+<li>API Token：您的Cloudflare API Token</li>
+<li>Zone ID：域名的Zone ID（可选）</li>
+</ul>
+<p><strong>腾讯云DNS配置：</strong></p>
+<ul>
+<li>类型：选择”腾讯云”</li>
+<li>名称：腾讯云DNS</li>
+<li>SecretId：您的SecretId</li>
+<li>SecretKey：您的SecretKey</li>
+<li>区域：ap-beijing（可选）</li>
+</ul>
+<p><strong>AWS Route 53配置：</strong></p>
+<ul>
+<li>类型：选择”AWS Route 53”</li>
+<li>名称：AWS DNS</li>
+<li>Access Key ID：您的AWS Access Key</li>
+<li>Secret Access Key：您的AWS Secret Key</li>
+<li>区域：us-east-1（根据实际情况选择）</li>
+</ul>
+<h3 id="5-3-添加域名和申请证书"><a href="#5-3-添加域名和申请证书" class="headerlink" title="5.3 添加域名和申请证书"></a>5.3 添加域名和申请证书</h3><h4 id="5-3-1-配置域名证书"><a href="#5-3-1-配置域名证书" class="headerlink" title="5.3.1 配置域名证书"></a>5.3.1 配置域名证书</h4><ol>
+<li>进入”域名”管理页面</li>
+<li>点击”添加域名”</li>
+<li>填入域名信息：<ul>
+<li><strong>域名</strong>：example.com（您的实际域名）</li>
+<li><strong>DNS提供商</strong>：选择之前配置的DNS提供商</li>
+<li><strong>证书类型</strong>：选择需要的类型（单域名&#x2F;多域名&#x2F;泛域名）</li>
+<li><strong>证书颁发机构</strong>：推荐选择Let’s Encrypt</li>
+<li><strong>验证方式</strong>：推荐选择DNS-01验证</li>
+</ul>
+</li>
+</ol>
+<h4 id="5-3-2-Let’s-Encrypt配置要点"><a href="#5-3-2-Let’s-Encrypt配置要点" class="headerlink" title="5.3.2 Let’s Encrypt配置要点"></a>5.3.2 Let’s Encrypt配置要点</h4><p><strong>证书颁发机构选择：</strong></p>
+<ul>
+<li><strong>Let’s Encrypt</strong>：完全免费，90天有效期，支持自动续期</li>
+<li><strong>ZeroSSL</strong>：免费版每月3个证书，需要注册账号</li>
+<li><strong>Buypass</strong>：180天有效期，挪威公司</li>
+</ul>
+<p><strong>验证方式选择：</strong></p>
+<ul>
+<li><strong>DNS-01验证</strong>：支持泛域名，无需开放端口，推荐使用</li>
+<li><strong>HTTP-01验证</strong>：仅支持单域名，需要开放80端口</li>
+</ul>
+<p><strong>域名格式示例：</strong></p>
+<ul>
+<li>单域名：<code>example.com</code></li>
+<li>多域名：<code>example.com,www.example.com,api.example.com</code></li>
+<li>泛域名：<code>*.example.com</code>（注意：泛域名只能使用DNS-01验证）</li>
+</ul>
+<h3 id="5-4-证书类型选择"><a href="#5-4-证书类型选择" class="headerlink" title="5.4 证书类型选择"></a>5.4 证书类型选择</h3><p><strong>单域名证书：</strong></p>
+<ul>
+<li>适用于：单个域名（如 example.com）</li>
+<li>配置：直接输入域名即可</li>
+</ul>
+<p><strong>多域名证书（SAN）：</strong></p>
+<ul>
+<li>适用于：多个不同域名</li>
+<li>配置：在域名字段中用逗号分隔多个域名</li>
+<li>示例：example.com,<a href="http://www.example.com,api.example.com/">www.example.com,api.example.com</a></li>
+</ul>
+<p><strong>泛域名证书：</strong></p>
+<ul>
+<li>适用于：一个域名的所有子域名</li>
+<li>配置：使用通配符格式</li>
+<li>示例：*.example.com</li>
+<li>注意：只能使用DNS-01验证方式</li>
+</ul>
+<h3 id="5-5-验证方式选择"><a href="#5-5-验证方式选择" class="headerlink" title="5.5 验证方式选择"></a>5.5 验证方式选择</h3><p><strong>DNS-01验证（推荐）：</strong></p>
+<ul>
+<li>优势：支持泛域名证书，无需开放端口</li>
+<li>原理：在DNS中添加TXT记录验证域名所有权</li>
+<li>适用场景：所有场景，特别是泛域名证书</li>
+</ul>
+<p><strong>HTTP-01验证：</strong></p>
+<ul>
+<li>优势：验证过程简单直观</li>
+<li>原理：在网站根目录放置验证文件</li>
+<li>限制：不支持泛域名证书，需要开放80端口</li>
+<li>适用场景：单域名证书，且服务器可直接访问</li>
+</ul>
+<h2 id="6-证书部署"><a href="#6-证书部署" class="headerlink" title="6. 证书部署"></a>6. 证书部署</h2><p>Certimate支持将Let’s Encrypt证书自动部署到100+种目标平台，包括云服务、CDN、负载均衡器、Web服务器等。</p>
+<h3 id="6-1-云服务部署"><a href="#6-1-云服务部署" class="headerlink" title="6.1 云服务部署"></a>6.1 云服务部署</h3><h4 id="6-1-1-阿里云服务部署"><a href="#6-1-1-阿里云服务部署" class="headerlink" title="6.1.1 阿里云服务部署"></a>6.1.1 阿里云服务部署</h4><p><strong>阿里云CDN：</strong></p>
+<ol>
+<li>进入”部署目标”页面</li>
+<li>点击”添加部署目标”</li>
+<li>选择”阿里云CDN”并配置：<ul>
+<li>名称：生产环境CDN</li>
+<li>AccessKey ID：具有CDN管理权限的AccessKey</li>
+<li>AccessKey Secret：对应的Secret</li>
+<li>域名：CDN加速域名</li>
+</ul>
+</li>
+</ol>
+<p><strong>阿里云SLB（负载均衡）：</strong></p>
+<ol>
+<li>选择”阿里云SLB”类型</li>
+<li>填入SLB实例ID和监听端口</li>
+<li>证书将自动部署到HTTPS监听器</li>
+</ol>
+<h4 id="6-1-2-腾讯云服务部署"><a href="#6-1-2-腾讯云服务部署" class="headerlink" title="6.1.2 腾讯云服务部署"></a>6.1.2 腾讯云服务部署</h4><p><strong>腾讯云CDN：</strong></p>
+<ul>
+<li>类型：选择”腾讯云CDN”</li>
+<li>SecretId&#x2F;SecretKey：腾讯云API密钥</li>
+<li>域名：CDN加速域名</li>
+</ul>
+<p><strong>腾讯云CLB（负载均衡）：</strong></p>
+<ul>
+<li>类型：选择”腾讯云CLB”</li>
+<li>实例ID：CLB实例标识</li>
+<li>监听器ID：HTTPS监听器标识</li>
+</ul>
+<h4 id="6-1-3-AWS服务部署"><a href="#6-1-3-AWS服务部署" class="headerlink" title="6.1.3 AWS服务部署"></a>6.1.3 AWS服务部署</h4><p><strong>AWS CloudFront：</strong></p>
+<ul>
+<li>类型：选择”AWS CloudFront”</li>
+<li>Access Key&#x2F;Secret Key：AWS API密钥</li>
+<li>Distribution ID：CloudFront分发ID</li>
+</ul>
+<p><strong>AWS ALB&#x2F;ELB：</strong></p>
+<ul>
+<li>类型：选择”AWS Load Balancer”</li>
+<li>负载均衡器ARN：目标负载均衡器</li>
+<li>监听器端口：HTTPS监听端口</li>
+</ul>
+<h3 id="6-2-Web服务器部署"><a href="#6-2-Web服务器部署" class="headerlink" title="6.2 Web服务器部署"></a>6.2 Web服务器部署</h3><h4 id="6-2-1-SSH服务器部署"><a href="#6-2-1-SSH服务器部署" class="headerlink" title="6.2.1 SSH服务器部署"></a>6.2.1 SSH服务器部署</h4><p>通过SSH将证书部署到Web服务器：</p>
+<ol>
+<li>选择”SSH服务器”类型</li>
+<li>配置服务器连接信息：<ul>
+<li>服务器地址：192.168.1.100</li>
+<li>SSH端口：22</li>
+<li>用户名：root 或具有sudo权限的用户</li>
+<li>认证方式：密码或SSH密钥</li>
+</ul>
+</li>
+<li>设置证书存储路径和重启命令</li>
+</ol>
+<p><strong>Nginx服务器配置：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 证书文件路径</span></span><br><span class="line">证书文件：/etc/nginx/ssl/domain.crt</span><br><span class="line">私钥文件：/etc/nginx/ssl/domain.key</span><br><span class="line">证书链文件：/etc/nginx/ssl/domain.pem</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署后执行命令</span></span><br><span class="line">重启命令：sudo systemctl reload nginx</span><br><span class="line"><span class="comment"># 或者：sudo nginx -s reload</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Apache服务器配置：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 证书文件路径</span></span><br><span class="line">证书文件：/etc/apache2/ssl/domain.crt</span><br><span class="line">私钥文件：/etc/apache2/ssl/domain.key</span><br><span class="line">证书链文件：/etc/apache2/ssl/domain.pem</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署后执行命令</span></span><br><span class="line">重启命令：sudo systemctl reload apache2</span><br><span class="line"><span class="comment"># 或者：sudo service apache2 reload</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Caddy服务器配置：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Caddy自动管理证书，通常只需重启</span></span><br><span class="line">重启命令：sudo systemctl reload caddy</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-2-2-容器化部署"><a href="#6-2-2-容器化部署" class="headerlink" title="6.2.2 容器化部署"></a>6.2.2 容器化部署</h4><p><strong>Docker容器部署：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 挂载证书目录到容器</span></span><br><span class="line">证书目录：/opt/ssl/</span><br><span class="line">容器重启：docker restart nginx-container</span><br></pre></td></tr></table></figure>
+
+<p><strong>Kubernetes部署：</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建Secret资源</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Secret</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">tls-secret</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">kubernetes.io/tls</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">tls.crt:</span> <span class="string">&lt;base64-encoded-cert&gt;</span></span><br><span class="line">  <span class="attr">tls.key:</span> <span class="string">&lt;base64-encoded-key&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-其他部署目标"><a href="#6-3-其他部署目标" class="headerlink" title="6.3 其他部署目标"></a>6.3 其他部署目标</h3><h4 id="6-3-1-反向代理"><a href="#6-3-1-反向代理" class="headerlink" title="6.3.1 反向代理"></a>6.3.1 反向代理</h4><p><strong>Cloudflare：</strong></p>
+<ul>
+<li>自动上传证书到Cloudflare</li>
+<li>支持通配符证书</li>
+<li>全球CDN加速</li>
+</ul>
+<p><strong>Nginx Proxy Manager：</strong></p>
+<ul>
+<li>可视化反向代理管理</li>
+<li>自动SSL证书管理</li>
+<li>支持Docker部署</li>
+</ul>
+<h4 id="6-3-2-存储服务"><a href="#6-3-2-存储服务" class="headerlink" title="6.3.2 存储服务"></a>6.3.2 存储服务</h4><p><strong>本地文件系统：</strong></p>
+<ul>
+<li>证书保存到指定目录</li>
+<li>支持自定义文件名格式</li>
+<li>可配置文件权限</li>
+</ul>
+<p><strong>对象存储：</strong></p>
+<ul>
+<li>阿里云OSS</li>
+<li>腾讯云COS</li>
+<li>AWS S3</li>
+<li>七牛云存储</li>
+</ul>
+<h2 id="7-多服务器证书同步"><a href="#7-多服务器证书同步" class="headerlink" title="7. 多服务器证书同步"></a>7. 多服务器证书同步</h2><p>当您有多个服务器但只使用一个域名时，需要将SSL证书同步到所有服务器。Certimate提供了几种解决方案：</p>
+<h3 id="7-1-单点管理方案（推荐）"><a href="#7-1-单点管理方案（推荐）" class="headerlink" title="7.1 单点管理方案（推荐）"></a>7.1 单点管理方案（推荐）</h3><p><strong>部署架构：</strong></p>
+<ul>
+<li>在一台主服务器上部署Certimate</li>
+<li>其他服务器通过证书同步获取证书</li>
+<li>避免重复申请，减少CA服务器压力</li>
+</ul>
+<p><strong>实施步骤：</strong></p>
+<ol>
+<li><p><strong>选择主服务器</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在主服务器上安装Certimate</span></span><br><span class="line">wget https://github.com/certimate-go/certimate/releases/latest/download/certimate-linux-amd64.tar.gz</span><br><span class="line">tar -xzf certimate-linux-amd64.tar.gz</span><br><span class="line">./certimate</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>配置证书申请</strong></p>
+<ul>
+<li>在主服务器上配置域名和DNS提供商</li>
+<li>申请证书并验证成功</li>
+</ul>
+</li>
+<li><p><strong>设置证书同步</strong></p>
+<p><strong>方案一：SSH自动同步</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在Certimate中配置多个SSH部署目标</span></span><br><span class="line">部署类型：SSH服务器</span><br><span class="line">服务器1：192.168.1.10</span><br><span class="line">服务器2：192.168.1.11</span><br><span class="line">服务器3：192.168.1.12</span><br><span class="line"></span><br><span class="line"><span class="comment"># 证书路径</span></span><br><span class="line">证书文件：/etc/nginx/ssl/domain.crt</span><br><span class="line">私钥文件：/etc/nginx/ssl/domain.key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署后命令</span></span><br><span class="line">重启命令：sudo systemctl reload nginx</span><br></pre></td></tr></table></figure>
+
+<p><strong>方案二：共享存储同步</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用NFS或其他共享存储</span></span><br><span class="line"><span class="comment"># 主服务器导出证书目录</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;/etc/ssl/certs *(ro,sync)&quot;</span> &gt;&gt; /etc/exports</span><br><span class="line">systemctl restart nfs-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其他服务器挂载共享目录</span></span><br><span class="line">mount -t nfs 主服务器IP:/etc/ssl/certs /etc/ssl/certs</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="7-2-证书分发脚本"><a href="#7-2-证书分发脚本" class="headerlink" title="7.2 证书分发脚本"></a>7.2 证书分发脚本</h3><p><strong>自动分发脚本示例：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># cert-sync.sh - 证书同步脚本</span></span><br><span class="line"></span><br><span class="line">CERT_DIR=<span class="string">&quot;/etc/ssl/certs&quot;</span></span><br><span class="line">SERVERS=(<span class="string">&quot;192.168.1.10&quot;</span> <span class="string">&quot;192.168.1.11&quot;</span> <span class="string">&quot;192.168.1.12&quot;</span>)</span><br><span class="line">DOMAIN=<span class="string">&quot;example.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查证书是否更新</span></span><br><span class="line"><span class="keyword">if</span> [ -f <span class="string">&quot;<span class="variable">$CERT_DIR</span>/<span class="variable">$DOMAIN</span>.crt.new&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;发现新证书，开始同步...&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> server <span class="keyword">in</span> <span class="string">&quot;<span class="variable">$&#123;SERVERS[@]&#125;</span>&quot;</span>; <span class="keyword">do</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;同步到服务器: <span class="variable">$server</span>&quot;</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 复制证书文件</span></span><br><span class="line">        scp <span class="string">&quot;<span class="variable">$CERT_DIR</span>/<span class="variable">$DOMAIN</span>.crt&quot;</span> <span class="string">&quot;root@<span class="variable">$server</span>:<span class="variable">$CERT_DIR</span>/&quot;</span></span><br><span class="line">        scp <span class="string">&quot;<span class="variable">$CERT_DIR</span>/<span class="variable">$DOMAIN</span>.key&quot;</span> <span class="string">&quot;root@<span class="variable">$server</span>:<span class="variable">$CERT_DIR</span>/&quot;</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 重启Web服务</span></span><br><span class="line">        ssh <span class="string">&quot;root@<span class="variable">$server</span>&quot;</span> <span class="string">&quot;systemctl reload nginx&quot;</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> [ $? -eq 0 ]; <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;✓ <span class="variable">$server</span> 同步成功&quot;</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;✗ <span class="variable">$server</span> 同步失败&quot;</span></span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 标记同步完成</span></span><br><span class="line">    <span class="built_in">rm</span> <span class="string">&quot;<span class="variable">$CERT_DIR</span>/<span class="variable">$DOMAIN</span>.crt.new&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-3-负载均衡器方案"><a href="#7-3-负载均衡器方案" class="headerlink" title="7.3 负载均衡器方案"></a>7.3 负载均衡器方案</h3><p><strong>使用阿里云SLB：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 配置SLB HTTPS监听</span></span><br><span class="line">1. 在Certimate中选择<span class="string">&quot;阿里云SLB&quot;</span>部署类型</span><br><span class="line">2. 配置SLB实例ID和监听端口</span><br><span class="line">3. 证书自动部署到负载均衡器</span><br><span class="line">4. 后端服务器使用HTTP通信</span><br></pre></td></tr></table></figure>
+
+<p><strong>优势：</strong></p>
+<ul>
+<li>SSL终结在负载均衡器</li>
+<li>后端服务器无需配置证书</li>
+<li>统一管理，简化运维</li>
+</ul>
+<h3 id="7-4-容器化部署同步"><a href="#7-4-容器化部署同步" class="headerlink" title="7.4 容器化部署同步"></a>7.4 容器化部署同步</h3><p><strong>Docker Swarm示例：</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker-compose.yml</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ssl-certs:/etc/nginx/ssl:ro</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">webnet</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">certimate:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">certimate/certimate:latest</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ssl-certs:/app/certs</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DOMAIN=example.com</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span> [<span class="string">node.role</span> <span class="string">==</span> <span class="string">manager</span>]</span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">ssl-certs:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">webnet:</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Kubernetes示例：</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用Secret存储证书</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Secret</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">tls-secret</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">kubernetes.io/tls</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">tls.crt:</span> <span class="string">&lt;base64-encoded-cert&gt;</span></span><br><span class="line">  <span class="attr">tls.key:</span> <span class="string">&lt;base64-encoded-key&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment"># 在Deployment中使用</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">web-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">        <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">tls-volume</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/etc/nginx/ssl</span></span><br><span class="line">          <span class="attr">readOnly:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">tls-volume</span></span><br><span class="line">        <span class="attr">secret:</span></span><br><span class="line">          <span class="attr">secretName:</span> <span class="string">tls-secret</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-5-监控和告警"><a href="#7-5-监控和告警" class="headerlink" title="7.5 监控和告警"></a>7.5 监控和告警</h3><p><strong>证书同步监控脚本：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># cert-monitor.sh - 证书同步监控</span></span><br><span class="line"></span><br><span class="line">SERVERS=(<span class="string">&quot;192.168.1.10&quot;</span> <span class="string">&quot;192.168.1.11&quot;</span> <span class="string">&quot;192.168.1.12&quot;</span>)</span><br><span class="line">DOMAIN=<span class="string">&quot;example.com&quot;</span></span><br><span class="line">ALERT_EMAIL=<span class="string">&quot;admin@example.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> server <span class="keyword">in</span> <span class="string">&quot;<span class="variable">$&#123;SERVERS[@]&#125;</span>&quot;</span>; <span class="keyword">do</span></span><br><span class="line">    <span class="comment"># 检查证书有效期</span></span><br><span class="line">    expiry=$(ssh <span class="string">&quot;root@<span class="variable">$server</span>&quot;</span> <span class="string">&quot;openssl x509 -in /etc/ssl/certs/<span class="variable">$DOMAIN</span>.crt -noout -enddate | cut -d= -f2&quot;</span>)</span><br><span class="line">    expiry_timestamp=$(<span class="built_in">date</span> -d <span class="string">&quot;<span class="variable">$expiry</span>&quot;</span> +%s)</span><br><span class="line">    current_timestamp=$(<span class="built_in">date</span> +%s)</span><br><span class="line">    days_left=$(( (expiry_timestamp - current_timestamp) / <span class="number">86400</span> ))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> [ <span class="variable">$days_left</span> -lt 7 ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;警告: <span class="variable">$server</span> 上的证书将在 <span class="variable">$days_left</span> 天后过期&quot;</span> | mail -s <span class="string">&quot;证书过期警告&quot;</span> <span class="variable">$ALERT_EMAIL</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 检查证书一致性</span></span><br><span class="line">    local_hash=$(openssl x509 -<span class="keyword">in</span> <span class="string">&quot;/etc/ssl/certs/<span class="variable">$DOMAIN</span>.crt&quot;</span> -noout -fingerprint | <span class="built_in">cut</span> -d= -f2)</span><br><span class="line">    remote_hash=$(ssh <span class="string">&quot;root@<span class="variable">$server</span>&quot;</span> <span class="string">&quot;openssl x509 -in /etc/ssl/certs/<span class="variable">$DOMAIN</span>.crt -noout -fingerprint | cut -d= -f2&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$local_hash</span>&quot;</span> != <span class="string">&quot;<span class="variable">$remote_hash</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;错误: <span class="variable">$server</span> 上的证书与主服务器不一致&quot;</span> | mail -s <span class="string">&quot;证书同步错误&quot;</span> <span class="variable">$ALERT_EMAIL</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-6-注意事项"><a href="#7-6-注意事项" class="headerlink" title="7.6 注意事项"></a>7.6 注意事项</h3><p><strong>避免重复申请：</strong></p>
+<ul>
+<li>只在一台服务器上运行Certimate</li>
+<li>其他服务器通过同步获取证书</li>
+<li>避免触发CA的速率限制</li>
+</ul>
+<p><strong>安全考虑：</strong></p>
+<ul>
+<li>使用SSH密钥认证而非密码</li>
+<li>限制证书文件的访问权限（600或644）</li>
+<li>定期轮换SSH密钥</li>
+</ul>
+<p><strong>高可用性：</strong></p>
+<ul>
+<li>配置主备Certimate实例</li>
+<li>使用共享存储保存配置和证书</li>
+<li>设置监控和自动故障转移</li>
+</ul>
+<h2 id="8-自动续期"><a href="#8-自动续期" class="headerlink" title="8. 自动续期"></a>8. 自动续期</h2><p>Certimate会自动处理证书续期：</p>
+<ul>
+<li><strong>检查频率</strong>：每天检查一次证书状态</li>
+<li><strong>续期时机</strong>：证书过期前10天开始续期</li>
+<li><strong>自动部署</strong>：续期成功后自动部署到配置的目标</li>
+<li><strong>失败重试</strong>：续期失败会自动重试，最多3次</li>
+</ul>
+<h3 id="续期状态监控"><a href="#续期状态监控" class="headerlink" title="续期状态监控"></a>续期状态监控</h3><p>在Certimate界面中可以查看：</p>
+<ul>
+<li>证书剩余有效期</li>
+<li>最近续期时间</li>
+<li>续期状态（成功&#x2F;失败）</li>
+<li>下次续期时间</li>
+</ul>
+<h2 id="9-常见问题"><a href="#9-常见问题" class="headerlink" title="9. 常见问题"></a>9. 常见问题</h2><h3 id="9-1-证书申请失败"><a href="#9-1-证书申请失败" class="headerlink" title="9.1 证书申请失败"></a>9.1 证书申请失败</h3><p><strong>DNS验证失败：</strong></p>
+<ul>
+<li>检查DNS提供商配置是否正确</li>
+<li>确认AccessKey权限是否充足</li>
+<li>验证域名解析是否正常</li>
+</ul>
+<p><strong>速率限制：</strong></p>
+<ul>
+<li>Let’s Encrypt：每周每域名最多50个证书</li>
+<li>解决方案：等待限制重置或使用其他证书颁发机构</li>
+</ul>
+<p><strong>网络连接问题：</strong></p>
+<ul>
+<li>确保服务器能访问ACME服务器</li>
+<li>检查防火墙设置</li>
+<li>验证系统时间是否正确</li>
+</ul>
+<h3 id="9-2-证书部署失败"><a href="#9-2-证书部署失败" class="headerlink" title="9.2 证书部署失败"></a>9.2 证书部署失败</h3><p><strong>权限不足：</strong></p>
+<ul>
+<li>检查部署目标的访问权限</li>
+<li>确认AccessKey具有相应服务的管理权限</li>
+</ul>
+<p><strong>网络连接：</strong></p>
+<ul>
+<li>验证到部署目标的网络连接</li>
+<li>检查SSH连接配置（如果使用SSH部署）</li>
+</ul>
+<h3 id="9-3-自动续期失败"><a href="#9-3-自动续期失败" class="headerlink" title="9.3 自动续期失败"></a>9.3 自动续期失败</h3><p><strong>常见原因：</strong></p>
+<ul>
+<li>DNS配置变更</li>
+<li>AccessKey过期或权限变更</li>
+<li>网络连接问题</li>
+<li>服务器资源不足</li>
+</ul>
+<p><strong>解决方案：</strong></p>
+<ul>
+<li>检查并更新DNS配置</li>
+<li>验证AccessKey有效性</li>
+<li>查看系统日志定位具体问题</li>
+</ul>
+<h2 id="10-最佳实践"><a href="#10-最佳实践" class="headerlink" title="10. 最佳实践"></a>10. 最佳实践</h2><h3 id="10-1-安全建议"><a href="#10-1-安全建议" class="headerlink" title="10.1 安全建议"></a>10.1 安全建议</h3><ul>
+<li><strong>使用RAM用户</strong>：不要使用主账号的AccessKey</li>
+<li><strong>最小权限原则</strong>：只授予必要的权限</li>
+<li><strong>定期轮换</strong>：定期更换AccessKey</li>
+<li><strong>监控访问</strong>：启用API访问日志监控</li>
+</ul>
+<h3 id="10-2-性能优化"><a href="#10-2-性能优化" class="headerlink" title="10.2 性能优化"></a>10.2 性能优化</h3><ul>
+<li><strong>选择合适的证书颁发机构</strong>：根据地理位置选择访问速度最快的</li>
+<li><strong>合理规划证书</strong>：使用泛域名证书减少证书数量</li>
+<li><strong>监控续期状态</strong>：及时发现和解决续期问题</li>
+</ul>
+<h3 id="10-3-备份策略"><a href="#10-3-备份策略" class="headerlink" title="10.3 备份策略"></a>10.3 备份策略</h3><ul>
+<li><strong>配置备份</strong>：定期备份Certimate配置</li>
+<li><strong>证书备份</strong>：保存重要证书的副本</li>
+<li><strong>多证书颁发机构</strong>：配置多个证书颁发机构作为备选</li>
+</ul>
+<h2 id="11-总结"><a href="#11-总结" class="headerlink" title="11. 总结"></a>11. 总结</h2><p>Certimate为免费SSL证书的申请和管理提供了完整的解决方案。通过本指南，您可以：</p>
+<ol>
+<li><strong>了解免费SSL证书服务商</strong>：选择最适合的证书颁发机构</li>
+<li><strong>快速部署Certimate</strong>：在几分钟内完成安装和配置</li>
+<li><strong>自动化证书管理</strong>：实现证书申请、部署和续期的全自动化</li>
+<li><strong>集成阿里云服务</strong>：将证书无缝部署到各种阿里云服务</li>
+</ol>
+<p>免费SSL证书已经成为现代Web应用的标准配置，Certimate让这个过程变得简单、可靠且完全自动化。开始使用Certimate，让您的网站更安全！</p>
+<hr>
+<p><strong>相关链接：</strong></p>
+<ul>
+<li><a href="https://docs.certimate.me/">Certimate官方文档</a></li>
+<li><a href="https://github.com/certimate-go/certimate">GitHub项目地址</a></li>
+<li><a href="https://letsencrypt.org/">Let’s Encrypt官网</a></li>
+<li><a href="https://zerossl.com/">ZeroSSL官网</a></li>
+<li><a href="https://dns.console.aliyun.com/">阿里云DNS控制台</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
   </entry>
   <entry>
     <title>关于Apple 针对欧盟《数字市场法》的更新公告</title>
@@ -4578,30 +5262,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>关于iOS &amp; iPadOS 16 beta 6相关API废弃</title>
-    <url>/2022/08/19/%E5%85%B3%E4%BA%8EiOS%20&amp;%20iPadOS%2016%20beta%206%E7%9B%B8%E5%85%B3API%E5%BA%9F%E5%BC%83/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在查看<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a>中发现在iOS 16 beta 6版本中将<code>shouldAutorotate</code>方法弃用。</p>
-<p>在此记录一下，后面适配iOS16时看是否需要修改。</p>
-<h1 id="官网介绍"><a href="#官网介绍" class="headerlink" title="官网介绍"></a>官网介绍</h1><p><code>UIKit</code><br><code>Deprecations</code></p>
-<p><code>[UIViewController shouldAutorotate]</code>不再支持已弃用。<br>已弃用并替换为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController attemptRotationToDeviceOrientation]</span><br><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
-
-<p>解决方法：如果支持的方向发生变化，可以使用下面方法</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
-
-<p>详细内容可查阅<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>关于git代理设置问题记录</title>
     <url>/2025/01/22/%E5%85%B3%E4%BA%8Egit%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>需要在<code>Clash Verge</code>将代理设置成全局。然后在设置中<code>复制环境变量类型</code>。</p>
@@ -4625,6 +5285,30 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于iOS &amp; iPadOS 16 beta 6相关API废弃</title>
+    <url>/2022/08/19/%E5%85%B3%E4%BA%8EiOS%20&amp;%20iPadOS%2016%20beta%206%E7%9B%B8%E5%85%B3API%E5%BA%9F%E5%BC%83/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在查看<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a>中发现在iOS 16 beta 6版本中将<code>shouldAutorotate</code>方法弃用。</p>
+<p>在此记录一下，后面适配iOS16时看是否需要修改。</p>
+<h1 id="官网介绍"><a href="#官网介绍" class="headerlink" title="官网介绍"></a>官网介绍</h1><p><code>UIKit</code><br><code>Deprecations</code></p>
+<p><code>[UIViewController shouldAutorotate]</code>不再支持已弃用。<br>已弃用并替换为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController attemptRotationToDeviceOrientation]</span><br><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：如果支持的方向发生变化，可以使用下面方法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[UIViewController setNeedsUpdateOfSupportedInterfaceOrientations]</span><br></pre></td></tr></table></figure>
+
+<p>详细内容可查阅<a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://developer.apple.com/documentation/ios-ipados-release-notes/ios-16-release-notes/">官网发行说明</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
@@ -7113,6 +7797,104 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 ]]></content>
       <categories>
         <category>阿里云</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>阿里云Python环境搭建与服务器相关指南</title>
+    <url>/2025/09/14/%E9%98%BF%E9%87%8C%E4%BA%91Python%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#%E9%98%BF%E9%87%8C%E4%BA%91python%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA">阿里云Python环境搭建</a><ul>
+<li><a href="#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84ecs%E5%AE%9E%E4%BE%8B">选择合适的ECS实例</a></li>
+<li><a href="#%E8%BF%9E%E6%8E%A5%E5%88%B0%E9%98%BF%E9%87%8C%E4%BA%91ecs%E6%9C%8D%E5%8A%A1%E5%99%A8">连接到阿里云ECS服务器</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85python%E7%8E%AF%E5%A2%83">安装Python环境</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83">配置虚拟环境</a></li>
+</ul>
+</li>
+<li><a href="#python%E5%BC%80%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2">Python开发服务器部署</a><ul>
+<li><a href="#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84web%E6%A1%86%E6%9E%B6">选择合适的Web框架</a></li>
+<li><a href="#%E9%83%A8%E7%BD%B2python%E5%BA%94%E7%94%A8">部署Python应用</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEnginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86">配置Nginx反向代理</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AEssl%E8%AF%81%E4%B9%A6">设置SSL证书</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">常见问题与解决方案</a></li>
+</ol>
+<h2 id="阿里云Python环境搭建"><a href="#阿里云Python环境搭建" class="headerlink" title="阿里云Python环境搭建"></a>阿里云Python环境搭建</h2><h3 id="选择合适的ECS实例"><a href="#选择合适的ECS实例" class="headerlink" title="选择合适的ECS实例"></a>选择合适的ECS实例</h3><p>在阿里云上搭建Python开发环境，首先需要选择合适的ECS实例：</p>
+<ul>
+<li><strong>实例类型</strong>：推荐选择通用型或计算型实例</li>
+<li><strong>操作系统</strong>：建议使用Ubuntu 20.04 LTS或CentOS 8</li>
+<li><strong>配置</strong>：至少2核CPU，4GB内存（开发环境），生产环境根据实际需求调整</li>
+</ul>
+<h3 id="连接到阿里云ECS服务器"><a href="#连接到阿里云ECS服务器" class="headerlink" title="连接到阿里云ECS服务器"></a>连接到阿里云ECS服务器</h3><p>可以通过SSH连接到阿里云ECS服务器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh root@your_server_ip</span><br></pre></td></tr></table></figure>
+
+<p>或者使用阿里云提供的Workbench进行连接。</p>
+<h3 id="安装Python环境"><a href="#安装Python环境" class="headerlink" title="安装Python环境"></a>安装Python环境</h3><h4 id="Ubuntu系统安装Python："><a href="#Ubuntu系统安装Python：" class="headerlink" title="Ubuntu系统安装Python："></a>Ubuntu系统安装Python：</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更新包管理器</span></span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装Python 3和pip</span></span><br><span class="line">sudo apt install python3 python3-pip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证安装</span></span><br><span class="line">python3 --version</span><br><span class="line">pip3 --version</span><br></pre></td></tr></table></figure>
+
+<h4 id="CentOS系统安装Python："><a href="#CentOS系统安装Python：" class="headerlink" title="CentOS系统安装Python："></a>CentOS系统安装Python：</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装EPEL仓库</span></span><br><span class="line">sudo yum install epel-release</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装Python 3和pip</span></span><br><span class="line">sudo yum install python3 python3-pip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证安装</span></span><br><span class="line">python3 --version</span><br><span class="line">pip3 --version</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置虚拟环境"><a href="#配置虚拟环境" class="headerlink" title="配置虚拟环境"></a>配置虚拟环境</h3><p>使用虚拟环境可以隔离不同项目的依赖：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装virtualenv</span></span><br><span class="line">pip3 install virtualenv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建项目目录</span></span><br><span class="line"><span class="built_in">mkdir</span> myproject</span><br><span class="line"><span class="built_in">cd</span> myproject</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建虚拟环境</span></span><br><span class="line">python3 -m venv venv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 激活虚拟环境</span></span><br><span class="line"><span class="built_in">source</span> venv/bin/activate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出虚拟环境</span></span><br><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+
+<h2 id="Python开发服务器部署"><a href="#Python开发服务器部署" class="headerlink" title="Python开发服务器部署"></a>Python开发服务器部署</h2><h3 id="选择合适的Web框架"><a href="#选择合适的Web框架" class="headerlink" title="选择合适的Web框架"></a>选择合适的Web框架</h3><p>常见的Python Web框架：</p>
+<ul>
+<li><strong>Flask</strong>：轻量级框架，适合小型项目和微服务</li>
+<li><strong>Django</strong>：全功能框架，适合大型项目</li>
+<li><strong>FastAPI</strong>：现代、快速的Web框架，支持异步</li>
+</ul>
+<h3 id="部署Python应用"><a href="#部署Python应用" class="headerlink" title="部署Python应用"></a>部署Python应用</h3><p>以Flask应用为例：</p>
+<ol>
+<li><p><strong>安装Gunicorn</strong>（WSGI服务器）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install gunicorn</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>创建简单的Flask应用</strong>（app.py）：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hello, World!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>使用Gunicorn运行应用</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gunicorn -w 4 -b 0.0.0.0:8000 app:app</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="配置Nginx反向代理"><a href="#配置Nginx反向代理" class="headerlink" title="配置Nginx反向代理"></a>配置Nginx反向代理</h3><p>安装Nginx：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Ubuntu</span></span><br><span class="line">sudo apt install nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># CentOS</span></span><br><span class="line">sudo yum install nginx</span><br></pre></td></tr></table></figure>
+
+<p>配置Nginx反向代理（&#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;myapp）：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> your_domain.com;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:8000;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启用配置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">ln</span> -s /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/</span><br><span class="line">sudo nginx -t</span><br><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置SSL证书"><a href="#设置SSL证书" class="headerlink" title="设置SSL证书"></a>设置SSL证书</h3><p>使用Let’s Encrypt免费SSL证书：</p>
+<ol>
+<li><p>安装Certbot：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Ubuntu</span></span><br><span class="line">sudo apt install certbot python3-certbot-nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># CentOS</span></span><br><span class="line">sudo yum install certbot python3-certbot-nginx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取SSL证书：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo certbot --nginx -d your_domain.com</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="常见问题与解决方案"><a href="#常见问题与解决方案" class="headerlink" title="常见问题与解决方案"></a>常见问题与解决方案</h2><h3 id="1-权限问题"><a href="#1-权限问题" class="headerlink" title="1. 权限问题"></a>1. 权限问题</h3><p>在部署时可能会遇到权限问题，建议：</p>
+<ul>
+<li>不要以root用户运行应用</li>
+<li>正确设置文件和目录权限</li>
+</ul>
+<h3 id="2-端口访问问题"><a href="#2-端口访问问题" class="headerlink" title="2. 端口访问问题"></a>2. 端口访问问题</h3><p>确保阿里云安全组已开放相应端口：</p>
+<ul>
+<li>HTTP: 80端口</li>
+<li>HTTPS: 443端口</li>
+<li>应用端口: 如8000等</li>
+</ul>
+<h3 id="3-环境变量配置"><a href="#3-环境变量配置" class="headerlink" title="3. 环境变量配置"></a>3. 环境变量配置</h3><p>敏感信息如数据库密码应通过环境变量配置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在虚拟环境中设置环境变量</span></span><br><span class="line"><span class="built_in">export</span> DATABASE_URL=mysql://user:password@localhost/dbname</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-日志管理"><a href="#4-日志管理" class="headerlink" title="4. 日志管理"></a>4. 日志管理</h3><p>配置应用日志以便排查问题：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line">logging.basicConfig(filename=<span class="string">&#x27;app.log&#x27;</span>, level=logging.DEBUG)</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-自动重启服务"><a href="#5-自动重启服务" class="headerlink" title="5. 自动重启服务"></a>5. 自动重启服务</h3><p>使用systemd配置服务自动重启：</p>
+<p>创建服务文件（&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;myapp.service）：</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=My Python App</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">User</span>=www-data</span><br><span class="line"><span class="attr">WorkingDirectory</span>=/path/to/your/app</span><br><span class="line"><span class="attr">ExecStart</span>=/path/to/your/venv/bin/gunicorn -w <span class="number">4</span> -b <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">8000</span> app:app</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>启用服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl start myapp</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> myapp</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Flutter</category>
       </categories>
   </entry>
   <entry>
