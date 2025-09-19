@@ -650,23 +650,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>Android15应用适配指南</title>
-    <url>/2024/06/17/Android15%E5%BA%94%E7%94%A8%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[<blockquote>
-<p>目前国内很多渠道已经发布了Android 15的预览版，适配工作需要在2024年8月31日之前完成。</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">尊敬的开发者：</span><br><span class="line">您好！</span><br><span class="line">目前小米已发布了Android 15预览版，开放平台也同步上线了带有新系统的远程真机，请开发者启动适配工作，并于2024年8月31日之前完成适配！</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">若您在2024年8月31日前未进行处理，我们将按照产品对用户的影响程度，采取相关措施以保障用户使用体验，包括但不限于“搜索标签提示”、“应用降级”、“分机型屏蔽”、“应用下架”。 请各位开发者及时调整，小米与您一起建设更好的Android 生态。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">→Android 15适配指导：</span><br><span class="line">小米链接地址：[https://dev.mi.com/distribute/doc/details?pId=1826](https://u10426319.ct.sendgrid.net/ls/click?upn=u001.Zu86ttxf-2F80tTZbxAnjo5TEFUuoDoe-2BQsw4mrVANWdKb16MYOLPreY3dCB2q-2Bc5qoBpNOEtr9RN1594zlSszag-3D-3DPLDj_-2BvhKMbrjWytVKtzRQtBJB2MbsMYzyPUq0Z7vX1HUZCBy3Ei50Fbm5-2FsroNbbYloOWR5bLCl8QN1Z4VQKewBXS7wYswH2kDDVMWhj31TQXZsbbxnMHTOf-2F7zKe3abXDOOsk-2BKrj1geymVMpf5P7kYuZfrSx0IONQtOXUVW7J3gDCDXFFlNVLGbZavcHVQnfXxLi2LZ0B7Po1us79qGsgUhg-3D-3D)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">→获取Android 15升级包：</span><br><span class="line">小米链接地址：[https://web.vip.miui.com/page/info/mio/mio/detail?postId=44582045](https://u10426319.ct.sendgrid.net/ls/click?upn=u001.Zu86ttxf-2F80tTZbxAnjo5cxw7rfsOz9YBqEff4OtZRZeZAWPT5ertzBrQA-2BvMqc6qqHHULC1Wttqettq0N-2BMUAARop5ePpP7jv6FDomBzy0-3DaX2f_-2BvhKMbrjWytVKtzRQtBJB2MbsMYzyPUq0Z7vX1HUZCBy3Ei50Fbm5-2FsroNbbYloOP0lOA-2F0R2P3IYJ2s8PENb9bE-2BSJy9sFRbxtFjrhqSF8IU0brY5y7cZXbAu6g12mtNpkzDTCMr0nQ8MZ7ELrmMFeyWFy76OavYto9RV751h7-2FaNzkZHJOsQLlWH2RZhpHT7942-2FWNKlNe4RovUS5ndA-3D-3D)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">→Android 15云真机：</span><br><span class="line">小米链接地址：[https://testit.miui.com/remote](https://u10426319.ct.sendgrid.net/ls/click?upn=u001.Zu86ttxf-2F80tTZbxAnjo5UeZgR0mu6V739vxLKABg-2B9v84ZmEan4ibSkgbW-2FrMASWmSt_-2BvhKMbrjWytVKtzRQtBJB2MbsMYzyPUq0Z7vX1HUZCBy3Ei50Fbm5-2FsroNbbYloOIl5y5rfGjoyVNSig-2FK-2FrDdiuD3ngDNzdLgk0ClrqIbHbYXuLZC35igrSKzno0fFUwKNqSQcd5jN6sj7BTgq4Z2teo0Egg36amGMYhrF2OfZXML2tjcq322ShuFDc-2FO18R13SfyUO7O6t9UlpWeIsNw-3D-3D)</span><br><span class="line">云真机权限申请：[https://m.beehive.miui.com/vHRYzbRMBF3PQseTGz5cDw](https://u10426319.ct.sendgrid.net/ls/click?upn=u001.Zu86ttxf-2F80tTZbxAnjo5dM-2FfqvQmYymWEBNl1iWjWDgMJhik94SLkoaMrMUvMNSwP1q6B2igJYNffItJoks5g-3D-3DI-ED_-2BvhKMbrjWytVKtzRQtBJB2MbsMYzyPUq0Z7vX1HUZCBy3Ei50Fbm5-2FsroNbbYloO1VfK-2FEB4oaYcedHkk1RC6mEotFauDpCuN2idqEd0jnMxSMjx3pRF88NOtCt6LqFpNcNxXOO-2FAd-2Bj18R-2Fyj4KLFyndm3NDJugHWcArT-2Bry4lzMfDMgN9v0WOHOYWsXO0zwpCyMTdfYe9RFQvmEqrnMg-3D-3D)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如您在适配过程中如遇到错误，请咨询小米开放平台客服，平台客服将在第一时间帮助您解决问题。</span><br><span class="line">在线客服反馈地址：[https://dev.mi.com/platform/contact](https://u10426319.ct.sendgrid.net/ls/click?upn=u001.Zu86ttxf-2F80tTZbxAnjo5fUsebZXhhCkF86QOtBYGDFw5-2F5bh6cS0V7fnKRNL8pZikWB_-2BvhKMbrjWytVKtzRQtBJB2MbsMYzyPUq0Z7vX1HUZCBy3Ei50Fbm5-2FsroNbbYloONSJVQuApxBSDlTnLecYyWdWSfwNOVWbO2unkRBpiOy41VKiFNuYDQujM4viqScg79RrswNZsY4Q6xggdpmRBHUS8bklLmjwrx02Ta-2FBQddXrrR2wqWcPfUwVh17CdUG-2Bo2dUp0Ac8MzGf4UiF2zKhQ-3D-3D)</span><br><span class="line"></span><br><span class="line">小米应用商店</span><br><span class="line">2024.06.12</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>Android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ADB 常用命令手册</title>
     <url>/2025/09/19/ADB%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%89%8B%E5%86%8C/</url>
     <content><![CDATA[<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
@@ -757,6 +740,69 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>adb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android15应用适配指南</title>
+    <url>/2024/06/17/Android15%E5%BA%94%E7%94%A8%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<blockquote>
+<p>目前国内很多渠道已经发布了Android 15的预览版，适配工作需要在2024年8月31日之前完成。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">尊敬的开发者：</span><br><span class="line">您好！</span><br><span class="line">目前小米已发布了Android 15预览版，开放平台也同步上线了带有新系统的远程真机，请开发者启动适配工作，并于2024年8月31日之前完成适配！</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">若您在2024年8月31日前未进行处理，我们将按照产品对用户的影响程度，采取相关措施以保障用户使用体验，包括但不限于“搜索标签提示”、“应用降级”、“分机型屏蔽”、“应用下架”。 请各位开发者及时调整，小米与您一起建设更好的Android 生态。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">→Android 15适配指导：</span><br><span class="line">小米链接地址：[https://dev.mi.com/distribute/doc/details?pId=1826](https://u10426319.ct.sendgrid.net/ls/click?upn=u001.Zu86ttxf-2F80tTZbxAnjo5TEFUuoDoe-2BQsw4mrVANWdKb16MYOLPreY3dCB2q-2Bc5qoBpNOEtr9RN1594zlSszag-3D-3DPLDj_-2BvhKMbrjWytVKtzRQtBJB2MbsMYzyPUq0Z7vX1HUZCBy3Ei50Fbm5-2FsroNbbYloOWR5bLCl8QN1Z4VQKewBXS7wYswH2kDDVMWhj31TQXZsbbxnMHTOf-2F7zKe3abXDOOsk-2BKrj1geymVMpf5P7kYuZfrSx0IONQtOXUVW7J3gDCDXFFlNVLGbZavcHVQnfXxLi2LZ0B7Po1us79qGsgUhg-3D-3D)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">→获取Android 15升级包：</span><br><span class="line">小米链接地址：[https://web.vip.miui.com/page/info/mio/mio/detail?postId=44582045](https://u10426319.ct.sendgrid.net/ls/click?upn=u001.Zu86ttxf-2F80tTZbxAnjo5cxw7rfsOz9YBqEff4OtZRZeZAWPT5ertzBrQA-2BvMqc6qqHHULC1Wttqettq0N-2BMUAARop5ePpP7jv6FDomBzy0-3DaX2f_-2BvhKMbrjWytVKtzRQtBJB2MbsMYzyPUq0Z7vX1HUZCBy3Ei50Fbm5-2FsroNbbYloOP0lOA-2F0R2P3IYJ2s8PENb9bE-2BSJy9sFRbxtFjrhqSF8IU0brY5y7cZXbAu6g12mtNpkzDTCMr0nQ8MZ7ELrmMFeyWFy76OavYto9RV751h7-2FaNzkZHJOsQLlWH2RZhpHT7942-2FWNKlNe4RovUS5ndA-3D-3D)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">→Android 15云真机：</span><br><span class="line">小米链接地址：[https://testit.miui.com/remote](https://u10426319.ct.sendgrid.net/ls/click?upn=u001.Zu86ttxf-2F80tTZbxAnjo5UeZgR0mu6V739vxLKABg-2B9v84ZmEan4ibSkgbW-2FrMASWmSt_-2BvhKMbrjWytVKtzRQtBJB2MbsMYzyPUq0Z7vX1HUZCBy3Ei50Fbm5-2FsroNbbYloOIl5y5rfGjoyVNSig-2FK-2FrDdiuD3ngDNzdLgk0ClrqIbHbYXuLZC35igrSKzno0fFUwKNqSQcd5jN6sj7BTgq4Z2teo0Egg36amGMYhrF2OfZXML2tjcq322ShuFDc-2FO18R13SfyUO7O6t9UlpWeIsNw-3D-3D)</span><br><span class="line">云真机权限申请：[https://m.beehive.miui.com/vHRYzbRMBF3PQseTGz5cDw](https://u10426319.ct.sendgrid.net/ls/click?upn=u001.Zu86ttxf-2F80tTZbxAnjo5dM-2FfqvQmYymWEBNl1iWjWDgMJhik94SLkoaMrMUvMNSwP1q6B2igJYNffItJoks5g-3D-3DI-ED_-2BvhKMbrjWytVKtzRQtBJB2MbsMYzyPUq0Z7vX1HUZCBy3Ei50Fbm5-2FsroNbbYloO1VfK-2FEB4oaYcedHkk1RC6mEotFauDpCuN2idqEd0jnMxSMjx3pRF88NOtCt6LqFpNcNxXOO-2FAd-2Bj18R-2Fyj4KLFyndm3NDJugHWcArT-2Bry4lzMfDMgN9v0WOHOYWsXO0zwpCyMTdfYe9RFQvmEqrnMg-3D-3D)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如您在适配过程中如遇到错误，请咨询小米开放平台客服，平台客服将在第一时间帮助您解决问题。</span><br><span class="line">在线客服反馈地址：[https://dev.mi.com/platform/contact](https://u10426319.ct.sendgrid.net/ls/click?upn=u001.Zu86ttxf-2F80tTZbxAnjo5fUsebZXhhCkF86QOtBYGDFw5-2F5bh6cS0V7fnKRNL8pZikWB_-2BvhKMbrjWytVKtzRQtBJB2MbsMYzyPUq0Z7vX1HUZCBy3Ei50Fbm5-2FsroNbbYloONSJVQuApxBSDlTnLecYyWdWSfwNOVWbO2unkRBpiOy41VKiFNuYDQujM4viqScg79RrswNZsY4Q6xggdpmRBHUS8bklLmjwrx02Ta-2FBQddXrrR2wqWcPfUwVh17CdUG-2Bo2dUp0Ac8MzGf4UiF2zKhQ-3D-3D)</span><br><span class="line"></span><br><span class="line">小米应用商店</span><br><span class="line">2024.06.12</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CADisplayLink介绍及其相关</title>
+    <url>/2018/03/16/CADisplayLink%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>CADisplayLink其实就是一个定时器对象，是一个能让我们以和屏幕刷新率(60HZ)同步的频率将特定的内容画到屏幕上的定时器类。</p>
+<p>在<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink 文档</a>中也有相应介绍。CADisplayLink以<code>addToRunLoop: forMode:</code> 注册到runloop上，每当屏幕显示内容刷新结束，runloop就会向CADisplayLink指定的target发送消息。</p>
+<blockquote>
+<p>Your application initializes a new display link, providing a target object and a selector to be called when the screen is updated. To synchronize your display loop with the display, your application adds it to a run loop using the addToRunLoop:forMode: method</p>
+<p>Once the display link is associated with a run loop, the selector on the target is called when the screen’s contents need to be updated. The target can read the display link’s timestamp property to retrieve the time that the previous frame was displayed. For example, an application that displays movies might use the timestamp to calculate which video frame will be displayed next. An application that performs its own animations might use the timestamp to determine where and how displayed objects appear in the upcoming frame.</p>
+<p>The duration property provides the amount of time between frames at the maximumFramesPerSecond. To calculate the actual frame duration, use targetTimestamp - timestamp. You can use actual frame duration in your application to calculate the frame rate of the display, the approximate time that the next frame will be displayed, and to adjust the drawing behavior so that the next frame is prepared in time to be displayed.</p>
+<p>Your application can disable notifications by setting the paused property to YES. Also, if your application cannot provide frames in the time provided, you may want to choose a slower frame rate. An application with a slower but consistent frame rate appears smoother to the user than an application that skips frames. You can define the number of frames per second by setting the preferredFramesPerSecond property.</p>
+<p>When your application finishes with a display link, it should call invalidate to remove it from all run loops and to disassociate it from the target.</p>
+<p>CADisplayLink should not be subclassed.</p>
+</blockquote>
+<h3 id="关于CADisplayLink"><a href="#关于CADisplayLink" class="headerlink" title="关于CADisplayLink"></a>关于CADisplayLink</h3><p>无论是<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">苹果的官方文档</a>还是网上的一些资料，对DADisplayLink介绍的都很详细。</p>
+<p>我们创建个CADisplayLink对象，并将其添加到runloop中，并提供target和selector，那么在每次屏幕刷新的时候selector就会被调用（frameInterval 默认值为1）。 </p>
+<p>同时我们也可以设置CADisplayLink对象的frameInterval属性来调整每次调用selector的间隔。</p>
+<p>说白了，CADisplayLink就是一个跟屏幕刷新频率相同的定时器（60HZ）。CADisplayLink跟CoreAnimation类都属于QunartzCore.framework中API。</p>
+<h3 id="CADisplayLink的使用"><a href="#CADisplayLink的使用" class="headerlink" title="CADisplayLink的使用"></a>CADisplayLink的使用</h3><figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">self</span>.displayLink = [<span class="built_in">CADisplayLink</span> displayLinkWithTarget:<span class="keyword">self</span></span><br><span class="line">                                               selector:<span class="keyword">@selector</span>(timerRunEvent)];</span><br><span class="line"><span class="keyword">self</span>.displayLink.frameInterval = <span class="number">60</span>;</span><br><span class="line">[<span class="keyword">self</span>.displayLink addToRunLoop:[<span class="built_in">NSRunLoop</span> mainRunLoop] forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建CADisplayLink并将其添加到Runloop中。这样<code>timerRunEvent</code>(@selector)就会被周期调用，其中使用<code>frameInterval</code>设置调用的间隔，上方代表每秒调用一次（因为屏幕的刷新频率为60HZ，即每秒60次）。</p>
+<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[<span class="keyword">self</span>.displayLink invalidate];</span><br><span class="line"><span class="keyword">self</span>.displayLink = <span class="literal">nil</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>停止，直接执行invalidate即可，类似于NSTimer的invalidate。执行完invalidate后，CADisplayLink对象从Runloop中移除，<code>timerRunEvent</code>(@selector)调用。</p>
+<h3 id="CADisplayLink与NSTimer的不同"><a href="#CADisplayLink与NSTimer的不同" class="headerlink" title="CADisplayLink与NSTimer的不同"></a>CADisplayLink与NSTimer的不同</h3><p>在写这篇文章时，从网上搜了下，发现网上有很多关于CADisplayLink的介绍，而且比较详细。同时在CocoaChina上看到一篇关于<a href="http://www.cocoachina.com/ios/20160919/17595.html">iOS三种定时器的用法NSTimer、CADisplayLink、GCD</a>的文章。</p>
+<h5 id="关于精度"><a href="#关于精度" class="headerlink" title="关于精度"></a>关于精度</h5><p>相对于NSTimer,CADisplayLink的精度更加准确些，毕竟苹果设备的屏幕的刷新频率是固定的，都是60HZ。而CADisplayLink在每次刷新结束后都会被调用，精度会比较高。同时我们也可以根据CADisplayLink这个特性来检测屏幕是否会出现掉帧现象，如：<a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a><br>就是根据此种原理。</p>
+<h5 id="关于使用场景"><a href="#关于使用场景" class="headerlink" title="关于使用场景"></a>关于使用场景</h5><p>CADisplayLink的使用场景比较单一，适用于UI、动画的绘制与渲染。而比较著名的Facebook开源的第三方库<a href="https://github.com/facebook/pop">POP</a>就是基于CADisplayLink的，性能上比系统的CoreAnimation更加优秀。</p>
+<p>而NSTimer在使用上就会更加的广泛了，基本很多场景都可使用。不管是一次性的还是连续周期性的timer事件，都会将NSTimer对象添加到Runloop中，但当Runloop正在执行另一个任务时，timer就会出现延迟。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>上面提到因为Facebook开源的动画库<a href="https://github.com/facebook/pop">POP</a>是基于CADisplayLink的，所以在开发过程中的一些定时器我们也可以使用POP来完成。比如下方的应用中经常出现的一个获取验证码的小功能，我们就可以使用POP去实现。</p>
+<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIButton</span> *btn = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];</span><br><span class="line">    <span class="keyword">self</span>.clickBtn = btn;</span><br><span class="line">    [btn setTitle:<span class="string">@&quot;获取验证码&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [btn setTitleColor:[<span class="built_in">UIColor</span> whiteColor] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    btn.backgroundColor = [<span class="built_in">UIColor</span> purpleColor];</span><br><span class="line">    [<span class="keyword">self</span>.view addSubview:btn];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//layout</span></span><br><span class="line">    [btn makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make.center.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">        make.size.equalTo(<span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">100</span>));</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//action</span></span><br><span class="line">    @weakify(<span class="keyword">self</span>)</span><br><span class="line">    [btn bk_whenTapped:^&#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>)</span><br><span class="line">        [<span class="keyword">self</span> timeAnimation];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---- Animation ---</span></span><br><span class="line">- (<span class="type">void</span>)timeAnimation&#123;</span><br><span class="line">    </span><br><span class="line">    POPBasicAnimation *basicAnimation = [POPBasicAnimation linearAnimation];</span><br><span class="line">    </span><br><span class="line">    POPAnimatableProperty *prop = [POPAnimatableProperty propertyWithName:<span class="string">@&quot;timeAnimation&quot;</span> initializer:^(POPMutableAnimatableProperty *prop) &#123;</span><br><span class="line">        </span><br><span class="line">        prop.writeBlock = ^(<span class="type">id</span> obj, <span class="keyword">const</span> <span class="built_in">CGFloat</span> *values) &#123;</span><br><span class="line">            <span class="built_in">UIButton</span> *btn = (<span class="built_in">UIButton</span> *)obj;</span><br><span class="line">            [btn setTitle:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%d&quot;</span>,(<span class="type">int</span>)values[<span class="number">0</span>]%<span class="number">60</span>] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    basicAnimation.property = prop;</span><br><span class="line">    basicAnimation.fromValue = @(<span class="number">10</span>);</span><br><span class="line">    basicAnimation.toValue = @(<span class="number">0</span>);</span><br><span class="line">    basicAnimation.duration = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.clickBtn pop_addAnimation:basicAnimation forKey:<span class="string">@&quot;timeAnimation&quot;</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//开始</span></span><br><span class="line">    basicAnimation.animationDidStartBlock = ^(POPAnimation *anim) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">NO</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//结束</span></span><br><span class="line">    basicAnimation.completionBlock = ^(POPAnimation *anim, <span class="type">BOOL</span> finished) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">YES</span>;</span><br><span class="line">        [<span class="keyword">self</span>.clickBtn setTitle:<span class="string">@&quot;重新发送&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/Stopwatch">相关Demo</a></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink</a></li>
+<li><a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a></li>
+<li><a href="https://github.com/facebook/pop">POP</a></li>
+<li><a href="https://wiki.jikexueyuan.com/project/facebook-pop/">Facebook Pop使用指南</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
@@ -1357,52 +1403,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>CADisplayLink介绍及其相关</title>
-    <url>/2018/03/16/CADisplayLink%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3/</url>
-    <content><![CDATA[<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>CADisplayLink其实就是一个定时器对象，是一个能让我们以和屏幕刷新率(60HZ)同步的频率将特定的内容画到屏幕上的定时器类。</p>
-<p>在<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink 文档</a>中也有相应介绍。CADisplayLink以<code>addToRunLoop: forMode:</code> 注册到runloop上，每当屏幕显示内容刷新结束，runloop就会向CADisplayLink指定的target发送消息。</p>
-<blockquote>
-<p>Your application initializes a new display link, providing a target object and a selector to be called when the screen is updated. To synchronize your display loop with the display, your application adds it to a run loop using the addToRunLoop:forMode: method</p>
-<p>Once the display link is associated with a run loop, the selector on the target is called when the screen’s contents need to be updated. The target can read the display link’s timestamp property to retrieve the time that the previous frame was displayed. For example, an application that displays movies might use the timestamp to calculate which video frame will be displayed next. An application that performs its own animations might use the timestamp to determine where and how displayed objects appear in the upcoming frame.</p>
-<p>The duration property provides the amount of time between frames at the maximumFramesPerSecond. To calculate the actual frame duration, use targetTimestamp - timestamp. You can use actual frame duration in your application to calculate the frame rate of the display, the approximate time that the next frame will be displayed, and to adjust the drawing behavior so that the next frame is prepared in time to be displayed.</p>
-<p>Your application can disable notifications by setting the paused property to YES. Also, if your application cannot provide frames in the time provided, you may want to choose a slower frame rate. An application with a slower but consistent frame rate appears smoother to the user than an application that skips frames. You can define the number of frames per second by setting the preferredFramesPerSecond property.</p>
-<p>When your application finishes with a display link, it should call invalidate to remove it from all run loops and to disassociate it from the target.</p>
-<p>CADisplayLink should not be subclassed.</p>
-</blockquote>
-<h3 id="关于CADisplayLink"><a href="#关于CADisplayLink" class="headerlink" title="关于CADisplayLink"></a>关于CADisplayLink</h3><p>无论是<a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">苹果的官方文档</a>还是网上的一些资料，对DADisplayLink介绍的都很详细。</p>
-<p>我们创建个CADisplayLink对象，并将其添加到runloop中，并提供target和selector，那么在每次屏幕刷新的时候selector就会被调用（frameInterval 默认值为1）。 </p>
-<p>同时我们也可以设置CADisplayLink对象的frameInterval属性来调整每次调用selector的间隔。</p>
-<p>说白了，CADisplayLink就是一个跟屏幕刷新频率相同的定时器（60HZ）。CADisplayLink跟CoreAnimation类都属于QunartzCore.framework中API。</p>
-<h3 id="CADisplayLink的使用"><a href="#CADisplayLink的使用" class="headerlink" title="CADisplayLink的使用"></a>CADisplayLink的使用</h3><figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">self</span>.displayLink = [<span class="built_in">CADisplayLink</span> displayLinkWithTarget:<span class="keyword">self</span></span><br><span class="line">                                               selector:<span class="keyword">@selector</span>(timerRunEvent)];</span><br><span class="line"><span class="keyword">self</span>.displayLink.frameInterval = <span class="number">60</span>;</span><br><span class="line">[<span class="keyword">self</span>.displayLink addToRunLoop:[<span class="built_in">NSRunLoop</span> mainRunLoop] forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>创建CADisplayLink并将其添加到Runloop中。这样<code>timerRunEvent</code>(@selector)就会被周期调用，其中使用<code>frameInterval</code>设置调用的间隔，上方代表每秒调用一次（因为屏幕的刷新频率为60HZ，即每秒60次）。</p>
-<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[<span class="keyword">self</span>.displayLink invalidate];</span><br><span class="line"><span class="keyword">self</span>.displayLink = <span class="literal">nil</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>停止，直接执行invalidate即可，类似于NSTimer的invalidate。执行完invalidate后，CADisplayLink对象从Runloop中移除，<code>timerRunEvent</code>(@selector)调用。</p>
-<h3 id="CADisplayLink与NSTimer的不同"><a href="#CADisplayLink与NSTimer的不同" class="headerlink" title="CADisplayLink与NSTimer的不同"></a>CADisplayLink与NSTimer的不同</h3><p>在写这篇文章时，从网上搜了下，发现网上有很多关于CADisplayLink的介绍，而且比较详细。同时在CocoaChina上看到一篇关于<a href="http://www.cocoachina.com/ios/20160919/17595.html">iOS三种定时器的用法NSTimer、CADisplayLink、GCD</a>的文章。</p>
-<h5 id="关于精度"><a href="#关于精度" class="headerlink" title="关于精度"></a>关于精度</h5><p>相对于NSTimer,CADisplayLink的精度更加准确些，毕竟苹果设备的屏幕的刷新频率是固定的，都是60HZ。而CADisplayLink在每次刷新结束后都会被调用，精度会比较高。同时我们也可以根据CADisplayLink这个特性来检测屏幕是否会出现掉帧现象，如：<a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a><br>就是根据此种原理。</p>
-<h5 id="关于使用场景"><a href="#关于使用场景" class="headerlink" title="关于使用场景"></a>关于使用场景</h5><p>CADisplayLink的使用场景比较单一，适用于UI、动画的绘制与渲染。而比较著名的Facebook开源的第三方库<a href="https://github.com/facebook/pop">POP</a>就是基于CADisplayLink的，性能上比系统的CoreAnimation更加优秀。</p>
-<p>而NSTimer在使用上就会更加的广泛了，基本很多场景都可使用。不管是一次性的还是连续周期性的timer事件，都会将NSTimer对象添加到Runloop中，但当Runloop正在执行另一个任务时，timer就会出现延迟。</p>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>上面提到因为Facebook开源的动画库<a href="https://github.com/facebook/pop">POP</a>是基于CADisplayLink的，所以在开发过程中的一些定时器我们也可以使用POP来完成。比如下方的应用中经常出现的一个获取验证码的小功能，我们就可以使用POP去实现。</p>
-<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIButton</span> *btn = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];</span><br><span class="line">    <span class="keyword">self</span>.clickBtn = btn;</span><br><span class="line">    [btn setTitle:<span class="string">@&quot;获取验证码&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [btn setTitleColor:[<span class="built_in">UIColor</span> whiteColor] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    btn.backgroundColor = [<span class="built_in">UIColor</span> purpleColor];</span><br><span class="line">    [<span class="keyword">self</span>.view addSubview:btn];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//layout</span></span><br><span class="line">    [btn makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make.center.equalTo(<span class="keyword">self</span>.view);</span><br><span class="line">        make.size.equalTo(<span class="built_in">CGSizeMake</span>(<span class="number">200</span>, <span class="number">100</span>));</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//action</span></span><br><span class="line">    @weakify(<span class="keyword">self</span>)</span><br><span class="line">    [btn bk_whenTapped:^&#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>)</span><br><span class="line">        [<span class="keyword">self</span> timeAnimation];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark ---- Animation ---</span></span><br><span class="line">- (<span class="type">void</span>)timeAnimation&#123;</span><br><span class="line">    </span><br><span class="line">    POPBasicAnimation *basicAnimation = [POPBasicAnimation linearAnimation];</span><br><span class="line">    </span><br><span class="line">    POPAnimatableProperty *prop = [POPAnimatableProperty propertyWithName:<span class="string">@&quot;timeAnimation&quot;</span> initializer:^(POPMutableAnimatableProperty *prop) &#123;</span><br><span class="line">        </span><br><span class="line">        prop.writeBlock = ^(<span class="type">id</span> obj, <span class="keyword">const</span> <span class="built_in">CGFloat</span> *values) &#123;</span><br><span class="line">            <span class="built_in">UIButton</span> *btn = (<span class="built_in">UIButton</span> *)obj;</span><br><span class="line">            [btn setTitle:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%d&quot;</span>,(<span class="type">int</span>)values[<span class="number">0</span>]%<span class="number">60</span>] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    basicAnimation.property = prop;</span><br><span class="line">    basicAnimation.fromValue = @(<span class="number">10</span>);</span><br><span class="line">    basicAnimation.toValue = @(<span class="number">0</span>);</span><br><span class="line">    basicAnimation.duration = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.clickBtn pop_addAnimation:basicAnimation forKey:<span class="string">@&quot;timeAnimation&quot;</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//开始</span></span><br><span class="line">    basicAnimation.animationDidStartBlock = ^(POPAnimation *anim) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">NO</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//结束</span></span><br><span class="line">    basicAnimation.completionBlock = ^(POPAnimation *anim, <span class="type">BOOL</span> finished) &#123;</span><br><span class="line">        <span class="keyword">self</span>.clickBtn.enabled = <span class="literal">YES</span>;</span><br><span class="line">        [<span class="keyword">self</span>.clickBtn setTitle:<span class="string">@&quot;重新发送&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<p><a href="https://github.com/xnxy/iOS-Project-Examples/tree/master/Stopwatch">相关Demo</a></p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="https://developer.apple.com/documentation/quartzcore/cadisplaylink?language=objc">CADisplayLink</a></li>
-<li><a href="https://github.com/yehot/YYFPSLabel">YYKit 中计算当前界面每秒 FPS 帧数的小组件</a></li>
-<li><a href="https://github.com/facebook/pop">POP</a></li>
-<li><a href="https://wiki.jikexueyuan.com/project/facebook-pop/">Facebook Pop使用指南</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Flutter RepaintBoundary 详细解析</title>
     <url>/2025/09/17/Flutter%20RepaintBoundary%20%E8%AF%A6%E7%BB%86%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<p>RepaintBoundary 是 Flutter 中用于提升渲染性能的一个核心组件，它通过创建独立的绘制边界来隔离不必要的重绘。下面我会详细解释其工作原理、使用场景、使用方法以及注意事项。</p>
@@ -1834,6 +1834,29 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>Flutter全面屏适配</title>
+    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
+<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
+<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Flutter如何适配鸿蒙Next系统并打HAP安装包</title>
     <url>/2023/11/16/Flutter%E5%A6%82%E4%BD%95%E9%80%82%E9%85%8D%E9%B8%BF%E8%92%99Next%E7%B3%BB%E7%BB%9F%E5%B9%B6%E6%89%93HAP%E5%AE%89%E8%A3%85%E5%8C%85/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>因最近有媒体报道后期鸿蒙Next系统不支持安卓应用的安装，虽然不清楚真假，但作为开发我们也需要为此做准备。</p>
@@ -2003,50 +2026,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
   </entry>
   <entry>
-    <title>Flutter全面屏适配</title>
-    <url>/2022/05/23/Flutter%E5%85%A8%E9%9D%A2%E5%B1%8F%E9%80%82%E9%85%8D/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>无论是安卓设备还是iOS设备，适配的要点主要是屏幕上方的安全区域和屏幕底部的安全区域。</p>
-<p>对于已经使用<code>Scaffold</code>的<code>appBar</code>和<code>bottomNavigationBar</code>的页面不需要额外适配。<code>Scaffold</code>框架已经帮我们完成了这些适配工作。</p>
-<h2 id="1-引入SafeArea"><a href="#1-引入SafeArea" class="headerlink" title="1.引入SafeArea"></a>1.引入<a href="https://api.flutter-io.cn/flutter/widgets/SafeArea-class.html">SafeArea</a></h2><p><code>SafeArea</code>是Flutter中适配全面屏的组件，采用<code>SafeArea</code>包裹页面可以解决全面屏手机的安全区域问题。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SafeArea(</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="2-借助MediaQuery"><a href="#2-借助MediaQuery" class="headerlink" title="2.借助MediaQuery"></a>2.借助<a href="https://api.flutter-io.cn/flutter/widgets/MediaQuery-class.html">MediaQuery</a></h2><p>可以借助<code>MediaQuery.of(context).padding</code>方法获取屏幕的安全区域即四个方向的<code>padding</code>，然后就可以更加灵活地进行布局。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/// 获取当前的 padding 信息</span><br><span class="line">final EdgeInsets edgeInsets = MediaQuery.of(context).padding;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="3-关于安卓"><a href="#3-关于安卓" class="headerlink" title="3.关于安卓"></a>3.关于安卓</h2><p>需要在<code>AndroidManifest.xml</code>文件中添加下方配置。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;!-- 添加 Android 可以适配的最大宽高比为 2.5 : 1 , 适配全面屏添加 --&gt;</span><br><span class="line"> &lt;meta-data</span><br><span class="line">     android:name=&quot;android.max_aspect&quot;</span><br><span class="line">     android:value=&quot;2.5&quot;/&gt;</span><br><span class="line">&lt;meta-data android:name=&quot;android.min_aspect&quot;</span><br><span class="line">    android:value=&quot;1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>Flutter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>IPA签名检查-iOS15</title>
-    <url>/2021/06/16/IPA%E7%AD%BE%E5%90%8D%E6%A3%80%E6%9F%A5-iOS15/</url>
-    <content><![CDATA[<p>具体内容可以查看官方文档：<a href="https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format">Using the Latest Code Signature Format</a></p>
-<h1 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h1><p>从 iOS 14.2 beta 2 开始，系统会检查新的、更安全的签名格式。启动使用旧格式签名的应用程序的用户会收到警告，提示必须使用新格式重新签名该应用程序。在未来的版本中，新格式将成为强制性的，并且系统不会启动具有旧签名格式的应用程序。</p>
-<p>所以对于开发来说，我们要检测自己打包的IPA的签名是否为新格式签名。</p>
-<h2 id="打包机版本"><a href="#打包机版本" class="headerlink" title="打包机版本"></a>打包机版本</h2><p> 如果打包机的系统为macOS 10.14 或更高版本上打包的程序，理论上是没什么问题，不过为了保险起见，最好还是检测下打包的IPA包。</p>
-<h2 id="检测IPA包是否需要重签名"><a href="#检测IPA包是否需要重签名" class="headerlink" title="检测IPA包是否需要重签名"></a>检测IPA包是否需要重签名</h2><p>在终端中执行下放命令，查找像CodeDirectory v&#x3D;20500这样的字符串。对于任何v小于20400的值，您需要重新签署您的应用程序。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">codesign -dv /path/to/MyApp.app</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format#Overview">Using the Latest Code Signature Format</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>GPUImage相应类库所实现的功能</title>
     <url>/2017/12/28/GPUImage%E7%9B%B8%E5%BA%94%E7%B1%BB%E5%BA%93%E6%89%80%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<p>关于<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>:</p>
@@ -2072,6 +2051,56 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>iOS</tag>
         <tag>GPUImage</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IPA签名检查-iOS15</title>
+    <url>/2021/06/16/IPA%E7%AD%BE%E5%90%8D%E6%A3%80%E6%9F%A5-iOS15/</url>
+    <content><![CDATA[<p>具体内容可以查看官方文档：<a href="https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format">Using the Latest Code Signature Format</a></p>
+<h1 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h1><p>从 iOS 14.2 beta 2 开始，系统会检查新的、更安全的签名格式。启动使用旧格式签名的应用程序的用户会收到警告，提示必须使用新格式重新签名该应用程序。在未来的版本中，新格式将成为强制性的，并且系统不会启动具有旧签名格式的应用程序。</p>
+<p>所以对于开发来说，我们要检测自己打包的IPA的签名是否为新格式签名。</p>
+<h2 id="打包机版本"><a href="#打包机版本" class="headerlink" title="打包机版本"></a>打包机版本</h2><p> 如果打包机的系统为macOS 10.14 或更高版本上打包的程序，理论上是没什么问题，不过为了保险起见，最好还是检测下打包的IPA包。</p>
+<h2 id="检测IPA包是否需要重签名"><a href="#检测IPA包是否需要重签名" class="headerlink" title="检测IPA包是否需要重签名"></a>检测IPA包是否需要重签名</h2><p>在终端中执行下放命令，查找像CodeDirectory v&#x3D;20500这样的字符串。对于任何v小于20400的值，您需要重新签署您的应用程序。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">codesign -dv /path/to/MyApp.app</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format#Overview">Using the Latest Code Signature Format</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Instruments工具集</title>
+    <url>/2018/01/02/Instruments%E5%B7%A5%E5%85%B7%E9%9B%86/</url>
+    <content><![CDATA[<h3 id="Blank"><a href="#Blank" class="headerlink" title="Blank"></a>Blank</h3><p>A blank trace document that can be customized with instruments from the Library.</p>
+<h3 id="Activity-Monitor"><a href="#Activity-Monitor" class="headerlink" title="Activity Monitor"></a>Activity Monitor</h3><p>Monitors CPU, memory, disk,and network usage statistics for processes and the system.</p>
+<h3 id="Allocations"><a href="#Allocations" class="headerlink" title="Allocations"></a>Allocations</h3><p>Tracks a process’ anonymous virtual memory and heap, providing class names and optionally retain&#x2F;release histories for objects.</p>
+<h3 id="Cocoa-Layout"><a href="#Cocoa-Layout" class="headerlink" title="Cocoa Layout"></a>Cocoa Layout</h3><p>Observes changes to NSLayoutConstraint objects to help determine when and where a layout constraint went awry.</p>
+<h3 id="Core-Animation"><a href="#Core-Animation" class="headerlink" title="Core Animation"></a>Core Animation</h3><p>This template measures application graphics performance as well as CPU usage of a process via time profiling.</p>
+<h3 id="Core-Data"><a href="#Core-Data" class="headerlink" title="Core Data"></a>Core Data</h3><p>This template traces Core Data filesystem activity, including fetches,cache misses, and saves.</p>
+<h3 id="Counters"><a href="#Counters" class="headerlink" title="Counters"></a>Counters</h3><p>Collects performance monitor counter(PMC) events using time or event based sampling methods.</p>
+<h3 id="Energy-Log"><a href="#Energy-Log" class="headerlink" title="Energy Log"></a>Energy Log</h3><p>This template provides diagnostics regarding energy usage as well as basic on&#x2F;off state of major device components.</p>
+<h3 id="File-Activity"><a href="#File-Activity" class="headerlink" title="File Activity"></a>File Activity</h3><p>This template monitors file and directory activity, including file open&#x2F;close calls, file permission modifications,directory creation, file moves,etc.</p>
+<h3 id="Leaks"><a href="#Leaks" class="headerlink" title="Leaks"></a>Leaks</h3><p>Measures general memory usage,checks for leaked memory,and provides statistics on object allocations by class as well as memory address histories for all active allocations and leaked blocks.</p>
+<h3 id="Metal-System-Trace"><a href="#Metal-System-Trace" class="headerlink" title="Metal System Trace"></a>Metal System Trace</h3><p>Metal System Trace profiles the performance of iOS,tvOS and macOS  Metal applications by providing tracing information from the application,driver,and GPU layers.</p>
+<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><p>Analyze how your applications are using TCP&#x2F;IP connections using the Connections instrument.</p>
+<h3 id="SceneKit"><a href="#SceneKit" class="headerlink" title="SceneKit"></a>SceneKit</h3><p>Profiles an application’s use of SceneKit.Determines the type of work going into each frame, such as animations, physics,scene culling,and rendering.</p>
+<h3 id="System-Trace"><a href="#System-Trace" class="headerlink" title="System Trace"></a>System Trace</h3><p>A comprehensive view of what’s happening in the operationg system. See how threads are being scheduled across CPUs and understand how system calls and virtual memory faults anr affectiong your application’s Performance.</p>
+<h3 id="System-Usage"><a href="#System-Usage" class="headerlink" title="System Usage"></a>System Usage</h3><p>This template records I&#x2F;O system activity related to files, sockets,and shared memory for a single process launched via instruments, Inputs, outputs,duration,backtrace,calltree,etc.is provided for each call.</p>
+<h3 id="Time-Profiler"><a href="#Time-Profiler" class="headerlink" title="Time Profiler"></a>Time Profiler</h3><p>Performs low-overhead time -based sampling of processes runing on the system’s CPUs.</p>
+<h3 id="Zombies"><a href="#Zombies" class="headerlink" title="Zombies"></a>Zombies</h3><p>Measures general memory usage while focusing on the delection of over - released “zombie” objects. Also statistics on object allocations by class as well as memory address histories for all active allocations.</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+        <category>iOS性能调优</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
@@ -2175,35 +2204,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 ]]></content>
       <categories>
         <category>整理</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Instruments工具集</title>
-    <url>/2018/01/02/Instruments%E5%B7%A5%E5%85%B7%E9%9B%86/</url>
-    <content><![CDATA[<h3 id="Blank"><a href="#Blank" class="headerlink" title="Blank"></a>Blank</h3><p>A blank trace document that can be customized with instruments from the Library.</p>
-<h3 id="Activity-Monitor"><a href="#Activity-Monitor" class="headerlink" title="Activity Monitor"></a>Activity Monitor</h3><p>Monitors CPU, memory, disk,and network usage statistics for processes and the system.</p>
-<h3 id="Allocations"><a href="#Allocations" class="headerlink" title="Allocations"></a>Allocations</h3><p>Tracks a process’ anonymous virtual memory and heap, providing class names and optionally retain&#x2F;release histories for objects.</p>
-<h3 id="Cocoa-Layout"><a href="#Cocoa-Layout" class="headerlink" title="Cocoa Layout"></a>Cocoa Layout</h3><p>Observes changes to NSLayoutConstraint objects to help determine when and where a layout constraint went awry.</p>
-<h3 id="Core-Animation"><a href="#Core-Animation" class="headerlink" title="Core Animation"></a>Core Animation</h3><p>This template measures application graphics performance as well as CPU usage of a process via time profiling.</p>
-<h3 id="Core-Data"><a href="#Core-Data" class="headerlink" title="Core Data"></a>Core Data</h3><p>This template traces Core Data filesystem activity, including fetches,cache misses, and saves.</p>
-<h3 id="Counters"><a href="#Counters" class="headerlink" title="Counters"></a>Counters</h3><p>Collects performance monitor counter(PMC) events using time or event based sampling methods.</p>
-<h3 id="Energy-Log"><a href="#Energy-Log" class="headerlink" title="Energy Log"></a>Energy Log</h3><p>This template provides diagnostics regarding energy usage as well as basic on&#x2F;off state of major device components.</p>
-<h3 id="File-Activity"><a href="#File-Activity" class="headerlink" title="File Activity"></a>File Activity</h3><p>This template monitors file and directory activity, including file open&#x2F;close calls, file permission modifications,directory creation, file moves,etc.</p>
-<h3 id="Leaks"><a href="#Leaks" class="headerlink" title="Leaks"></a>Leaks</h3><p>Measures general memory usage,checks for leaked memory,and provides statistics on object allocations by class as well as memory address histories for all active allocations and leaked blocks.</p>
-<h3 id="Metal-System-Trace"><a href="#Metal-System-Trace" class="headerlink" title="Metal System Trace"></a>Metal System Trace</h3><p>Metal System Trace profiles the performance of iOS,tvOS and macOS  Metal applications by providing tracing information from the application,driver,and GPU layers.</p>
-<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><p>Analyze how your applications are using TCP&#x2F;IP connections using the Connections instrument.</p>
-<h3 id="SceneKit"><a href="#SceneKit" class="headerlink" title="SceneKit"></a>SceneKit</h3><p>Profiles an application’s use of SceneKit.Determines the type of work going into each frame, such as animations, physics,scene culling,and rendering.</p>
-<h3 id="System-Trace"><a href="#System-Trace" class="headerlink" title="System Trace"></a>System Trace</h3><p>A comprehensive view of what’s happening in the operationg system. See how threads are being scheduled across CPUs and understand how system calls and virtual memory faults anr affectiong your application’s Performance.</p>
-<h3 id="System-Usage"><a href="#System-Usage" class="headerlink" title="System Usage"></a>System Usage</h3><p>This template records I&#x2F;O system activity related to files, sockets,and shared memory for a single process launched via instruments, Inputs, outputs,duration,backtrace,calltree,etc.is provided for each call.</p>
-<h3 id="Time-Profiler"><a href="#Time-Profiler" class="headerlink" title="Time Profiler"></a>Time Profiler</h3><p>Performs low-overhead time -based sampling of processes runing on the system’s CPUs.</p>
-<h3 id="Zombies"><a href="#Zombies" class="headerlink" title="Zombies"></a>Zombies</h3><p>Measures general memory usage while focusing on the delection of over - released “zombie” objects. Also statistics on object allocations by class as well as memory address histories for all active allocations.</p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-        <category>iOS性能调优</category>
       </categories>
       <tags>
         <tag>iOS</tag>
@@ -4063,6 +4063,110 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>shell脚本的使用及整理</title>
+    <url>/2020/04/29/shell%E8%84%9A%E6%9C%AC%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>这篇文章应该算对自己之前使用Jenkins、Shell脚本打包项目的总结。</p>
+<p>毕竟之前很多东西要么存到项目中，要么存在笔记中，并没有进行整理。</p>
+<h1 id="关于shell"><a href="#关于shell" class="headerlink" title="关于shell"></a>关于shell</h1><p>关于<code>shell</code>脚本的介绍，可以查看<a href="https://baike.baidu.com/item/shell/99702">百度百科</a>中的介绍。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">任何代码最终需要被‘翻译’成二进制的形式才能在计算机中执行。</span><br><span class="line"></span><br><span class="line">有的编程语言，如C/C++、Pascal、Go语言、汇编等，必须在程序运行之前将所有代码都编程成二进制形式(可执行文件),用户拿到最终生成的可执行文件，看不到源码。</span><br><span class="line"></span><br><span class="line">这个过程叫做编译（Compile），这样的编程语言叫做[编译型语言]，完成编译过程的软件叫做编译器[Compiler]。</span><br><span class="line"></span><br><span class="line">而有的编程语言，如Shell、JavaScript、Python、PHP等，需要一边执行一边翻译，不会生成任何可执行文件，用户拿到源代码才能运行程序。程序运行后会即时翻译，翻译完一部分执行一部分，不用等到所有代码都翻译完。</span><br><span class="line"></span><br><span class="line">这个过程叫做解释，这样的编程语言叫做[解释型语言]或者[脚本语言]（Script），完成解释过程的软件叫做解释器。</span><br><span class="line"></span><br><span class="line">编译型语言的优点是执行速度快、对硬件要求低、保密性好，适合开发操作系统、大型应用程序、数据库等。</span><br><span class="line"></span><br><span class="line">脚本语言的优点是使用灵活、部署容易、跨平台性好、非常适合Web开发以及小工具的制作。</span><br><span class="line"></span><br><span class="line">Shell 就是一种脚本语言，我们编写完源码后不用编译，直接运行源码即可。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="shell历史"><a href="#shell历史" class="headerlink" title="shell历史"></a>shell历史</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">由于历史原因，UNIX系统上有很多种Shell：</span><br><span class="line"></span><br><span class="line">1.sh（Bourne Shell）：由Steve Bourne开发，各种UNIX系统都配有sh。</span><br><span class="line"></span><br><span class="line">2.csh（C Shell）：由Bill Joy开发，随BSD UNIX发布，它的流程控制语句很像C语言，支持很多Bourne Shell所不支持的功能：作业控制，命令历史，命令行编辑。</span><br><span class="line"></span><br><span class="line">3.ksh（Korn Shell）：由David Korn开发，向后兼容sh的功能，并且添加了csh引入的新功能，是目前很多UNIX系统标准配置的Shell，在这些系统上/bin/sh往往是指向/bin/ksh的符号链接。</span><br><span class="line"></span><br><span class="line">4.tcsh（TENEX C Shell）：是csh的增强版本，引入了命令补全等功能，在FreeBSD、Mac OS X等系统上替代了csh。</span><br><span class="line"></span><br><span class="line">5.bash（Bourne Again Shell）：由GNU开发的Shell，主要目标是与POSIX标准保持一致，同时兼顾对sh的兼容，bash从csh和ksh借鉴了很多功能，是各种Linux发行版标准配置的Shell，在Linux系统上/bin/sh往往是指向/bin/bash的符号链接。虽然如此，bash和sh还是有很多不同的，一方面，bash扩展了一些命令和参数，另一方面，bash并不完全和sh兼容，有些行为并不一致，所以bash需要模拟sh的行为：当我们通过sh这个程序名启动bash时，bash可以假装自己是sh，不认扩展的命令，并且行为与sh保持一致。</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="术语名词"><a href="#术语名词" class="headerlink" title="术语名词"></a>术语名词</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- IDC--（Internet Data Center)互联网数据中心，主要服务包括整机租用、服务器托管、机柜租用、机房租用、专线接入和网络管理服务等。广义上的IDC业务，实际上就是数据中心所提供的一切服务。客户租用数据中心的服务器和带宽，并利用数据中心的技术力量，来实现自己对软、硬件的要求，搭建自己的互联网平台，享用数据中心所提供的一系列服务。</span><br><span class="line"></span><br><span class="line">- ISP--(Internet Service Provider)互联网服务提供商，即向广大用户综合提供互联网接入业务、信息业务、和增值业务的电信运营商。</span><br><span class="line"></span><br><span class="line">- ICP--(Internet Content Provider)互联网内容提供商，向广大用户综合提供互联网信息业务和增值业务的电信运营商。 根据中华人民共和国国务院令第292号《互联网信息服务管理办法》规定，国家对提供互联网信息服务的ICP实行许可证制度。从而，ICP证成为网站经营的许可证，经营性网站必须办理ICP证，否则就属于非法经营。因此，办理ICP证是企业网站合法经营的需要.</span><br><span class="line"></span><br><span class="line">- CDN--(Content Delivery Network)内容分发网络,依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。 CDN的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，在用户访问网站时，利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。</span><br><span class="line"></span><br><span class="line">- LVS--(Linux Virtual Server)的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。LVS集群采用IP负载均衡技术和基于内容请求分发技术。调度器具有很好的吞吐率，将请求均衡地转移到不同的服务器上执行，且调度器自动屏蔽掉服务器的故障，从而将一组服务器构成一个高性能的、高可用的虚拟服务器。整个服务器集群的结构对客户是透明的，而且无需修改客户端和服务器端的程序。为此，在设计时需要考虑系统的透明性、可伸缩性、高可用性和易管理性。</span><br><span class="line"></span><br><span class="line">- CGI--(Common Gateway Interface)通用网关接口。CGI规范允许Web服务器执行外部程序，并将它们的输出发送给Web浏览器，CGI将Web的一组简单的静态超媒体文档变成一个完整的新的交互式媒体。</span><br><span class="line"></span><br><span class="line">- GSLB--(Global Server Load Balance，全局负载均衡）作为 CDN 系统架构中最核心的部分，负责流量调度.基于DNS的GSLB 绝大部分使用负载均衡技术的应用都通过域名来访问目的主机，在用户发出任何应用连接请求时，首先必须通过DNS请求获得服务器的IP地址，基于DNS的GSLB正是在返回DNS解析结果的过程中进行智能决策，给用户返回一个最佳的服务IP。用户应用流程与没有GSLB时未发生任何变化。这也是市场上主流的GSLB技术。</span><br><span class="line"></span><br><span class="line">- BOSS--(Business &amp; Operation Support System，BOSS)是业务运营支撑系统。通常所说的BOSS分为四个部分：计费及结算系统、营业与账务系统、客户服务系统和决策支持系统。BOSS从业务层面来看就是一个框架，来承载业务系统、CRM系统、计费系统。实现统一框架中的纵向、横向管理。该系统最早由电信部门的计费系统发展演变而来，基本功能包括客户资料管理、产品管理、用户订购管理、计费、出帐、结算等，负责登记客户资料、管理用户订购服务的提供、实时的根据不同产品、套餐的资费标准计算业务（手机、固定电话用户通话时、点播收视、宽带流量与时间等）的消费金额，准实时及定期计算用户帐单，实时或定期结算用户各种消费费用。</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="常用shell命令"><a href="#常用shell命令" class="headerlink" title="常用shell命令"></a>常用shell命令</h1><h3 id="获取SDK或IPA的版本号"><a href="#获取SDK或IPA的版本号" class="headerlink" title="获取SDK或IPA的版本号"></a>获取SDK或IPA的版本号</h3><p>使用<code>shell</code>脚本获取SDK或IPA的版本号，跟我们在代码中获取IPA的版本号一样，都是解析Info.plist中的<code>CFBundleShortVersionString</code>。</p>
+<p>所以在这里就可以使用Mac自带的专门解析plist的小工具<code>PlistBuddy</code>来获取项目的版本号。</p>
+<p>使用方式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#获取Inof.plist中的版本号</span><br><span class="line">buildVersion=$(/usr/libexec/PlistBuddy -c &quot;print:CFBundleShortVersionString&quot; $&#123;projectPath&#125;../tpocr/tpocr/Info.plist)</span><br></pre></td></tr></table></figure>
+
+<p>同理我们可以将打包IPA所需的<code>scheme</code>、<code>configuration</code>……等信息存放到<code>config.plist</code>中，使用<code>PlistBuddy</code>直接读取，我们需要修改相应参数的时候可以直接修改<code>config.plist</code>，避免直接修改脚本。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#工程项目路径</span><br><span class="line">projectPath=&quot;$(pwd)&quot;</span><br><span class="line">#build配置文件</span><br><span class="line">buildConfigFile=&quot;$&#123;projectPath&#125;/Packaging/config.plist&quot;</span><br><span class="line">#打包的target名称</span><br><span class="line">buildSchemeName=$(/usr/libexec/PlistBuddy -c &quot;print:build:scheme&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#build configuration</span><br><span class="line">buildConfiguration=$(/usr/libexec/PlistBuddy -c &quot;print:build:configuration&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#export options plist</span><br><span class="line">exportOptionsPlist=&quot;$&#123;projectPath&#125;/Packaging/$(/usr/libexec/PlistBuddy -c &quot;print:build:exportPlist&quot; $&#123;buildConfigFile&#125;).plist&quot;</span><br><span class="line">#用于签名的企业开发者名称</span><br><span class="line">enterpriseDistributionSignName=$(/usr/libexec/PlistBuddy -c &quot;print:resign:enterpriseName&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#企业打包provision证书</span><br><span class="line">enterpriseProvisionFile=&quot;$&#123;projectPath&#125;/Packaging/$(/usr/libexec/PlistBuddy -c &quot;print:resign:enterpriseProvision&quot; $&#123;buildConfigFile&#125;).mobileprovision&quot;</span><br><span class="line">#Jenkins job</span><br><span class="line">jenkinsJob=$(/usr/libexec/PlistBuddy -c &quot;print:deliver:jenkinsJob&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#fir api token</span><br><span class="line">firAPIToken=$(/usr/libexec/PlistBuddy -c &quot;print:deliver:fir&quot; $&#123;buildConfigFile&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="使用Xcodebuild指令对项目进行打包"><a href="#使用Xcodebuild指令对项目进行打包" class="headerlink" title="使用Xcodebuild指令对项目进行打包"></a>使用Xcodebuild指令对项目进行打包</h3><p>xcodebuild是命令行工具包(Command Line Tools)中的一项，是一个轻量型的、可以与Xcode分开的、在Mac上单独下载的命令行工具包。</p>
+<p>在<code>/usr/bin</code>目录下，我们可以在终端使用<code>open /usr/bin</code>查找该工具。而在<code>usr/bin</code>目录下还有很多命令工具，比如：git、make、xcrun等。</p>
+<p>在xcode9后build不指定任何签名信息，具体编译命令如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#编译IPA</span><br><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; -sdk iphoneos clean archive -archivePath $&#123;archiveFilePath&#125; | xcpretty</span><br><span class="line"></span><br><span class="line">#导出ipa文件</span><br><span class="line">xcodebuild -allowProvisioningUpdates -exportArchive -archivePath $&#123;archiveFilePath&#125; -exportPath $&#123;ipaDir&#125; -exportOptionsPlist $&#123;exportOptionsPlist&#125; | xcpretty</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>导出的文件中除了导出ipa包以外，还有dSYM文件。</p>
+<p>dSYM是符号表文件，每次打包我们需要保存好，如果后面项目出现问题，我们可以使用dSYM分析其崩溃信息。</p>
+<h3 id="使用xcodebuild指令打包Framework"><a href="#使用xcodebuild指令打包Framework" class="headerlink" title="使用xcodebuild指令打包Framework"></a>使用xcodebuild指令打包Framework</h3><p>我们手动打包Framework的时候，是先将每个指令集进行打包，然后使用<code>lipo -create</code>将其合并，使用命令打包也是这个逻辑。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">### Build simulator platform. (i386, x86_64)</span><br><span class="line">echo &quot;========== Build Simulator Platform ==========&quot;</span><br><span class="line">echo &quot;===== Build Simulator Platform: i386 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphonesimulator BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/i386&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;i386&#x27; VALID_ARCHS=&#x27;i386&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">echo &quot;===== Build Simulator Platform: x86_64 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphonesimulator BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/x86_64&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;x86_64&#x27; VALID_ARCHS=&#x27;x86_64&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">### Build device platform. (armv7, arm64)</span><br><span class="line">echo &quot;========== Build Device Platform ==========&quot;</span><br><span class="line">echo &quot;===== Build Device Platform: armv7 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphoneos BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot;  CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/armv7&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;armv7&#x27; VALID_ARCHS=&#x27;armv7&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">echo &quot;===== Build Device Platform: arm64 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphoneos BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/arm64&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;arm64&#x27;  VALID_ARCHS=&#x27;arm64&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">### Build device platform. (arm64, armv7)</span><br><span class="line">echo &quot;========== Build Universal Platform ==========&quot;</span><br><span class="line">## Copy the framework structure to the universal folder (clean it first).</span><br><span class="line">rm -rf &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;&quot;</span><br><span class="line">mkdir -p &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;&quot;</span><br><span class="line">## Copy the last product files of xcodebuild command.</span><br><span class="line">cp -R &quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/arm64/$&#123;PRODUCT_NAME&#125;.framework&quot; &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework&quot;</span><br><span class="line">echo &quot;Smash them together to combine all architectures.&quot;</span><br><span class="line">lipo -create  &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphonesimulator/i386/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphonesimulator/x86_64/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphoneos/armv7/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphoneos/arm64/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; -output &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot;</span><br><span class="line">echo &quot;Copy Framework Code Signature&quot;</span><br><span class="line">cp -R &quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/x86_64/$&#123;PRODUCT_NAME&#125;.framework/_CodeSignature&quot; &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework/&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="关于xcpretty"><a href="#关于xcpretty" class="headerlink" title="关于xcpretty"></a>关于xcpretty</h3><p>将<code>xcpretty</code>拎出来单独说，是因为刚复工回来，更新了电脑的<code>ruby</code>然后导致了打包脚本不能使用，才注意到它。</p>
+<p><code>xcpretty</code>是一个用ruby实现的小工具，可以使用<code>gem install xcpretty</code>，作用是美化<code>xcodebuild</code>冗长的日志输入。</p>
+<p>如需使用<code>xcpretty</code>对日志进行美化只需要在<code>xcodebuild</code>命令后面加入<code> | xcpretty</code>即可。</p>
+<p>类似于下方：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; | xcpretty</span><br></pre></td></tr></table></figure>
+
+<h3 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h3><p>shell脚本的for循环结构和我们的<code>OC</code>中<code>for in</code>遍历有些类似。<br>例如下方脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#获取所有jar包并上传</span><br><span class="line">for workitem in `ls $&#123;updatePath&#125;/`; do</span><br><span class="line">workspaceDir=$&#123;updatePath&#125;&quot;/&quot;$workitem</span><br><span class="line">echo &quot;\n---jar包目录：\n$&#123;workspaceDir&#125;---\n&quot;</span><br><span class="line">java -jar /Users/apple/Desktop/build/UpdateService/jenkins-file-service.jar $&#123;workspaceDir&#125; 1 /home/verifaceops/jenkins-file/taiping_src/</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>该脚本其主要功能是遍历<code>$&#123;updatePath&#125;</code>目录下的的文件，然后将所有文件上传到公司内网的文件服务器中。</p>
+<p>这很类似于我们了解的<code>for in</code>遍历了。</p>
+<p>for循环的一般格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for var in item1 item2 ... itemN</span><br><span class="line">do</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><p><code>shll</code>中的<code>while</code>循环也跟<code>OC</code>和<code>C</code>的用法和写法类似，比如下方一个验证密码是否正确（当然在现实中并不会用到）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#脚本内容：</span><br><span class="line">echo &quot;请输入打包密码:&quot;</span><br><span class="line">read TRY</span><br><span class="line">while [ &quot;$TRY&quot; != &quot;tplife&quot; ]; do</span><br><span class="line">  echo &quot;抱歉，密码错误！\n请重新输入：&quot;</span><br><span class="line">  read TRY</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">#终端输出：</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro Python_Project % sh build.sh</span><br><span class="line">请输入打包密码:</span><br><span class="line">123</span><br><span class="line">抱歉，密码错误！</span><br><span class="line">请重新输入：</span><br><span class="line">tplife</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro Python_Project %</span><br></pre></td></tr></table></figure>
+
+<h3 id="if判断语句"><a href="#if判断语句" class="headerlink" title="if判断语句"></a>if判断语句</h3><p><code>shell</code>的<code>if</code>语法跟<code>OC</code>类似，但感觉所有语言并没有<code>OC</code>写着优雅。</p>
+<p>if语句语法格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1 </span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN </span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>if else 语法格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1 </span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">else</span><br><span class="line">    command</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>if else-if else 语法格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition1</span><br><span class="line">then</span><br><span class="line">    command1</span><br><span class="line">elif condition2 </span><br><span class="line">then </span><br><span class="line">    command2</span><br><span class="line">else</span><br><span class="line">    commandN</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-eq           //等于</span><br><span class="line">-ne           //不等于</span><br><span class="line">-gt            //大于 （greater ）</span><br><span class="line">-lt            //小于  （less）</span><br><span class="line">-ge            //大于等于</span><br><span class="line">-le            //小于等于</span><br><span class="line"></span><br><span class="line">命令的逻辑关系：</span><br><span class="line">在linux 中 命令执行状态：0 为真，其他为假</span><br><span class="line">逻辑与： &amp;&amp;</span><br><span class="line">第一个条件为假时，第二条件不用再判断，最终结果已经有；</span><br><span class="line">第一个条件为真时，第二条件必须得判断；</span><br><span class="line">逻辑或： ||</span><br><span class="line">逻辑非： ！</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#xcode9后build不指定任何签名信息</span><br><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; -sdk iphoneos clean archive -archivePath $&#123;archiveFilePath&#125; | xcpretty</span><br><span class="line"></span><br><span class="line">EXCODE=$?</span><br><span class="line">if [ &quot;$EXCODE&quot; == &quot;0&quot; ]; then</span><br><span class="line">echo &quot;Build, Archive ----&gt; O.K&quot;</span><br><span class="line">else</span><br><span class="line">echo &quot;***********************编译失败********************************&quot;</span><br><span class="line">exit 1</span><br><span class="line">fi</span><br><span class="line">echo &quot;***********************结束build archive app文件***********************&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#将打包的apk和IPA包上传到蒲公英</span><br><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">#  update.sh</span><br><span class="line">#  </span><br><span class="line">#</span><br><span class="line">#  Created by CNTP on 2020/04/14.</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">export LANG=&quot;en_US.UTF-8&quot;</span><br><span class="line"></span><br><span class="line">updateAndroidPath=&quot;/Users/apple/Desktop/build/OCR/Android&quot;</span><br><span class="line">updateiOSPath=&quot;/Users/apple/Desktop/build/OCR/iOS&quot;</span><br><span class="line">userKey=&quot;**&quot;</span><br><span class="line">apiKey=&quot;**&quot;</span><br><span class="line"></span><br><span class="line"># ----- 上传Android apk -----</span><br><span class="line">echo &quot;\n\n----- 上传Android apk -----\n\n&quot;</span><br><span class="line"></span><br><span class="line">for workitem in `ls $&#123;updateAndroidPath&#125;`; do</span><br><span class="line">filePath=$&#123;updateAndroidPath&#125;&quot;/&quot;$workitem</span><br><span class="line">if [[ &quot;$&#123;filePath##*.&#125;&quot;x = &quot;apk&quot;x ]]; then</span><br><span class="line">echo &quot;----文件----$&#123;filePath&#125;---&quot;</span><br><span class="line">curl -F &quot;file=@$filePath&quot; \</span><br><span class="line">-F &quot;uKey=$&#123;userKey&#125;&quot; \</span><br><span class="line">-F &quot;_api_key=$&#123;apiKey&#125;&quot; \</span><br><span class="line">https://www.pgyer.com/apiv1/app/upload</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">#----- 上传iOS IPA -----</span><br><span class="line">echo &quot;\n\n----- 上传iOS IPA -----\n\n&quot;</span><br><span class="line">cd $&#123;updateiOSPath&#125;</span><br><span class="line">unzip ipa-1.0.zip</span><br><span class="line">for workitem in `ls $&#123;updateiOSPath&#125;/ipa-1.0/1.0`; do</span><br><span class="line">filePath=$&#123;updateiOSPath&#125;&quot;/ipa-1.0/1.0/&quot;$workitem</span><br><span class="line">if [[ &quot;$&#123;filePath##*.&#125;&quot;x = &quot;ipa&quot;x ]]; then</span><br><span class="line">echo &quot;----文件----$&#123;filePath&#125;---&quot;</span><br><span class="line">curl -F &quot;file=@$filePath&quot; \</span><br><span class="line">-F &quot;uKey=$&#123;userKey&#125;&quot; \</span><br><span class="line">-F &quot;_api_key=$&#123;apiKey&#125;&quot; \</span><br><span class="line">https://www.pgyer.com/apiv1/app/upload</span><br><span class="line">rm -rf $&#123;updateiOSPath&#125;/ipa-1.0</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Android打包"><a href="#Android打包" class="headerlink" title="Android打包"></a>Android打包</h3><p>Android打包是调用工程根目录下的gradlew来完成打包。</p>
+<p>cd到相应工程目录，然后执行<code>gradlew clean</code>清理缓存，然后再执行<code>gradlew assembleRelease</code>进行打包。</p>
+<p>具体命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gradlew clean</span><br><span class="line">gradlew assembleRelease</span><br></pre></td></tr></table></figure>
+
+<p><code>gradlew clean </code>是清理工程目录下的<code>build</code>文件夹。<br><code>gradlew assembleRelease</code>是编译并打<code>Release</code>包，同理<code>gradlew assembleDebug</code>是编译是打<code>Debug</code>包。</p>
+<p>我们也可以使用<code>gradlew build</code>命令将<code>debug</code>、<code>release</code>环境的包都打出来。</p>
+<h3 id="服务端打包"><a href="#服务端打包" class="headerlink" title="服务端打包"></a>服务端打包</h3><p>服务端那边是使用<code>Maven</code>进行自动化打包。</p>
+<p>全程也只有下方一个指令。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mvn clean install -DskipTests</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>首先使用<code>Maven</code>需要在<code>Mac</code>系统上安装和配置<code>Maven</code>环境。</p>
+<p>具体配置可以参考<a href="https://blog.csdn.net/winstonlau/article/details/95605557">Mac系统下载、安装和配置Maven环境</a>这篇文章。</p>
+<p>因还有其他逻辑，所以将所有逻辑存放在<code>build.sh</code>文件中。但在调用时发现，会报配置出错。</p>
+<p>所以需要在<code>Jenkins</code>配置的<code>Execute shell</code>中添加<code>#!/bin/bash -ilex</code>。</p>
+<p>其中<code>build.sh</code>为编译jar包的脚本。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash -ilex</span><br><span class="line">cd /Users/apple/Desktop/build/taiping_src</span><br><span class="line">sh build.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%AE%BC%E5%B1%A4">shell-维基百科</a></li>
+<li><a href="https://baike.baidu.com/item/shell/99702">shell-百度百科</a></li>
+<li><a href="https://www.runoob.com/linux/linux-shell.html">shell教程-菜鸟</a></li>
+<li><a href="http://c.biancheng.net/shell/base/">Shell基础</a></li>
+<li><a href="https://www.runoob.com/linux/linux-command-manual.html">Linux命令大全</a></li>
+<li><a href="https://www.jianshu.com/p/7248276d3bb5">Gradle与Maven的区别</a></li>
+<li><a href="https://blog.csdn.net/winstonlau/article/details/95605557">Mac系统下载、安装和配置Maven环境</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>lottie介绍及使用相关（翻译）</title>
     <url>/2019/09/09/lottie%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/lottie%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%85%B3/Lottie.jpg" alt="Lottie.jpg"></p>
@@ -4314,7 +4418,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be">The art of Lotte Reineger</a></p>
 <h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
 <p>如果你想添加更多的JSON文件，请随时这样做！</p>
-<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#98;&#x72;&#97;&#x6e;&#100;&#111;&#110;&#46;&#119;&#105;&#x74;&#x68;&#114;&#111;&#119;&#x40;&#97;&#105;&#x72;&#x62;&#110;&#x62;&#46;&#x63;&#x6f;&#109;">&#98;&#x72;&#97;&#x6e;&#100;&#111;&#110;&#46;&#119;&#105;&#x74;&#x68;&#114;&#111;&#119;&#x40;&#97;&#105;&#x72;&#x62;&#110;&#x62;&#46;&#x63;&#x6f;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#114;&#97;&#110;&#x64;&#x6f;&#x6e;&#x2e;&#119;&#105;&#x74;&#104;&#114;&#x6f;&#119;&#64;&#x61;&#105;&#x72;&#x62;&#x6e;&#98;&#46;&#x63;&#111;&#109;">&#x62;&#114;&#97;&#110;&#x64;&#x6f;&#x6e;&#x2e;&#119;&#105;&#x74;&#104;&#114;&#x6f;&#119;&#64;&#x61;&#105;&#x72;&#x62;&#x6e;&#98;&#46;&#x63;&#111;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
 <h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
 <li>添加对交互式动画过渡的支持</li>
 </ul>
@@ -4325,110 +4429,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>iOS</tag>
         <tag>翻译</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shell脚本的使用及整理</title>
-    <url>/2020/04/29/shell%E8%84%9A%E6%9C%AC%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>这篇文章应该算对自己之前使用Jenkins、Shell脚本打包项目的总结。</p>
-<p>毕竟之前很多东西要么存到项目中，要么存在笔记中，并没有进行整理。</p>
-<h1 id="关于shell"><a href="#关于shell" class="headerlink" title="关于shell"></a>关于shell</h1><p>关于<code>shell</code>脚本的介绍，可以查看<a href="https://baike.baidu.com/item/shell/99702">百度百科</a>中的介绍。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">任何代码最终需要被‘翻译’成二进制的形式才能在计算机中执行。</span><br><span class="line"></span><br><span class="line">有的编程语言，如C/C++、Pascal、Go语言、汇编等，必须在程序运行之前将所有代码都编程成二进制形式(可执行文件),用户拿到最终生成的可执行文件，看不到源码。</span><br><span class="line"></span><br><span class="line">这个过程叫做编译（Compile），这样的编程语言叫做[编译型语言]，完成编译过程的软件叫做编译器[Compiler]。</span><br><span class="line"></span><br><span class="line">而有的编程语言，如Shell、JavaScript、Python、PHP等，需要一边执行一边翻译，不会生成任何可执行文件，用户拿到源代码才能运行程序。程序运行后会即时翻译，翻译完一部分执行一部分，不用等到所有代码都翻译完。</span><br><span class="line"></span><br><span class="line">这个过程叫做解释，这样的编程语言叫做[解释型语言]或者[脚本语言]（Script），完成解释过程的软件叫做解释器。</span><br><span class="line"></span><br><span class="line">编译型语言的优点是执行速度快、对硬件要求低、保密性好，适合开发操作系统、大型应用程序、数据库等。</span><br><span class="line"></span><br><span class="line">脚本语言的优点是使用灵活、部署容易、跨平台性好、非常适合Web开发以及小工具的制作。</span><br><span class="line"></span><br><span class="line">Shell 就是一种脚本语言，我们编写完源码后不用编译，直接运行源码即可。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="shell历史"><a href="#shell历史" class="headerlink" title="shell历史"></a>shell历史</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">由于历史原因，UNIX系统上有很多种Shell：</span><br><span class="line"></span><br><span class="line">1.sh（Bourne Shell）：由Steve Bourne开发，各种UNIX系统都配有sh。</span><br><span class="line"></span><br><span class="line">2.csh（C Shell）：由Bill Joy开发，随BSD UNIX发布，它的流程控制语句很像C语言，支持很多Bourne Shell所不支持的功能：作业控制，命令历史，命令行编辑。</span><br><span class="line"></span><br><span class="line">3.ksh（Korn Shell）：由David Korn开发，向后兼容sh的功能，并且添加了csh引入的新功能，是目前很多UNIX系统标准配置的Shell，在这些系统上/bin/sh往往是指向/bin/ksh的符号链接。</span><br><span class="line"></span><br><span class="line">4.tcsh（TENEX C Shell）：是csh的增强版本，引入了命令补全等功能，在FreeBSD、Mac OS X等系统上替代了csh。</span><br><span class="line"></span><br><span class="line">5.bash（Bourne Again Shell）：由GNU开发的Shell，主要目标是与POSIX标准保持一致，同时兼顾对sh的兼容，bash从csh和ksh借鉴了很多功能，是各种Linux发行版标准配置的Shell，在Linux系统上/bin/sh往往是指向/bin/bash的符号链接。虽然如此，bash和sh还是有很多不同的，一方面，bash扩展了一些命令和参数，另一方面，bash并不完全和sh兼容，有些行为并不一致，所以bash需要模拟sh的行为：当我们通过sh这个程序名启动bash时，bash可以假装自己是sh，不认扩展的命令，并且行为与sh保持一致。</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="术语名词"><a href="#术语名词" class="headerlink" title="术语名词"></a>术语名词</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- IDC--（Internet Data Center)互联网数据中心，主要服务包括整机租用、服务器托管、机柜租用、机房租用、专线接入和网络管理服务等。广义上的IDC业务，实际上就是数据中心所提供的一切服务。客户租用数据中心的服务器和带宽，并利用数据中心的技术力量，来实现自己对软、硬件的要求，搭建自己的互联网平台，享用数据中心所提供的一系列服务。</span><br><span class="line"></span><br><span class="line">- ISP--(Internet Service Provider)互联网服务提供商，即向广大用户综合提供互联网接入业务、信息业务、和增值业务的电信运营商。</span><br><span class="line"></span><br><span class="line">- ICP--(Internet Content Provider)互联网内容提供商，向广大用户综合提供互联网信息业务和增值业务的电信运营商。 根据中华人民共和国国务院令第292号《互联网信息服务管理办法》规定，国家对提供互联网信息服务的ICP实行许可证制度。从而，ICP证成为网站经营的许可证，经营性网站必须办理ICP证，否则就属于非法经营。因此，办理ICP证是企业网站合法经营的需要.</span><br><span class="line"></span><br><span class="line">- CDN--(Content Delivery Network)内容分发网络,依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。 CDN的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，在用户访问网站时，利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。</span><br><span class="line"></span><br><span class="line">- LVS--(Linux Virtual Server)的简写，意即Linux虚拟服务器，是一个虚拟的服务器集群系统。LVS集群采用IP负载均衡技术和基于内容请求分发技术。调度器具有很好的吞吐率，将请求均衡地转移到不同的服务器上执行，且调度器自动屏蔽掉服务器的故障，从而将一组服务器构成一个高性能的、高可用的虚拟服务器。整个服务器集群的结构对客户是透明的，而且无需修改客户端和服务器端的程序。为此，在设计时需要考虑系统的透明性、可伸缩性、高可用性和易管理性。</span><br><span class="line"></span><br><span class="line">- CGI--(Common Gateway Interface)通用网关接口。CGI规范允许Web服务器执行外部程序，并将它们的输出发送给Web浏览器，CGI将Web的一组简单的静态超媒体文档变成一个完整的新的交互式媒体。</span><br><span class="line"></span><br><span class="line">- GSLB--(Global Server Load Balance，全局负载均衡）作为 CDN 系统架构中最核心的部分，负责流量调度.基于DNS的GSLB 绝大部分使用负载均衡技术的应用都通过域名来访问目的主机，在用户发出任何应用连接请求时，首先必须通过DNS请求获得服务器的IP地址，基于DNS的GSLB正是在返回DNS解析结果的过程中进行智能决策，给用户返回一个最佳的服务IP。用户应用流程与没有GSLB时未发生任何变化。这也是市场上主流的GSLB技术。</span><br><span class="line"></span><br><span class="line">- BOSS--(Business &amp; Operation Support System，BOSS)是业务运营支撑系统。通常所说的BOSS分为四个部分：计费及结算系统、营业与账务系统、客户服务系统和决策支持系统。BOSS从业务层面来看就是一个框架，来承载业务系统、CRM系统、计费系统。实现统一框架中的纵向、横向管理。该系统最早由电信部门的计费系统发展演变而来，基本功能包括客户资料管理、产品管理、用户订购管理、计费、出帐、结算等，负责登记客户资料、管理用户订购服务的提供、实时的根据不同产品、套餐的资费标准计算业务（手机、固定电话用户通话时、点播收视、宽带流量与时间等）的消费金额，准实时及定期计算用户帐单，实时或定期结算用户各种消费费用。</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="常用shell命令"><a href="#常用shell命令" class="headerlink" title="常用shell命令"></a>常用shell命令</h1><h3 id="获取SDK或IPA的版本号"><a href="#获取SDK或IPA的版本号" class="headerlink" title="获取SDK或IPA的版本号"></a>获取SDK或IPA的版本号</h3><p>使用<code>shell</code>脚本获取SDK或IPA的版本号，跟我们在代码中获取IPA的版本号一样，都是解析Info.plist中的<code>CFBundleShortVersionString</code>。</p>
-<p>所以在这里就可以使用Mac自带的专门解析plist的小工具<code>PlistBuddy</code>来获取项目的版本号。</p>
-<p>使用方式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#获取Inof.plist中的版本号</span><br><span class="line">buildVersion=$(/usr/libexec/PlistBuddy -c &quot;print:CFBundleShortVersionString&quot; $&#123;projectPath&#125;../tpocr/tpocr/Info.plist)</span><br></pre></td></tr></table></figure>
-
-<p>同理我们可以将打包IPA所需的<code>scheme</code>、<code>configuration</code>……等信息存放到<code>config.plist</code>中，使用<code>PlistBuddy</code>直接读取，我们需要修改相应参数的时候可以直接修改<code>config.plist</code>，避免直接修改脚本。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#工程项目路径</span><br><span class="line">projectPath=&quot;$(pwd)&quot;</span><br><span class="line">#build配置文件</span><br><span class="line">buildConfigFile=&quot;$&#123;projectPath&#125;/Packaging/config.plist&quot;</span><br><span class="line">#打包的target名称</span><br><span class="line">buildSchemeName=$(/usr/libexec/PlistBuddy -c &quot;print:build:scheme&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#build configuration</span><br><span class="line">buildConfiguration=$(/usr/libexec/PlistBuddy -c &quot;print:build:configuration&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#export options plist</span><br><span class="line">exportOptionsPlist=&quot;$&#123;projectPath&#125;/Packaging/$(/usr/libexec/PlistBuddy -c &quot;print:build:exportPlist&quot; $&#123;buildConfigFile&#125;).plist&quot;</span><br><span class="line">#用于签名的企业开发者名称</span><br><span class="line">enterpriseDistributionSignName=$(/usr/libexec/PlistBuddy -c &quot;print:resign:enterpriseName&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#企业打包provision证书</span><br><span class="line">enterpriseProvisionFile=&quot;$&#123;projectPath&#125;/Packaging/$(/usr/libexec/PlistBuddy -c &quot;print:resign:enterpriseProvision&quot; $&#123;buildConfigFile&#125;).mobileprovision&quot;</span><br><span class="line">#Jenkins job</span><br><span class="line">jenkinsJob=$(/usr/libexec/PlistBuddy -c &quot;print:deliver:jenkinsJob&quot; $&#123;buildConfigFile&#125;)</span><br><span class="line">#fir api token</span><br><span class="line">firAPIToken=$(/usr/libexec/PlistBuddy -c &quot;print:deliver:fir&quot; $&#123;buildConfigFile&#125;)</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="使用Xcodebuild指令对项目进行打包"><a href="#使用Xcodebuild指令对项目进行打包" class="headerlink" title="使用Xcodebuild指令对项目进行打包"></a>使用Xcodebuild指令对项目进行打包</h3><p>xcodebuild是命令行工具包(Command Line Tools)中的一项，是一个轻量型的、可以与Xcode分开的、在Mac上单独下载的命令行工具包。</p>
-<p>在<code>/usr/bin</code>目录下，我们可以在终端使用<code>open /usr/bin</code>查找该工具。而在<code>usr/bin</code>目录下还有很多命令工具，比如：git、make、xcrun等。</p>
-<p>在xcode9后build不指定任何签名信息，具体编译命令如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#编译IPA</span><br><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; -sdk iphoneos clean archive -archivePath $&#123;archiveFilePath&#125; | xcpretty</span><br><span class="line"></span><br><span class="line">#导出ipa文件</span><br><span class="line">xcodebuild -allowProvisioningUpdates -exportArchive -archivePath $&#123;archiveFilePath&#125; -exportPath $&#123;ipaDir&#125; -exportOptionsPlist $&#123;exportOptionsPlist&#125; | xcpretty</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>导出的文件中除了导出ipa包以外，还有dSYM文件。</p>
-<p>dSYM是符号表文件，每次打包我们需要保存好，如果后面项目出现问题，我们可以使用dSYM分析其崩溃信息。</p>
-<h3 id="使用xcodebuild指令打包Framework"><a href="#使用xcodebuild指令打包Framework" class="headerlink" title="使用xcodebuild指令打包Framework"></a>使用xcodebuild指令打包Framework</h3><p>我们手动打包Framework的时候，是先将每个指令集进行打包，然后使用<code>lipo -create</code>将其合并，使用命令打包也是这个逻辑。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">### Build simulator platform. (i386, x86_64)</span><br><span class="line">echo &quot;========== Build Simulator Platform ==========&quot;</span><br><span class="line">echo &quot;===== Build Simulator Platform: i386 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphonesimulator BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/i386&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;i386&#x27; VALID_ARCHS=&#x27;i386&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">echo &quot;===== Build Simulator Platform: x86_64 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphonesimulator BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/x86_64&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;x86_64&#x27; VALID_ARCHS=&#x27;x86_64&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">### Build device platform. (armv7, arm64)</span><br><span class="line">echo &quot;========== Build Device Platform ==========&quot;</span><br><span class="line">echo &quot;===== Build Device Platform: armv7 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphoneos BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot;  CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/armv7&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;armv7&#x27; VALID_ARCHS=&#x27;armv7&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">echo &quot;===== Build Device Platform: arm64 =====&quot;</span><br><span class="line">xcodebuild -project &quot;$&#123;PROJECT_FILE_PATH&#125;&quot; -target &quot;$&#123;TARGET_NAME&#125;&quot; -configuration &quot;$&#123;CONFIGURATION&#125;&quot; -sdk iphoneos BUILD_DIR=&quot;$&#123;BUILD_DIR&#125;&quot; OBJROOT=&quot;$&#123;OBJROOT&#125;&quot; BUILD_ROOT=&quot;$&#123;BUILD_ROOT&#125;&quot; CONFIGURATION_BUILD_DIR=&quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/arm64&quot; SYMROOT=&quot;$&#123;SYMROOT&#125;&quot; ARCHS=&#x27;arm64&#x27;  VALID_ARCHS=&#x27;arm64&#x27; -UseModernBuildSystem=NO $ACTION</span><br><span class="line"></span><br><span class="line">### Build device platform. (arm64, armv7)</span><br><span class="line">echo &quot;========== Build Universal Platform ==========&quot;</span><br><span class="line">## Copy the framework structure to the universal folder (clean it first).</span><br><span class="line">rm -rf &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;&quot;</span><br><span class="line">mkdir -p &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;&quot;</span><br><span class="line">## Copy the last product files of xcodebuild command.</span><br><span class="line">cp -R &quot;$&#123;IPHONE_DEVICE_BUILD_DIR&#125;/arm64/$&#123;PRODUCT_NAME&#125;.framework&quot; &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework&quot;</span><br><span class="line">echo &quot;Smash them together to combine all architectures.&quot;</span><br><span class="line">lipo -create  &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphonesimulator/i386/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphonesimulator/x86_64/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphoneos/armv7/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; &quot;$&#123;BUILD_DIR&#125;/$&#123;CONFIGURATION&#125;-iphoneos/arm64/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot; -output &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework/$&#123;PRODUCT_NAME&#125;&quot;</span><br><span class="line">echo &quot;Copy Framework Code Signature&quot;</span><br><span class="line">cp -R &quot;$&#123;IPHONE_SIMULATOR_BUILD_DIR&#125;/x86_64/$&#123;PRODUCT_NAME&#125;.framework/_CodeSignature&quot; &quot;$&#123;UNIVERSAL_OUTPUTFOLDER&#125;/$&#123;PRODUCT_NAME&#125;.framework/&quot;</span><br></pre></td></tr></table></figure>
-
-<h3 id="关于xcpretty"><a href="#关于xcpretty" class="headerlink" title="关于xcpretty"></a>关于xcpretty</h3><p>将<code>xcpretty</code>拎出来单独说，是因为刚复工回来，更新了电脑的<code>ruby</code>然后导致了打包脚本不能使用，才注意到它。</p>
-<p><code>xcpretty</code>是一个用ruby实现的小工具，可以使用<code>gem install xcpretty</code>，作用是美化<code>xcodebuild</code>冗长的日志输入。</p>
-<p>如需使用<code>xcpretty</code>对日志进行美化只需要在<code>xcodebuild</code>命令后面加入<code> | xcpretty</code>即可。</p>
-<p>类似于下方：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; | xcpretty</span><br></pre></td></tr></table></figure>
-
-<h3 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h3><p>shell脚本的for循环结构和我们的<code>OC</code>中<code>for in</code>遍历有些类似。<br>例如下方脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#获取所有jar包并上传</span><br><span class="line">for workitem in `ls $&#123;updatePath&#125;/`; do</span><br><span class="line">workspaceDir=$&#123;updatePath&#125;&quot;/&quot;$workitem</span><br><span class="line">echo &quot;\n---jar包目录：\n$&#123;workspaceDir&#125;---\n&quot;</span><br><span class="line">java -jar /Users/apple/Desktop/build/UpdateService/jenkins-file-service.jar $&#123;workspaceDir&#125; 1 /home/verifaceops/jenkins-file/taiping_src/</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>该脚本其主要功能是遍历<code>$&#123;updatePath&#125;</code>目录下的的文件，然后将所有文件上传到公司内网的文件服务器中。</p>
-<p>这很类似于我们了解的<code>for in</code>遍历了。</p>
-<p>for循环的一般格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for var in item1 item2 ... itemN</span><br><span class="line">do</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><p><code>shll</code>中的<code>while</code>循环也跟<code>OC</code>和<code>C</code>的用法和写法类似，比如下方一个验证密码是否正确（当然在现实中并不会用到）。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#脚本内容：</span><br><span class="line">echo &quot;请输入打包密码:&quot;</span><br><span class="line">read TRY</span><br><span class="line">while [ &quot;$TRY&quot; != &quot;tplife&quot; ]; do</span><br><span class="line">  echo &quot;抱歉，密码错误！\n请重新输入：&quot;</span><br><span class="line">  read TRY</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">#终端输出：</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro Python_Project % sh build.sh</span><br><span class="line">请输入打包密码:</span><br><span class="line">123</span><br><span class="line">抱歉，密码错误！</span><br><span class="line">请重新输入：</span><br><span class="line">tplife</span><br><span class="line">cntp@TPL-0000-161520deMacBook-Pro Python_Project %</span><br></pre></td></tr></table></figure>
-
-<h3 id="if判断语句"><a href="#if判断语句" class="headerlink" title="if判断语句"></a>if判断语句</h3><p><code>shell</code>的<code>if</code>语法跟<code>OC</code>类似，但感觉所有语言并没有<code>OC</code>写着优雅。</p>
-<p>if语句语法格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1 </span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN </span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<p>if else 语法格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1 </span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">else</span><br><span class="line">    command</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<p>if else-if else 语法格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if condition1</span><br><span class="line">then</span><br><span class="line">    command1</span><br><span class="line">elif condition2 </span><br><span class="line">then </span><br><span class="line">    command2</span><br><span class="line">else</span><br><span class="line">    commandN</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-eq           //等于</span><br><span class="line">-ne           //不等于</span><br><span class="line">-gt            //大于 （greater ）</span><br><span class="line">-lt            //小于  （less）</span><br><span class="line">-ge            //大于等于</span><br><span class="line">-le            //小于等于</span><br><span class="line"></span><br><span class="line">命令的逻辑关系：</span><br><span class="line">在linux 中 命令执行状态：0 为真，其他为假</span><br><span class="line">逻辑与： &amp;&amp;</span><br><span class="line">第一个条件为假时，第二条件不用再判断，最终结果已经有；</span><br><span class="line">第一个条件为真时，第二条件必须得判断；</span><br><span class="line">逻辑或： ||</span><br><span class="line">逻辑非： ！</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#xcode9后build不指定任何签名信息</span><br><span class="line">xcodebuild -workspace $&#123;workspace&#125; -scheme &quot;$buildSchemeName&quot; -configuration &quot;$buildConfiguration&quot; -sdk iphoneos clean archive -archivePath $&#123;archiveFilePath&#125; | xcpretty</span><br><span class="line"></span><br><span class="line">EXCODE=$?</span><br><span class="line">if [ &quot;$EXCODE&quot; == &quot;0&quot; ]; then</span><br><span class="line">echo &quot;Build, Archive ----&gt; O.K&quot;</span><br><span class="line">else</span><br><span class="line">echo &quot;***********************编译失败********************************&quot;</span><br><span class="line">exit 1</span><br><span class="line">fi</span><br><span class="line">echo &quot;***********************结束build archive app文件***********************&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#将打包的apk和IPA包上传到蒲公英</span><br><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">#  update.sh</span><br><span class="line">#  </span><br><span class="line">#</span><br><span class="line">#  Created by CNTP on 2020/04/14.</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">export LANG=&quot;en_US.UTF-8&quot;</span><br><span class="line"></span><br><span class="line">updateAndroidPath=&quot;/Users/apple/Desktop/build/OCR/Android&quot;</span><br><span class="line">updateiOSPath=&quot;/Users/apple/Desktop/build/OCR/iOS&quot;</span><br><span class="line">userKey=&quot;**&quot;</span><br><span class="line">apiKey=&quot;**&quot;</span><br><span class="line"></span><br><span class="line"># ----- 上传Android apk -----</span><br><span class="line">echo &quot;\n\n----- 上传Android apk -----\n\n&quot;</span><br><span class="line"></span><br><span class="line">for workitem in `ls $&#123;updateAndroidPath&#125;`; do</span><br><span class="line">filePath=$&#123;updateAndroidPath&#125;&quot;/&quot;$workitem</span><br><span class="line">if [[ &quot;$&#123;filePath##*.&#125;&quot;x = &quot;apk&quot;x ]]; then</span><br><span class="line">echo &quot;----文件----$&#123;filePath&#125;---&quot;</span><br><span class="line">curl -F &quot;file=@$filePath&quot; \</span><br><span class="line">-F &quot;uKey=$&#123;userKey&#125;&quot; \</span><br><span class="line">-F &quot;_api_key=$&#123;apiKey&#125;&quot; \</span><br><span class="line">https://www.pgyer.com/apiv1/app/upload</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">#----- 上传iOS IPA -----</span><br><span class="line">echo &quot;\n\n----- 上传iOS IPA -----\n\n&quot;</span><br><span class="line">cd $&#123;updateiOSPath&#125;</span><br><span class="line">unzip ipa-1.0.zip</span><br><span class="line">for workitem in `ls $&#123;updateiOSPath&#125;/ipa-1.0/1.0`; do</span><br><span class="line">filePath=$&#123;updateiOSPath&#125;&quot;/ipa-1.0/1.0/&quot;$workitem</span><br><span class="line">if [[ &quot;$&#123;filePath##*.&#125;&quot;x = &quot;ipa&quot;x ]]; then</span><br><span class="line">echo &quot;----文件----$&#123;filePath&#125;---&quot;</span><br><span class="line">curl -F &quot;file=@$filePath&quot; \</span><br><span class="line">-F &quot;uKey=$&#123;userKey&#125;&quot; \</span><br><span class="line">-F &quot;_api_key=$&#123;apiKey&#125;&quot; \</span><br><span class="line">https://www.pgyer.com/apiv1/app/upload</span><br><span class="line">rm -rf $&#123;updateiOSPath&#125;/ipa-1.0</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Android打包"><a href="#Android打包" class="headerlink" title="Android打包"></a>Android打包</h3><p>Android打包是调用工程根目录下的gradlew来完成打包。</p>
-<p>cd到相应工程目录，然后执行<code>gradlew clean</code>清理缓存，然后再执行<code>gradlew assembleRelease</code>进行打包。</p>
-<p>具体命令如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gradlew clean</span><br><span class="line">gradlew assembleRelease</span><br></pre></td></tr></table></figure>
-
-<p><code>gradlew clean </code>是清理工程目录下的<code>build</code>文件夹。<br><code>gradlew assembleRelease</code>是编译并打<code>Release</code>包，同理<code>gradlew assembleDebug</code>是编译是打<code>Debug</code>包。</p>
-<p>我们也可以使用<code>gradlew build</code>命令将<code>debug</code>、<code>release</code>环境的包都打出来。</p>
-<h3 id="服务端打包"><a href="#服务端打包" class="headerlink" title="服务端打包"></a>服务端打包</h3><p>服务端那边是使用<code>Maven</code>进行自动化打包。</p>
-<p>全程也只有下方一个指令。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mvn clean install -DskipTests</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>首先使用<code>Maven</code>需要在<code>Mac</code>系统上安装和配置<code>Maven</code>环境。</p>
-<p>具体配置可以参考<a href="https://blog.csdn.net/winstonlau/article/details/95605557">Mac系统下载、安装和配置Maven环境</a>这篇文章。</p>
-<p>因还有其他逻辑，所以将所有逻辑存放在<code>build.sh</code>文件中。但在调用时发现，会报配置出错。</p>
-<p>所以需要在<code>Jenkins</code>配置的<code>Execute shell</code>中添加<code>#!/bin/bash -ilex</code>。</p>
-<p>其中<code>build.sh</code>为编译jar包的脚本。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash -ilex</span><br><span class="line">cd /Users/apple/Desktop/build/taiping_src</span><br><span class="line">sh build.sh</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="https://zh.wikipedia.org/wiki/%E6%AE%BC%E5%B1%A4">shell-维基百科</a></li>
-<li><a href="https://baike.baidu.com/item/shell/99702">shell-百度百科</a></li>
-<li><a href="https://www.runoob.com/linux/linux-shell.html">shell教程-菜鸟</a></li>
-<li><a href="http://c.biancheng.net/shell/base/">Shell基础</a></li>
-<li><a href="https://www.runoob.com/linux/linux-command-manual.html">Linux命令大全</a></li>
-<li><a href="https://www.jianshu.com/p/7248276d3bb5">Gradle与Maven的区别</a></li>
-<li><a href="https://blog.csdn.net/winstonlau/article/details/95605557">Mac系统下载、安装和配置Maven环境</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>整理</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
       </tags>
   </entry>
   <entry>
@@ -4619,7 +4619,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <li>解压并运行：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载并解压</span></span><br><span class="line">wget https://github.com/certimate-go/certimate/releases/latest/download/certimate-linux-amd64.tar.gz</span><br><span class="line">tar -xzf certimate-linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行服务</span></span><br><span class="line">./certimate serve</span><br></pre></td></tr></table></figure></li>
 <li>浏览器访问 <a href="http://127.0.0.1:8090/">http://127.0.0.1:8090</a></li>
 <li>使用默认账号登录：<ul>
-<li>账号：<a href="mailto:&#97;&#x64;&#109;&#105;&#x6e;&#64;&#99;&#101;&#114;&#x74;&#x69;&#x6d;&#97;&#x74;&#x65;&#x2e;&#x66;&#117;&#x6e;">&#97;&#x64;&#109;&#105;&#x6e;&#64;&#99;&#101;&#114;&#x74;&#x69;&#x6d;&#97;&#x74;&#x65;&#x2e;&#x66;&#117;&#x6e;</a></li>
+<li>账号：<a href="mailto:&#x61;&#x64;&#109;&#x69;&#x6e;&#x40;&#99;&#101;&#x72;&#116;&#105;&#109;&#x61;&#116;&#x65;&#46;&#x66;&#117;&#x6e;">&#x61;&#x64;&#109;&#x69;&#x6e;&#x40;&#99;&#101;&#x72;&#116;&#105;&#109;&#x61;&#116;&#x65;&#46;&#x66;&#117;&#x6e;</a></li>
 <li>密码：1234567890</li>
 </ul>
 </li>
@@ -5701,6 +5701,22 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>关于使用Claude4生成页面技巧</title>
+    <url>/2025/07/15/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8Claude4%E7%94%9F%E6%88%90%E9%A1%B5%E9%9D%A2%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<p>直接丢图片给<code>Claude</code>发现生成的代码运行起来跟图片差别很大。</p>
+<p>可以使用下方提示词先将图片生成design.json，然后让其按照该<code>design.json</code>生成代码，效果会好很多，基本上稍微改改就可以使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Create a JSON-formatted design system profile. This profile should extract relevant visual</span><br><span class="line">design information from the provided screenshots. The JSON output must specifically include:</span><br><span class="line">The overarching design style (e.g., color palette, typography, spacing, visual hierarchy).</span><br><span class="line">The structural elements and layout principles.</span><br><span class="line">Any other attributes crucial for an Al to consistently replicate these design systems</span><br><span class="line">Crucially, do not include the specific content or data present within the images, focusing solely</span><br></pre></td></tr></table></figure>
+
+<p>相应地我们也可以在项目根创建或生成个<code>CLAUDE.md</code>,固定代码规则，让Ai根据<code>CLAUDE.md</code>的规则生成代码。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://www.anthropic.com/engineering/claude-code-best-practices">claude-code-best-practices</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Ai</category>
+      </categories>
+  </entry>
+  <entry>
     <title>关于判断App是否运行在Mac上和常用软件整理</title>
     <url>/2021/03/15/%E5%85%B3%E4%BA%8E%E5%88%A4%E6%96%ADApp%E6%98%AF%E5%90%A6%E8%BF%90%E8%A1%8C%E5%9C%A8Mac%E4%B8%8A%E5%92%8C%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%95%B4%E7%90%86/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在<a href="https://zh.wikipedia.org/wiki/Apple_M1">苹果M1芯片</a>的Mac上可以运行iOS App，而在Mac的<code>~/Library/Container</code>可以看到沙盒的内容。有时并不需要普通用户看到，所以需要做一些防护。</p>
@@ -5757,22 +5773,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>iOS</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>关于使用Claude4生成页面技巧</title>
-    <url>/2025/07/15/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8Claude4%E7%94%9F%E6%88%90%E9%A1%B5%E9%9D%A2%E6%8A%80%E5%B7%A7/</url>
-    <content><![CDATA[<p>直接丢图片给<code>Claude</code>发现生成的代码运行起来跟图片差别很大。</p>
-<p>可以使用下方提示词先将图片生成design.json，然后让其按照该<code>design.json</code>生成代码，效果会好很多，基本上稍微改改就可以使用。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Create a JSON-formatted design system profile. This profile should extract relevant visual</span><br><span class="line">design information from the provided screenshots. The JSON output must specifically include:</span><br><span class="line">The overarching design style (e.g., color palette, typography, spacing, visual hierarchy).</span><br><span class="line">The structural elements and layout principles.</span><br><span class="line">Any other attributes crucial for an Al to consistently replicate these design systems</span><br><span class="line">Crucially, do not include the specific content or data present within the images, focusing solely</span><br></pre></td></tr></table></figure>
-
-<p>相应地我们也可以在项目根创建或生成个<code>CLAUDE.md</code>,固定代码规则，让Ai根据<code>CLAUDE.md</code>的规则生成代码。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://www.anthropic.com/engineering/claude-code-best-practices">claude-code-best-practices</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Ai</category>
-      </categories>
   </entry>
   <entry>
     <title>关于多线程编程与GCD相关知识点整理</title>
