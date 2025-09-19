@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="ADB是一个多功能的命令行工具，用于与Android设备进行通信。它是Android SDK的一部分，允许开发者在计算机和Android设备之间传输数据、安装应用、调试程序等……">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ADB 常用命令手册">
+<meta property="og:url" content="https://xnxy.github.io/2025/09/19/ADB%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%89%8B%E5%86%8C/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="ADB是一个多功能的命令行工具，用于与Android设备进行通信。它是Android SDK的一部分，允许开发者在计算机和Android设备之间传输数据、安装应用、调试程序等……">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-09-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-09-18T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="adb">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://xnxy.github.io/2025/09/19/ADB%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%89%8B%E5%86%8C/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2025/09/19/ADB%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%89%8B%E5%86%8C/","path":"2025/09/19/ADB 常用命令手册/","title":"ADB 常用命令手册"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ADB 常用命令手册 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">拿根针尖对麦芒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">基本语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87%E8%BF%9E%E6%8E%A5%E4%B8%8E%E7%AE%A1%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">设备连接与管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%AE%BE%E5%A4%87"><span class="nav-number">3.1.</span> <span class="nav-text">查看连接的设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E8%AE%BE%E5%A4%87"><span class="nav-number">3.2.</span> <span class="nav-text">连接设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C"><span class="nav-number">3.3.</span> <span class="nav-text">多设备操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86"><span class="nav-number">3.4.</span> <span class="nav-text">设备状态管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">应用管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8"><span class="nav-number">4.1.</span> <span class="nav-text">安装应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E5%BA%94%E7%94%A8"><span class="nav-number">4.2.</span> <span class="nav-text">卸载应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2"><span class="nav-number">4.3.</span> <span class="nav-text">应用信息查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="nav-number">4.4.</span> <span class="nav-text">应用操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93"><span class="nav-number">5.</span> <span class="nav-text">文件传输</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E6%96%87%E4%BB%B6%E5%88%B0%E8%AE%BE%E5%A4%87"><span class="nav-number">5.1.</span> <span class="nav-text">推送文件到设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E8%AE%BE%E5%A4%87%E6%8B%89%E5%8F%96%E6%96%87%E4%BB%B6"><span class="nav-number">5.2.</span> <span class="nav-text">从设备拉取文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%93%8D%E4%BD%9C"><span class="nav-number">5.3.</span> <span class="nav-text">文件系统操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%93%8D%E4%BD%9C"><span class="nav-number">6.</span> <span class="nav-text">系统操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="nav-number">6.1.</span> <span class="nav-text">系统信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86"><span class="nav-number">6.2.</span> <span class="nav-text">权限管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%93%8D%E4%BD%9C"><span class="nav-number">6.3.</span> <span class="nav-text">设置操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E4%B8%8E%E6%97%A5%E5%BF%97"><span class="nav-number">7.</span> <span class="nav-text">调试与日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%9F%A5%E7%9C%8B"><span class="nav-number">7.1.</span> <span class="nav-text">日志查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="nav-number">7.2.</span> <span class="nav-text">性能分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">8.</span> <span class="nav-text">网络与端口转发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">8.1.</span> <span class="nav-text">端口转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%93%8D%E4%BD%9C"><span class="nav-number">8.2.</span> <span class="nav-text">网络操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%8F%E5%B9%95%E6%93%8D%E4%BD%9C"><span class="nav-number">9.</span> <span class="nav-text">屏幕操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%AA%E5%9B%BE%E5%92%8C%E5%BD%95%E5%B1%8F"><span class="nav-number">9.1.</span> <span class="nav-text">截图和录屏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%93%8D%E4%BD%9C"><span class="nav-number">9.2.</span> <span class="nav-text">输入操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7"><span class="nav-number">10.</span> <span class="nav-text">性能监控</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7"><span class="nav-number">10.1.</span> <span class="nav-text">系统监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E6%80%A7%E8%83%BD"><span class="nav-number">10.2.</span> <span class="nav-text">应用性能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD"><span class="nav-number">11.</span> <span class="nav-text">高级功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D"><span class="nav-number">11.1.</span> <span class="nav-text">备份与恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E8%80%85%E9%80%89%E9%A1%B9"><span class="nav-number">11.2.</span> <span class="nav-text">开发者选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E8%84%9A%E6%9C%AC%E7%A4%BA%E4%BE%8B"><span class="nav-number">11.3.</span> <span class="nav-text">自动化脚本示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="nav-number">12.</span> <span class="nav-text">常见问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87%E8%BF%9E%E6%8E%A5%E9%97%AE%E9%A2%98"><span class="nav-number">12.1.</span> <span class="nav-text">设备连接问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98"><span class="nav-number">12.2.</span> <span class="nav-text">权限问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">12.3.</span> <span class="nav-text">性能优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">13.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%8F%82%E8%80%83"><span class="nav-number">13.1.</span> <span class="nav-text">快速参考</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="拿根针尖对麦芒"
+      src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+  <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+  <div class="site-description" itemprop="description">修行ing</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xnxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xnxy" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/xnxyonly1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;xnxyonly1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://jewsaten.github.io/" title="https:&#x2F;&#x2F;jewsaten.github.io" rel="noopener" target="_blank">「蒋·先生」</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://guyueyang.github.io/" title="https:&#x2F;&#x2F;guyueyang.github.io" rel="noopener" target="_blank">晓平</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2025/09/19/ADB%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%89%8B%E5%86%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ADB 常用命令手册 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="ADB是一个多功能的命令行工具，用于与Android设备进行通信。它是Android SDK的一部分，允许开发者在计算机和Android设备之间传输数据、安装应用、调试程序等……">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ADB 常用命令手册
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-09-19 00:00:00" itemprop="dateCreated datePublished" datetime="2025-09-19T00:00:00+08:00">2025-09-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">ADB是一个多功能的命令行工具，用于与Android设备进行通信。它是Android SDK的一部分，允许开发者在计算机和Android设备之间传输数据、安装应用、调试程序等……</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E7%AE%80%E4%BB%8B">简介</a></li>
+<li><a href="#%E8%AE%BE%E5%A4%87%E8%BF%9E%E6%8E%A5%E4%B8%8E%E7%AE%A1%E7%90%86">设备连接与管理</a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E7%AE%A1%E7%90%86">应用管理</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93">文件传输</a></li>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E6%93%8D%E4%BD%9C">系统操作</a></li>
+<li><a href="#%E8%B0%83%E8%AF%95%E4%B8%8E%E6%97%A5%E5%BF%97">调试与日志</a></li>
+<li><a href="#%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91">网络与端口转发</a></li>
+<li><a href="#%E5%B1%8F%E5%B9%95%E6%93%8D%E4%BD%9C">屏幕操作</a></li>
+<li><a href="#%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7">性能监控</a></li>
+<li><a href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD">高级功能</a></li>
+</ul>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ADB (Android Debug Bridge) 是一个多功能的命令行工具，用于与Android设备进行通信。它是Android SDK的一部分，允许开发者在计算机和Android设备之间传输数据、安装应用、调试程序等。</p>
+<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb [global options] <span class="built_in">command</span> [<span class="built_in">command</span> options]</span><br></pre></td></tr></table></figure>
+
+<h2 id="设备连接与管理"><a href="#设备连接与管理" class="headerlink" title="设备连接与管理"></a>设备连接与管理</h2><h3 id="查看连接的设备"><a href="#查看连接的设备" class="headerlink" title="查看连接的设备"></a>查看连接的设备</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有连接的设备</span></span><br><span class="line">adb devices</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出设备详细信息</span></span><br><span class="line">adb devices -l</span><br></pre></td></tr></table></figure>
+
+<h3 id="连接设备"><a href="#连接设备" class="headerlink" title="连接设备"></a>连接设备</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过USB连接（自动检测）</span></span><br><span class="line">adb usb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过TCP/IP连接</span></span><br><span class="line">adb connect &lt;设备IP&gt;:5555</span><br><span class="line"></span><br><span class="line"><span class="comment"># 断开TCP/IP连接</span></span><br><span class="line">adb disconnect &lt;设备IP&gt;:5555</span><br></pre></td></tr></table></figure>
+
+<h3 id="多设备操作"><a href="#多设备操作" class="headerlink" title="多设备操作"></a>多设备操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定设备执行命令</span></span><br><span class="line">adb -s &lt;设备序列号&gt; &lt;命令&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例：在指定设备上安装应用</span></span><br><span class="line">adb -s emulator-5554 install app.apk</span><br></pre></td></tr></table></figure>
+
+<h3 id="设备状态管理"><a href="#设备状态管理" class="headerlink" title="设备状态管理"></a>设备状态管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重启设备</span></span><br><span class="line">adb reboot</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启到recovery模式</span></span><br><span class="line">adb reboot recovery</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启到bootloader模式</span></span><br><span class="line">adb reboot bootloader</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待设备连接</span></span><br><span class="line">adb wait-for-device</span><br></pre></td></tr></table></figure>
+
+<h2 id="应用管理"><a href="#应用管理" class="headerlink" title="应用管理"></a>应用管理</h2><h3 id="安装应用"><a href="#安装应用" class="headerlink" title="安装应用"></a>安装应用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装APK文件</span></span><br><span class="line">adb install &lt;apk文件路径&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 强制安装（覆盖已存在的应用）</span></span><br><span class="line">adb install -r &lt;apk文件路径&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装到SD卡</span></span><br><span class="line">adb install -s &lt;apk文件路径&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 允许降级安装</span></span><br><span class="line">adb install -d &lt;apk文件路径&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装时保留数据和缓存</span></span><br><span class="line">adb install -r -d &lt;apk文件路径&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载应用"><a href="#卸载应用" class="headerlink" title="卸载应用"></a>卸载应用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 卸载应用</span></span><br><span class="line">adb uninstall &lt;包名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载应用但保留数据</span></span><br><span class="line">adb uninstall -k &lt;包名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例：卸载微信</span></span><br><span class="line">adb uninstall com.tencent.mm</span><br></pre></td></tr></table></figure>
+
+<h3 id="应用信息查询"><a href="#应用信息查询" class="headerlink" title="应用信息查询"></a>应用信息查询</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有已安装的包</span></span><br><span class="line">adb shell pm list packages</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出系统应用</span></span><br><span class="line">adb shell pm list packages -s</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出第三方应用</span></span><br><span class="line">adb shell pm list packages -3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出包含关键字的应用</span></span><br><span class="line">adb shell pm list packages | grep &lt;关键字&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看应用详细信息</span></span><br><span class="line">adb shell dumpsys package &lt;包名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看应用安装路径</span></span><br><span class="line">adb shell pm path &lt;包名&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="应用操作"><a href="#应用操作" class="headerlink" title="应用操作"></a>应用操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动应用</span></span><br><span class="line">adb shell am start -n &lt;包名&gt;/&lt;活动名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动应用主活动</span></span><br><span class="line">adb shell monkey -p &lt;包名&gt; -c android.intent.category.LAUNCHER 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 强制停止应用</span></span><br><span class="line">adb shell am force-stop &lt;包名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清除应用数据</span></span><br><span class="line">adb shell pm clear &lt;包名&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h2><h3 id="推送文件到设备"><a href="#推送文件到设备" class="headerlink" title="推送文件到设备"></a>推送文件到设备</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 推送文件到设备</span></span><br><span class="line">adb push &lt;本地文件路径&gt; &lt;设备路径&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例：推送图片到设备</span></span><br><span class="line">adb push /Users/username/photo.jpg /sdcard/Pictures/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送整个文件夹</span></span><br><span class="line">adb push &lt;本地文件夹&gt; &lt;设备路径&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="从设备拉取文件"><a href="#从设备拉取文件" class="headerlink" title="从设备拉取文件"></a>从设备拉取文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从设备拉取文件</span></span><br><span class="line">adb pull &lt;设备文件路径&gt; &lt;本地路径&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例：拉取设备截图</span></span><br><span class="line">adb pull /sdcard/screenshot.png ./</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拉取整个文件夹</span></span><br><span class="line">adb pull &lt;设备文件夹路径&gt; &lt;本地路径&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件系统操作"><a href="#文件系统操作" class="headerlink" title="文件系统操作"></a>文件系统操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入设备shell</span></span><br><span class="line">adb shell</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在shell中的常用命令：</span></span><br><span class="line"><span class="comment"># 列出文件和目录</span></span><br><span class="line"><span class="built_in">ls</span> -la</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看文件内容</span></span><br><span class="line"><span class="built_in">cat</span> &lt;文件路径&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录</span></span><br><span class="line"><span class="built_in">mkdir</span> &lt;目录名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除文件</span></span><br><span class="line"><span class="built_in">rm</span> &lt;文件路径&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除目录</span></span><br><span class="line"><span class="built_in">rm</span> -rf &lt;目录路径&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 移动/重命名文件</span></span><br><span class="line"><span class="built_in">mv</span> &lt;源路径&gt; &lt;目标路径&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制文件</span></span><br><span class="line"><span class="built_in">cp</span> &lt;源路径&gt; &lt;目标路径&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="系统操作"><a href="#系统操作" class="headerlink" title="系统操作"></a>系统操作</h2><h3 id="系统信息"><a href="#系统信息" class="headerlink" title="系统信息"></a>系统信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看设备信息</span></span><br><span class="line">adb shell getprop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看Android版本</span></span><br><span class="line">adb shell getprop ro.build.version.release</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看设备型号</span></span><br><span class="line">adb shell getprop ro.product.model</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看设备制造商</span></span><br><span class="line">adb shell getprop ro.product.manufacturer</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看CPU架构</span></span><br><span class="line">adb shell getprop ro.product.cpu.abi</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看内存信息</span></span><br><span class="line">adb shell <span class="built_in">cat</span> /proc/meminfo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看存储空间</span></span><br><span class="line">adb shell <span class="built_in">df</span> -h</span><br></pre></td></tr></table></figure>
+
+<h3 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 授予应用权限</span></span><br><span class="line">adb shell pm grant &lt;包名&gt; &lt;权限名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 撤销应用权限</span></span><br><span class="line">adb shell pm revoke &lt;包名&gt; &lt;权限名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看应用权限</span></span><br><span class="line">adb shell dumpsys package &lt;包名&gt; | grep permission</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例：授予相机权限</span></span><br><span class="line">adb shell pm grant com.example.app android.permission.CAMERA</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置操作"><a href="#设置操作" class="headerlink" title="设置操作"></a>设置操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开设置页面</span></span><br><span class="line">adb shell am start -a android.settings.SETTINGS</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开WiFi设置</span></span><br><span class="line">adb shell am start -a android.settings.WIFI_SETTINGS</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开应用信息页面</span></span><br><span class="line">adb shell am start -a android.settings.APPLICATION_DETAILS_SETTINGS -d package:&lt;包名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改系统设置（需要root权限）</span></span><br><span class="line">adb shell settings put system &lt;设置名&gt; &lt;值&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看系统设置</span></span><br><span class="line">adb shell settings get system &lt;设置名&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="调试与日志"><a href="#调试与日志" class="headerlink" title="调试与日志"></a>调试与日志</h2><h3 id="日志查看"><a href="#日志查看" class="headerlink" title="日志查看"></a>日志查看</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看实时日志</span></span><br><span class="line">adb logcat</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清除日志缓冲区</span></span><br><span class="line">adb logcat -c</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按标签过滤日志</span></span><br><span class="line">adb logcat -s &lt;标签名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按级别过滤日志</span></span><br><span class="line">adb logcat *:E  <span class="comment"># 只显示错误级别</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存日志到文件</span></span><br><span class="line">adb logcat &gt; log.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看特定应用的日志</span></span><br><span class="line">adb logcat | grep &lt;包名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 格式化日志输出</span></span><br><span class="line">adb logcat -v time  <span class="comment"># 显示时间戳</span></span><br><span class="line">adb logcat -v threadtime  <span class="comment"># 显示详细时间和线程信息</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看CPU使用情况</span></span><br><span class="line">adb shell top</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看内存使用情况</span></span><br><span class="line">adb shell dumpsys meminfo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看特定应用内存使用</span></span><br><span class="line">adb shell dumpsys meminfo &lt;包名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看电池使用情况</span></span><br><span class="line">adb shell dumpsys battery</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看网络统计</span></span><br><span class="line">adb shell <span class="built_in">cat</span> /proc/net/dev</span><br></pre></td></tr></table></figure>
+
+<h2 id="网络与端口转发"><a href="#网络与端口转发" class="headerlink" title="网络与端口转发"></a>网络与端口转发</h2><h3 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发"></a>端口转发</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置端口转发</span></span><br><span class="line">adb forward tcp:&lt;本地端口&gt; tcp:&lt;设备端口&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例：转发8080端口</span></span><br><span class="line">adb forward tcp:8080 tcp:8080</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看端口转发列表</span></span><br><span class="line">adb forward --list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 移除端口转发</span></span><br><span class="line">adb forward --remove tcp:&lt;本地端口&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 移除所有端口转发</span></span><br><span class="line">adb forward --remove-all</span><br></pre></td></tr></table></figure>
+
+<h3 id="网络操作"><a href="#网络操作" class="headerlink" title="网络操作"></a>网络操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看网络接口</span></span><br><span class="line">adb shell ifconfig</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看网络连接</span></span><br><span class="line">adb shell netstat</span><br><span class="line"></span><br><span class="line"><span class="comment"># ping测试</span></span><br><span class="line">adb shell ping &lt;目标地址&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看WiFi信息</span></span><br><span class="line">adb shell dumpsys wifi</span><br></pre></td></tr></table></figure>
+
+<h2 id="屏幕操作"><a href="#屏幕操作" class="headerlink" title="屏幕操作"></a>屏幕操作</h2><h3 id="截图和录屏"><a href="#截图和录屏" class="headerlink" title="截图和录屏"></a>截图和录屏</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 截图</span></span><br><span class="line">adb shell screencap /sdcard/screenshot.png</span><br><span class="line">adb pull /sdcard/screenshot.png</span><br><span class="line"></span><br><span class="line"><span class="comment"># 录制屏幕（Android 4.4+）</span></span><br><span class="line">adb shell screenrecord /sdcard/demo.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 录制屏幕（限制时间）</span></span><br><span class="line">adb shell screenrecord --time-limit 30 /sdcard/demo.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 录制屏幕（指定分辨率）</span></span><br><span class="line">adb shell screenrecord --size 1280x720 /sdcard/demo.mp4</span><br></pre></td></tr></table></figure>
+
+<h3 id="输入操作"><a href="#输入操作" class="headerlink" title="输入操作"></a>输入操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 发送文本输入</span></span><br><span class="line">adb shell input text <span class="string">&quot;Hello World&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 模拟按键</span></span><br><span class="line">adb shell input keyevent &lt;键码&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 常用键码：</span></span><br><span class="line"><span class="comment"># HOME键: 3</span></span><br><span class="line"><span class="comment"># BACK键: 4</span></span><br><span class="line"><span class="comment"># MENU键: 82</span></span><br><span class="line"><span class="comment"># 电源键: 26</span></span><br><span class="line"><span class="comment"># 音量加: 24</span></span><br><span class="line"><span class="comment"># 音量减: 25</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 模拟点击</span></span><br><span class="line">adb shell input tap &lt;x坐标&gt; &lt;y坐标&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模拟滑动</span></span><br><span class="line">adb shell input swipe &lt;x1&gt; &lt;y1&gt; &lt;x2&gt; &lt;y2&gt; &lt;持续时间ms&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例：从屏幕中央向上滑动</span></span><br><span class="line">adb shell input swipe 500 1000 500 500 1000</span><br></pre></td></tr></table></figure>
+
+<h2 id="性能监控"><a href="#性能监控" class="headerlink" title="性能监控"></a>性能监控</h2><h3 id="系统监控"><a href="#系统监控" class="headerlink" title="系统监控"></a>系统监控</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 监控CPU使用率</span></span><br><span class="line">adb shell top -n 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监控内存使用</span></span><br><span class="line">adb shell <span class="built_in">cat</span> /proc/meminfo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监控磁盘I/O</span></span><br><span class="line">adb shell iostat</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监控网络流量</span></span><br><span class="line">adb shell <span class="built_in">cat</span> /proc/net/dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看进程列表</span></span><br><span class="line">adb shell ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看特定进程信息</span></span><br><span class="line">adb shell ps | grep &lt;进程名&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="应用性能"><a href="#应用性能" class="headerlink" title="应用性能"></a>应用性能</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看应用CPU使用率</span></span><br><span class="line">adb shell top | grep &lt;包名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看应用内存详情</span></span><br><span class="line">adb shell dumpsys meminfo &lt;包名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看应用网络使用情况</span></span><br><span class="line">adb shell <span class="built_in">cat</span> /proc/net/xt_qtaguid/stats | grep &lt;UID&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监控应用启动时间</span></span><br><span class="line">adb shell am start -W &lt;包名&gt;/&lt;活动名&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="高级功能"><a href="#高级功能" class="headerlink" title="高级功能"></a>高级功能</h2><h3 id="备份与恢复"><a href="#备份与恢复" class="headerlink" title="备份与恢复"></a>备份与恢复</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 备份应用数据（需要设备确认）</span></span><br><span class="line">adb backup -apk -shared -nosystem -all</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份特定应用</span></span><br><span class="line">adb backup -apk &lt;包名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 恢复备份</span></span><br><span class="line">adb restore &lt;备份文件&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="开发者选项"><a href="#开发者选项" class="headerlink" title="开发者选项"></a>开发者选项</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用USB调试（需要在设备上手动操作）</span></span><br><span class="line"><span class="comment"># 设置 -&gt; 关于手机 -&gt; 连续点击版本号7次 -&gt; 开发者选项 -&gt; USB调试</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看开发者选项状态</span></span><br><span class="line">adb shell settings get global development_settings_enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启用/禁用动画（需要root权限）</span></span><br><span class="line">adb shell settings put global window_animation_scale 0</span><br><span class="line">adb shell settings put global transition_animation_scale 0</span><br><span class="line">adb shell settings put global animator_duration_scale 0</span><br></pre></td></tr></table></figure>
+
+<h3 id="自动化脚本示例"><a href="#自动化脚本示例" class="headerlink" title="自动化脚本示例"></a>自动化脚本示例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># 自动安装应用并启动的脚本</span></span><br><span class="line"></span><br><span class="line">APK_PATH=<span class="string">&quot;app.apk&quot;</span></span><br><span class="line">PACKAGE_NAME=<span class="string">&quot;com.example.app&quot;</span></span><br><span class="line">ACTIVITY_NAME=<span class="string">&quot;com.example.app.MainActivity&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;安装应用...&quot;</span></span><br><span class="line">adb install -r <span class="variable">$APK_PATH</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;启动应用...&quot;</span></span><br><span class="line">adb shell am start -n <span class="variable">$PACKAGE_NAME</span>/<span class="variable">$ACTIVITY_NAME</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;完成！&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="常见问题解决"><a href="#常见问题解决" class="headerlink" title="常见问题解决"></a>常见问题解决</h2><h3 id="设备连接问题"><a href="#设备连接问题" class="headerlink" title="设备连接问题"></a>设备连接问题</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重启ADB服务</span></span><br><span class="line">adb kill-server</span><br><span class="line">adb start-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查ADB版本</span></span><br><span class="line">adb version</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查设备驱动（Windows）</span></span><br><span class="line"><span class="comment"># 设备管理器 -&gt; 查看是否有未识别设备</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="权限问题"><a href="#权限问题" class="headerlink" title="权限问题"></a>权限问题</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查设备是否授权</span></span><br><span class="line">adb devices</span><br><span class="line"><span class="comment"># 如果显示&quot;unauthorized&quot;，需要在设备上确认授权</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 某些操作需要root权限</span></span><br><span class="line">adb root  <span class="comment"># 重启ADB为root模式（需要root设备）</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭不必要的动画以提高操作速度</span></span><br><span class="line">adb shell settings put global window_animation_scale 0.5</span><br><span class="line">adb shell settings put global transition_animation_scale 0.5</span><br><span class="line">adb shell settings put global animator_duration_scale 0.5</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这份ADB命令手册涵盖了日常开发和调试中最常用的命令。建议将常用命令制作成脚本或别名，以提高工作效率。记住在使用某些命令时可能需要设备root权限或用户确认。</p>
+<h3 id="快速参考"><a href="#快速参考" class="headerlink" title="快速参考"></a>快速参考</h3><ul>
+<li><code>adb devices</code> - 查看连接设备</li>
+<li><code>adb install &lt;apk&gt;</code> - 安装应用</li>
+<li><code>adb shell</code> - 进入设备shell</li>
+<li><code>adb logcat</code> - 查看日志</li>
+<li><code>adb push/pull</code> - 文件传输</li>
+<li><code>adb shell screencap</code> - 截图</li>
+<li><code>adb shell input</code> - 模拟输入</li>
+</ul>
+<p>更多详细信息请参考 <a target="_blank" rel="noopener" href="https://developer.android.com/studio/command-line/adb">Android官方文档</a>。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/adb/" rel="tag"># adb</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/17/Flutter%20RepaintBoundary%20%E8%AF%A6%E7%BB%86%E8%A7%A3%E6%9E%90/" rel="prev" title="Flutter RepaintBoundary 详细解析">
+                  <i class="fa fa-chevron-left"></i> Flutter RepaintBoundary 详细解析
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
