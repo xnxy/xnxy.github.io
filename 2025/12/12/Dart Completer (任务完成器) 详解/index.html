@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Completer是 Dart 中用于手动创建和管理 &#96;Future&#96; 的工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dart Completer (任务完成器) 详解">
+<meta property="og:url" content="https://xnxy.github.io/2025/12/12/Dart%20Completer%20(%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E5%99%A8)%20%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="Completer是 Dart 中用于手动创建和管理 &#96;Future&#96; 的工具">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-12-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-11T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="Dart">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://xnxy.github.io/2025/12/12/Dart%20Completer%20(%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E5%99%A8)%20%E8%AF%A6%E8%A7%A3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2025/12/12/Dart%20Completer%20(%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E5%99%A8)%20%E8%AF%A6%E8%A7%A3/","path":"2025/12/12/Dart Completer (任务完成器) 详解/","title":"Dart Completer (任务完成器) 详解"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Dart Completer (任务完成器) 详解 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">拿根针尖对麦芒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Dart-Completer-%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E5%99%A8-%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">Dart Completer (任务完成器) 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF-Completer%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">1. 什么是 Completer？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%A0%B8%E5%BF%83%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">2. 核心结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%94%9F%E6%B4%BB%E4%B8%AD%E7%9A%84%E7%B1%BB%E6%AF%94%EF%BC%9A%E5%8F%96%E9%A4%90%E5%99%A8"><span class="nav-number">1.3.</span> <span class="nav-text">3. 生活中的类比：取餐器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.4.</span> <span class="nav-text">4. 基本用法示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.5.</span> <span class="nav-text">5. 常见应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E4%B8%80%EF%BC%9A%E5%B0%86%E5%9B%9E%E8%B0%83-Callback-%E8%BD%AC%E6%8D%A2%E4%B8%BA-Future"><span class="nav-number">1.5.1.</span> <span class="nav-text">场景一：将回调 (Callback) 转换为 Future</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E4%BA%8C%EF%BC%9A%E8%A7%A3%E5%86%B3%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82%E5%90%88%E5%B9%B6-Request-Deduplication"><span class="nav-number">1.5.2.</span> <span class="nav-text">场景二：解决并发请求合并 (Request Deduplication)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%80%BB%E7%BB%93"><span class="nav-number">1.6.</span> <span class="nav-text">6. 总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="拿根针尖对麦芒"
+      src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+  <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+  <div class="site-description" itemprop="description">修行ing</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xnxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xnxy" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/xnxyonly1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;xnxyonly1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://jewsaten.github.io/" title="https:&#x2F;&#x2F;jewsaten.github.io" rel="noopener" target="_blank">「蒋·先生」</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://guyueyang.github.io/" title="https:&#x2F;&#x2F;guyueyang.github.io" rel="noopener" target="_blank">晓平</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2025/12/12/Dart%20Completer%20(%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E5%99%A8)%20%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Dart Completer (任务完成器) 详解 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="Completer是 Dart 中用于手动创建和管理 `Future` 的工具">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Dart Completer (任务完成器) 详解
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-12-12 00:00:00" itemprop="dateCreated datePublished" datetime="2025-12-12T00:00:00+08:00">2025-12-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Completer是 Dart 中用于手动创建和管理 `Future` 的工具</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Dart-Completer-任务完成器-详解"><a href="#Dart-Completer-任务完成器-详解" class="headerlink" title="Dart Completer (任务完成器) 详解"></a>Dart Completer (任务完成器) 详解</h1><h2 id="1-什么是-Completer？"><a href="#1-什么是-Completer？" class="headerlink" title="1. 什么是 Completer？"></a>1. 什么是 Completer？</h2><p><strong>Completer</strong> 是 Dart 中用于手动创建和管理 <code>Future</code> 的工具。</p>
+<ul>
+<li><strong>普通 Future</strong>：由 <code>async</code> 函数自动管理，一旦开始执行便无法在外部手动干预其完成时机。</li>
+<li><strong>Completer</strong>：提供了一个“手动挡”的 <code>Future</code>。它允许你创建一个 <code>Future</code>，并把“何时完成”以及“以什么结果完成”的控制权掌握在自己手中。</li>
+</ul>
+<p>简单来说，当你需要返回一个 <code>Future</code> 给调用者，但这个 <code>Future</code> 的结果需要在稍后的某个时刻（例如回调函数触发时）才能确定，这时就是使用 <code>Completer</code> 的最佳时机。</p>
+<hr>
+<h2 id="2-核心结构"><a href="#2-核心结构" class="headerlink" title="2. 核心结构"></a>2. 核心结构</h2><p><code>Completer</code> 主要由两个核心成员组成：</p>
+<ol>
+<li><p><strong><code>completer.future</code></strong></p>
+<ul>
+<li><strong>作用</strong>：这是暴露给外部等待的对象。</li>
+<li><strong>行为</strong>：调用者 <code>await</code> 这个属性时，程序会暂停，直到你手动调用 <code>complete</code> 方法。</li>
+</ul>
+</li>
+<li><p><strong><code>completer.complete(value)</code></strong></p>
+<ul>
+<li><strong>作用</strong>：这是“触发完成”的开关。</li>
+<li><strong>行为</strong>：一旦调用，所有正在等待 <code>future</code> 的代码会立即收到结果并继续执行。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="3-生活中的类比：取餐器"><a href="#3-生活中的类比：取餐器" class="headerlink" title="3. 生活中的类比：取餐器"></a>3. 生活中的类比：取餐器</h2><p>想象你在快餐店点餐的过程：</p>
+<ol>
+<li><strong>创建 Completer</strong>：你点完餐，服务员给了你一个 **取餐器 (Completer)**。</li>
+<li><strong>await future</strong>：你拿着取餐器找座位坐下，看着取餐器 **等待 (await)**。</li>
+<li><strong>异步操作</strong>：后厨正在 **制作汉堡 (异步任务)**。</li>
+<li><strong>调用 complete</strong>：汉堡做好了，服务员按下柜台上的发射器 **(completer.complete())**。</li>
+<li><strong>完成</strong>：你手中的取餐器响了，你起身去取餐。</li>
+</ol>
+<hr>
+<h2 id="4-基本用法示例"><a href="#4-基本用法示例" class="headerlink" title="4. 基本用法示例"></a>4. 基本用法示例</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;dart:async&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main() <span class="keyword">async</span> &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;1. 主程序开始&#x27;</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 1. 创建一个 Completer</span></span><br><span class="line">  <span class="keyword">final</span> completer = Completer&lt;<span class="built_in">String</span>&gt;();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 2. 启动一个异步任务，把 completer 传进去</span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;2. 启动异步任务...&#x27;</span>);</span><br><span class="line">  simulateAsyncWork(completer);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 3. 主程序在这里暂停，等待 completer 被完成</span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;3. 等待结果...&#x27;</span>);</span><br><span class="line">  <span class="built_in">String</span> result = <span class="keyword">await</span> completer.future;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 5. 收到结果，继续执行</span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;5. 收到结果: <span class="subst">$result</span>&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> simulateAsyncWork(Completer&lt;<span class="built_in">String</span>&gt; completer) &#123;</span><br><span class="line">  <span class="comment">// 模拟耗时操作</span></span><br><span class="line">  Future.delayed(<span class="built_in">Duration</span>(seconds: <span class="number">3</span>), () &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;4. 任务完成，手动调用 complete&#x27;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 4. 手动完成这个 Future，传入结果数据</span></span><br><span class="line">    completer.complete(<span class="string">&#x27;任务成功数据&#x27;</span>); </span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行顺序：</strong></p>
+<ol>
+<li><code>1. 主程序开始</code></li>
+<li><code>2. 启动异步任务...</code></li>
+<li><code>3. 等待结果...</code></li>
+<li><em>(等待3秒)</em></li>
+<li><code>4. 任务完成，手动调用 complete</code></li>
+<li><code>5. 收到结果: 任务成功数据</code></li>
+</ol>
+<hr>
+<h2 id="5-常见应用场景"><a href="#5-常见应用场景" class="headerlink" title="5. 常见应用场景"></a>5. 常见应用场景</h2><h3 id="场景一：将回调-Callback-转换为-Future"><a href="#场景一：将回调-Callback-转换为-Future" class="headerlink" title="场景一：将回调 (Callback) 转换为 Future"></a>场景一：将回调 (Callback) 转换为 Future</h3><p>这是 <code>Completer</code> 最经典的应用场景。很多老旧的库或底层 API 仍然使用回调函数风格，我们可以用 <code>Completer</code> 将其包装成现代的 <code>async/await</code> 风格。</p>
+<p><strong>旧式 API (Callback 风格):</strong></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> oldDownload(<span class="built_in">String</span> url, <span class="built_in">Function</span>(<span class="built_in">String</span>) onSuccess, <span class="built_in">Function</span>(<span class="built_in">String</span>) onError) &#123;</span><br><span class="line">  <span class="comment">// ... 内部通过回调通知结果 ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用 Completer 包装 (Future 风格):</strong></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;<span class="built_in">String</span>&gt; downloadAsync(<span class="built_in">String</span> url) &#123;</span><br><span class="line">  <span class="keyword">final</span> completer = Completer&lt;<span class="built_in">String</span>&gt;();</span><br><span class="line">  </span><br><span class="line">  oldDownload(url, </span><br><span class="line">    (data) &#123;</span><br><span class="line">      <span class="comment">// 成功回调 -&gt; 完成 Future</span></span><br><span class="line">      completer.complete(data);</span><br><span class="line">    &#125;, </span><br><span class="line">    (error) &#123;</span><br><span class="line">      <span class="comment">// 失败回调 -&gt; 让 Future 抛出异常</span></span><br><span class="line">      completer.completeError(error);</span><br><span class="line">    &#125;</span><br><span class="line">  );</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> completer.future; <span class="comment">// 返回 future 供外部 await</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用方式变得非常整洁：</span></span><br><span class="line"><span class="comment">// try &#123;</span></span><br><span class="line"><span class="comment">//   String data = await downloadAsync(&#x27;...&#x27;);</span></span><br><span class="line"><span class="comment">// &#125; catch (e) &#123;</span></span><br><span class="line"><span class="comment">//   // 处理错误</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="场景二：解决并发请求合并-Request-Deduplication"><a href="#场景二：解决并发请求合并-Request-Deduplication" class="headerlink" title="场景二：解决并发请求合并 (Request Deduplication)"></a>场景二：解决并发请求合并 (Request Deduplication)</h3><p>这正是我们在 <strong>CleanupManager</strong> 中解决的问题。当多个页面同时请求同一个耗时资源时，我们不希望发起多次重复请求，而是希望后来的请求“搭便车”。</p>
+<p><strong>实现模式：</strong></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataManager</span> </span>&#123;</span><br><span class="line">  Completer&lt;<span class="keyword">void</span>&gt;? _loadingCompleter;</span><br><span class="line"></span><br><span class="line">  Future&lt;<span class="keyword">void</span>&gt; loadData() <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 检查锁：如果有正在进行的任务...</span></span><br><span class="line">    <span class="keyword">if</span> (_loadingCompleter != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="comment">// 2. 搭便车：直接等待现有的任务完成</span></span><br><span class="line">      <span class="keyword">await</span> _loadingCompleter!.future;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 加锁：我是第一个，我来创建一个新的任务管理器</span></span><br><span class="line">    _loadingCompleter = Completer&lt;<span class="keyword">void</span>&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 4. 执行真正的耗时请求</span></span><br><span class="line">      <span class="keyword">await</span> api.fetchData();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="comment">// 5. 解锁：无论成功失败，通知所有等待者（包括我自己和搭便车的人）</span></span><br><span class="line">      _loadingCompleter?.complete();</span><br><span class="line">      _loadingCompleter = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>效果：</strong></p>
+<ul>
+<li><strong>调用 A</strong> 进来 -&gt; 创建 <code>Completer</code> -&gt; 开始请求。</li>
+<li><strong>调用 B</strong> 进来 -&gt; 发现 <code>Completer</code> 存在 -&gt; <code>await</code> 它。</li>
+<li><strong>调用 C</strong> 进来 -&gt; 发现 <code>Completer</code> 存在 -&gt; <code>await</code> 它。</li>
+<li><strong>请求结束</strong> -&gt; 调用 <code>complete()</code> -&gt; A, B, C 同时收到通知并继续执行。</li>
+</ul>
+<hr>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h2><table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">普通 Future</th>
+<th align="left">Completer</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>创建方式</strong></td>
+<td align="left"><code>async</code> 函数自动返回</td>
+<td align="left"><code>Completer()</code> 构造函数</td>
+</tr>
+<tr>
+<td align="left"><strong>完成控制</strong></td>
+<td align="left">函数 return 时自动完成</td>
+<td align="left">开发者手动调用 <code>complete()</code></td>
+</tr>
+<tr>
+<td align="left"><strong>适用场景</strong></td>
+<td align="left">大多数标准异步逻辑</td>
+<td align="left">桥接回调 API、并发控制、自定义异步流程</td>
+</tr>
+</tbody></table>
+<p>掌握 <code>Completer</code>，意味着你从“只会使用异步”进阶到了“能够设计和控制异步流程”的水平。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Dart/" rel="tag"># Dart</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/19/ADB%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%89%8B%E5%86%8C/" rel="prev" title="ADB 常用命令手册">
+                  <i class="fa fa-chevron-left"></i> ADB 常用命令手册
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
