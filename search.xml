@@ -453,6 +453,38 @@
       </tags>
   </entry>
   <entry>
+    <title>关于Block中的weakSelf和strongSelf</title>
+    <url>/2018/02/28/2018-02-28/</url>
+    <content><![CDATA[<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>在年前一个朋友问我<code>__weak typeof(self) weakSelf = self;</code> 和 <code>__strong typeof(self) strongSelf = weakSelf;</code>的意思是什么？</p>
+<p>当时瞬间词穷了，虽然知道它是为了避免循环引用，但如何避免？为什么用<code>__weak</code>和<code>__strong</code>进行修饰。于是和朋友讨论特整理此篇博客。</p>
+<p>首先我们应该知道Blocks是C语言的扩充功能，是带有局部变量的匿名函数。当然，Block只是Objective-C对闭包的实现，并不是iOS独有的概念，在C++、Java等语言中也都是有闭包的。</p>
+<h3 id="关于此问题"><a href="#关于此问题" class="headerlink" title="关于此问题"></a>关于此问题</h3><p>针对<code>__weak typeof(self) weakSelf = self;</code> 和 <code>__strong typeof(self) strongSelf = weakSelf;</code>分别代表什么意思的问题，最后和朋友讨论并查询资料，总结如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line"></span><br><span class="line">__strong typeof(self) strongSelf = weakSelf;</span><br><span class="line"></span><br><span class="line">- weakSelf 是为了不让引用计数增加</span><br><span class="line"></span><br><span class="line">- strongSelf 是为了防止weakSelf变为nil</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><img src="/2018-02-28/Blocks.png" alt="关于Block中的weakSelf和strongSelf"></p>
+<p>为了避免循环引用<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html">Working With Blocks</a>文档上也给出了相应的解决方法“it’s best practice to capture a weak reference to self”。</p>
+<p>所以当我们使用Block，将self传入Block之前，将self转换成weak automatic 的变量，这样block中就不会出现对self的强引用。</p>
+<p>在执行完block以后，self就会被释放，weakSelf也会变成nil。</p>
+<p>但如果在同一Block中多次调用self的时候，因为在调用第一次self的时候weakSelf就会变为nil, 所以就需要__strong来确保self不会被提前释放。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html">Working With Blocks</a></li>
+<li><a href="https://developer.apple.com/documentation?language=objc">Apple Developer Documentation</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%9D%97_(C%E8%AF%AD%E8%A8%80%E6%89%A9%E5%B1%95)">块（C语言扩展）</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">闭包（计算机科学）</a></li>
+<li><a href="https://halfrost.com/ios_block_retain_circle/">深入研究Block用weakSelf、strongSelf、@weakify、@strongify解决循环引用</a></li>
+<li><a href="http://blog.lessfun.com/blog/2014/11/22/when-should-use-weakself-and-strongself-in-objc-block/">到底什么时候才需要在ObjC的Block中使用weakSelf&#x2F;strongSelf</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>知识总结</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于本次偶遇优选v1.1版本更新</title>
     <url>/2018/02/07/2018-02-07/</url>
     <content><![CDATA[<h3 id="一、打包前准备"><a href="#一、打包前准备" class="headerlink" title="一、打包前准备"></a>一、打包前准备</h3><p>1、服务条款和关于优选两个Web 界面需要注释掉部分文案，审核通过后再开启；</p>
@@ -488,38 +520,6 @@
       </categories>
       <tags>
         <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于Block中的weakSelf和strongSelf</title>
-    <url>/2018/02/28/2018-02-28/</url>
-    <content><![CDATA[<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>在年前一个朋友问我<code>__weak typeof(self) weakSelf = self;</code> 和 <code>__strong typeof(self) strongSelf = weakSelf;</code>的意思是什么？</p>
-<p>当时瞬间词穷了，虽然知道它是为了避免循环引用，但如何避免？为什么用<code>__weak</code>和<code>__strong</code>进行修饰。于是和朋友讨论特整理此篇博客。</p>
-<p>首先我们应该知道Blocks是C语言的扩充功能，是带有局部变量的匿名函数。当然，Block只是Objective-C对闭包的实现，并不是iOS独有的概念，在C++、Java等语言中也都是有闭包的。</p>
-<h3 id="关于此问题"><a href="#关于此问题" class="headerlink" title="关于此问题"></a>关于此问题</h3><p>针对<code>__weak typeof(self) weakSelf = self;</code> 和 <code>__strong typeof(self) strongSelf = weakSelf;</code>分别代表什么意思的问题，最后和朋友讨论并查询资料，总结如下。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line"></span><br><span class="line">__strong typeof(self) strongSelf = weakSelf;</span><br><span class="line"></span><br><span class="line">- weakSelf 是为了不让引用计数增加</span><br><span class="line"></span><br><span class="line">- strongSelf 是为了防止weakSelf变为nil</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<p><img src="/2018-02-28/Blocks.png" alt="关于Block中的weakSelf和strongSelf"></p>
-<p>为了避免循环引用<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html">Working With Blocks</a>文档上也给出了相应的解决方法“it’s best practice to capture a weak reference to self”。</p>
-<p>所以当我们使用Block，将self传入Block之前，将self转换成weak automatic 的变量，这样block中就不会出现对self的强引用。</p>
-<p>在执行完block以后，self就会被释放，weakSelf也会变成nil。</p>
-<p>但如果在同一Block中多次调用self的时候，因为在调用第一次self的时候weakSelf就会变为nil, 所以就需要__strong来确保self不会被提前释放。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html">Working With Blocks</a></li>
-<li><a href="https://developer.apple.com/documentation?language=objc">Apple Developer Documentation</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%9D%97_(C%E8%AF%AD%E8%A8%80%E6%89%A9%E5%B1%95)">块（C语言扩展）</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">闭包（计算机科学）</a></li>
-<li><a href="https://halfrost.com/ios_block_retain_circle/">深入研究Block用weakSelf、strongSelf、@weakify、@strongify解决循环引用</a></li>
-<li><a href="http://blog.lessfun.com/blog/2014/11/22/when-should-use-weakself-and-strongself-in-objc-block/">到底什么时候才需要在ObjC的Block中使用weakSelf&#x2F;strongSelf</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>知识总结</tag>
       </tags>
   </entry>
   <entry>
@@ -1581,71 +1581,66 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>Flutter中的并发与隔离（Isolates）</title>
-    <url>/2025/05/16/Flutter%E4%B8%AD%E7%9A%84%E5%B9%B6%E5%8F%91%E4%B8%8E%E9%9A%94%E7%A6%BB%EF%BC%88Isolates%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ol>
-<li><p>Isolates的本质  </p>
+    <title>Flutter与原生交互</title>
+    <url>/2022/04/16/Flutter%E4%B8%8E%E5%8E%9F%E7%94%9F%E4%BA%A4%E4%BA%92/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>Flutter-Native 消息通道一共有以下三种，在日常开发的过程中我们可能使用的<code>MethodChannel</code>相对比较多一些。</p>
+<p>而这三种消息通道都是在<code>Flutter</code>的<code>flutter/services.dart</code>库中提供,具体使用哪种方式，需要根据具体的业务来决定。</p>
 <ul>
-<li>Dart中的代码运行在isolates（隔离区）中，类似于线程，但每个isolate拥有独立的内存，不共享状态，只能通过消息传递通信</li>
-<li>默认情况下，Flutter应用的所有工作都在主isolate（UI线程）上执行。若主isolate被长时间计算阻塞，会导致UI卡顿（jank）</li>
-</ul>
+<li><p><code>MethodChannel</code>：用于单向调用，Flutter端可以调用原生平台的方法，原生端可以返回结果给Flutter端。</p>
 </li>
-<li><p>事件循环与性能  </p>
-<ul>
-<li>主isolate的事件循环需处理用户输入、渲染帧（60Hz设备每秒60帧）等任务。若计算任务超过帧间隔时间（约16ms），需将任务移至辅助isolate以避免卡顿。</li>
-</ul>
+<li><p><code>EventChannel</code>：用于双向通信，Flutter端可以监听原生平台发出的事件，原生端也可以发送事件给Flutter端。</p>
 </li>
-</ol>
-<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
-<li><p>适用场景：  </p>
-<ul>
-<li>大型计算（如解析大JSON文件、音视频处理、数据库操作等）。 </li>
-<li>需要异步支持且不阻塞UI的任务（如FFI调用）。</li>
-</ul>
-</li>
-<li><p>不适用场景：  </p>
-<ul>
-<li>直接操作UI或访问<code>dart:ui</code>方法（仅主isolate可处理UI）。  </li>
-<li>接收平台端主动推送的消息（如Firestore监听）。</li>
-</ul>
+<li><p><code>BasicMessageChannel</code>：用于传递任意类型的消息，可以实现双向通信。Flutter端和原生端可以互相发送和接收不同类型的消息。</p>
 </li>
 </ul>
-<h2 id="技术实现"><a href="#技术实现" class="headerlink" title="技术实现"></a>技术实现</h2><ol>
-<li><p>短生命周期isolate  </p>
-<ul>
-<li><p><code>Isolate.run</code>：简化版API，自动创建&#x2F;销毁isolate，适合单次计算。  </p>
-<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> photos = <span class="keyword">await</span> Isolate.run(() =&gt; jsonDecode(data).map(Photo.fromJson).toList());</span><br></pre></td></tr></table></figure></li>
+<h2 id="MethodChannel"><a href="#MethodChannel" class="headerlink" title="MethodChannel"></a>MethodChannel</h2><p>使用<code>MethodChannel</code>可以实现Flutter与原生平台的单向通信，Flutter端可以调用原生平台的方法，并接收返回的结果。</p>
+<p>在实际开发中，我们获取设备的信息、或者唤起原生的相机、相册等功能都会使用<code>MethodChannel</code>实现。</p>
+<h3 id="Flutter端实现"><a href="#Flutter端实现" class="headerlink" title="Flutter端实现"></a>Flutter端实现</h3><p>需要在Flutter端创建一个MethodChannel，具体示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import &#x27;package:flutter/services.dart&#x27;;</span><br><span class="line"></span><br><span class="line">class YourMethodChannel &#123;</span><br><span class="line">    const platform = const MethodChannel(&#x27;com.example.flutter_native_communication&#x27;);</span><br><span class="line"></span><br><span class="line">    Future&lt;void&gt; callNativeMethod() async &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        final String result = await platform.invokeMethod(&#x27;getPlatformVersion&#x27;);</span><br><span class="line">        print(&#x27;Response from native code: $result&#x27;);</span><br><span class="line">    &#125; on PlatformException catch (e) &#123;</span><br><span class="line">        print(&#x27;Error: $&#123;e.message&#125;&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="安卓端实现"><a href="#安卓端实现" class="headerlink" title="安卓端实现"></a>安卓端实现</h3><p>在Android平台上实现相应的方法。具体我们可以创建一个插件类来处理Flutter调用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.example.flutter_channel_plugin;</span><br><span class="line"></span><br><span class="line">import androidx.annotation.NonNull;</span><br><span class="line"></span><br><span class="line">import io.flutter.embedding.engine.plugins.FlutterPlugin;</span><br><span class="line">import io.flutter.plugin.common.MethodCall;</span><br><span class="line">import io.flutter.plugin.common.MethodChannel;</span><br><span class="line">import io.flutter.plugin.common.MethodChannel.MethodCallHandler;</span><br><span class="line">import io.flutter.plugin.common.MethodChannel.Result;</span><br><span class="line"></span><br><span class="line">/// MethodChannel：用于单向调用，Flutter端可以调用原生平台的方法，原生端可以返回结果给Flutter端。</span><br><span class="line">public class FlutterChannelPlugin implements FlutterPlugin, MethodCallHandler &#123;</span><br><span class="line">  private MethodChannel channel;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) &#123;</span><br><span class="line">    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), &quot;flutter_channel_plugin&quot;);</span><br><span class="line">    channel.setMethodCallHandler(this);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) &#123;</span><br><span class="line">    if (call.method.equals(&quot;getPlatformVersion&quot;)) &#123;</span><br><span class="line">      result.success(&quot;Android &quot; + android.os.Build.VERSION.RELEASE);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      result.notImplemented();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) &#123;</span><br><span class="line">    channel.setMethodCallHandler(null);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="iOS实现"><a href="#iOS实现" class="headerlink" title="iOS实现"></a>iOS实现</h3><p>在iOS端我们同样需要创建个插件类来处理Flutter的调用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#import &lt;Flutter/Flutter.h&gt;</span><br><span class="line"></span><br><span class="line">@interface FlutterChannelPlugin () &lt;FlutterPlugin&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong) FlutterMethodChannel *channel;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation FlutterChannelPlugin</span><br><span class="line"></span><br><span class="line">+ (void)registerWithRegistrar:(NSObject&lt;FlutterPluginRegistrar&gt;*)registrar &#123;</span><br><span class="line">  // 创建插件实例并注册</span><br><span class="line">  FlutterChannelPlugin* instance = [[FlutterChannelPlugin alloc] init];</span><br><span class="line">  [instance setupMethodChannel:registrar];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setupMethodChannel:(NSObject&lt;FlutterPluginRegistrar&gt; *)registrar &#123;</span><br><span class="line">  // 创建FlutterMethodChannel实例</span><br><span class="line">  self.channel = [FlutterMethodChannel</span><br><span class="line">      methodChannelWithName:@&quot;com.example.flutter_native_communication&quot;</span><br><span class="line">            binaryMessenger:[registrar messenger]];</span><br><span class="line">  </span><br><span class="line">  // 设置回调函数</span><br><span class="line">  __weak typeof(self) weakSelf = self;</span><br><span class="line">  [self.channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) &#123;</span><br><span class="line">    [weakSelf handleMethodCall:call result:result];</span><br><span class="line">  &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result &#123;</span><br><span class="line">  if ([call.method isEqualToString:@&quot;getPlatformVersion&quot;]) &#123;</span><br><span class="line">    NSString* platform = [NSString stringWithFormat:@&quot;iOS %@&quot;, [[UIDevice currentDevice] systemVersion]];</span><br><span class="line">    result(platform);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    result(FlutterMethodNotImplemented);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="EventChannel"><a href="#EventChannel" class="headerlink" title="EventChannel"></a>EventChannel</h2><p><code>EventChannel</code>基本用于<code>Flutter</code>与原生平台之间进行双向通信，允许原生平台向 <code>Flutter</code>发送事件。</p>
+<h3 id="Flutter端实现-1"><a href="#Flutter端实现-1" class="headerlink" title="Flutter端实现"></a>Flutter端实现</h3><p>在Flutter端，我们需要使用Dart语言中创建一个EventChannel的实例，并设置事件监听器，具体代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import &#x27;package:flutter/services.dart&#x27;;</span><br><span class="line"></span><br><span class="line">class YourEventChannel &#123;</span><br><span class="line">    // 创建 EventChannel 实例</span><br><span class="line">    EventChannel eventChannel = EventChannel(&#x27;com.example.flutter_native_communication/events&#x27;);</span><br><span class="line"></span><br><span class="line">    // 监听来自原生平台的事件</span><br><span class="line">    StreamSubscription subscription;</span><br><span class="line">    subscription = eventChannel.receiveBroadcastStream().listen((event) &#123;</span><br><span class="line">    // 处理来自原生平台的事件</span><br><span class="line">    print(&#x27;Received event: $event&#x27;);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    // 在不需要时取消监听</span><br><span class="line">    subscription.cancel();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="安卓端实现-1"><a href="#安卓端实现-1" class="headerlink" title="安卓端实现"></a>安卓端实现</h3><p>在安卓端，我们同样需要创建一个<code>EventChannel</code>实例，并通过该实例发送事件到 Flutter,具体代码如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.example.flutter_channel_plugin;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import io.flutter.embedding.engine.FlutterEngine;</span><br><span class="line">import io.flutter.plugin.common.BinaryMessenger;</span><br><span class="line">import io.flutter.plugin.common.EventChannel;</span><br><span class="line">import io.flutter.plugin.common.EventChannel.EventSink;</span><br><span class="line">import io.flutter.plugin.common.EventChannel.StreamHandler;</span><br><span class="line"></span><br><span class="line">public class FlutterEventChannelPlugin implements StreamHandler &#123;</span><br><span class="line">    private static final String EVENT_CHANNEL = &quot;com.example.flutter_native_communication/events&quot;;</span><br><span class="line">    private EventSink eventSink;</span><br><span class="line"></span><br><span class="line">    public static void register(Context context, BinaryMessenger messenger) &#123;</span><br><span class="line">        FlutterEventChannelPlugin plugin = new FlutterEventChannelPlugin();</span><br><span class="line">        EventChannel eventChannel = new EventChannel(messenger, EVENT_CHANNEL);</span><br><span class="line">        eventChannel.setStreamHandler(plugin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onListen(Object arguments, EventSink eventSink) &#123;</span><br><span class="line">        this.eventSink = eventSink;</span><br><span class="line"></span><br><span class="line">        // 将事件发送到Flutter端</span><br><span class="line">        sendMessageToFlutter();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCancel(Object arguments) &#123;</span><br><span class="line">        // 取消监听</span><br><span class="line">        eventSink = null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void sendMessageToFlutter() &#123;</span><br><span class="line">        // 模拟发送事件到Flutter端</span><br><span class="line">        new Thread(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        Thread.sleep(1000);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    if (eventSink != null) &#123;</span><br><span class="line">                        eventSink.success(&quot;Event: &quot; + i);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="iOS端实现"><a href="#iOS端实现" class="headerlink" title="iOS端实现"></a>iOS端实现</h3><p>在iOS端，我们同样也需要创建一个<code>EventChannel</code>实例，并通过该实例发送事件到 Flutter,具体代码如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@interface FlutterEventChannelPlugin()&lt;FlutterStreamHandler&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong) FlutterEventChannel *eventChannel;</span><br><span class="line">@property (nonatomic, copy) FlutterEventSink eventSink;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation FlutterEventChannelPlugin</span><br><span class="line"></span><br><span class="line">+ (void)registerWithRegistrar:(NSObject&lt;FlutterPluginRegistrar&gt;*)registrar &#123;</span><br><span class="line">    FlutterEventChannelPlugin* instance = [[FlutterEventChannelPlugin alloc] init];</span><br><span class="line">    [instance setupEventChannel:registrar];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setupEventChannel:(NSObject&lt;FlutterPluginRegistrar&gt; *)registrar &#123;</span><br><span class="line">  // 创建 FlutterEventChannel 实例</span><br><span class="line">    self.eventChannel = [FlutterEventChannel</span><br><span class="line">      eventChannelWithName:@&quot;com.example.flutter_native_communication/events&quot;</span><br><span class="line">            binaryMessenger:[registrar messenger]];</span><br><span class="line">    [self.eventChannel setStreamHandler:self];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 在某个地方调用这个方法向 Flutter 发送事件</span><br><span class="line">- (void)sendEventToFlutter:(NSString*)event &#123;</span><br><span class="line">    if (self.eventSink) &#123;</span><br><span class="line">        self.eventSink(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)stopListening &#123;</span><br><span class="line">  // 在这里添加停止监听事件的逻辑</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)sendEvent:(id)eventData &#123;</span><br><span class="line">    if (self.eventSink) &#123;</span><br><span class="line">        self.eventSink(eventData);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (FlutterError* _Nullable)onListenWithArguments:(id _Nullable)arguments eventSink:(FlutterEventSink)events &#123;</span><br><span class="line">    self.eventSink = events;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (FlutterError* _Nullable)onCancelWithArguments:(id _Nullable)arguments &#123;</span><br><span class="line">    self.eventSink = nil;</span><br><span class="line">    // 在这里添加取消监听事件的逻辑</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="BasicMessageChannel"><a href="#BasicMessageChannel" class="headerlink" title="BasicMessageChannel"></a>BasicMessageChannel</h2><p><code>BasicMessageChannel</code>可以进行原生和Flutter双向通信。</p>
+<h3 id="Flutter端实现-2"><a href="#Flutter端实现-2" class="headerlink" title="Flutter端实现"></a>Flutter端实现</h3><p>在Flutter我们需要使用Dart语言创建个<code>BasicMessageChannel</code>实例，并设置消息监听器,示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import &#x27;package:flutter/services.dart&#x27;;</span><br><span class="line"></span><br><span class="line">class YourBasicMessageChannel &#123;</span><br><span class="line">  static const String _channelName = &#x27;your_basic_message_channel_name&#x27;;</span><br><span class="line">  final MethodChannel _methodChannel = MethodChannel(_channelName);</span><br><span class="line"></span><br><span class="line">  Future&lt;dynamic&gt; sendMessage(dynamic message) async &#123;</span><br><span class="line">    final dynamic response = await _methodChannel.invokeMethod(&#x27;sendMessage&#x27;, message);</span><br><span class="line">    return response;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void setMessageHandler(Future&lt;dynamic&gt; Function(dynamic) handler) &#123;</span><br><span class="line">    _methodChannel.setMethodCallHandler((MethodCall call) &#123;</span><br><span class="line">      if (call.method == &#x27;receiveMessage&#x27;) &#123;</span><br><span class="line">        return handler(call.arguments);</span><br><span class="line">      &#125;</span><br><span class="line">      return handler(null);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Android端实现"><a href="#Android端实现" class="headerlink" title="Android端实现"></a>Android端实现</h3><p>在Android端，我们同样需要创建一个<code>BasicMessageChannel</code>实例，并通过该实例发送消息到 Flutter，示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.example.flutter_channel_plugin;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import io.flutter.plugin.common.BasicMessageChannel;</span><br><span class="line">import io.flutter.plugin.common.StringCodec;</span><br><span class="line">import io.flutter.plugin.common.BinaryMessenger;</span><br><span class="line">import io.flutter.plugin.common.MessageCodec;</span><br><span class="line"></span><br><span class="line">public class FlutterBasicChannelPlugin &#123;</span><br><span class="line">    private static final String CHANNEL_NAME = &quot;com.example.flutter_native_communication/basic_message&quot;;</span><br><span class="line"></span><br><span class="line">    public static void register(Context context, BinaryMessenger messenger) &#123;</span><br><span class="line">        BasicMessageChannel&lt;String&gt; messageChannel = new BasicMessageChannel&lt;&gt;(messenger, CHANNEL_NAME, StringCodec.INSTANCE);</span><br><span class="line">        messageChannel.setMessageHandler(new BasicMessageChannel.MessageHandler&lt;String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onMessage(String message, BasicMessageChannel.Reply&lt;String&gt; reply) &#123;</span><br><span class="line">                // 处理来自Flutter端的消息</span><br><span class="line">                String replyMessage = &quot;Received message: &quot; + message;</span><br><span class="line">                reply.reply(replyMessage);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="iOS端实现-1"><a href="#iOS端实现-1" class="headerlink" title="iOS端实现"></a>iOS端实现</h3><p>在Android端，我们也需要创建一个<code>BasicMessageChannel</code>实例，并通过该实例发送消息到 Flutter，示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#import &lt;Flutter/Flutter.h&gt;</span><br><span class="line">@interface NativeCommunicationPlugin () &lt;FlutterMessageListener&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong) FlutterBasicMessageChannel *messageChannel;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation NativeCommunicationPlugin</span><br><span class="line"></span><br><span class="line">+ (void)registerWithRegistrar:(NSObject&lt;FlutterPluginRegistrar&gt;*)registrar &#123;</span><br><span class="line">  // 创建插件实例并注册</span><br><span class="line">  NativeCommunicationPlugin* instance = [[NativeCommunicationPlugin alloc] init];</span><br><span class="line">  [instance setupMessageChannel:registrar];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setupMessageChannel:(NSObject&lt;FlutterPluginRegistrar&gt; *)registrar &#123;</span><br><span class="line">  // 创建 FlutterBasicMessageChannel 实例</span><br><span class="line">  self.messageChannel = [FlutterBasicMessageChannel</span><br><span class="line">                         messageChannelWithName:@&quot;com.example.flutter_native_communication/basic_message&quot;</span><br><span class="line">                                  binaryMessenger:[registrar messenger]];</span><br><span class="line">  </span><br><span class="line">  // 设置消息处理器</span><br><span class="line">  __weak typeof(self) weakSelf = self;</span><br><span class="line">  [self.messageChannel setMessageHandler:^(id message, FlutterReply reply) &#123;</span><br><span class="line">    // 处理来自 Flutter 的消息</span><br><span class="line">    NSLog(@&quot;Received message: %@&quot;, message);</span><br><span class="line">    </span><br><span class="line">    // 回复消息给 Flutter</span><br><span class="line">    reply(@&quot;Reply from iOS&quot;);</span><br><span class="line">  &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 在某个地方调用这个方法向 Flutter 发送消息</span><br><span class="line">- (void)sendMessageToFlutter:(NSString *)message &#123;</span><br><span class="line">  [self.messageChannel sendMessage:message reply:^(id reply) &#123;</span><br><span class="line">    // 处理来自 Flutter 的回复消息</span><br><span class="line">    NSLog(@&quot;Received reply: %@&quot;, reply);</span><br><span class="line">  &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://api.flutter-io.cn/flutter/services/BasicMessageChannel-class.html">BasicMessageChannel&lt;T&gt; class</a></li>
+<li><a href="https://api.flutter-io.cn/flutter/services/EventChannel-class.html">EventChannel class</a></li>
+<li><a href="https://api.flutter-io.cn/flutter/services/MethodChannel-class.html">MethodChannel class</a></li>
+<li><a href="https://flutter.cn/docs/development/platform-integration/platform-channels?tab=ios-channel-objective-c-tab">撰写双端平台代码（插件编写实现）</a></li>
+<li><a href="https://myoule.zhipin.com/articles/1a47aa6302584ce8qxB72ty4FA~~.html">有道词典 Flutter 架构与应用</a></li>
 </ul>
-</li>
-<li><p>长生命周期isolate  </p>
-<ul>
-<li>通过<code>Isolate.spawn</code>、<code>ReceivePort</code>&#x2F;<code>SendPort</code>实现持续通信。  </li>
-<li>类似Actor模型，需手动管理消息传递（如双向通信需分别建立端口）。</li>
-</ul>
-</li>
-<li><p>平台插件支持（Flutter 3.7+）  </p>
-<ul>
-<li><p>使用<code>BackgroundIsolateBinaryMessenger</code>在isolate中调用平台插件（如<code>shared_preferences</code>）。  </p>
-<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ol>
-<h2 id="限制与注意事项"><a href="#限制与注意事项" class="headerlink" title="限制与注意事项"></a>限制与注意事项</h2><ul>
-<li>Web平台：不支持isolates，<code>compute()</code>方法在Web上回退到主线程。  </li>
-<li>内存隔离：对象传递时默认深拷贝（不可变对象如<code>String</code>除外），避免内存共享。  </li>
-<li>全局状态：isolate间的全局变量相互独立，修改无效。</li>
-</ul>
-<p>推荐资源</p>
-<ul>
-<li>性能优化：优先使用<code>Isolate.run</code>或<code>compute</code>（简化API）。  </li>
-<li>复杂场景：考虑<code>isolate_agents</code>或<code>worker_manager</code>管理长生命周期isolate。  </li>
-<li>深入理解：参考Dart官方文档的<a href="https://dart.dev/concurrency">Actor模型</a>和Flutter的<code>IsolateNameServer</code>。</li>
-</ul>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Flutter的isolates通过内存隔离和消息传递实现并发，适合CPU密集型任务。开发者需权衡isolate的创建开销与任务复杂度，优先使用高阶API（如<code>Isolate.run</code>），并在必要时结合端口通信或平台插件支持。Web端需特殊处理，且需注意UI相关操作始终限制在主isolate。</p>
 ]]></content>
       <categories>
         <category>Flutter</category>
       </categories>
+      <tags>
+        <tag>Flutter</tag>
+      </tags>
   </entry>
   <entry>
     <title>Flutter 调试工具与开发优化指南</title>
@@ -1777,66 +1772,71 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>Flutter与原生交互</title>
-    <url>/2022/04/16/Flutter%E4%B8%8E%E5%8E%9F%E7%94%9F%E4%BA%A4%E4%BA%92/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>Flutter-Native 消息通道一共有以下三种，在日常开发的过程中我们可能使用的<code>MethodChannel</code>相对比较多一些。</p>
-<p>而这三种消息通道都是在<code>Flutter</code>的<code>flutter/services.dart</code>库中提供,具体使用哪种方式，需要根据具体的业务来决定。</p>
+    <title>Flutter中的并发与隔离（Isolates）</title>
+    <url>/2025/05/16/Flutter%E4%B8%AD%E7%9A%84%E5%B9%B6%E5%8F%91%E4%B8%8E%E9%9A%94%E7%A6%BB%EF%BC%88Isolates%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ol>
+<li><p>Isolates的本质  </p>
 <ul>
-<li><p><code>MethodChannel</code>：用于单向调用，Flutter端可以调用原生平台的方法，原生端可以返回结果给Flutter端。</p>
+<li>Dart中的代码运行在isolates（隔离区）中，类似于线程，但每个isolate拥有独立的内存，不共享状态，只能通过消息传递通信</li>
+<li>默认情况下，Flutter应用的所有工作都在主isolate（UI线程）上执行。若主isolate被长时间计算阻塞，会导致UI卡顿（jank）</li>
+</ul>
 </li>
-<li><p><code>EventChannel</code>：用于双向通信，Flutter端可以监听原生平台发出的事件，原生端也可以发送事件给Flutter端。</p>
+<li><p>事件循环与性能  </p>
+<ul>
+<li>主isolate的事件循环需处理用户输入、渲染帧（60Hz设备每秒60帧）等任务。若计算任务超过帧间隔时间（约16ms），需将任务移至辅助isolate以避免卡顿。</li>
+</ul>
 </li>
-<li><p><code>BasicMessageChannel</code>：用于传递任意类型的消息，可以实现双向通信。Flutter端和原生端可以互相发送和接收不同类型的消息。</p>
+</ol>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
+<li><p>适用场景：  </p>
+<ul>
+<li>大型计算（如解析大JSON文件、音视频处理、数据库操作等）。 </li>
+<li>需要异步支持且不阻塞UI的任务（如FFI调用）。</li>
+</ul>
+</li>
+<li><p>不适用场景：  </p>
+<ul>
+<li>直接操作UI或访问<code>dart:ui</code>方法（仅主isolate可处理UI）。  </li>
+<li>接收平台端主动推送的消息（如Firestore监听）。</li>
+</ul>
 </li>
 </ul>
-<h2 id="MethodChannel"><a href="#MethodChannel" class="headerlink" title="MethodChannel"></a>MethodChannel</h2><p>使用<code>MethodChannel</code>可以实现Flutter与原生平台的单向通信，Flutter端可以调用原生平台的方法，并接收返回的结果。</p>
-<p>在实际开发中，我们获取设备的信息、或者唤起原生的相机、相册等功能都会使用<code>MethodChannel</code>实现。</p>
-<h3 id="Flutter端实现"><a href="#Flutter端实现" class="headerlink" title="Flutter端实现"></a>Flutter端实现</h3><p>需要在Flutter端创建一个MethodChannel，具体示例代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import &#x27;package:flutter/services.dart&#x27;;</span><br><span class="line"></span><br><span class="line">class YourMethodChannel &#123;</span><br><span class="line">    const platform = const MethodChannel(&#x27;com.example.flutter_native_communication&#x27;);</span><br><span class="line"></span><br><span class="line">    Future&lt;void&gt; callNativeMethod() async &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        final String result = await platform.invokeMethod(&#x27;getPlatformVersion&#x27;);</span><br><span class="line">        print(&#x27;Response from native code: $result&#x27;);</span><br><span class="line">    &#125; on PlatformException catch (e) &#123;</span><br><span class="line">        print(&#x27;Error: $&#123;e.message&#125;&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="安卓端实现"><a href="#安卓端实现" class="headerlink" title="安卓端实现"></a>安卓端实现</h3><p>在Android平台上实现相应的方法。具体我们可以创建一个插件类来处理Flutter调用：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.example.flutter_channel_plugin;</span><br><span class="line"></span><br><span class="line">import androidx.annotation.NonNull;</span><br><span class="line"></span><br><span class="line">import io.flutter.embedding.engine.plugins.FlutterPlugin;</span><br><span class="line">import io.flutter.plugin.common.MethodCall;</span><br><span class="line">import io.flutter.plugin.common.MethodChannel;</span><br><span class="line">import io.flutter.plugin.common.MethodChannel.MethodCallHandler;</span><br><span class="line">import io.flutter.plugin.common.MethodChannel.Result;</span><br><span class="line"></span><br><span class="line">/// MethodChannel：用于单向调用，Flutter端可以调用原生平台的方法，原生端可以返回结果给Flutter端。</span><br><span class="line">public class FlutterChannelPlugin implements FlutterPlugin, MethodCallHandler &#123;</span><br><span class="line">  private MethodChannel channel;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) &#123;</span><br><span class="line">    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), &quot;flutter_channel_plugin&quot;);</span><br><span class="line">    channel.setMethodCallHandler(this);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) &#123;</span><br><span class="line">    if (call.method.equals(&quot;getPlatformVersion&quot;)) &#123;</span><br><span class="line">      result.success(&quot;Android &quot; + android.os.Build.VERSION.RELEASE);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      result.notImplemented();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) &#123;</span><br><span class="line">    channel.setMethodCallHandler(null);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="iOS实现"><a href="#iOS实现" class="headerlink" title="iOS实现"></a>iOS实现</h3><p>在iOS端我们同样需要创建个插件类来处理Flutter的调用：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#import &lt;Flutter/Flutter.h&gt;</span><br><span class="line"></span><br><span class="line">@interface FlutterChannelPlugin () &lt;FlutterPlugin&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong) FlutterMethodChannel *channel;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation FlutterChannelPlugin</span><br><span class="line"></span><br><span class="line">+ (void)registerWithRegistrar:(NSObject&lt;FlutterPluginRegistrar&gt;*)registrar &#123;</span><br><span class="line">  // 创建插件实例并注册</span><br><span class="line">  FlutterChannelPlugin* instance = [[FlutterChannelPlugin alloc] init];</span><br><span class="line">  [instance setupMethodChannel:registrar];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setupMethodChannel:(NSObject&lt;FlutterPluginRegistrar&gt; *)registrar &#123;</span><br><span class="line">  // 创建FlutterMethodChannel实例</span><br><span class="line">  self.channel = [FlutterMethodChannel</span><br><span class="line">      methodChannelWithName:@&quot;com.example.flutter_native_communication&quot;</span><br><span class="line">            binaryMessenger:[registrar messenger]];</span><br><span class="line">  </span><br><span class="line">  // 设置回调函数</span><br><span class="line">  __weak typeof(self) weakSelf = self;</span><br><span class="line">  [self.channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) &#123;</span><br><span class="line">    [weakSelf handleMethodCall:call result:result];</span><br><span class="line">  &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result &#123;</span><br><span class="line">  if ([call.method isEqualToString:@&quot;getPlatformVersion&quot;]) &#123;</span><br><span class="line">    NSString* platform = [NSString stringWithFormat:@&quot;iOS %@&quot;, [[UIDevice currentDevice] systemVersion]];</span><br><span class="line">    result(platform);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    result(FlutterMethodNotImplemented);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="EventChannel"><a href="#EventChannel" class="headerlink" title="EventChannel"></a>EventChannel</h2><p><code>EventChannel</code>基本用于<code>Flutter</code>与原生平台之间进行双向通信，允许原生平台向 <code>Flutter</code>发送事件。</p>
-<h3 id="Flutter端实现-1"><a href="#Flutter端实现-1" class="headerlink" title="Flutter端实现"></a>Flutter端实现</h3><p>在Flutter端，我们需要使用Dart语言中创建一个EventChannel的实例，并设置事件监听器，具体代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import &#x27;package:flutter/services.dart&#x27;;</span><br><span class="line"></span><br><span class="line">class YourEventChannel &#123;</span><br><span class="line">    // 创建 EventChannel 实例</span><br><span class="line">    EventChannel eventChannel = EventChannel(&#x27;com.example.flutter_native_communication/events&#x27;);</span><br><span class="line"></span><br><span class="line">    // 监听来自原生平台的事件</span><br><span class="line">    StreamSubscription subscription;</span><br><span class="line">    subscription = eventChannel.receiveBroadcastStream().listen((event) &#123;</span><br><span class="line">    // 处理来自原生平台的事件</span><br><span class="line">    print(&#x27;Received event: $event&#x27;);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    // 在不需要时取消监听</span><br><span class="line">    subscription.cancel();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="安卓端实现-1"><a href="#安卓端实现-1" class="headerlink" title="安卓端实现"></a>安卓端实现</h3><p>在安卓端，我们同样需要创建一个<code>EventChannel</code>实例，并通过该实例发送事件到 Flutter,具体代码如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.example.flutter_channel_plugin;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import io.flutter.embedding.engine.FlutterEngine;</span><br><span class="line">import io.flutter.plugin.common.BinaryMessenger;</span><br><span class="line">import io.flutter.plugin.common.EventChannel;</span><br><span class="line">import io.flutter.plugin.common.EventChannel.EventSink;</span><br><span class="line">import io.flutter.plugin.common.EventChannel.StreamHandler;</span><br><span class="line"></span><br><span class="line">public class FlutterEventChannelPlugin implements StreamHandler &#123;</span><br><span class="line">    private static final String EVENT_CHANNEL = &quot;com.example.flutter_native_communication/events&quot;;</span><br><span class="line">    private EventSink eventSink;</span><br><span class="line"></span><br><span class="line">    public static void register(Context context, BinaryMessenger messenger) &#123;</span><br><span class="line">        FlutterEventChannelPlugin plugin = new FlutterEventChannelPlugin();</span><br><span class="line">        EventChannel eventChannel = new EventChannel(messenger, EVENT_CHANNEL);</span><br><span class="line">        eventChannel.setStreamHandler(plugin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onListen(Object arguments, EventSink eventSink) &#123;</span><br><span class="line">        this.eventSink = eventSink;</span><br><span class="line"></span><br><span class="line">        // 将事件发送到Flutter端</span><br><span class="line">        sendMessageToFlutter();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCancel(Object arguments) &#123;</span><br><span class="line">        // 取消监听</span><br><span class="line">        eventSink = null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void sendMessageToFlutter() &#123;</span><br><span class="line">        // 模拟发送事件到Flutter端</span><br><span class="line">        new Thread(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        Thread.sleep(1000);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    if (eventSink != null) &#123;</span><br><span class="line">                        eventSink.success(&quot;Event: &quot; + i);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="iOS端实现"><a href="#iOS端实现" class="headerlink" title="iOS端实现"></a>iOS端实现</h3><p>在iOS端，我们同样也需要创建一个<code>EventChannel</code>实例，并通过该实例发送事件到 Flutter,具体代码如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@interface FlutterEventChannelPlugin()&lt;FlutterStreamHandler&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong) FlutterEventChannel *eventChannel;</span><br><span class="line">@property (nonatomic, copy) FlutterEventSink eventSink;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation FlutterEventChannelPlugin</span><br><span class="line"></span><br><span class="line">+ (void)registerWithRegistrar:(NSObject&lt;FlutterPluginRegistrar&gt;*)registrar &#123;</span><br><span class="line">    FlutterEventChannelPlugin* instance = [[FlutterEventChannelPlugin alloc] init];</span><br><span class="line">    [instance setupEventChannel:registrar];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setupEventChannel:(NSObject&lt;FlutterPluginRegistrar&gt; *)registrar &#123;</span><br><span class="line">  // 创建 FlutterEventChannel 实例</span><br><span class="line">    self.eventChannel = [FlutterEventChannel</span><br><span class="line">      eventChannelWithName:@&quot;com.example.flutter_native_communication/events&quot;</span><br><span class="line">            binaryMessenger:[registrar messenger]];</span><br><span class="line">    [self.eventChannel setStreamHandler:self];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 在某个地方调用这个方法向 Flutter 发送事件</span><br><span class="line">- (void)sendEventToFlutter:(NSString*)event &#123;</span><br><span class="line">    if (self.eventSink) &#123;</span><br><span class="line">        self.eventSink(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)stopListening &#123;</span><br><span class="line">  // 在这里添加停止监听事件的逻辑</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)sendEvent:(id)eventData &#123;</span><br><span class="line">    if (self.eventSink) &#123;</span><br><span class="line">        self.eventSink(eventData);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (FlutterError* _Nullable)onListenWithArguments:(id _Nullable)arguments eventSink:(FlutterEventSink)events &#123;</span><br><span class="line">    self.eventSink = events;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (FlutterError* _Nullable)onCancelWithArguments:(id _Nullable)arguments &#123;</span><br><span class="line">    self.eventSink = nil;</span><br><span class="line">    // 在这里添加取消监听事件的逻辑</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="BasicMessageChannel"><a href="#BasicMessageChannel" class="headerlink" title="BasicMessageChannel"></a>BasicMessageChannel</h2><p><code>BasicMessageChannel</code>可以进行原生和Flutter双向通信。</p>
-<h3 id="Flutter端实现-2"><a href="#Flutter端实现-2" class="headerlink" title="Flutter端实现"></a>Flutter端实现</h3><p>在Flutter我们需要使用Dart语言创建个<code>BasicMessageChannel</code>实例，并设置消息监听器,示例代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import &#x27;package:flutter/services.dart&#x27;;</span><br><span class="line"></span><br><span class="line">class YourBasicMessageChannel &#123;</span><br><span class="line">  static const String _channelName = &#x27;your_basic_message_channel_name&#x27;;</span><br><span class="line">  final MethodChannel _methodChannel = MethodChannel(_channelName);</span><br><span class="line"></span><br><span class="line">  Future&lt;dynamic&gt; sendMessage(dynamic message) async &#123;</span><br><span class="line">    final dynamic response = await _methodChannel.invokeMethod(&#x27;sendMessage&#x27;, message);</span><br><span class="line">    return response;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void setMessageHandler(Future&lt;dynamic&gt; Function(dynamic) handler) &#123;</span><br><span class="line">    _methodChannel.setMethodCallHandler((MethodCall call) &#123;</span><br><span class="line">      if (call.method == &#x27;receiveMessage&#x27;) &#123;</span><br><span class="line">        return handler(call.arguments);</span><br><span class="line">      &#125;</span><br><span class="line">      return handler(null);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Android端实现"><a href="#Android端实现" class="headerlink" title="Android端实现"></a>Android端实现</h3><p>在Android端，我们同样需要创建一个<code>BasicMessageChannel</code>实例，并通过该实例发送消息到 Flutter，示例代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.example.flutter_channel_plugin;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import io.flutter.plugin.common.BasicMessageChannel;</span><br><span class="line">import io.flutter.plugin.common.StringCodec;</span><br><span class="line">import io.flutter.plugin.common.BinaryMessenger;</span><br><span class="line">import io.flutter.plugin.common.MessageCodec;</span><br><span class="line"></span><br><span class="line">public class FlutterBasicChannelPlugin &#123;</span><br><span class="line">    private static final String CHANNEL_NAME = &quot;com.example.flutter_native_communication/basic_message&quot;;</span><br><span class="line"></span><br><span class="line">    public static void register(Context context, BinaryMessenger messenger) &#123;</span><br><span class="line">        BasicMessageChannel&lt;String&gt; messageChannel = new BasicMessageChannel&lt;&gt;(messenger, CHANNEL_NAME, StringCodec.INSTANCE);</span><br><span class="line">        messageChannel.setMessageHandler(new BasicMessageChannel.MessageHandler&lt;String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onMessage(String message, BasicMessageChannel.Reply&lt;String&gt; reply) &#123;</span><br><span class="line">                // 处理来自Flutter端的消息</span><br><span class="line">                String replyMessage = &quot;Received message: &quot; + message;</span><br><span class="line">                reply.reply(replyMessage);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="iOS端实现-1"><a href="#iOS端实现-1" class="headerlink" title="iOS端实现"></a>iOS端实现</h3><p>在Android端，我们也需要创建一个<code>BasicMessageChannel</code>实例，并通过该实例发送消息到 Flutter，示例代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#import &lt;Flutter/Flutter.h&gt;</span><br><span class="line">@interface NativeCommunicationPlugin () &lt;FlutterMessageListener&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong) FlutterBasicMessageChannel *messageChannel;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation NativeCommunicationPlugin</span><br><span class="line"></span><br><span class="line">+ (void)registerWithRegistrar:(NSObject&lt;FlutterPluginRegistrar&gt;*)registrar &#123;</span><br><span class="line">  // 创建插件实例并注册</span><br><span class="line">  NativeCommunicationPlugin* instance = [[NativeCommunicationPlugin alloc] init];</span><br><span class="line">  [instance setupMessageChannel:registrar];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setupMessageChannel:(NSObject&lt;FlutterPluginRegistrar&gt; *)registrar &#123;</span><br><span class="line">  // 创建 FlutterBasicMessageChannel 实例</span><br><span class="line">  self.messageChannel = [FlutterBasicMessageChannel</span><br><span class="line">                         messageChannelWithName:@&quot;com.example.flutter_native_communication/basic_message&quot;</span><br><span class="line">                                  binaryMessenger:[registrar messenger]];</span><br><span class="line">  </span><br><span class="line">  // 设置消息处理器</span><br><span class="line">  __weak typeof(self) weakSelf = self;</span><br><span class="line">  [self.messageChannel setMessageHandler:^(id message, FlutterReply reply) &#123;</span><br><span class="line">    // 处理来自 Flutter 的消息</span><br><span class="line">    NSLog(@&quot;Received message: %@&quot;, message);</span><br><span class="line">    </span><br><span class="line">    // 回复消息给 Flutter</span><br><span class="line">    reply(@&quot;Reply from iOS&quot;);</span><br><span class="line">  &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 在某个地方调用这个方法向 Flutter 发送消息</span><br><span class="line">- (void)sendMessageToFlutter:(NSString *)message &#123;</span><br><span class="line">  [self.messageChannel sendMessage:message reply:^(id reply) &#123;</span><br><span class="line">    // 处理来自 Flutter 的回复消息</span><br><span class="line">    NSLog(@&quot;Received reply: %@&quot;, reply);</span><br><span class="line">  &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="https://api.flutter-io.cn/flutter/services/BasicMessageChannel-class.html">BasicMessageChannel&lt;T&gt; class</a></li>
-<li><a href="https://api.flutter-io.cn/flutter/services/EventChannel-class.html">EventChannel class</a></li>
-<li><a href="https://api.flutter-io.cn/flutter/services/MethodChannel-class.html">MethodChannel class</a></li>
-<li><a href="https://flutter.cn/docs/development/platform-integration/platform-channels?tab=ios-channel-objective-c-tab">撰写双端平台代码（插件编写实现）</a></li>
-<li><a href="https://myoule.zhipin.com/articles/1a47aa6302584ce8qxB72ty4FA~~.html">有道词典 Flutter 架构与应用</a></li>
+<h2 id="技术实现"><a href="#技术实现" class="headerlink" title="技术实现"></a>技术实现</h2><ol>
+<li><p>短生命周期isolate  </p>
+<ul>
+<li><p><code>Isolate.run</code>：简化版API，自动创建&#x2F;销毁isolate，适合单次计算。  </p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> photos = <span class="keyword">await</span> Isolate.run(() =&gt; jsonDecode(data).map(Photo.fromJson).toList());</span><br></pre></td></tr></table></figure></li>
 </ul>
+</li>
+<li><p>长生命周期isolate  </p>
+<ul>
+<li>通过<code>Isolate.spawn</code>、<code>ReceivePort</code>&#x2F;<code>SendPort</code>实现持续通信。  </li>
+<li>类似Actor模型，需手动管理消息传递（如双向通信需分别建立端口）。</li>
+</ul>
+</li>
+<li><p>平台插件支持（Flutter 3.7+）  </p>
+<ul>
+<li><p>使用<code>BackgroundIsolateBinaryMessenger</code>在isolate中调用平台插件（如<code>shared_preferences</code>）。  </p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h2 id="限制与注意事项"><a href="#限制与注意事项" class="headerlink" title="限制与注意事项"></a>限制与注意事项</h2><ul>
+<li>Web平台：不支持isolates，<code>compute()</code>方法在Web上回退到主线程。  </li>
+<li>内存隔离：对象传递时默认深拷贝（不可变对象如<code>String</code>除外），避免内存共享。  </li>
+<li>全局状态：isolate间的全局变量相互独立，修改无效。</li>
+</ul>
+<p>推荐资源</p>
+<ul>
+<li>性能优化：优先使用<code>Isolate.run</code>或<code>compute</code>（简化API）。  </li>
+<li>复杂场景：考虑<code>isolate_agents</code>或<code>worker_manager</code>管理长生命周期isolate。  </li>
+<li>深入理解：参考Dart官方文档的<a href="https://dart.dev/concurrency">Actor模型</a>和Flutter的<code>IsolateNameServer</code>。</li>
+</ul>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Flutter的isolates通过内存隔离和消息传递实现并发，适合CPU密集型任务。开发者需权衡isolate的创建开销与任务复杂度，优先使用高阶API（如<code>Isolate.run</code>），并在必要时结合端口通信或平台插件支持。Web端需特殊处理，且需注意UI相关操作始终限制在主isolate。</p>
 ]]></content>
       <categories>
         <category>Flutter</category>
       </categories>
-      <tags>
-        <tag>Flutter</tag>
-      </tags>
   </entry>
   <entry>
     <title>Flutter中表情包导致的UI渲染问题</title>
@@ -2337,15 +2337,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>MacOS Sequoia15.3系统的钥匙串位置</title>
-    <url>/2025/02/06/MacOS%20Sequoia15.3%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%92%A5%E5%8C%99%E4%B8%B2%E4%BD%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>系统升级到<code>MacOS Sequoia15.3</code>后发现<code>钥匙串</code>工具没在启动台显示，于是找了下发现挪到了系统的<code>CoreServices</code>中，特此记录下。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/System/Library/CoreServices</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-  </entry>
-  <entry>
     <title>OPPO新规，24年11月20日创建的应用发送消息必携带新消息分类字段</title>
     <url>/2024/11/26/OPPO%E6%96%B0%E8%A7%84%EF%BC%8C24%E5%B9%B411%E6%9C%8820%E6%97%A5%E5%88%9B%E5%BB%BA%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E5%BF%85%E6%90%BA%E5%B8%A6%E6%96%B0%E6%B6%88%E6%81%AF%E5%88%86%E7%B1%BB%E5%AD%97%E6%AE%B5/</url>
     <content><![CDATA[<p>近日收到友盟的消息提醒，根据OPPO最新的公告，<code>11月20日后新接入的应用必须携带新消息分类字段，否则无法成功下发离线消息</code>。</p>
@@ -2372,6 +2363,15 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <li><a href="https://open.oppomobile.com/new/developmentDoc/info?id=13189">OPUSH消息分类细则</a></li>
 </ul>
 ]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>MacOS Sequoia15.3系统的钥匙串位置</title>
+    <url>/2025/02/06/MacOS%20Sequoia15.3%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%92%A5%E5%8C%99%E4%B8%B2%E4%BD%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>系统升级到<code>MacOS Sequoia15.3</code>后发现<code>钥匙串</code>工具没在启动台显示，于是找了下发现挪到了系统的<code>CoreServices</code>中，特此记录下。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/System/Library/CoreServices</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>工具</category>
       </categories>
@@ -3313,6 +3313,104 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>Xcode14运行Flutter3.22.0的折中方式</title>
+    <url>/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>目前项目升级到<code>3.22.0</code>,项目也早早添加了隐私清单,这也就意味着项目运行&#x2F;编译需要在<code>Xcode15</code>上进行。</p>
+<p>但有的时候仍需要在家中排查问题，虽然家中有个<code>pro</code>和<code>air</code>,但有的时候老婆也需要用<code>pro</code>搞些设计。而且<code>air</code>目前已经无法升级到最新的系统，相应地到<code>Xcode</code>也无法升级到<code>Xcode15</code>。</p>
+<p>所以也需要修改项目，让其在Xcode14上运行，便于后期忘记，在此记录。</p>
+<h2 id="移除隐私清单文件"><a href="#移除隐私清单文件" class="headerlink" title="移除隐私清单文件"></a>移除隐私清单文件</h2><p>首先需要在移除壳工程中的<code>PrivacyInfo.xcprivacy</code>。</p>
+<p>不需要直接删除，需要在<code>TARGETS</code>-&gt;<code>Build Phases</code>-&gt;<code>Copy Bundle Resources</code>中将其移除。</p>
+<h2 id="关闭Impeller渲染引擎"><a href="#关闭Impeller渲染引擎" class="headerlink" title="关闭Impeller渲染引擎"></a>关闭<code>Impeller</code>渲染引擎</h2><p>如果不关闭在运行的时候会报以下错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[FATAL:flutter/shell/platform/darwin/ios/ios_context.mm(29)] Check failed: backend != IOSRenderingBackend::kImpeller. Software rendering is incompatible with Impeller. Software rendering may have been automatically selected when running on a simulator in an environment that does not support Metal. Enabling GPU pass through in your environment may fix this. If that is not possible, then disable Impeller.</span><br></pre></td></tr></table></figure>
+
+<p>原因是因为在<code>Flutter3.22.0</code>渲染引擎默认被自动选择为<code>Impeller</code>，而<code>Xcode14</code>渲染与<code>Impeller</code>渲染引擎不兼容。</p>
+<p>为了解决这个问题，为了解决这个问题我们可以在运行<code>Flutter</code>项目中添加<code>--no-enable-impeller</code>参数来禁用Impeller。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">flutter run --no-enable-impeller</span><br></pre></td></tr></table></figure>
+
+<p>这样做将强制<code>Flutter</code>使用旧的Skia渲染引擎，而不是<code>Impeller</code>。</p>
+<p>当前我们也可以在壳工程的<code>info.plist</code>文件中添加以下键值来告诉<code>Flutter</code>在构建时禁用<code>Impeller</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;FLTEnableImpeller&lt;/key&gt;</span><br><span class="line">&lt;false/&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>最后：这些代码修改不要提交到git上！！！</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Xcode12项目适配</title>
+    <url>/2020/09/24/Xcode12%E9%A1%B9%E7%9B%AE%E9%80%82%E9%85%8D/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近更新Xcode12，发现编译有的项目的时候会出现些问题，然后一个个解决所有项目完美编译通过。</p>
+<p>最近看有的群里在讨论Xcode12编译项目的一些问题，觉得可以整理一篇自己遇到问题的文章，便于遇到同样问题的朋友查阅。</p>
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><blockquote>
+<p>项目无法在模拟器中运行</p>
+</blockquote>
+<p>将项目运行到模拟器的时候报<code>No architectures to compile for (ONLY_ACTIVE_ARCH=YES, active arch=x86_64, VALID_ARCHS=arm64 armv7)</code>错误。</p>
+<p>修复：</p>
+<p>TARGETS-&gt;Build Settings-&gt;搜索<code>VALID_ARCHS</code>, 然后添加模拟器的指令集。如果有多个TARGETS时，需要分别添加。</p>
+<p>如图所示：<br><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/Xcode12%E9%A1%B9%E7%9B%AE%E9%80%82%E9%85%8D/%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C%E6%A8%A1%E6%8B%9F%E5%99%A8%E9%80%82%E9%85%8D.jpg" alt="项目运行模拟器适配"></p>
+<blockquote>
+<p>Library not found for -lstdc++.6.0.9</p>
+</blockquote>
+<p>果然自己保存在github中的<code>lstdc++</code>库是对的，忘记从哪个版本Xcode去除了<code>lstdc++</code>库，每次更新Xcode的时候都需要重新添加一下。</p>
+<p>修复：</p>
+<ul>
+<li>从<a href="https://github.com/xnxy/libsted-.git">github</a>中下载<code>lstdc++</code>，将其复制到下面的路径下即可。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/</span><br><span class="line"></span><br><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>Swift代码中报<code>Constructing an object of class type &#39;Self&#39; with a metatype value must use a &#39;required&#39; initializer。错误</code></p>
+<p>修复：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">required init() &#123;</span><br><span class="line">   super.init(</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>整理</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS 崩溃日志解析命令整理</title>
+    <url>/2025/08/11/iOS%20%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<p>在友盟后台看到一处崩溃信息，发现友盟后台未对其进行解析，手动使用命令解析后，让Ai整理了崩溃日志命令整理的文档在下方，便于后期查阅。</p>
+<h2 id="1-准备工作-验证文件匹配性"><a href="#1-准备工作-验证文件匹配性" class="headerlink" title="1. 准备工作 - 验证文件匹配性"></a>1. 准备工作 - 验证文件匹配性</h2><h3 id="检查-UUID-匹配"><a href="#检查-UUID-匹配" class="headerlink" title="检查 UUID 匹配"></a>检查 UUID 匹配</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 检查二进制文件 UUID</span></span><br><span class="line">dwarfdump --uuid MyApp.app/MyApp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查 dSYM 文件 UUID</span></span><br><span class="line">dwarfdump --uuid MyApp.app.dSYM/Contents/Resources/DWARF/MyApp</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-自动化解析方法"><a href="#2-自动化解析方法" class="headerlink" title="2. 自动化解析方法"></a>2. 自动化解析方法</h2><h3 id="使用-symbolicatecrash（推荐）"><a href="#使用-symbolicatecrash（推荐）" class="headerlink" title="使用 symbolicatecrash（推荐）"></a>使用 symbolicatecrash（推荐）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 找到工具位置</span></span><br><span class="line">find /Applications/Xcode.app -name symbolicatecrash -<span class="built_in">type</span> f</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置开发环境</span></span><br><span class="line"><span class="built_in">export</span> DEVELOPER_DIR=<span class="string">&quot;/Applications/Xcode.app/Contents/Developer&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解析整个崩溃日志文件</span></span><br><span class="line">symbolicatecrash crash_log.crash MyApp.app.dSYM &gt; symbolicated_crash.crash</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-手动解析方法"><a href="#3-手动解析方法" class="headerlink" title="3. 手动解析方法"></a>3. 手动解析方法</h2><h3 id="使用-atos-命令解析单个地址"><a href="#使用-atos-命令解析单个地址" class="headerlink" title="使用 atos 命令解析单个地址"></a>使用 atos 命令解析单个地址</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用 dSYM 文件解析（推荐）</span></span><br><span class="line">atos -o MyApp.app.dSYM/Contents/Resources/DWARF/MyApp -l &lt;load_address&gt; &lt;crash_address&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用二进制文件解析</span></span><br><span class="line">atos -o MyApp.app/MyApp -l &lt;load_address&gt; &lt;crash_address&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例</span></span><br><span class="line">atos -o MyApp.app.dSYM/Contents/Resources/DWARF/MyApp -l 0x100000000 0x100001234</span><br></pre></td></tr></table></figure>
+
+<h3 id="批量解析多个地址"><a href="#批量解析多个地址" class="headerlink" title="批量解析多个地址"></a>批量解析多个地址</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 批量解析脚本</span></span><br><span class="line">atos -o MyApp.app.dSYM/Contents/Resources/DWARF/MyApp -l &lt;load_address&gt; &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">0x100001234</span></span><br><span class="line"><span class="string">0x100002345</span></span><br><span class="line"><span class="string">0x100003456</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-辅助诊断命令"><a href="#4-辅助诊断命令" class="headerlink" title="4. 辅助诊断命令"></a>4. 辅助诊断命令</h2><h3 id="查看二进制文件信息"><a href="#查看二进制文件信息" class="headerlink" title="查看二进制文件信息"></a>查看二进制文件信息</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看支持的架构</span></span><br><span class="line">lipo -info MyApp.app/MyApp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看文件类型</span></span><br><span class="line">file MyApp.app/MyApp</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看调试符号信息"><a href="#查看调试符号信息" class="headerlink" title="查看调试符号信息"></a>查看调试符号信息</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看详细的调试信息</span></span><br><span class="line">dwarfdump MyApp.app.dSYM</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-完整解析流程"><a href="#5-完整解析流程" class="headerlink" title="5. 完整解析流程"></a>5. 完整解析流程</h2><ol>
+<li><strong>验证匹配性</strong>：使用 <code>dwarfdump --uuid</code> 确认二进制文件和 dSYM 文件的 UUID 一致</li>
+<li><strong>选择解析方法</strong>：<ul>
+<li>自动解析：使用 <code>symbolicatecrash</code> 处理整个崩溃日志</li>
+<li>手动解析：使用 <code>atos</code> 解析特定地址</li>
+</ul>
+</li>
+<li><strong>执行解析</strong>：根据崩溃日志中的 load address 和 crash address 进行解析</li>
+<li><strong>分析结果</strong>：查看解析后的函数名、文件名和行号信息</li>
+</ol>
+<p>这样整理后，您可以根据具体需求选择合适的解析方法。</p>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+  </entry>
+  <entry>
     <title>VSCode多语言开发环境配置与使用完整指南</title>
     <url>/2025/09/11/VSCode%E5%A4%9A%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<h1 id="VSCode多语言开发环境配置与使用完整指南"><a href="#VSCode多语言开发环境配置与使用完整指南" class="headerlink" title="VSCode多语言开发环境配置与使用完整指南"></a>VSCode多语言开发环境配置与使用完整指南</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
@@ -3512,104 +3610,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h3 id="2-编译器路径错误"><a href="#2-编译器路径错误" class="headerlink" title="2. 编译器路径错误"></a>2. 编译器路径错误</h3><p>解决方案：检查编译器安装路径，并更新<code>compilerPath</code>配置。</p>
 <h3 id="3-文件关联不正确"><a href="#3-文件关联不正确" class="headerlink" title="3. 文件关联不正确"></a>3. 文件关联不正确</h3><p>解决方案：在<code>settings.json</code>中正确配置<code>files.associations</code>。</p>
 <h3 id="4-调试配置问题"><a href="#4-调试配置问题" class="headerlink" title="4. 调试配置问题"></a>4. 调试配置问题</h3><p>解决方案：确保<code>launch.json</code>中的路径和程序名称正确。</p>
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Xcode12项目适配</title>
-    <url>/2020/09/24/Xcode12%E9%A1%B9%E7%9B%AE%E9%80%82%E9%85%8D/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近更新Xcode12，发现编译有的项目的时候会出现些问题，然后一个个解决所有项目完美编译通过。</p>
-<p>最近看有的群里在讨论Xcode12编译项目的一些问题，觉得可以整理一篇自己遇到问题的文章，便于遇到同样问题的朋友查阅。</p>
-<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><blockquote>
-<p>项目无法在模拟器中运行</p>
-</blockquote>
-<p>将项目运行到模拟器的时候报<code>No architectures to compile for (ONLY_ACTIVE_ARCH=YES, active arch=x86_64, VALID_ARCHS=arm64 armv7)</code>错误。</p>
-<p>修复：</p>
-<p>TARGETS-&gt;Build Settings-&gt;搜索<code>VALID_ARCHS</code>, 然后添加模拟器的指令集。如果有多个TARGETS时，需要分别添加。</p>
-<p>如图所示：<br><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/blog/Xcode12%E9%A1%B9%E7%9B%AE%E9%80%82%E9%85%8D/%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C%E6%A8%A1%E6%8B%9F%E5%99%A8%E9%80%82%E9%85%8D.jpg" alt="项目运行模拟器适配"></p>
-<blockquote>
-<p>Library not found for -lstdc++.6.0.9</p>
-</blockquote>
-<p>果然自己保存在github中的<code>lstdc++</code>库是对的，忘记从哪个版本Xcode去除了<code>lstdc++</code>库，每次更新Xcode的时候都需要重新添加一下。</p>
-<p>修复：</p>
-<ul>
-<li>从<a href="https://github.com/xnxy/libsted-.git">github</a>中下载<code>lstdc++</code>，将其复制到下面的路径下即可。</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/</span><br><span class="line"></span><br><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>Swift代码中报<code>Constructing an object of class type &#39;Self&#39; with a metatype value must use a &#39;required&#39; initializer。错误</code></p>
-<p>修复：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">required init() &#123;</span><br><span class="line">   super.init(</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>整理</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Xcode14运行Flutter3.22.0的折中方式</title>
-    <url>/2024/05/20/Xcode14%E8%BF%90%E8%A1%8CFlutter3.22.0%E7%9A%84%E6%8A%98%E4%B8%AD%E6%96%B9%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>目前项目升级到<code>3.22.0</code>,项目也早早添加了隐私清单,这也就意味着项目运行&#x2F;编译需要在<code>Xcode15</code>上进行。</p>
-<p>但有的时候仍需要在家中排查问题，虽然家中有个<code>pro</code>和<code>air</code>,但有的时候老婆也需要用<code>pro</code>搞些设计。而且<code>air</code>目前已经无法升级到最新的系统，相应地到<code>Xcode</code>也无法升级到<code>Xcode15</code>。</p>
-<p>所以也需要修改项目，让其在Xcode14上运行，便于后期忘记，在此记录。</p>
-<h2 id="移除隐私清单文件"><a href="#移除隐私清单文件" class="headerlink" title="移除隐私清单文件"></a>移除隐私清单文件</h2><p>首先需要在移除壳工程中的<code>PrivacyInfo.xcprivacy</code>。</p>
-<p>不需要直接删除，需要在<code>TARGETS</code>-&gt;<code>Build Phases</code>-&gt;<code>Copy Bundle Resources</code>中将其移除。</p>
-<h2 id="关闭Impeller渲染引擎"><a href="#关闭Impeller渲染引擎" class="headerlink" title="关闭Impeller渲染引擎"></a>关闭<code>Impeller</code>渲染引擎</h2><p>如果不关闭在运行的时候会报以下错误：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[FATAL:flutter/shell/platform/darwin/ios/ios_context.mm(29)] Check failed: backend != IOSRenderingBackend::kImpeller. Software rendering is incompatible with Impeller. Software rendering may have been automatically selected when running on a simulator in an environment that does not support Metal. Enabling GPU pass through in your environment may fix this. If that is not possible, then disable Impeller.</span><br></pre></td></tr></table></figure>
-
-<p>原因是因为在<code>Flutter3.22.0</code>渲染引擎默认被自动选择为<code>Impeller</code>，而<code>Xcode14</code>渲染与<code>Impeller</code>渲染引擎不兼容。</p>
-<p>为了解决这个问题，为了解决这个问题我们可以在运行<code>Flutter</code>项目中添加<code>--no-enable-impeller</code>参数来禁用Impeller。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">flutter run --no-enable-impeller</span><br></pre></td></tr></table></figure>
-
-<p>这样做将强制<code>Flutter</code>使用旧的Skia渲染引擎，而不是<code>Impeller</code>。</p>
-<p>当前我们也可以在壳工程的<code>info.plist</code>文件中添加以下键值来告诉<code>Flutter</code>在构建时禁用<code>Impeller</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;FLTEnableImpeller&lt;/key&gt;</span><br><span class="line">&lt;false/&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>最后：这些代码修改不要提交到git上！！！</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS 崩溃日志解析命令整理</title>
-    <url>/2025/08/11/iOS%20%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<p>在友盟后台看到一处崩溃信息，发现友盟后台未对其进行解析，手动使用命令解析后，让Ai整理了崩溃日志命令整理的文档在下方，便于后期查阅。</p>
-<h2 id="1-准备工作-验证文件匹配性"><a href="#1-准备工作-验证文件匹配性" class="headerlink" title="1. 准备工作 - 验证文件匹配性"></a>1. 准备工作 - 验证文件匹配性</h2><h3 id="检查-UUID-匹配"><a href="#检查-UUID-匹配" class="headerlink" title="检查 UUID 匹配"></a>检查 UUID 匹配</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 检查二进制文件 UUID</span></span><br><span class="line">dwarfdump --uuid MyApp.app/MyApp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查 dSYM 文件 UUID</span></span><br><span class="line">dwarfdump --uuid MyApp.app.dSYM/Contents/Resources/DWARF/MyApp</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-自动化解析方法"><a href="#2-自动化解析方法" class="headerlink" title="2. 自动化解析方法"></a>2. 自动化解析方法</h2><h3 id="使用-symbolicatecrash（推荐）"><a href="#使用-symbolicatecrash（推荐）" class="headerlink" title="使用 symbolicatecrash（推荐）"></a>使用 symbolicatecrash（推荐）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 找到工具位置</span></span><br><span class="line">find /Applications/Xcode.app -name symbolicatecrash -<span class="built_in">type</span> f</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置开发环境</span></span><br><span class="line"><span class="built_in">export</span> DEVELOPER_DIR=<span class="string">&quot;/Applications/Xcode.app/Contents/Developer&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解析整个崩溃日志文件</span></span><br><span class="line">symbolicatecrash crash_log.crash MyApp.app.dSYM &gt; symbolicated_crash.crash</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-手动解析方法"><a href="#3-手动解析方法" class="headerlink" title="3. 手动解析方法"></a>3. 手动解析方法</h2><h3 id="使用-atos-命令解析单个地址"><a href="#使用-atos-命令解析单个地址" class="headerlink" title="使用 atos 命令解析单个地址"></a>使用 atos 命令解析单个地址</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用 dSYM 文件解析（推荐）</span></span><br><span class="line">atos -o MyApp.app.dSYM/Contents/Resources/DWARF/MyApp -l &lt;load_address&gt; &lt;crash_address&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用二进制文件解析</span></span><br><span class="line">atos -o MyApp.app/MyApp -l &lt;load_address&gt; &lt;crash_address&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例</span></span><br><span class="line">atos -o MyApp.app.dSYM/Contents/Resources/DWARF/MyApp -l 0x100000000 0x100001234</span><br></pre></td></tr></table></figure>
-
-<h3 id="批量解析多个地址"><a href="#批量解析多个地址" class="headerlink" title="批量解析多个地址"></a>批量解析多个地址</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 批量解析脚本</span></span><br><span class="line">atos -o MyApp.app.dSYM/Contents/Resources/DWARF/MyApp -l &lt;load_address&gt; &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">0x100001234</span></span><br><span class="line"><span class="string">0x100002345</span></span><br><span class="line"><span class="string">0x100003456</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-辅助诊断命令"><a href="#4-辅助诊断命令" class="headerlink" title="4. 辅助诊断命令"></a>4. 辅助诊断命令</h2><h3 id="查看二进制文件信息"><a href="#查看二进制文件信息" class="headerlink" title="查看二进制文件信息"></a>查看二进制文件信息</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看支持的架构</span></span><br><span class="line">lipo -info MyApp.app/MyApp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看文件类型</span></span><br><span class="line">file MyApp.app/MyApp</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看调试符号信息"><a href="#查看调试符号信息" class="headerlink" title="查看调试符号信息"></a>查看调试符号信息</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看详细的调试信息</span></span><br><span class="line">dwarfdump MyApp.app.dSYM</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-完整解析流程"><a href="#5-完整解析流程" class="headerlink" title="5. 完整解析流程"></a>5. 完整解析流程</h2><ol>
-<li><strong>验证匹配性</strong>：使用 <code>dwarfdump --uuid</code> 确认二进制文件和 dSYM 文件的 UUID 一致</li>
-<li><strong>选择解析方法</strong>：<ul>
-<li>自动解析：使用 <code>symbolicatecrash</code> 处理整个崩溃日志</li>
-<li>手动解析：使用 <code>atos</code> 解析特定地址</li>
-</ul>
-</li>
-<li><strong>执行解析</strong>：根据崩溃日志中的 load address 和 crash address 进行解析</li>
-<li><strong>分析结果</strong>：查看解析后的函数名、文件名和行号信息</li>
-</ol>
-<p>这样整理后，您可以根据具体需求选择合适的解析方法。</p>
 ]]></content>
       <categories>
         <category>Flutter</category>
@@ -4413,7 +4413,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <h2 id="Why-is-it-called-Lottie"><a href="#Why-is-it-called-Lottie" class="headerlink" title="Why is it called Lottie?"></a>Why is it called Lottie?</h2><p>Lottie（洛蒂）是以德国电影导演和剪影动画的先驱者命名的。 她最着名的电影是“阿彻梅德王子历险记”（1926年） - 这是迄今为止最古老的长篇动画电影，在沃尔特迪斯尼的长篇白雪公主和七个小矮人（1937）之前超过十年<br><a href="https://www.youtube.com/watch?v=LvU55CUw5Ck&feature=youtu.be">The art of Lotte Reineger</a></p>
 <h2 id="Contributing"><a href="#Contributing" class="headerlink" title="Contributing"></a>Contributing</h2><p>贡献者非常欢迎。 只需上传一份描述您所做更改的公关。</p>
 <p>如果你想添加更多的JSON文件，请随时这样做！</p>
-<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#x62;&#x72;&#97;&#110;&#x64;&#111;&#110;&#x2e;&#119;&#x69;&#116;&#104;&#x72;&#111;&#x77;&#64;&#97;&#105;&#114;&#98;&#x6e;&#x62;&#x2e;&#99;&#x6f;&#109;">&#x62;&#x72;&#97;&#110;&#x64;&#111;&#110;&#x2e;&#119;&#x69;&#116;&#104;&#x72;&#111;&#x77;&#64;&#97;&#105;&#114;&#98;&#x6e;&#x62;&#x2e;&#99;&#x6f;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
+<h2 id="Issues-or-feature-requests"><a href="#Issues-or-feature-requests" class="headerlink" title="Issues or feature requests?"></a>Issues or feature requests?</h2><p>文件github问题的任何意外中断。 如果After Effects文件无效，请将其附加到您的问题中。 在没有原始文件的情况下进行调试要困难得多。 Lottie由[Brandon Withrow]开发和维护（mailto：<a href="mailto:&#98;&#x72;&#97;&#x6e;&#x64;&#111;&#x6e;&#46;&#x77;&#105;&#116;&#104;&#x72;&#x6f;&#119;&#x40;&#97;&#105;&#x72;&#x62;&#110;&#98;&#x2e;&#x63;&#x6f;&#109;">&#98;&#x72;&#97;&#x6e;&#x64;&#111;&#x6e;&#46;&#x77;&#105;&#116;&#104;&#x72;&#x6f;&#119;&#x40;&#97;&#105;&#x72;&#x62;&#110;&#98;&#x2e;&#x63;&#x6f;&#109;</a>）。 请随时通过电子邮件或[Twitter]（<a href="https://twitter.com/theWithra%EF%BC%89">https://twitter.com/theWithra）</a></p>
 <h2 id="Roadmap-In-no-particular-order"><a href="#Roadmap-In-no-particular-order" class="headerlink" title="Roadmap (In no particular order)"></a>Roadmap (In no particular order)</h2><ul>
 <li>添加对交互式动画过渡的支持</li>
 </ul>
@@ -4758,7 +4758,7 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <li>解压并运行：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载并解压</span></span><br><span class="line">wget https://github.com/certimate-go/certimate/releases/latest/download/certimate-linux-amd64.tar.gz</span><br><span class="line">tar -xzf certimate-linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行服务</span></span><br><span class="line">./certimate serve</span><br></pre></td></tr></table></figure></li>
 <li>浏览器访问 <a href="http://127.0.0.1:8090/">http://127.0.0.1:8090</a></li>
 <li>使用默认账号登录：<ul>
-<li>账号：<a href="mailto:&#97;&#100;&#109;&#x69;&#110;&#64;&#99;&#x65;&#x72;&#116;&#x69;&#109;&#x61;&#116;&#101;&#x2e;&#102;&#x75;&#110;">&#97;&#100;&#109;&#x69;&#110;&#64;&#99;&#x65;&#x72;&#116;&#x69;&#109;&#x61;&#116;&#101;&#x2e;&#102;&#x75;&#110;</a></li>
+<li>账号：<a href="mailto:&#97;&#100;&#109;&#x69;&#x6e;&#x40;&#99;&#101;&#x72;&#x74;&#105;&#x6d;&#97;&#x74;&#x65;&#x2e;&#x66;&#117;&#110;">&#97;&#100;&#109;&#x69;&#x6e;&#x40;&#99;&#101;&#x72;&#x74;&#105;&#x6d;&#97;&#x74;&#x65;&#x2e;&#x66;&#117;&#110;</a></li>
 <li>密码：1234567890</li>
 </ul>
 </li>
@@ -5840,22 +5840,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
-    <title>关于使用Claude4生成页面技巧</title>
-    <url>/2025/07/15/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8Claude4%E7%94%9F%E6%88%90%E9%A1%B5%E9%9D%A2%E6%8A%80%E5%B7%A7/</url>
-    <content><![CDATA[<p>直接丢图片给<code>Claude</code>发现生成的代码运行起来跟图片差别很大。</p>
-<p>可以使用下方提示词先将图片生成design.json，然后让其按照该<code>design.json</code>生成代码，效果会好很多，基本上稍微改改就可以使用。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Create a JSON-formatted design system profile. This profile should extract relevant visual</span><br><span class="line">design information from the provided screenshots. The JSON output must specifically include:</span><br><span class="line">The overarching design style (e.g., color palette, typography, spacing, visual hierarchy).</span><br><span class="line">The structural elements and layout principles.</span><br><span class="line">Any other attributes crucial for an Al to consistently replicate these design systems</span><br><span class="line">Crucially, do not include the specific content or data present within the images, focusing solely</span><br></pre></td></tr></table></figure>
-
-<p>相应地我们也可以在项目根创建或生成个<code>CLAUDE.md</code>,固定代码规则，让Ai根据<code>CLAUDE.md</code>的规则生成代码。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://www.anthropic.com/engineering/claude-code-best-practices">claude-code-best-practices</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Ai</category>
-      </categories>
-  </entry>
-  <entry>
     <title>关于判断App是否运行在Mac上和常用软件整理</title>
     <url>/2021/03/15/%E5%85%B3%E4%BA%8E%E5%88%A4%E6%96%ADApp%E6%98%AF%E5%90%A6%E8%BF%90%E8%A1%8C%E5%9C%A8Mac%E4%B8%8A%E5%92%8C%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%95%B4%E7%90%86/</url>
     <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在<a href="https://zh.wikipedia.org/wiki/Apple_M1">苹果M1芯片</a>的Mac上可以运行iOS App，而在Mac的<code>~/Library/Container</code>可以看到沙盒的内容。有时并不需要普通用户看到，所以需要做一些防护。</p>
@@ -5912,6 +5896,22 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <tags>
         <tag>iOS</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>关于使用Claude4生成页面技巧</title>
+    <url>/2025/07/15/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8Claude4%E7%94%9F%E6%88%90%E9%A1%B5%E9%9D%A2%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<p>直接丢图片给<code>Claude</code>发现生成的代码运行起来跟图片差别很大。</p>
+<p>可以使用下方提示词先将图片生成design.json，然后让其按照该<code>design.json</code>生成代码，效果会好很多，基本上稍微改改就可以使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Create a JSON-formatted design system profile. This profile should extract relevant visual</span><br><span class="line">design information from the provided screenshots. The JSON output must specifically include:</span><br><span class="line">The overarching design style (e.g., color palette, typography, spacing, visual hierarchy).</span><br><span class="line">The structural elements and layout principles.</span><br><span class="line">Any other attributes crucial for an Al to consistently replicate these design systems</span><br><span class="line">Crucially, do not include the specific content or data present within the images, focusing solely</span><br></pre></td></tr></table></figure>
+
+<p>相应地我们也可以在项目根创建或生成个<code>CLAUDE.md</code>,固定代码规则，让Ai根据<code>CLAUDE.md</code>的规则生成代码。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://www.anthropic.com/engineering/claude-code-best-practices">claude-code-best-practices</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Ai</category>
+      </categories>
   </entry>
   <entry>
     <title>关于多线程编程与GCD相关知识点整理</title>
@@ -7131,6 +7131,29 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </tags>
   </entry>
   <entry>
+    <title>如何判断设备是否为iPhone X,iOS获取设备型号的方法。</title>
+    <url>/2018/03/20/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E8%AE%BE%E5%A4%87%E6%98%AF%E5%90%A6%E4%B8%BAiPhone%20X,iOS%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E5%9E%8B%E5%8F%B7%E7%9A%84%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>因为本公司的项目一直是竖屏，所以一开始的思路是根据屏幕上方的状态栏的高度进行判断，但最后考虑到手机开启WiFi共享、或者有地图类软件打开时上方会有蓝条，根据导航栏判断是否为刘海屏就不准确了。</p>
+<p>所以说起来最准确的就是根据设备的型号进行判断，因为苹果不同设备的型号不同，而我们可以获取到设备的型号，所以根据型号进行判断是最准确的。</p>
+<p>但这样判断还是有缺点的，就是如果苹果出了新的手机时，我们需要重新将刘海屏的设备型号添加进去。</p>
+<p>还有一点就是在模拟器上，获取的设备型号是i386和x86_64，所以在模拟器中我们可以根据屏幕宽高或者屏幕下方安全区域进行判断。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">+ (BOOL)isIphoneX&#123;</span><br><span class="line">    struct utsname systemInfo;</span><br><span class="line">    uname(&amp;systemInfo);</span><br><span class="line">    NSString *platform = [NSString stringWithCString:systemInfo.machine encoding:NSASCIIStringEncoding];</span><br><span class="line">    if ([platform isEqualToString:@&quot;i386&quot;] || [platform isEqualToString:@&quot;x86_64&quot;]) &#123;</span><br><span class="line">        UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];</span><br><span class="line">        // 获取底部安全区域高度，iPhone X 竖屏下为 34.0，横屏下为 21.0，其他类型设备都为 0</span><br><span class="line">        BOOL haveSafeInset;</span><br><span class="line">        if (@available(iOS 11.0, *)) &#123;</span><br><span class="line">            CGFloat bottomSafeInset = keyWindow.safeAreaInsets.bottom;</span><br><span class="line">            haveSafeInset = (bottomSafeInset == 34.0f || bottomSafeInset == 21.0f);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            haveSafeInset = NO;</span><br><span class="line">        &#125;</span><br><span class="line">        return haveSafeInset;</span><br><span class="line">    &#125;</span><br><span class="line">    BOOL isIPhoneX = [platform isEqualToString:@&quot;iPhone10,3&quot;] || [platform isEqualToString:@&quot;iPhone10,6&quot;] || [platform isEqualToString:@&quot;iPhone11,8&quot;] || [platform isEqualToString:@&quot;iPhone11,2&quot;] || [platform isEqualToString:@&quot;iPhone11,6&quot;] || [platform isEqualToString:@&quot;iPhone11,4&quot;];</span><br><span class="line">    return isIPhoneX;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>关于设备的型号，我有大致写一下，不过具体的还是建议从<a href="https://www.theiphonewiki.com/wiki/Models">苹果设备类型说明</a>里面进行查看，然后当需要更新相应设备的时候可以直接在自己代码中添加。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1388397-f3be3dce72ee1e16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".m中的代码"></p>
+<hr>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
+<li><a href="https://www.theiphonewiki.com/wiki/Models">苹果设备类型说明</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于HTML设计稿的Flutter界面布局描述文档生成提示词</title>
     <url>/2025/08/12/%E5%9F%BA%E4%BA%8EHTML%E8%AE%BE%E8%AE%A1%E7%A8%BF%E7%9A%84Flutter%E7%95%8C%E9%9D%A2%E5%B8%83%E5%B1%80%E6%8F%8F%E8%BF%B0%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E6%8F%90%E7%A4%BA%E8%AF%8D/</url>
     <content><![CDATA[<p>根据上个版本的提示词进行了调整，目前准确度大大提升。</p>
@@ -7273,29 +7296,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       <categories>
         <category>Flutter</category>
       </categories>
-  </entry>
-  <entry>
-    <title>如何判断设备是否为iPhone X,iOS获取设备型号的方法。</title>
-    <url>/2018/03/20/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E8%AE%BE%E5%A4%87%E6%98%AF%E5%90%A6%E4%B8%BAiPhone%20X,iOS%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E5%9E%8B%E5%8F%B7%E7%9A%84%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>因为本公司的项目一直是竖屏，所以一开始的思路是根据屏幕上方的状态栏的高度进行判断，但最后考虑到手机开启WiFi共享、或者有地图类软件打开时上方会有蓝条，根据导航栏判断是否为刘海屏就不准确了。</p>
-<p>所以说起来最准确的就是根据设备的型号进行判断，因为苹果不同设备的型号不同，而我们可以获取到设备的型号，所以根据型号进行判断是最准确的。</p>
-<p>但这样判断还是有缺点的，就是如果苹果出了新的手机时，我们需要重新将刘海屏的设备型号添加进去。</p>
-<p>还有一点就是在模拟器上，获取的设备型号是i386和x86_64，所以在模拟器中我们可以根据屏幕宽高或者屏幕下方安全区域进行判断。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">+ (BOOL)isIphoneX&#123;</span><br><span class="line">    struct utsname systemInfo;</span><br><span class="line">    uname(&amp;systemInfo);</span><br><span class="line">    NSString *platform = [NSString stringWithCString:systemInfo.machine encoding:NSASCIIStringEncoding];</span><br><span class="line">    if ([platform isEqualToString:@&quot;i386&quot;] || [platform isEqualToString:@&quot;x86_64&quot;]) &#123;</span><br><span class="line">        UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];</span><br><span class="line">        // 获取底部安全区域高度，iPhone X 竖屏下为 34.0，横屏下为 21.0，其他类型设备都为 0</span><br><span class="line">        BOOL haveSafeInset;</span><br><span class="line">        if (@available(iOS 11.0, *)) &#123;</span><br><span class="line">            CGFloat bottomSafeInset = keyWindow.safeAreaInsets.bottom;</span><br><span class="line">            haveSafeInset = (bottomSafeInset == 34.0f || bottomSafeInset == 21.0f);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            haveSafeInset = NO;</span><br><span class="line">        &#125;</span><br><span class="line">        return haveSafeInset;</span><br><span class="line">    &#125;</span><br><span class="line">    BOOL isIPhoneX = [platform isEqualToString:@&quot;iPhone10,3&quot;] || [platform isEqualToString:@&quot;iPhone10,6&quot;] || [platform isEqualToString:@&quot;iPhone11,8&quot;] || [platform isEqualToString:@&quot;iPhone11,2&quot;] || [platform isEqualToString:@&quot;iPhone11,6&quot;] || [platform isEqualToString:@&quot;iPhone11,4&quot;];</span><br><span class="line">    return isIPhoneX;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>关于设备的型号，我有大致写一下，不过具体的还是建议从<a href="https://www.theiphonewiki.com/wiki/Models">苹果设备类型说明</a>里面进行查看，然后当需要更新相应设备的时候可以直接在自己代码中添加。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1388397-f3be3dce72ee1e16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".m中的代码"></p>
-<hr>
-<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><ul>
-<li><a href="https://www.theiphonewiki.com/wiki/Models">苹果设备类型说明</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
   </entry>
   <entry>
     <title>如何提交takedown,删除泄漏源码的仓库和Fork</title>
@@ -7875,20 +7875,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
   </entry>
   <entry>
-    <title>根据字号对字符串进行等宽切割</title>
-    <url>/2019/09/09/%E6%A0%B9%E6%8D%AE%E5%AD%97%E5%8F%B7%E5%AF%B9%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E7%AD%89%E5%AE%BD%E5%88%87%E5%89%B2/</url>
-    <content><![CDATA[<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line">- (<span class="built_in">NSArray</span> *)getArrayOfString:(<span class="built_in">NSString</span> *)string font:(<span class="built_in">UIFont</span> *)font width:(<span class="built_in">CGFloat</span>)width&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CTFontRef</span> myFont = <span class="built_in">CTFontCreateWithName</span>(( <span class="built_in">CFStringRef</span>)([font fontName]), [font pointSize], <span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">NSMutableAttributedString</span> *attStr = [[<span class="built_in">NSMutableAttributedString</span> alloc] initWithString:string];</span><br><span class="line">    </span><br><span class="line">    [attStr addAttribute:(<span class="built_in">NSString</span> *)kCTFontAttributeName value:(__bridge  <span class="type">id</span>)myFont range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, attStr.length)];</span><br><span class="line">    <span class="built_in">CFRelease</span>(myFont);</span><br><span class="line">    <span class="built_in">CTFramesetterRef</span> frameSetter = <span class="built_in">CTFramesetterCreateWithAttributedString</span>(( <span class="built_in">CFAttributedStringRef</span>)attStr);</span><br><span class="line">    <span class="built_in">CGMutablePathRef</span> path = <span class="built_in">CGPathCreateMutable</span>();</span><br><span class="line">    <span class="built_in">CGPathAddRect</span>(path, <span class="literal">NULL</span>, <span class="built_in">CGRectMake</span>(<span class="number">0</span>,<span class="number">0</span>,width,<span class="number">100000</span>));</span><br><span class="line">    <span class="built_in">CTFrameRef</span> frame = <span class="built_in">CTFramesetterCreateFrame</span>(frameSetter, <span class="built_in">CFRangeMake</span>(<span class="number">0</span>, <span class="number">0</span>), path, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">NSArray</span> *lines = ( <span class="built_in">NSArray</span> *)<span class="built_in">CTFrameGetLines</span>(frame);</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *linesArray = [[<span class="built_in">NSMutableArray</span> alloc]init];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">id</span> line <span class="keyword">in</span> lines) &#123;</span><br><span class="line">        <span class="built_in">CTLineRef</span> lineRef = (__bridge  <span class="built_in">CTLineRef</span> )line;</span><br><span class="line">        <span class="built_in">CFRange</span> lineRange = <span class="built_in">CTLineGetStringRange</span>(lineRef);</span><br><span class="line">        <span class="built_in">NSRange</span> range = <span class="built_in">NSMakeRange</span>(lineRange.location, lineRange.length);</span><br><span class="line">        <span class="built_in">NSString</span> *lineString = [string substringWithRange:range];</span><br><span class="line">        <span class="built_in">CFAttributedStringSetAttribute</span>((<span class="built_in">CFMutableAttributedStringRef</span>)attStr, lineRange, kCTKernAttributeName, (<span class="built_in">CFTypeRef</span>)([<span class="built_in">NSNumber</span> numberWithFloat:<span class="number">0.0</span>]));</span><br><span class="line">        <span class="built_in">CFAttributedStringSetAttribute</span>((<span class="built_in">CFMutableAttributedStringRef</span>)attStr, lineRange, kCTKernAttributeName, (<span class="built_in">CFTypeRef</span>)([<span class="built_in">NSNumber</span> numberWithInt:<span class="number">0.0</span>]));</span><br><span class="line">        [linesArray addObject:lineString];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">CGPathRelease</span>(path);</span><br><span class="line">    <span class="built_in">CFRelease</span>( frame );</span><br><span class="line">    <span class="built_in">CFRelease</span>(frameSetter);</span><br><span class="line">    <span class="keyword">return</span> linesArray;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E6%A0%B9%E6%8D%AE%E5%AD%97%E5%8F%B7%E5%AF%B9%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E7%AD%89%E5%AE%BD%E5%88%87%E5%89%B2/%E6%A0%B9%E6%8D%AE%E5%AD%97%E5%8F%B7%E5%92%8C%E5%AE%BD%E5%BA%A6%E5%AF%B9%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E5%89%AA%E5%88%87.png" alt="根据字号和宽度对字符串进行剪切.png"></p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>欧盟数字法案</title>
     <url>/2024/03/14/%E6%AC%A7%E7%9B%9F%E6%95%B0%E5%AD%97%E6%B3%95%E6%A1%88/</url>
     <content><![CDATA[<blockquote>
@@ -7930,6 +7916,20 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 ]]></content>
       <categories>
         <category>工具</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>根据字号对字符串进行等宽切割</title>
+    <url>/2019/09/09/%E6%A0%B9%E6%8D%AE%E5%AD%97%E5%8F%B7%E5%AF%B9%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E7%AD%89%E5%AE%BD%E5%88%87%E5%89%B2/</url>
+    <content><![CDATA[<figure class="highlight obj-c"><table><tr><td class="code"><pre><span class="line">- (<span class="built_in">NSArray</span> *)getArrayOfString:(<span class="built_in">NSString</span> *)string font:(<span class="built_in">UIFont</span> *)font width:(<span class="built_in">CGFloat</span>)width&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CTFontRef</span> myFont = <span class="built_in">CTFontCreateWithName</span>(( <span class="built_in">CFStringRef</span>)([font fontName]), [font pointSize], <span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">NSMutableAttributedString</span> *attStr = [[<span class="built_in">NSMutableAttributedString</span> alloc] initWithString:string];</span><br><span class="line">    </span><br><span class="line">    [attStr addAttribute:(<span class="built_in">NSString</span> *)kCTFontAttributeName value:(__bridge  <span class="type">id</span>)myFont range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, attStr.length)];</span><br><span class="line">    <span class="built_in">CFRelease</span>(myFont);</span><br><span class="line">    <span class="built_in">CTFramesetterRef</span> frameSetter = <span class="built_in">CTFramesetterCreateWithAttributedString</span>(( <span class="built_in">CFAttributedStringRef</span>)attStr);</span><br><span class="line">    <span class="built_in">CGMutablePathRef</span> path = <span class="built_in">CGPathCreateMutable</span>();</span><br><span class="line">    <span class="built_in">CGPathAddRect</span>(path, <span class="literal">NULL</span>, <span class="built_in">CGRectMake</span>(<span class="number">0</span>,<span class="number">0</span>,width,<span class="number">100000</span>));</span><br><span class="line">    <span class="built_in">CTFrameRef</span> frame = <span class="built_in">CTFramesetterCreateFrame</span>(frameSetter, <span class="built_in">CFRangeMake</span>(<span class="number">0</span>, <span class="number">0</span>), path, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">NSArray</span> *lines = ( <span class="built_in">NSArray</span> *)<span class="built_in">CTFrameGetLines</span>(frame);</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *linesArray = [[<span class="built_in">NSMutableArray</span> alloc]init];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">id</span> line <span class="keyword">in</span> lines) &#123;</span><br><span class="line">        <span class="built_in">CTLineRef</span> lineRef = (__bridge  <span class="built_in">CTLineRef</span> )line;</span><br><span class="line">        <span class="built_in">CFRange</span> lineRange = <span class="built_in">CTLineGetStringRange</span>(lineRef);</span><br><span class="line">        <span class="built_in">NSRange</span> range = <span class="built_in">NSMakeRange</span>(lineRange.location, lineRange.length);</span><br><span class="line">        <span class="built_in">NSString</span> *lineString = [string substringWithRange:range];</span><br><span class="line">        <span class="built_in">CFAttributedStringSetAttribute</span>((<span class="built_in">CFMutableAttributedStringRef</span>)attStr, lineRange, kCTKernAttributeName, (<span class="built_in">CFTypeRef</span>)([<span class="built_in">NSNumber</span> numberWithFloat:<span class="number">0.0</span>]));</span><br><span class="line">        <span class="built_in">CFAttributedStringSetAttribute</span>((<span class="built_in">CFMutableAttributedStringRef</span>)attStr, lineRange, kCTKernAttributeName, (<span class="built_in">CFTypeRef</span>)([<span class="built_in">NSNumber</span> numberWithInt:<span class="number">0.0</span>]));</span><br><span class="line">        [linesArray addObject:lineString];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">CGPathRelease</span>(path);</span><br><span class="line">    <span class="built_in">CFRelease</span>( frame );</span><br><span class="line">    <span class="built_in">CFRelease</span>(frameSetter);</span><br><span class="line">    <span class="keyword">return</span> linesArray;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E6%A0%B9%E6%8D%AE%E5%AD%97%E5%8F%B7%E5%AF%B9%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E7%AD%89%E5%AE%BD%E5%88%87%E5%89%B2/%E6%A0%B9%E6%8D%AE%E5%AD%97%E5%8F%B7%E5%92%8C%E5%AE%BD%E5%BA%A6%E5%AF%B9%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E5%89%AA%E5%88%87.png" alt="根据字号和宽度对字符串进行剪切.png"></p>
+]]></content>
+      <categories>
+        <category>iOS</category>
       </categories>
       <tags>
         <tag>iOS</tag>
@@ -8236,11 +8236,74 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
 <li>保护好配置文件和密钥信息</li>
 </ul>
 <hr>
-<p><em>最后更新：2024年</em></p>
 ]]></content>
       <categories>
         <category>阿里云</category>
       </categories>
+  </entry>
+  <entry>
+    <title>鸿蒙版Flutter插件相关</title>
+    <url>/2024/11/05/%E9%B8%BF%E8%92%99%E7%89%88Flutter%E6%8F%92%E4%BB%B6%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近创建了个组织<code>EasyHM</code>，主要用来存储适配鸿蒙版的Flutter插件和相关资料</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://gitee.com/EasyHM</span><br></pre></td></tr></table></figure>
+
+
+<p>关于鸿蒙版Flutter插件开发可以查看<a href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/07_plugin/ohos%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8Dflutter%E4%B8%89%E6%96%B9%E5%BA%93%E6%8C%87%E5%AF%BC.md">ohos平台适配flutter三方库指导</a>里面有详细的介绍，适配和开发鸿蒙版Flutter其实不难，其ArkTS和ArkUI跟Dart和Flutter很像。</p>
+<p>主要的难点是对鸿蒙Api的不了解，但借助Ai很多功能都可以快速的开发和适配。</p>
+<p>在适配的工程中整理了一些插件，有需要的可以自取，而有更多的插件则在公司的git上由于某种原因暂时并不会开源。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/03_environment/%E9%B8%BF%E8%92%99%E7%89%88Flutter%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%AF%BC.md#%E9%B8%BF%E8%92%99%E7%89%88flutter%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%AF%BC">鸿蒙版Flutter环境搭建指导</a></li>
+<li><a href="https://gitee.com/openharmony-sig/flutter_engine">鸿蒙版Flutter engine</a></li>
+<li><a href="https://gitee.com/openharmony-sig/flutter_flutter">鸿蒙版Flutter</a></li>
+<li><a href="https://docs.qq.com/sheet/DVVJDWWt1V09zUFN2?tab=BB08J2">鸿蒙版Flutter三方库适配计划</a></li>
+<li><a href="https://docs.qq.com/sheet/DUnljRVBYUWZKZEtF?tab=BB08J2">鸿蒙版Flutter Engine构建产物</a></li>
+<li><a href="https://consumer.huawei.com/cn/support/harmonyos/models-next/">HarmonyOS NEXT 支持机型</a></li>
+<li><a href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/09_specifications/flutter%E9%B8%BF%E8%92%99%E5%8C%96%E5%B7%A5%E7%A8%8B%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md">flutter鸿蒙化工程的目录结构</a></li>
+<li><a href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/09_specifications/update_flutter_plugin_structure.md">更新Flutter插件项目结构</a></li>
+<li><a href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/07_plugin/ohos%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8Dflutter%E4%B8%89%E6%96%B9%E5%BA%93%E6%8C%87%E5%AF%BC.md">ohos平台适配flutter三方库指导</a></li>
+<li><a href="https://gitee.com/openharmony-sig/flutter_samples/tree/master/ohos/docs#/openharmony-sig/flutter_samples/blob/master/ohos/docs/./04_development/README.md">鸿蒙Flutter开发文档</a></li>
+</ul>
+<h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h2><p>主要存放适配鸿蒙的flutter插件和相关资料</p>
+<ul>
+<li>Flutter version 3.7.12</li>
+<li>Dart version 2.19.6</li>
+<li>DevTools version 2.20.1</li>
+</ul>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><blockquote>
+<p>cached_network_image 3.2.3 鸿蒙版本</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cached_network_image:</span><br><span class="line">  git:</span><br><span class="line">    url: https://gitee.com/EasyHM/cached_network_image.git</span><br><span class="line">    ref: master</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>flutter_localization 0.1.14 鸿蒙版本</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">flutter_localization: </span><br><span class="line">  git:</span><br><span class="line">    url: https://gitee.com/EasyHM/flutter_localization.git</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>easy_refresh 3.3.5+1 鸿蒙版本</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">easy_refresh:</span><br><span class="line">   git:</span><br><span class="line">    url: https://gitee.com/EasyHM/flutter_easy_refresh.git</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>fluwx 3.13.1 鸿蒙版本(条件限制未测试)</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fluwx:</span><br><span class="line">   git:</span><br><span class="line">    url: https://gitee.com/EasyHM/fluwx.git</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>screen_brightness 0.2.2+1 鸿蒙版本(条件限制未测试)</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screen_brightness: </span><br><span class="line">  git:</span><br><span class="line">    url: https://gitee.com/EasyHM/screen_brightness.git</span><br><span class="line">    path: screen_brightness</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>鸿蒙</tag>
+      </tags>
   </entry>
   <entry>
     <title>阿里云Python环境搭建与服务器相关指南</title>
@@ -8341,70 +8404,6 @@ Method:用于表示类定义中的方法，它的结构体中包含一个SEL和I
       </categories>
       <tags>
         <tag>服务器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>鸿蒙版Flutter插件相关</title>
-    <url>/2024/11/05/%E9%B8%BF%E8%92%99%E7%89%88Flutter%E6%8F%92%E4%BB%B6%E7%9B%B8%E5%85%B3/</url>
-    <content><![CDATA[<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近创建了个组织<code>EasyHM</code>，主要用来存储适配鸿蒙版的Flutter插件和相关资料</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://gitee.com/EasyHM</span><br></pre></td></tr></table></figure>
-
-
-<p>关于鸿蒙版Flutter插件开发可以查看<a href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/07_plugin/ohos%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8Dflutter%E4%B8%89%E6%96%B9%E5%BA%93%E6%8C%87%E5%AF%BC.md">ohos平台适配flutter三方库指导</a>里面有详细的介绍，适配和开发鸿蒙版Flutter其实不难，其ArkTS和ArkUI跟Dart和Flutter很像。</p>
-<p>主要的难点是对鸿蒙Api的不了解，但借助Ai很多功能都可以快速的开发和适配。</p>
-<p>在适配的工程中整理了一些插件，有需要的可以自取，而有更多的插件则在公司的git上由于某种原因暂时并不会开源。</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
-<li><a href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/03_environment/%E9%B8%BF%E8%92%99%E7%89%88Flutter%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%AF%BC.md#%E9%B8%BF%E8%92%99%E7%89%88flutter%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%AF%BC">鸿蒙版Flutter环境搭建指导</a></li>
-<li><a href="https://gitee.com/openharmony-sig/flutter_engine">鸿蒙版Flutter engine</a></li>
-<li><a href="https://gitee.com/openharmony-sig/flutter_flutter">鸿蒙版Flutter</a></li>
-<li><a href="https://docs.qq.com/sheet/DVVJDWWt1V09zUFN2?tab=BB08J2">鸿蒙版Flutter三方库适配计划</a></li>
-<li><a href="https://docs.qq.com/sheet/DUnljRVBYUWZKZEtF?tab=BB08J2">鸿蒙版Flutter Engine构建产物</a></li>
-<li><a href="https://consumer.huawei.com/cn/support/harmonyos/models-next/">HarmonyOS NEXT 支持机型</a></li>
-<li><a href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/09_specifications/flutter%E9%B8%BF%E8%92%99%E5%8C%96%E5%B7%A5%E7%A8%8B%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.md">flutter鸿蒙化工程的目录结构</a></li>
-<li><a href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/09_specifications/update_flutter_plugin_structure.md">更新Flutter插件项目结构</a></li>
-<li><a href="https://gitee.com/openharmony-sig/flutter_samples/blob/master/ohos/docs/07_plugin/ohos%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8Dflutter%E4%B8%89%E6%96%B9%E5%BA%93%E6%8C%87%E5%AF%BC.md">ohos平台适配flutter三方库指导</a></li>
-<li><a href="https://gitee.com/openharmony-sig/flutter_samples/tree/master/ohos/docs#/openharmony-sig/flutter_samples/blob/master/ohos/docs/./04_development/README.md">鸿蒙Flutter开发文档</a></li>
-</ul>
-<h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h2><p>主要存放适配鸿蒙的flutter插件和相关资料</p>
-<ul>
-<li>Flutter version 3.7.12</li>
-<li>Dart version 2.19.6</li>
-<li>DevTools version 2.20.1</li>
-</ul>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><blockquote>
-<p>cached_network_image 3.2.3 鸿蒙版本</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cached_network_image:</span><br><span class="line">  git:</span><br><span class="line">    url: https://gitee.com/EasyHM/cached_network_image.git</span><br><span class="line">    ref: master</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>flutter_localization 0.1.14 鸿蒙版本</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">flutter_localization: </span><br><span class="line">  git:</span><br><span class="line">    url: https://gitee.com/EasyHM/flutter_localization.git</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>easy_refresh 3.3.5+1 鸿蒙版本</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">easy_refresh:</span><br><span class="line">   git:</span><br><span class="line">    url: https://gitee.com/EasyHM/flutter_easy_refresh.git</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>fluwx 3.13.1 鸿蒙版本(条件限制未测试)</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fluwx:</span><br><span class="line">   git:</span><br><span class="line">    url: https://gitee.com/EasyHM/fluwx.git</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>screen_brightness 0.2.2+1 鸿蒙版本(条件限制未测试)</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screen_brightness: </span><br><span class="line">  git:</span><br><span class="line">    url: https://gitee.com/EasyHM/screen_brightness.git</span><br><span class="line">    path: screen_brightness</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Flutter</category>
-      </categories>
-      <tags>
-        <tag>鸿蒙</tag>
       </tags>
   </entry>
 </search>
