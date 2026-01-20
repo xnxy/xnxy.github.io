@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="项目中使用了一个社区不维护的蓝牙库&#96;flutter_ble_lib&#96;，从flutter1.22.6到目前flutter3.34.5一直放到私仓中维护；因为一直用串口模拟数据没有真实的设备，所以也就没迁移到&#96;flutter_blue_plus&#96;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="鸿蒙 (HarmonyOS) 蓝牙 BLE 开发指南">
+<meta property="og:url" content="https://xnxy.github.io/2026/01/20/%E9%B8%BF%E8%92%99%20(HarmonyOS)%20%E8%93%9D%E7%89%99%20BLE%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="项目中使用了一个社区不维护的蓝牙库&#96;flutter_ble_lib&#96;，从flutter1.22.6到目前flutter3.34.5一直放到私仓中维护；因为一直用串口模拟数据没有真实的设备，所以也就没迁移到&#96;flutter_blue_plus&#96;">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E9%B8%BF%E8%92%99%20(HarmonyOS)%20%E8%93%9D%E7%89%99%20BLE%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/ble_connection_flow.svg">
+<meta property="og:image" content="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E9%B8%BF%E8%92%99%20(HarmonyOS)%20%E8%93%9D%E7%89%99%20BLE%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/ble_notification_flow.svg">
+<meta property="article:published_time" content="2026-01-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-19T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E9%B8%BF%E8%92%99%20(HarmonyOS)%20%E8%93%9D%E7%89%99%20BLE%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/ble_connection_flow.svg">
+
+
+<link rel="canonical" href="https://xnxy.github.io/2026/01/20/%E9%B8%BF%E8%92%99%20(HarmonyOS)%20%E8%93%9D%E7%89%99%20BLE%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2026/01/20/%E9%B8%BF%E8%92%99%20(HarmonyOS)%20%E8%93%9D%E7%89%99%20BLE%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/","path":"2026/01/20/鸿蒙 (HarmonyOS) 蓝牙 BLE 开发指南/","title":"鸿蒙 (HarmonyOS) 蓝牙 BLE 开发指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>鸿蒙 (HarmonyOS) 蓝牙 BLE 开发指南 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">拿根针尖对麦芒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">1. 权限配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9D%83%E9%99%90%E7%94%B3%E8%AF%B7%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 运行时权限申请代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97"><span class="nav-number">2.</span> <span class="nav-text">2. 导入模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%BF%9E%E6%8E%A5%E8%AE%BE%E5%A4%87-Binding-x2F-Connecting"><span class="nav-number">3.</span> <span class="nav-text">3. 连接设备 (Binding&#x2F;Connecting)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E8%BF%9E%E6%8E%A5%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 连接流程图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%88%9B%E5%BB%BA-GATT-%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 创建 GATT 客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E7%9B%91%E5%90%AC%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 监听连接状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E5%8F%91%E8%B5%B7%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 发起连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%8F%91%E7%8E%B0%E6%9C%8D%E5%8A%A1-Service-Discovery"><span class="nav-number">4.</span> <span class="nav-text">4. 发现服务 (Service Discovery)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE-Writing-Data"><span class="nav-number">5.</span> <span class="nav-text">5. 发送数据 (Writing Data)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE-Receiving-Data"><span class="nav-number">6.</span> <span class="nav-text">6. 接收数据 (Receiving Data)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E9%80%9A%E7%9F%A5%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 通知流程图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E8%AF%BB%E5%8F%96%E7%89%B9%E5%BE%81%E5%80%BC-Read"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 读取特征值 (Read)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E8%AE%A2%E9%98%85%E9%80%9A%E7%9F%A5-Notify-x2F-Indicate"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 订阅通知 (Notify&#x2F;Indicate)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5%E4%B8%8E%E8%B5%84%E6%BA%90%E9%87%8A%E6%94%BE"><span class="nav-number">7.</span> <span class="nav-text">7. 断开连接与资源释放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%89%AB%E6%8F%8F%E8%BF%9B%E9%98%B6%E9%85%8D%E7%BD%AE-Scanning"><span class="nav-number">8.</span> <span class="nav-text">8. 扫描进阶配置 (Scanning)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2%E4%B8%8E%E7%BC%96%E7%A0%81"><span class="nav-number">9.</span> <span class="nav-text">9. 数据转换与编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E9%94%99%E8%AF%AF%E7%A0%81%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="nav-number">10.</span> <span class="nav-text">10. 错误码速查表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97"><span class="nav-number">11.</span> <span class="nav-text">11. 常见问题与避坑指南</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number"></span> <span class="nav-text">参考资料</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="拿根针尖对麦芒"
+      src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+  <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+  <div class="site-description" itemprop="description">修行ing</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xnxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xnxy" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/xnxyonly1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;xnxyonly1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://jewsaten.github.io/" title="https:&#x2F;&#x2F;jewsaten.github.io" rel="noopener" target="_blank">「蒋·先生」</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://guyueyang.github.io/" title="https:&#x2F;&#x2F;guyueyang.github.io" rel="noopener" target="_blank">晓平</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2026/01/20/%E9%B8%BF%E8%92%99%20(HarmonyOS)%20%E8%93%9D%E7%89%99%20BLE%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="鸿蒙 (HarmonyOS) 蓝牙 BLE 开发指南 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="项目中使用了一个社区不维护的蓝牙库`flutter_ble_lib`，从flutter1.22.6到目前flutter3.34.5一直放到私仓中维护；因为一直用串口模拟数据没有真实的设备，所以也就没迁移到`flutter_blue_plus`">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          鸿蒙 (HarmonyOS) 蓝牙 BLE 开发指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-01-20 00:00:00" itemprop="dateCreated datePublished" datetime="2026-01-20T00:00:00+08:00">2026-01-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">项目中使用了一个社区不维护的蓝牙库`flutter_ble_lib`，从flutter1.22.6到目前flutter3.34.5一直放到私仓中维护；因为一直用串口模拟数据没有真实的设备，所以也就没迁移到`flutter_blue_plus`</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>项目中使用了一个社区不维护的蓝牙库<code>flutter_ble_lib</code>，从flutter1.22.6到目前flutter3.34.5一直放到私仓中维护；因为一直用串口模拟数据没有真实的设备，所以也就没迁移到<code>flutter_blue_plus</code>;</p>
+<p>纯血鸿蒙版本的公司项目已经上架应用市场很久了，项目中蓝牙相关功能一直缺失，所以抽时间适配了蓝牙。</p>
+<p>因为在适配中遇到很多问题（DevEco Studio中的AI回复中有很多错误），所以特在此处记录，便于后期查阅；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">鸿蒙版flutter3.22.0 </span><br><span class="line">https://gitcode.com/openharmony-tpc/flutter_flutter   </span><br><span class="line"></span><br><span class="line">相关插件</span><br><span class="line">https://gitcode.com/openharmony-tpc/flutter_packages/blob/master/README.md</span><br></pre></td></tr></table></figure>
+
+<p>本文档整理了在 HarmonyOS Next (API 11+) 上进行低功耗蓝牙 (BLE) 开发的核心 API 及流程。</p>
+<h2 id="1-权限配置"><a href="#1-权限配置" class="headerlink" title="1. 权限配置"></a>1. 权限配置</h2><p>在 <code>module.json5</code> 中声明必要的权限：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&quot;requestPermissions&quot;: [</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;name&quot;: &quot;ohos.permission.ACCESS_BLUETOOTH&quot;,</span><br><span class="line">    &quot;reason&quot;: &quot;$string:bluetooth_reason&quot;,</span><br><span class="line">    &quot;usedScene&quot;: &#123;</span><br><span class="line">      &quot;when&quot;: &quot;inuse&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意1</strong>: <code>ohos.permission.MANAGE_BLUETOOTH</code> 是特权权限，普通应用不应申请，否则会导致安装失败。扫描蓝牙通常需要位置权限。</p>
+</blockquote>
+<h3 id="1-1-运行时权限申请代码"><a href="#1-1-运行时权限申请代码" class="headerlink" title="1.1 运行时权限申请代码"></a>1.1 运行时权限申请代码</h3><p>在插件的中，实现了运行时的权限申请逻辑。虽然 <code>ACCESS_BLUETOOTH</code> 通常是系统授权，但插件中仍进行了显式申请：</p>
+<blockquote>
+<p>OpenHarmony封装的<code>permission_handler</code>有问题，没时间看它的代码逻辑，所以自己在当前插件中封装了下。</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; abilityAccessCtrl, common &#125; <span class="keyword">from</span> <span class="string">&#x27;@kit.AbilityKit&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 上下文通常由 UIAbility 提供</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">requestPermissions</span>(<span class="params">context: common.UIAbilityContext</span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (context) &#123;</span><br><span class="line">      <span class="keyword">let</span> atManager = abilityAccessCtrl.<span class="title function_">createAtManager</span>();</span><br><span class="line">      <span class="comment">// 申请权限</span></span><br><span class="line">      <span class="keyword">let</span> data = <span class="keyword">await</span> atManager.<span class="title function_">requestPermissionsFromUser</span>(context, [</span><br><span class="line">        <span class="string">&quot;ohos.permission.ACCESS_BLUETOOTH&quot;</span></span><br><span class="line">      ]);</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&#x27;权限申请结果:&#x27;</span> + <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`申请权限失败: <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(err)&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-导入模块"><a href="#2-导入模块" class="headerlink" title="2. 导入模块"></a>2. 导入模块</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ble <span class="keyword">from</span> <span class="string">&#x27;@ohos.bluetooth.ble&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BusinessError</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@ohos.base&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-连接设备-Binding-x2F-Connecting"><a href="#3-连接设备-Binding-x2F-Connecting" class="headerlink" title="3. 连接设备 (Binding&#x2F;Connecting)"></a>3. 连接设备 (Binding&#x2F;Connecting)</h2><p>连接设备主要分为三步：创建客户端实例、设置状态监听、发起连接。</p>
+<h3 id="3-1-连接流程图"><a href="#3-1-连接流程图" class="headerlink" title="3.1 连接流程图"></a>3.1 连接流程图</h3><p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E9%B8%BF%E8%92%99%20(HarmonyOS)%20%E8%93%9D%E7%89%99%20BLE%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/ble_connection_flow.svg" alt="ble_connection_flow.png"></p>
+<h3 id="3-2-创建-GATT-客户端"><a href="#3-2-创建-GATT-客户端" class="headerlink" title="3.2 创建 GATT 客户端"></a>3.2 创建 GATT 客户端</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// remoteId 为扫描到的设备 MAC 地址</span></span><br><span class="line"><span class="keyword">const</span> gattClient = ble.<span class="title function_">createGattClientDevice</span>(remoteId);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-监听连接状态"><a href="#3-3-监听连接状态" class="headerlink" title="3.3 监听连接状态"></a>3.3 监听连接状态</h3><p>必须在调用 <code>connect()</code> 之前设置监听器，否则可能错过连接成功的状态回调。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">gattClient.<span class="title function_">on</span>(<span class="string">&#x27;BLEConnectionStateChange&#x27;</span>, <span class="function">(<span class="params">state: ble.BLEConnectionChangeState</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// state.state 枚举值:</span></span><br><span class="line">  <span class="comment">// 0: DISCONNECTED</span></span><br><span class="line">  <span class="comment">// 1: CONNECTING</span></span><br><span class="line">  <span class="comment">// 2: CONNECTED</span></span><br><span class="line">  <span class="comment">// 3: DISCONNECTING</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">`连接状态变更: <span class="subst">$&#123;state.state&#125;</span>`</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (state.<span class="property">state</span> === <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="comment">// 连接成功</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (state.<span class="property">state</span> === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 连接断开</span></span><br><span class="line">    <span class="comment">// 建议清理资源</span></span><br><span class="line">    <span class="comment">// gattClient.close(); </span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-发起连接"><a href="#3-4-发起连接" class="headerlink" title="3.4 发起连接"></a>3.4 发起连接</h3><blockquote>
+<p><strong>重要</strong>: 在调用 <code>connect()</code> 前，建议显式停止蓝牙扫描，以提高连接稳定性。</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 发起连接</span></span><br><span class="line"><span class="comment">// 注意：鸿蒙 connect() 目前没有超时参数，建议业务层自行实现超时逻辑</span></span><br><span class="line">gattClient.<span class="title function_">connect</span>();</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-发现服务-Service-Discovery"><a href="#4-发现服务-Service-Discovery" class="headerlink" title="4. 发现服务 (Service Discovery)"></a>4. 发现服务 (Service Discovery)</h2><p>连接成功后，需要获取设备支持的服务列表。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="comment">// getServices 会触发服务发现或返回缓存的服务列表</span></span><br><span class="line">  <span class="keyword">const</span> services = <span class="keyword">await</span> gattClient.<span class="title function_">getServices</span>();</span><br><span class="line">  </span><br><span class="line">  services.<span class="title function_">forEach</span>(<span class="function"><span class="params">service</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">`发现服务: <span class="subst">$&#123;service.serviceUuid&#125;</span>`</span>);</span><br><span class="line">    <span class="comment">// 遍历特征值</span></span><br><span class="line">    service.<span class="property">characteristics</span>.<span class="title function_">forEach</span>(<span class="function"><span class="params">characteristic</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">`  特征值: <span class="subst">$&#123;characteristic.characteristicUuid&#125;</span>`</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`发现服务失败: <span class="subst">$&#123;e.message&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-发送数据-Writing-Data"><a href="#5-发送数据-Writing-Data" class="headerlink" title="5. 发送数据 (Writing Data)"></a>5. 发送数据 (Writing Data)</h2><p>向设备的特征值写入数据。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造特征值对象</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">characteristicObj</span>: ble.<span class="property">BLECharacteristic</span> = &#123;</span><br><span class="line">  <span class="attr">serviceUuid</span>: <span class="string">&#x27;0000xxxx-0000-1000-8000-00805f9b34fb&#x27;</span>,</span><br><span class="line">  <span class="attr">characteristicUuid</span>: <span class="string">&#x27;0000yyyy-0000-1000-8000-00805f9b34fb&#x27;</span>,</span><br><span class="line">  <span class="attr">characteristicValue</span>: myDataBuffer, <span class="comment">// ArrayBuffer 类型</span></span><br><span class="line">  <span class="attr">descriptors</span>: []</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写入类型: </span></span><br><span class="line"><span class="comment">// ble.GattWriteType.WRITE (带响应)</span></span><br><span class="line"><span class="comment">// ble.GattWriteType.WRITE_NO_RESPONSE (无响应)</span></span><br><span class="line"><span class="keyword">const</span> writeType = ble.<span class="property">GattWriteType</span>.<span class="property">WRITE</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">await</span> gattClient.<span class="title function_">writeCharacteristicValue</span>(characteristicObj, writeType);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&#x27;写入成功&#x27;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`写入失败: <span class="subst">$&#123;e.message&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-接收数据-Receiving-Data"><a href="#6-接收数据-Receiving-Data" class="headerlink" title="6. 接收数据 (Receiving Data)"></a>6. 接收数据 (Receiving Data)</h2><h3 id="6-1-通知流程图"><a href="#6-1-通知流程图" class="headerlink" title="6.1 通知流程图"></a>6.1 通知流程图</h3><p><img src="https://blog-zhouwei.oss-cn-beijing.aliyuncs.com/%E9%B8%BF%E8%92%99%20(HarmonyOS)%20%E8%93%9D%E7%89%99%20BLE%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/ble_notification_flow.svg" alt="ble_notification_flow.png"></p>
+<h3 id="6-2-读取特征值-Read"><a href="#6-2-读取特征值-Read" class="headerlink" title="6.2 读取特征值 (Read)"></a>6.2 读取特征值 (Read)</h3><p>主动读取特征值的当前值。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">readReqObj</span>: ble.<span class="property">BLECharacteristic</span> = &#123;</span><br><span class="line">  <span class="attr">serviceUuid</span>: <span class="string">&#x27;...&#x27;</span>,</span><br><span class="line">  <span class="attr">characteristicUuid</span>: <span class="string">&#x27;...&#x27;</span>,</span><br><span class="line">  <span class="attr">characteristicValue</span>: <span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>(<span class="number">0</span>),</span><br><span class="line">  <span class="attr">descriptors</span>: []</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">await</span> gattClient.<span class="title function_">readCharacteristicValue</span>(readReqObj);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">`读取到的数据长度: <span class="subst">$&#123;result.characteristicValue.byteLength&#125;</span>`</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`读取失败: <span class="subst">$&#123;e.message&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-订阅通知-Notify-x2F-Indicate"><a href="#6-3-订阅通知-Notify-x2F-Indicate" class="headerlink" title="6.3 订阅通知 (Notify&#x2F;Indicate)"></a>6.3 订阅通知 (Notify&#x2F;Indicate)</h3><p>要接收设备主动推送的数据，需要完成三个步骤：</p>
+<ol>
+<li><strong>开启本地通知处理</strong> (<code>setCharacteristicChangeNotification</code>)</li>
+<li><strong>写入 CCCD 描述符</strong> (告知设备开启推送)</li>
+<li><strong>监听数据变化事件</strong> (<code>BLECharacteristicChange</code>)</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> serviceUuid = <span class="string">&#x27;...&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> characteristicUuid = <span class="string">&#x27;...&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 开启本地通知</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">notifyCharacteristic</span>: ble.<span class="property">BLECharacteristic</span> = &#123;</span><br><span class="line">  <span class="attr">serviceUuid</span>: serviceUuid,</span><br><span class="line">  <span class="attr">characteristicUuid</span>: characteristicUuid,</span><br><span class="line">  <span class="attr">characteristicValue</span>: <span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>(<span class="number">0</span>),</span><br><span class="line">  <span class="attr">descriptors</span>: []</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 第二个参数 true 表示开启</span></span><br><span class="line"><span class="keyword">await</span> gattClient.<span class="title function_">setCharacteristicChangeNotification</span>(notifyCharacteristic, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 写入 CCCD (Client Characteristic Configuration Descriptor)</span></span><br><span class="line"><span class="comment">// UUID 固定为 00002902-0000-1000-8000-00805f9b34fb</span></span><br><span class="line"><span class="comment">// Value: [1, 0] 开启 Notify, [2, 0] 开启 Indicate</span></span><br><span class="line"><span class="keyword">const</span> cccdUuid = <span class="string">&#x27;00002902-0000-1000-8000-00805f9b34fb&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> cccdValue = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>([<span class="number">1</span>, <span class="number">0</span>]).<span class="property">buffer</span>; <span class="comment">// 示例：开启 Notify</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">cccdObj</span>: ble.<span class="property">BLEDescriptor</span> = &#123;</span><br><span class="line">  <span class="attr">serviceUuid</span>: serviceUuid,</span><br><span class="line">  <span class="attr">characteristicUuid</span>: characteristicUuid,</span><br><span class="line">  <span class="attr">descriptorUuid</span>: cccdUuid,</span><br><span class="line">  <span class="attr">descriptorValue</span>: cccdValue</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">await</span> gattClient.<span class="title function_">writeDescriptorValue</span>(cccdObj);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 监听数据回调</span></span><br><span class="line">gattClient.<span class="title function_">on</span>(<span class="string">&#x27;BLECharacteristicChange&#x27;</span>, <span class="function">(<span class="params">characteristicChange: ble.BLECharacteristic</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (characteristicChange.<span class="property">characteristicUuid</span> === characteristicUuid) &#123;</span><br><span class="line">    <span class="keyword">const</span> data = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>(characteristicChange.<span class="property">characteristicValue</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">`收到数据: <span class="subst">$&#123;data&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-断开连接与资源释放"><a href="#7-断开连接与资源释放" class="headerlink" title="7. 断开连接与资源释放"></a>7. 断开连接与资源释放</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (gattClient) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 断开连接</span></span><br><span class="line">    gattClient.<span class="title function_">disconnect</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 关闭客户端，释放资源 (重要)</span></span><br><span class="line">    gattClient.<span class="title function_">close</span>(); </span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`断开连接失败: <span class="subst">$&#123;e.message&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-扫描进阶配置-Scanning"><a href="#8-扫描进阶配置-Scanning" class="headerlink" title="8. 扫描进阶配置 (Scanning)"></a>8. 扫描进阶配置 (Scanning)</h2><p>鸿蒙的扫描接口需要注意参数的有效性，否则会抛出异常。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 过滤器 (ScanFilter)</span></span><br><span class="line"><span class="comment">// 若不使用过滤器，必须传递 null，而不能是空数组 []，否则报错</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">filters</span>: <span class="title class_">Array</span>&lt;ble.<span class="property">ScanFilter</span>&gt; | <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (serviceUuids.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">  filters = serviceUuids.<span class="title function_">map</span>(<span class="function"><span class="params">uuid</span> =&gt;</span> (&#123; <span class="attr">serviceUuid</span>: uuid &#125;));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 扫描选项 (ScanOptions)</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">scanOptions</span>: ble.<span class="property">ScanOptions</span> = &#123;</span><br><span class="line">  <span class="attr">interval</span>: <span class="number">500</span>, <span class="comment">// 建议 &gt; 0，设为 0 可能报 Invalid parameter</span></span><br><span class="line">  <span class="attr">dutyMode</span>: ble.<span class="property">ScanDuty</span>.<span class="property">SCAN_MODE_LOW_POWER</span>, <span class="comment">// -1: LowPower, 1: Balanced, 2: LowLatency</span></span><br><span class="line">  <span class="attr">matchMode</span>: ble.<span class="property">MatchMode</span>.<span class="property">MATCH_MODE_AGGRESSIVE</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 开启扫描</span></span><br><span class="line">ble.<span class="title function_">startBLEScan</span>(filters, scanOptions);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 获取结果</span></span><br><span class="line">ble.<span class="title function_">on</span>(<span class="string">&#x27;BLEDeviceFind&#x27;</span>, <span class="function">(<span class="params">data: <span class="built_in">Array</span>&lt;ble.ScanResult&gt;</span>) =&gt;</span> &#123;</span><br><span class="line">  data.<span class="title function_">forEach</span>(<span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 解析广播数据 (data.data 是 ArrayBuffer)</span></span><br><span class="line">    <span class="comment">// 需手动解析 Manufacturer Data (0xFF) 和 Local Name (0x09)</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-数据转换与编码"><a href="#9-数据转换与编码" class="headerlink" title="9. 数据转换与编码"></a>9. 数据转换与编码</h2><p>在鸿蒙 ArkTS 与原生蓝牙接口交互时，经常需要在 <code>ArrayBuffer</code>、<code>Uint8Array</code> 和 <code>Base64</code> 之间转换。</p>
+<ul>
+<li><strong>ArrayBuffer</strong>: 鸿蒙 BLE 接口的标准数据类型 (如 <code>characteristicValue</code>, <code>descriptorValue</code>).</li>
+<li><strong>Uint8Array</strong>: 便于操作字节数据的视图，常用于从 ArrayBuffer 创建。</li>
+<li><strong>Base64</strong>: 通常用于跨端传输 (如传给 Flutter&#x2F;JS 层)。</li>
+</ul>
+<p><strong>常用转换</strong>:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; util &#125; <span class="keyword">from</span> <span class="string">&#x27;@kit.ArkTS&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ArrayBuffer 转 Base64</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">toBase64</span>(<span class="params">buffer: <span class="built_in">ArrayBuffer</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> bytes = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>(buffer);</span><br><span class="line">  <span class="keyword">const</span> helper = <span class="keyword">new</span> util.<span class="title class_">Base64Helper</span>();</span><br><span class="line">  <span class="keyword">return</span> helper.<span class="title function_">encodeToStringSync</span>(bytes);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Base64 转 ArrayBuffer</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fromBase64</span>(<span class="params">base64: <span class="built_in">string</span></span>): <span class="title class_">ArrayBuffer</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> helper = <span class="keyword">new</span> util.<span class="title class_">Base64Helper</span>();</span><br><span class="line">  <span class="keyword">const</span> bytes = helper.<span class="title function_">decodeSync</span>(base64);</span><br><span class="line">  <span class="keyword">return</span> bytes.<span class="property">buffer</span> <span class="keyword">as</span> <span class="title class_">ArrayBuffer</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="10-错误码速查表"><a href="#10-错误码速查表" class="headerlink" title="10. 错误码速查表"></a>10. 错误码速查表</h2><p>在插件开发中常见的错误码及其含义：</p>
+<table>
+<thead>
+<tr>
+<th align="left">错误码 (ErrorCode)</th>
+<th align="left">含义</th>
+<th align="left">可能原因</th>
+<th align="left">建议处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>300</strong></td>
+<td align="left">Services Discovery Failed</td>
+<td align="left">连接建立后立即调用 <code>getServices</code>，底层尚未同步完成</td>
+<td align="left">忽略非致命错误，或延时重试</td>
+</tr>
+<tr>
+<td align="left"><strong>401</strong></td>
+<td align="left">Characteristic Write Failed</td>
+<td align="left">写入数据格式错误、权限不足或设备断开</td>
+<td align="left">检查数据长度和连接状态</td>
+</tr>
+<tr>
+<td align="left"><strong>402</strong></td>
+<td align="left">Characteristic Read Failed</td>
+<td align="left">特征值不可读或设备断开</td>
+<td align="left">检查特征值属性 (Readable)</td>
+</tr>
+<tr>
+<td align="left"><strong>403</strong></td>
+<td align="left">Notify Change Failed</td>
+<td align="left"><code>setCharacteristicChangeNotification</code> 失败或 CCCD 写入失败</td>
+<td align="left">确保按顺序开启通知</td>
+</tr>
+<tr>
+<td align="left"><strong>2900001</strong></td>
+<td align="left">Service Operation Failed</td>
+<td align="left">蓝牙服务异常或未开启</td>
+<td align="left">检查蓝牙开关</td>
+</tr>
+<tr>
+<td align="left"><strong>2900003</strong></td>
+<td align="left">Bluetooth Switch Off</td>
+<td align="left">蓝牙已关闭</td>
+<td align="left">提示用户开启蓝牙</td>
+</tr>
+</tbody></table>
+<h2 id="11-常见问题与避坑指南"><a href="#11-常见问题与避坑指南" class="headerlink" title="11. 常见问题与避坑指南"></a>11. 常见问题与避坑指南</h2><ol>
+<li><strong>连接前停止扫描</strong>: 在调用 <code>connect()</code> 之前，务必确保已经停止了 BLE 扫描，否则连接请求可能会被忽略或超时。</li>
+<li><strong>重复创建实例</strong>: 避免对同一个设备 ID 重复调用 <code>createGattClientDevice</code>，应维护一个 Map 缓存已创建的 <code>GattClientDevice</code> 实例。</li>
+<li><strong>服务发现时序</strong>: 连接成功 (Connected) 后，立即调用 <code>getServices()</code> 可能会偶尔报错 (错误码 300)，这是底层未完全就绪，建议在 Dart&#x2F;JS 层做适当的重试或忽略非致命错误。</li>
+<li><strong>MTU 协商</strong>: 鸿蒙支持 <code>gattClient.setBLEMtuSize(mtu)</code>。</li>
+</ol>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://developer.huawei.com/consumer/cn/doc/harmonyos-references/connectivity-arkts">鸿蒙Connectivity Kit(短距通信服务)</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/12/29/vivo%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%EF%BC%9AFlutter%E5%AD%98%E5%9C%A8%E9%A2%91%E7%B9%81%E6%94%B6%E9%9B%86%E5%89%AA%E5%88%87%E6%9D%BF%E4%BF%A1%E6%81%AF%E7%9A%84%E9%97%AE%E9%A2%98/" rel="prev" title="vivo隐私合规：Flutter存在频繁收集剪切板信息的问题">
+                  <i class="fa fa-chevron-left"></i> vivo隐私合规：Flutter存在频繁收集剪切板信息的问题
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
