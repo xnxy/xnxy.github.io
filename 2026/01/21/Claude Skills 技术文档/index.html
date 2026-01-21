@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xnxy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Claude Skills 是一种可定制的工作流机制，旨在教会 Claude 如何以可重复、标准化的方式执行特定任务。通过 Skills，用户可以将特定领域的专业知识、最佳实践和工具集成到 Claude 的能力中，使其能够更好地适应不同的应用场景，如文档处理、代码开发、数据分析等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Claude Skills 技术文档">
+<meta property="og:url" content="https://xnxy.github.io/2026/01/21/Claude%20Skills%20%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/index.html">
+<meta property="og:site_name" content="拿根针尖对麦芒">
+<meta property="og:description" content="Claude Skills 是一种可定制的工作流机制，旨在教会 Claude 如何以可重复、标准化的方式执行特定任务。通过 Skills，用户可以将特定领域的专业知识、最佳实践和工具集成到 Claude 的能力中，使其能够更好地适应不同的应用场景，如文档处理、代码开发、数据分析等">
+<meta property="og:locale">
+<meta property="article:published_time" content="2026-01-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-20T16:00:00.000Z">
+<meta property="article:author" content="拿根针尖对麦芒">
+<meta property="article:tag" content="Skills">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://xnxy.github.io/2026/01/21/Claude%20Skills%20%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://xnxy.github.io/2026/01/21/Claude%20Skills%20%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/","path":"2026/01/21/Claude Skills 技术文档/","title":"Claude Skills 技术文档"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Claude Skills 技术文档 | 拿根针尖对麦芒</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">拿根针尖对麦芒</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">拿根针尖对麦芒</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF-Claude-Skills%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">1. 什么是 Claude Skills？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%A0%B8%E5%BF%83%E8%B5%84%E6%BA%90%E4%BB%93%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">2. 核心资源仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%AE%98%E6%96%B9%E4%B8%8E%E7%B2%BE%E9%80%89%E5%88%97%E8%A1%A8"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 官方与精选列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%A4%BE%E5%8C%BA%E5%BC%80%E6%BA%90%E4%BB%93%E5%BA%93"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 社区开源仓库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%B8%B8%E7%94%A8-Skills-%E5%8F%8A%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">3.</span> <span class="nav-text">3. 常用 Skills 及使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%96%87%E6%A1%A3%E5%A4%84%E7%90%86-Document-Processing"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 文档处理 (Document Processing)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91-Development-amp-Code-Tools"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 软件开发 (Development &amp; Code Tools)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%88%86%E6%9E%90-Data-amp-Analysis"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 数据与分析 (Data &amp; Analysis)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E7%94%9F%E4%BA%A7%E5%8A%9B%E4%B8%8E%E9%9B%86%E6%88%90-Productivity-amp-Integrations"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 生产力与集成 (Productivity &amp; Integrations)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%A6%82%E4%BD%95%E5%BC%80%E5%A7%8B"><span class="nav-number">4.</span> <span class="nav-text">4. 如何开始</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="拿根针尖对麦芒"
+      src="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+  <p class="site-author-name" itemprop="name">拿根针尖对麦芒</p>
+  <div class="site-description" itemprop="description">修行ing</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xnxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xnxy" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/xnxyonly1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;xnxyonly1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://jewsaten.github.io/" title="https:&#x2F;&#x2F;jewsaten.github.io" rel="noopener" target="_blank">「蒋·先生」</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://guyueyang.github.io/" title="https:&#x2F;&#x2F;guyueyang.github.io" rel="noopener" target="_blank">晓平</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xnxy.github.io/2026/01/21/Claude%20Skills%20%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://blog-zhouwei.oss-cn-beijing.aliyuncs.com/head.jpeg">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="拿根针尖对麦芒">
+      <meta itemprop="description" content="修行ing">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Claude Skills 技术文档 | 拿根针尖对麦芒">
+      <meta itemprop="description" content="Claude Skills 是一种可定制的工作流机制，旨在教会 Claude 如何以可重复、标准化的方式执行特定任务。通过 Skills，用户可以将特定领域的专业知识、最佳实践和工具集成到 Claude 的能力中，使其能够更好地适应不同的应用场景，如文档处理、代码开发、数据分析等">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Claude Skills 技术文档
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-01-21 00:00:00" itemprop="dateCreated datePublished" datetime="2026-01-21T00:00:00+08:00">2026-01-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Ai/" itemprop="url" rel="index"><span itemprop="name">Ai</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Claude Skills 是一种可定制的工作流机制，旨在教会 Claude 如何以可重复、标准化的方式执行特定任务。通过 Skills，用户可以将特定领域的专业知识、最佳实践和工具集成到 Claude 的能力中，使其能够更好地适应不同的应用场景，如文档处理、代码开发、数据分析等</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="1-什么是-Claude-Skills？"><a href="#1-什么是-Claude-Skills？" class="headerlink" title="1. 什么是 Claude Skills？"></a>1. 什么是 Claude Skills？</h2><p>Claude Skills 是一种可定制的工作流机制，旨在教会 Claude 如何以可重复、标准化的方式执行特定任务。通过 Skills，用户可以将特定领域的专业知识、最佳实践和工具集成到 Claude 的能力中，使其能够更好地适应不同的应用场景，如文档处理、代码开发、数据分析等。</p>
+<p>本质上，Skills 通常由包含指令 (<code>SKILL.md</code>)、脚本和资源的文件夹组成，Claude 可以动态加载这些内容来增强其在特定任务上的表现。</p>
+<h2 id="2-核心资源仓库"><a href="#2-核心资源仓库" class="headerlink" title="2. 核心资源仓库"></a>2. 核心资源仓库</h2><p>以下是目前主流的开源 Skills 仓库，涵盖了从官方示例到社区贡献的丰富资源：</p>
+<h3 id="2-1-官方与精选列表"><a href="#2-1-官方与精选列表" class="headerlink" title="2.1 官方与精选列表"></a>2.1 官方与精选列表</h3><ul>
+<li><p><strong>Anthropic Official Skills</strong></p>
+<ul>
+<li><strong>地址</strong>: <a target="_blank" rel="noopener" href="https://github.com/anthropics/skills">https://github.com/anthropics/skills</a></li>
+<li><strong>简介</strong>: Anthropic 官方提供的 Skills 仓库，包含演示性 Skill 和部分生产环境使用的文档处理 Skill（如 PDF, Docx 处理）。适合作为学习和构建自定义 Skill 的参考基准。</li>
+</ul>
+</li>
+<li><p><strong>Composio Awesome Claude Skills</strong></p>
+<ul>
+<li><strong>地址</strong>: <a target="_blank" rel="noopener" href="https://github.com/ComposioHQ/awesome-claude-skills.git">https://github.com/ComposioHQ/awesome-claude-skills.git</a></li>
+<li><strong>简介</strong>: 由 Composio 维护的精选列表，重点展示了如何通过插件连接外部应用（如 GitHub, Slack, Gmail 等），极大地扩展了 Claude 的行动能力。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-社区开源仓库"><a href="#2-2-社区开源仓库" class="headerlink" title="2.2 社区开源仓库"></a>2.2 社区开源仓库</h3><ul>
+<li><p><strong>Production-Ready Claude Skills</strong></p>
+<ul>
+<li><strong>地址</strong>: <a target="_blank" rel="noopener" href="https://github.com/alirezarezvani/claude-skills">https://github.com/alirezarezvani/claude-skills</a></li>
+<li><strong>简介</strong>: 提供了一套“生产就绪”的 Skill 包，涵盖营销、工程管理、产品开发等领域的专家级工作流。</li>
+</ul>
+</li>
+<li><p><strong>TravisVN Awesome Claude Skills</strong></p>
+<ul>
+<li><strong>地址</strong>: <a target="_blank" rel="noopener" href="https://github.com/travisvn/awesome-claude-skills">https://github.com/travisvn/awesome-claude-skills</a></li>
+<li><strong>简介</strong>: 另一个社区维护的资源列表，收集了各种实用的 Skills 和相关工具。</li>
+</ul>
+</li>
+<li><p><strong>UI&#x2F;UX Pro Max Skill</strong></p>
+<ul>
+<li><strong>地址</strong>: <a target="_blank" rel="noopener" href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill">https://github.com/nextlevelbuilder/ui-ux-pro-max-skill</a></li>
+<li><strong>简介</strong>: 专注于 UI&#x2F;UX 设计的 AI Skill，能够根据项目需求智能生成完整的设计系统（配色、排版、布局模式），并提供反模式检查和交付前的清单校验，适合需要快速构建专业级界面的开发者。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-常用-Skills-及使用场景"><a href="#3-常用-Skills-及使用场景" class="headerlink" title="3. 常用 Skills 及使用场景"></a>3. 常用 Skills 及使用场景</h2><p>Skills 的应用场景非常广泛，以下是几类最常用的 Skills 及其解决的具体问题：</p>
+<h3 id="3-1-文档处理-Document-Processing"><a href="#3-1-文档处理-Document-Processing" class="headerlink" title="3.1 文档处理 (Document Processing)"></a>3.1 文档处理 (Document Processing)</h3><ul>
+<li><strong>场景</strong>: 需要读取、分析或生成特定格式的办公文档。</li>
+<li><strong>常用 Skills</strong>:<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/anthropics/skills/tree/main/skills/docx"><code>docx</code></a>: 创建、编辑 Word 文档，支持修订模式、评论和格式调整。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/anthropics/skills/tree/main/skills/pdf"><code>pdf</code></a>: 提取 PDF 中的文本、表格和元数据，或进行合并与标注。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/anthropics/skills/tree/main/skills/pptx"><code>pptx</code></a> &#x2F; <a target="_blank" rel="noopener" href="https://github.com/anthropics/skills/tree/main/skills/xlsx"><code>xlsx</code></a>: 处理演示文稿和电子表格数据。</li>
+</ul>
+</li>
+<li><strong>价值</strong>: 让 Claude 直接理解和操作非纯文本格式的业务文件，自动化行政工作。</li>
+</ul>
+<h3 id="3-2-软件开发-Development-amp-Code-Tools"><a href="#3-2-软件开发-Development-amp-Code-Tools" class="headerlink" title="3.2 软件开发 (Development &amp; Code Tools)"></a>3.2 软件开发 (Development &amp; Code Tools)</h3><ul>
+<li><strong>场景</strong>: 辅助编码、代码审查、测试生成及架构设计。</li>
+<li><strong>常用 Skills</strong>:<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers"><code>code-review</code></a>: 根据最佳实践（如 Clean Code, SOLID）自动审查代码变更。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/obra/superpowers"><code>test-driven-development</code></a>: 辅助 TDD 流程，在编写实现前生成测试用例。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mhattingpete/claude-skills-marketplace/tree/main/skills/git-pushing"><code>git-automation</code></a>: 自动化 Git 操作，如生成规范的提交信息或 Changelog。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/alirezarezvani/claude-skills"><code>software-architecture</code></a>: 提供架构设计建议和模式实现。</li>
+</ul>
+</li>
+<li><strong>价值</strong>: 提升代码质量，标准化开发流程，减少重复性劳动。</li>
+</ul>
+<h3 id="3-3-数据与分析-Data-amp-Analysis"><a href="#3-3-数据与分析-Data-amp-Analysis" class="headerlink" title="3.3 数据与分析 (Data &amp; Analysis)"></a>3.3 数据与分析 (Data &amp; Analysis)</h3><ul>
+<li><strong>场景</strong>: 数据可视化、清洗及报告生成。</li>
+<li><strong>常用 Skills</strong>:<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/chrisvoncsefalvay/claude-d3-visualization"><code>data-visualization</code></a>: 使用 D3.js 或 Python 库将数据转化为可视化图表。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sanjay3290/postgres-claude-skill"><code>sql-helper</code></a>: 辅助编写和优化 SQL 查询。</li>
+</ul>
+</li>
+<li><strong>价值</strong>: 快速从原始数据中提取洞察，并以直观方式呈现。</li>
+</ul>
+<h3 id="3-4-生产力与集成-Productivity-amp-Integrations"><a href="#3-4-生产力与集成-Productivity-amp-Integrations" class="headerlink" title="3.4 生产力与集成 (Productivity &amp; Integrations)"></a>3.4 生产力与集成 (Productivity &amp; Integrations)</h3><ul>
+<li><strong>场景</strong>: 连接外部工具，自动化日常任务。</li>
+<li><strong>常用 Skills</strong>:<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/ComposioHQ/connect-apps-plugin"><strong>Composio Plugins</strong></a>: 连接 GitHub, Slack, Google Calendar 等 500+ 应用。<ul>
+<li><em>示例</em>: “查看我的日历并在 Slack 上发送会议提醒”。</li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ComposioHQ/connect-apps-plugin"><code>email-automation</code></a>: 自动草拟或分类邮件。</li>
+</ul>
+</li>
+<li><strong>价值</strong>: 打通工具孤岛，实现跨平台的自动化工作流。</li>
+</ul>
+<h2 id="4-如何开始"><a href="#4-如何开始" class="headerlink" title="4. 如何开始"></a>4. 如何开始</h2><ol>
+<li><strong>浏览仓库</strong>: 访问上述 GitHub 链接，查找符合你需求的 Skill。</li>
+<li><strong>安装&#x2F;配置</strong>:<ul>
+<li>对于 Claude Code，通常将 Skill 文件夹放置在配置目录中（如 <code>~/.claude/skills</code> 或项目根目录的 <code>.claude/skills</code>）。</li>
+<li>对于基于 API 的集成，需按照 <code>SKILL.md</code> 中的定义加载上下文。</li>
+</ul>
+</li>
+<li><strong>自定义</strong>: 参考现有的 <code>SKILL.md</code> 结构，编写适合自己团队或个人习惯的自定义 Skill。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Skills/" rel="tag"># Skills</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/01/20/%E9%B8%BF%E8%92%99%20(HarmonyOS)%20%E8%93%9D%E7%89%99%20BLE%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" rel="prev" title="鸿蒙 (HarmonyOS) 蓝牙 BLE 开发指南">
+                  <i class="fa fa-chevron-left"></i> 鸿蒙 (HarmonyOS) 蓝牙 BLE 开发指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">拿根针尖对麦芒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
